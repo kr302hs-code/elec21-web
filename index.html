@@ -650,6 +650,58 @@ img{-webkit-user-drag:none;user-drag:none}
   .cbar{display:grid;grid-template-columns:1fr auto 1fr;gap:8px}
   .cbar .btn{justify-content:center}
 }
+/* v6: tablet canvas bigger, resume x3, history, scrap */
+@media (min-width: 821px){
+  .qbody{padding:14px;gap:14px}
+  .qright .tabs button{height:48px;font-size:calc(var(--fs) * 16);gap:7px}
+  .qright .tabs button svg{width:18px;height:18px}
+  .qright .tb{margin:6px 8px;padding:3px 6px;border-radius:14px;gap:2px}
+  .qright .tb .t{height:44px;min-width:46px;font-size:calc(var(--fs) * 11);gap:1px;border-radius:10px}
+  .qright .tb .t svg{width:18px;height:18px}
+  .qright .tb .sz{padding:2px;border-radius:10px}
+  .qright .tb .sz button{width:30px;height:38px}
+  .qright .tb .save .sw{width:32px;height:18px;margin-bottom:1px}
+  .qright .tb .save .sw::after{width:12px;height:12px;top:3px}
+  .qright .tb .save.on .sw::after{left:17px}
+  .qright .tb .div{height:30px}
+  .qtop{height:72px}
+  .qtop .lg svg{width:22px;height:22px}
+}
+.resume3{padding:16px 22px}
+.rhead2{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+.rrow{display:flex;align-items:center;gap:10px;padding:9px 6px;border-top:1px solid var(--line);cursor:pointer;position:relative}
+.rrow:first-of-type{border-top:0}
+.rrow b{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:calc(var(--fs) * 16)}
+.rmeta{color:var(--sub);font-size:calc(var(--fs) * 13);flex:none}
+.rrow .rx{position:static;width:30px;height:30px;flex:none}
+.rrow .rx svg{width:16px;height:16px}
+.kpill{flex:none;background:var(--yellow-soft);border-radius:99px;padding:2px 10px;font-size:calc(var(--fs) * 12);font-weight:700}
+.histcard .hrow1{display:flex;align-items:center;gap:8px;margin-top:6px}
+.histcard .hrow1 b{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:calc(var(--fs) * 15)}
+.histcard .rhead2 .cdesc{display:flex;align-items:center;gap:2px}
+.histcard .rhead2 svg{width:16px;height:16px}
+.hlist{display:flex;flex-direction:column;gap:10px;margin-top:20px}
+.hrow{display:flex;align-items:center;gap:14px;background:#fff;border-radius:18px;padding:14px 18px;border:1px solid #F3EFE2;cursor:pointer}
+.hmain{flex:1;min-width:0}
+.hmain b{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hmain small{color:var(--sub);font-size:calc(var(--fs) * 13)}
+.hnums{display:flex;gap:10px;font-size:calc(var(--fs) * 14);flex:none}
+.pill.run{background:var(--yellow-soft);color:#9a7a10}
+.res.N{background:var(--gray-chip);color:var(--sub)}
+.sbtn{display:inline-flex;align-items:center;gap:4px;height:32px;padding:0 12px;border-radius:99px;background:var(--gray-chip);font-size:calc(var(--fs) * 13);color:var(--sub)}
+.sbtn svg{width:15px;height:15px}
+.sbtn.on{background:var(--yellow-soft);color:#9a7a10;font-weight:700}
+.sbtn.on svg{fill:var(--yellow)}
+.why{flex:none;border-radius:8px;padding:2px 8px;font-size:calc(var(--fs) * 12);font-weight:700}
+.why.X{background:var(--red-soft);color:var(--red)}.why.T{background:var(--yellow-soft);color:#9a7a10}.why.M{background:var(--gray-chip);color:var(--sub)}
+.ncard .ft .unsc{margin-left:6px;width:32px;height:32px;border-radius:50%;display:grid;place-items:center;color:#c99a00;flex:none}
+.ncard .ft .unsc svg{fill:var(--yellow);width:18px;height:18px}
+.ncard .ft span:not(.why){margin-left:auto}
+@media (max-width: 820px){
+  .hrow{flex-wrap:wrap;gap:8px}
+  .hnums{width:100%;order:3}
+  .rrow .rmeta{display:none}
+}
 </style>
 </head>
 <body>
@@ -678,6 +730,7 @@ const I = {
   x:'<svg class="i" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg>',
   canvas:'<svg class="i" viewBox="0 0 24 24"><path d="M5 19c3-1 4-4 7-4s3 3 7 1M14.5 4.5l5 5L12 17l-5-5z"/></svg>',
   answer:'<svg class="i" viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.5"/><path d="m14 17 2 2 4-4"/></svg>',
+  cal2:'<svg class="i" viewBox="0 0 24 24"><path d="M12 7v5l3 2"/><circle cx="12" cy="12" r="8.5"/></svg>',
   pen2:'<svg class="i" viewBox="0 0 24 24"><path d="M4 6h10M4 11h7M4 16h5"/><path d="m14.5 19.5 6-6-2.5-2.5-6 6-.5 3z"/></svg>',
   clock:'<svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5M9 2.5h6"/></svg>',
   exam:'<svg class="i" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2.5"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>',
@@ -688,7 +741,7 @@ const src = p => (window.__IMG && window.__IMG[p]) || p;
 const $ = (s, r = document) => r.querySelector(s);
 
 /* app version + online update (screen files from GitHub) */
-const APP_VERSION = "2026102201";
+const APP_VERSION = "2026102202";
 const OTA_BASE = "https://raw.githubusercontent.com/kr302hs-code/elec21-web/main/";
 const b64of = buf => { let s = "", a = new Uint8Array(buf); for (let i = 0; i < a.length; i += 0x8000) s += String.fromCharCode.apply(null, a.subarray(i, i + 0x8000)); return btoa(s); };
 const OTA = {
@@ -732,9 +785,9 @@ let S;
 function loadState(){
   try { S = JSON.parse(localStorage.getItem(KEY) || "null"); } catch(e){ S = null; }
   S = Object.assign({ sessions:{}, last:null, lastTs:0, scraps:[], scrapMap:{}, attend:[], qstat:{}, notes:{}, noteDel:{}, mocks:[],
-    reviews:{}, rounds:{}, creads:{}, prefs:{ size:1, grid:true, penOnly:true } }, S || {});
+    reviews:{}, rounds:{}, creads:{}, hist:{}, prefs:{ size:1, grid:true, penOnly:true } }, S || {});
   ["mocks"].forEach(k => { if (!Array.isArray(S[k])) S[k] = []; });
-  ["reviews","rounds","creads","scrapMap","noteDel","notes","qstat","sessions"].forEach(k => { if (!S[k] || typeof S[k] !== "object") S[k] = {}; });
+  ["reviews","rounds","creads","scrapMap","noteDel","notes","qstat","sessions","hist"].forEach(k => { if (!S[k] || typeof S[k] !== "object") S[k] = {}; });
   S.scraps.forEach(id => { if (!S.scrapMap[id]) S.scrapMap[id] = { on:true, ts:1 }; });
 }
 var save = function(quiet){
@@ -742,11 +795,16 @@ var save = function(quiet){
   try { localStorage.setItem(KEY, JSON.stringify(S)); } catch(e){ toast("저장 공간이 부족합니다"); }
 };
 function setLast(key){ S.last = key; S.lastTs = Date.now(); }
+function syncScrapList(){ S.scraps = Object.keys(S.scrapMap).filter(k => S.scrapMap[k].on); }
 function toggleScrap(id){
   const on = !S.scraps.includes(id);
-  S.scrapMap[id] = { on, ts: Date.now() };
-  S.scraps = Object.keys(S.scrapMap).filter(k => S.scrapMap[k].on);
-  save(); return on;
+  S.scrapMap[id] = on ? { on:true, ts: Date.now(), kind:"manual" } : { on:false, ts: Date.now() };
+  syncScrapList(); save(); return on;
+}
+function autoScrap(id, why){
+  const cur = S.scrapMap[id];
+  if (cur && cur.on){ if (cur.kind === "auto"){ cur.why = why; cur.ts = Date.now(); } return; }
+  S.scrapMap[id] = { on:true, ts: Date.now(), kind:"auto", why }; syncScrapList();
 }
 function markNoteDel(key){ S.noteDel[key] = Date.now(); delete S.notes[key]; }
 
@@ -789,11 +847,34 @@ function setOf(key){
   if (base === "exam"){ const m = mockById(key.slice(5)); return { key, title: m ? m.title : "모의고사", ids: m ? m.ids : [] }; }
   if (base === "cbt"){ const r = (D.cbt || []).find(x => x.id === key.slice(4)); return { key, title: r ? `CBT ${r.title}` : "CBT", ids: r ? r.ids : [] }; }
   const ss = S.sessions[key];
-  const titles = { wrong:"오답 다시 풀기", dap:"답정너 모아 풀기", scrap:"스크랩 문제", rand:"랜덤 20문제", self:"자율 학습" };
+  const titles = { wrong:"오답 다시 풀기", dap:"답정너 모아 풀기", scrap:"스크랩 다시 풀기", rand:"랜덤 20문제", self:"자율 학습", redo:"다시 풀기" };
   let t = titles[base] || "문제 풀기";
   if (base === "concept"){ const c = C[key.slice(8)]; if (c) t = `필수개념 ${pad(c.num)} ${c.name}`; }
   if (base === "mock"){ const m = mockById(key.slice(5)); if (m) t = m.title + " 리뷰"; }
+  if (ss && ss.title) t = ss.title;
   return { key, title: t, ids: (ss && ss.ids) || [] };
+}
+const KIND = { day:"DAY", concept:"개념 기출", self:"자율 학습", scrap:"스크랩", redo:"다시 풀기", wrong:"오답", dap:"답정너", rand:"랜덤", cbt:"CBT 회차", exam:"모의고사", mock:"모의고사" };
+const kindOf = key => KIND[key.split(":")[0]] || "학습";
+function newSession(key, ids, title){
+  const old = S.sessions[key];
+  if (old && old.hid) closeHist(old.hid, "quit");
+  S.sessions[key] = { ans:{}, pos:0, ids, title, updated: Date.now() }; save();
+}
+function closeHist(hid, status){ const h = S.hist[hid]; if (!h || h.status !== "run") return; h.status = status; h.updated = Date.now(); }
+function ensureHist(key, set){
+  const ss = sess(key);
+  if (ss.hid && S.hist[ss.hid] && S.hist[ss.hid].status === "run") return;
+  const id = "h" + Date.now().toString(36) + Math.random().toString(36).slice(2, 5);
+  S.hist[id] = { id, key, title: set.title, kind: kindOf(key), start: Date.now(), updated: Date.now(), ids: set.ids.slice(), ans: JSON.parse(JSON.stringify(ss.ans || {})), status:"run" };
+  ss.hid = id;
+}
+function histAns(qid, a){ const ss = S.sessions[QZ.set.key], h = ss && S.hist[ss.hid]; if (h){ h.ans[qid] = a; h.updated = Date.now(); } }
+const histCounts = h => { let o = 0, x = 0, t = 0; Object.values(h.ans || {}).forEach(a => { if (a.res === "O") o++; else if (a.res === "T") t++; else x++; }); return { o, x, t, n: o + x + t }; };
+function quitSession(key){
+  const ss = S.sessions[key]; if (!ss) return;
+  if (ss.hid) closeHist(ss.hid, "quit");
+  ss.ans = {}; ss.pos = 0; ss.hid = null; ss.updated = Date.now();
 }
 function sess(key){
   if (!S.sessions[key]) S.sessions[key] = { ans:{}, pos:0, updated:Date.now() };
@@ -896,8 +977,7 @@ function toggleRead(cid, i){
 const whereOf = (q, withNo = true) => q.cbt ? `${esc(q.roundTitle)}${withNo ? ` ${q.no}번` : ""}` : `DAY ${pad(q.day)}${withNo ? ` ${q.no}번` : ""}`;
 const conceptLink = (q, cls, suffix = "") => q.conceptId ? `<button class="${cls}" data-concept="${q.conceptId}">필수개념 ${pad(q.concept)} ${esc(q.conceptName)}${suffix}</button>` : "";
 function shell(active, inner){
-  const nav = [["home","학습하기",I.home,"#/"],["days","21일 플랜",I.cal,"#/days"],["concepts","개념 공부",I.book,"#/concepts"],["self","자율 학습",I.pen2,"#/self"],
-               ["mock","모의고사",I.exam,"#/mock"],["scrap","스크랩",I.star,"#/scrap"],["notes","필기노트",I.note,"#/notes"],["settings","설정",I.gear,"#/settings"]];
+  const nav = [["home","학습하기",I.home,"#/"],["days","21일 플랜",I.cal,"#/days"],["concepts","개념 공부",I.book,"#/concepts"],["scrap","스크랩",I.star,"#/scrap"],["hist","학습 기록",I.cal2,"#/history"],["notes","필기노트",I.note,"#/notes"],["settings","설정",I.gear,"#/settings"]];
   return `<aside class="side"><div class="logo">${I.bolt}전기기사 21일</div><nav class="nav">${
     nav.map(([k,l,ic,h]) => `<a href="${h}" class="${k===active?"on":""}">${ic}<span>${l}</span></a>`).join("")}</nav></aside>
     <main class="main"><div class="mhwrap"><div class="mhead"><span>${I.bolt}</span>전기기사 21일<a class="mgear" href="#/settings">${I.gear}</a></div></div>${inner}</main>`;
@@ -905,17 +985,16 @@ function shell(active, inner){
 
 /* home */
 function viewHome(){
-  const last = S.last && S.sessions[S.last] ? setOf(S.last) : null;
-  let resume = "";
-  if (last && last.ids.length){
-    const ss = S.sessions[last.key], answered = Object.keys(ss.ans || {}).length;
-    const exam = last.key.startsWith("exam:") ? mockById(last.key.slice(5)) : null;
-    const done = exam ? Object.keys(exam.ans).length : answered;
-    resume = `<div class="card tap resume" data-go="#/${last.key.startsWith("exam:") ? "exam/" + last.key.slice(5) : "quiz/" + last.key}">
-      <span class="tagy">이어서 풀기</span><span class="cnt">${done}/${last.ids.length}문제</span><button class="rx" data-act="hideresume" title="닫기">${I.x}</button>
-      <div class="ctitle">${esc(last.title)}</div>
-      <p class="cdesc">마지막 학습 ${ago(ss.updated)}</p></div>`;
-  } else resume = `<div class="card resume empty-r"><span class="tagy">이어서 풀기</span><div class="ctitle">이어서 풀 문제가 없어요</div><p class="cdesc">DAY를 고르거나 자율 학습으로 시작해 보세요</p></div>`;
+  // up to 3 unfinished study sets (+ unfinished mock exams)
+  const runs = Object.values(S.hist).filter(h => h.status === "run" && S.sessions[h.key] && S.sessions[h.key].hid === h.id && setOf(h.key).ids.length)
+    .map(h => ({ key: h.key, title: setOf(h.key).title, kind: h.kind, done: Object.keys(S.sessions[h.key].ans || {}).length, total: setOf(h.key).ids.length, t: S.sessions[h.key].updated || h.updated, go: "#/quiz/" + h.key }));
+  S.mocks.filter(m => !m.submitted && !m.hidden).forEach(m => runs.push({ key: "exam:" + m.id, title: m.title, kind: "모의고사", done: Object.keys(m.ans).length, total: m.ids.length, t: m.updated || m.created, go: "#/exam/" + m.id }));
+  runs.sort((a, b) => b.t - a.t);
+  const top = runs.slice(0, 3);
+  const resume = `<div class="card resume3"><div class="rhead2"><span class="tagy">이어서 풀기</span><span class="cdesc">최근 ${top.length}개</span></div>
+    ${top.length ? top.map(r => `<div class="rrow" data-go="${r.go}"><span class="kpill">${esc(r.kind)}</span><b>${esc(r.title)}</b>
+      <span class="rmeta">${r.done}/${r.total} · ${ago(r.t)}</span><button class="rx" data-hidekey="${r.key}" title="목록에서 지우기">${I.x}</button></div>`).join("")
+      : `<p class="cdesc" style="margin:8px 0 0">이어서 풀 문제가 없어요. DAY를 고르거나 자율 학습으로 시작해 보세요</p>`}</div>`;
   let next = D.days[0].day;
   for (const d of D.days){ const c = counts(setOf("day:" + d.day)); if (c.left > 0 && !(S.rounds["day:" + d.day])){ next = d.day; break; } }
   const nd = D.days.find(d => d.day === next), rn = (S.rounds["day:" + next] || {}).n || 0;
@@ -930,6 +1009,8 @@ function viewHome(){
   Object.entries(S.qstat).forEach(([id, s]) => { if (!Q[id] || Q[id].cbt) return; if (s.last === "O") o++; else if (s.last === "X" || s.last === "T") x++; });
   const dapN = D.questions.filter(q => q.dap).length, doneDays = D.days.filter(d => S.rounds["day:" + d.day]).length;
   const lastMock = S.mocks.filter(m => m.submitted).pop();
+  const hs = Object.values(S.hist).filter(h => histCounts(h).n).sort((a, b) => b.updated - a.updated);
+  const scrapN = S.scraps.filter(id => Q[id]).length;
   return shell("home", `<div class="page home">
     <div class="hhead"><div><p class="hello">안녕하세요</p><h1 class="h1">오늘도 한 DAY씩 끝내 볼까요?</h1></div>
       <span class="chip">전기기사 · 필기 <span>시하끝하 ${D.questions.length}문제</span></span></div>
@@ -943,7 +1024,7 @@ function viewHome(){
       </div><div class="bolt">${I.bolt}</div></div>
       ${resume}
       <div class="row4">
-        <div class="card tap mini" data-act="wrong"><div class="ctitle">오답 다시 풀기</div><p class="cdesc">틀렸거나 해설만 본 문제</p><p class="n">${x}문제</p></div>
+        <div class="card tap mini" data-go="#/scrap"><div class="ctitle">스크랩</div><p class="cdesc">틀린 문제는 자동으로 모여요</p><p class="n">${scrapN}문제</p></div>
         <div class="card tap mini" data-act="dap"><div class="ctitle">답정너 모아 풀기</div><p class="cdesc">CBT에 그대로 나오는 문제</p><p class="n">${dapN}문제</p></div>
         <div class="card tap mini" data-go="#/self"><div class="ctitle">자율 학습</div><p class="cdesc">유형별 · 회차별로 골라 풀기</p><p class="n">필수개념 선택</p></div>
         <div class="card tap mini" data-act="randmock"><div class="ctitle">랜덤 모의고사</div><p class="cdesc">과목별 20문제 · 100문제 · 150분</p><p class="n">${lastMock ? `최근 ${lastMock.result.avg}점` : "실전처럼 점검"}</p></div>
@@ -953,20 +1034,17 @@ function viewHome(){
       <div class="card"><p class="eyebrow">학습 현황</p><div class="ctitle">${o + x}문제 풀었어요</div>
         <div class="stat3"><div><b class="gr">${o}</b><small>맞힘</small></div><div><b class="rd">${x}</b><small>오답·△</small></div><div><b class="or">${D.questions.length - o - x}</b><small>남은 문제</small></div></div>
         <p class="cdesc small">21일 플랜 ${doneDays}/21 DAY 완료</p></div>
+      <div class="card tap histcard" data-go="#/history"><div class="rhead2"><p class="eyebrow" style="margin:0">학습 기록</p><span class="cdesc">${hs.length}개 ${I.right}</span></div>
+        ${hs.length ? (() => { const h = hs[0], c = histCounts(h); return `<div class="hrow1"><span class="kpill">${esc(h.kind)}</span><b>${esc(h.title)}</b><span class="rmeta">${c.o}/${h.ids.length} 맞힘 · ${ago(h.updated)}</span></div>`; })() : `<p class="cdesc">문제를 풀면 여기에 기록이 쌓여요</p>`}</div>
     </div></div></div>`);
 }
 function startSpecial(kind){
   let ids = [];
-  if (kind === "wrong") ids = Object.values(Q).filter(q => S.qstat[q.id] && ["X","T"].includes(S.qstat[q.id].last)).map(q => q.id);
   if (kind === "dap") ids = D.questions.filter(q => q.dap).map(q => q.id);
   if (kind === "rand") ids = shuffle(D.questions.map(q => q.id)).slice(0, 20);
-  if (kind === "scrap") ids = S.scraps.filter(id => Q[id]);
-  if (!ids.length){ toast(kind === "wrong" ? "아직 틀린 문제가 없어요" : "문제가 없어요"); return false; }
-  S.sessions[kind] = { ans:{}, pos:0, ids, updated:Date.now() }; save();
-  location.hash = "#/quiz/" + kind;
-  return true;
+  if (!ids.length){ toast("문제가 없어요"); return false; }
+  newSession(kind, ids); location.hash = "#/quiz/" + kind; return true;
 }
-
 /* days */
 function viewDays(){
   let html = "", subj = "";
@@ -1023,11 +1101,9 @@ function openConcept(cid){
   });
 }
 function startConceptQuiz(id){
-  const qs = D.questions.filter(q => q.conceptId === id);
-  S.sessions["concept:" + id] = { ans:{}, pos:0, ids: qs.map(q => q.id), updated: Date.now() }; save();
+  newSession("concept:" + id, D.questions.filter(q => q.conceptId === id).map(q => q.id));
   location.hash = "#/quiz/concept:" + id;
 }
-
 /* concept study page (theory left, notebook right) */
 let CP = null;
 function viewConceptPage(cid){
@@ -1145,6 +1221,10 @@ async function submitMock(auto){
     const st = S.qstat[id] || { tries:0, wrong:0 }; st.tries++; if (res === "X") st.wrong++; st.last = res; st.ts = Date.now(); S.qstat[id] = st;
   });
   S.reviews["mock:" + m.id] = { key: "mock:" + m.id, title: m.title, ids: m.ids.slice(), ans, at: Date.now() };
+  m.ids.forEach(id => { if (m.ans[id] && ans[id].res === "X") autoScrap(id, "X"); });
+  const hid = "h" + Date.now().toString(36);
+  S.hist[hid] = { id: hid, key: "mock:" + m.id, title: m.title, kind: "모의고사", start: m.created, updated: Date.now(), ids: m.ids.slice(), ans, status: "done", score: m.result.avg };
+  m.hid = hid;
   if (S.last === "exam:" + m.id) setLast(null);
   save(); QZ = null;
   location.hash = "#/mockres/" + m.id;
@@ -1158,7 +1238,7 @@ function viewMockRes(id){
       <div class="passbig ${r.pass ? "pass" : "fail"}">${r.pass ? "합격" : "불합격"}</div>
       <p class="cdesc" style="margin:6px 0 22px">${why}</p>
       ${SUBJ5.map((s, i) => `<div class="subjrow ${r.scores[i] < 40 ? "fail" : ""}"><span>${s.n}과목 ${s.name}</span><div class="bar"><i style="width:${r.scores[i]}%" class="${r.scores[i] < 40 ? "bad" : ""}"></i></div><b>${r.scores[i]}점</b></div>`).join("")}
-      <div class="acts" style="margin-top:22px"><button class="btn y" data-go="#/review/mock:${m.id}">전체 문제·해설 보기</button>
+      <div class="acts" style="margin-top:22px"><button class="btn y" data-go="${m.hid ? "#/hist/" + m.hid : "#/review/mock:" + m.id}">전체 문제·해설 보기</button>
         ${wrong.length ? `<button class="btn g" data-mwrong="${m.id}">틀린 ${wrong.length}문제만 풀기</button>` : ""}<button class="btn o" data-go="#/mock">모의고사 목록</button></div>
     </div></div><div class="col"><div class="card">
       <div class="stat3"><div><b>${r.avg}</b><small>평균 점수</small></div><div><b class="gr">${r.correct}</b><small>맞힌 문제</small></div><div><b>${Math.round(m.elapsed / 60)}분</b><small>걸린 시간</small></div></div>
@@ -1177,6 +1257,7 @@ function viewQuiz(key){
   const ss = sess(key);
   setLast(key); save();
   QZ = { set, exam, i: Math.min(ss.pos || 0, set.ids.length - 1), tab: isMob() ? "q" : "canvas" };
+  if (!exam){ ensureHist(key, set); if (ss.ans[set.ids[QZ.i]]) QZ.tab = "ans"; save(true); }
   if (exam) QZ.timer = setInterval(() => tick(false), 1000);
   const endBtn = exam ? `data-act="submit">답안 제출` : `data-act="result">결과 보기`;
   return `<div class="qwrap">
@@ -1334,6 +1415,8 @@ function record(q, res, sel){
   const st = S.qstat[q.id] || { tries:0, wrong:0 };
   if (res !== "T") st.tries++; if (res === "X") st.wrong++;
   st.last = res; st.ts = Date.now(); S.qstat[q.id] = st;
+  if (res !== "O") autoScrap(q.id, res);
+  histAns(q.id, { sel, res });
   save(); QZ.tab = "ans"; renderQuiz();
 }
 function answer(k){
@@ -1342,11 +1425,13 @@ function answer(k){
   if (sess(QZ.set.key).ans[q.id]) return; record(q, k === q.answer ? "O" : "X", k);
 }
 function reveal(){ const q = curQ(); if (sess(QZ.set.key).ans[q.id]) return; record(q, "T", null); }
-function go(delta){
-  const n = QZ.i + delta; if (n < 0 || n >= QZ.set.ids.length) return;
+function go(delta){ const n = QZ.i + delta; if (n < 0 || n >= QZ.set.ids.length) return; jumpTo(n); }
+function jumpTo(n){
   Ink.flush(); QZ.i = n;
-  if (!QZ.exam && QZ.tab === "ans") QZ.tab = isMob() ? "q" : "canvas";
+  const w = $(".qwrap"); if (w) w.style.removeProperty("--sheet");
+  if (!QZ.exam){ const a = sess(QZ.set.key).ans[curQ().id]; QZ.tab = a ? "ans" : (isMob() ? "q" : "canvas"); }
   renderQuiz();
+  ["#ansp", "#qleft"].forEach(sl => { const el = $(sl); if (el) el.scrollTop = 0; });
 }
 async function finishSet(){
   const set = QZ.set, ss = sess(set.key), un = set.ids.filter(id => !ss.ans[id]);
@@ -1356,41 +1441,53 @@ async function finishSet(){
     ss.ans[id] = { sel:null, res:"X" };
     const st = S.qstat[id] || { tries:0, wrong:0 }; st.tries++; st.wrong++; st.last = "X"; st.ts = Date.now(); S.qstat[id] = st;
   });
-  S.reviews[set.key] = { key: set.key, title: set.title, ids: set.ids.slice(), ans: JSON.parse(JSON.stringify(ss.ans)), at: Date.now() };
+  const h = S.hist[ss.hid] || null;
+  if (h){ h.ans = JSON.parse(JSON.stringify(ss.ans)); h.status = "done"; h.updated = Date.now(); }
   if (set.key.startsWith("day:")) S.rounds[set.key] = { n: ((S.rounds[set.key] || {}).n || 0) + 1, ts: Date.now() };
-  ss.ans = {}; ss.pos = 0; ss.updated = Date.now();
-  if (S.last === set.key) setLast(null);
+  ss.ans = {}; ss.pos = 0; ss.hid = null; ss.updated = Date.now();
   save();
   const key = set.key;
   if (key.startsWith("concept:")){
     const cid = key.slice(8), r = (S.creads[cid] || { v:[0,0,0] }).v, nx = r.indexOf(0);
     if (nx >= 0 && await ask(`필수개념 ${pad(C[cid].num)} ${esc(C[cid].name)}<br><b>${nx + 1}회독</b>으로 체크할까요?`)) toggleRead(cid, nx);
   }
-  location.hash = "#/review/" + encodeURIComponent(key);
+  location.hash = h ? "#/hist/" + h.id : "#/";
 }
-
 /* review after finishing (all questions, my answer, explanation) */
-function viewReview(key){
-  const r = S.reviews[key]; if (!r){ location.hash = "#/"; return ""; }
-  const filt = S.prefs.revFilter || "all", isDay = key.startsWith("day:");
-  const ok = r.ids.filter(id => r.ans[id] && r.ans[id].res === "O").length, bad = r.ids.length - ok;
-  const items = r.ids.map((id, i) => ({ id, i, a: r.ans[id] || { sel:null, res:"X" } })).filter(o => filt === "all" || o.a.res !== "O");
-  const card = o => { const q = Q[o.id], lab = isDay || key.startsWith("cbt:") ? q.no : o.i + 1, res = o.a.res;
+function viewReview(r, ref, isHist){
+  if (!r){ location.hash = "#/"; return ""; }
+  const key = r.key || "", filt = S.prefs.revFilter || "all", byNo = key.startsWith("day:") || key.startsWith("cbt:");
+  const ans = r.ans || {}, total = r.ids.length;
+  const ok = r.ids.filter(id => ans[id] && ans[id].res === "O").length, bad = r.ids.filter(id => ans[id] && ans[id].res !== "O").length, none = total - ok - bad;
+  const items = r.ids.map((id, i) => ({ id, i, a: ans[id] })).filter(o => Q[o.id] && (filt === "all" || !o.a || o.a.res !== "O"));
+  const status = isHist ? ({ done:"완료", run:"진행 중", quit:"중단" }[r.status] || "") : "완료";
+  const card = o => { const q = Q[o.id], lab = byNo ? q.no : o.i + 1, a = o.a, res = a ? a.res : "N", sc = S.scraps.includes(q.id);
+    const badge = !a ? `<span class="res N">안 풂</span>` : res === "O" ? `<span class="res O">${I.check}정답</span>` : res === "T" ? `<span class="res T">△ 해설 봄</span>` : `<span class="res X">${I.x}${a.sel ? "오답" : "안 풂"}</span>`;
     return `<div class="rcard ${res}"><div class="rhead"><span class="qno2">${lab}</span>
-      <span class="tag"><b>${esc(q.subject)}</b> <span>· ${whereOf(q)}</span></span>
-      <span class="res ${res}">${res === "O" ? I.check + "정답" : res === "T" ? "△ 해설 봄" : I.x + (o.a.sel ? "오답" : "안 풂")}</span>
-      <span class="ansline">내 답 <b class="${res === "O" ? "gr" : "rd"}">${o.a.sel || "–"}</b> · 정답 <b class="gr">${q.answer}</b></span></div>
+      <span class="tag"><b>${esc(q.subject)}</b> <span>· ${whereOf(q)}</span></span>${badge}
+      <span class="ansline">내 답 <b class="${res === "O" ? "gr" : "rd"}">${a && a.sel || "–"}</b> · 정답 <b class="gr">${q.answer}</b></span>
+      <button class="sbtn ${sc ? "on" : ""}" data-rscrap="${q.id}">${I.star}${sc ? "스크랩됨" : "스크랩"}</button></div>
       <div class="rbody"><div class="rq" data-zoom="${q.id}:q">${q.q.map(i => `<img loading="lazy" src="${src(i[0])}" width="${i[1]}" height="${i[2]}" alt="">`).join("")}</div>
-      <div class="re" data-zoom="${q.id}:e">${q.e.map(i => `<img loading="lazy" src="${src(i[0])}" width="${i[1]}" height="${i[2]}" alt="">`).join("")}</div></div>
+      <div class="re" data-zoom="${q.id}:e">${q.e.length ? q.e.map(i => `<img loading="lazy" src="${src(i[0])}" width="${i[1]}" height="${i[2]}" alt="">`).join("") : `<p class="cdesc" style="padding:12px">해설이 없어요</p>`}</div></div>
       ${conceptLink(q, "tlink", " 보기")}</div>`; };
-  const again = key.startsWith("mock:") ? "" : `<button class="btn g" data-go="#/quiz/${key}">처음부터 다시 풀기</button>`;
-  return shell(key.startsWith("mock:") ? "mock" : "home", `<div class="page"><h1 class="h1">${esc(r.title)} 결과</h1>
-    <span class="chip">${new Date(r.at).toLocaleString("ko-KR")} <span>정답 ${ok} · 오답 ${bad} · 정답률 ${Math.round(ok / r.ids.length * 100)}%</span></span>
-    <div class="revbar"><div class="seg"><button class="${filt === "all" ? "on" : ""}" data-rfilt="all">전체 ${r.ids.length}</button><button class="${filt === "bad" ? "on" : ""}" data-rfilt="bad">오답만 ${bad}</button></div>
-      <div class="acts">${bad ? `<button class="btn y" data-rvwrong="${key}">틀린 문제만 다시 풀기</button>` : ""}${again}</div></div>
+  const refAttr = (isHist ? "h:" : "r:") + ref;
+  return shell(isHist ? "hist" : "home", `<div class="page"><h1 class="h1">${esc(r.title)} 결과</h1>
+    <span class="chip"><span class="kpill">${esc(r.kind || kindOf(key))}</span> ${new Date(r.updated || r.at).toLocaleString("ko-KR")} <span>${status} · 정답 ${ok} · 오답 ${bad}${none ? ` · 안 풂 ${none}` : ""} · 정답률 ${ok + bad ? Math.round(ok / (ok + bad) * 100) : 0}%</span></span>
+    <div class="revbar"><div class="seg"><button class="${filt === "all" ? "on" : ""}" data-rfilt="all">전체 ${total}</button><button class="${filt === "bad" ? "on" : ""}" data-rfilt="bad">오답·안 푼 문제 ${bad + none}</button></div>
+      <div class="acts">${bad + none ? `<button class="btn y" data-redo="${refAttr}" data-wrong="1">틀린 문제만 다시 풀기</button>` : ""}<button class="btn g" data-redo="${refAttr}">전체 다시 풀기</button></div></div>
     <div class="rlist">${items.map(card).join("") || '<div class="empty"><b>모두 맞혔어요</b></div>'}</div></div>`);
 }
-
+function redo(ref, wrongOnly){
+  const [t, id] = [ref.slice(0, 1), ref.slice(2)];
+  const r = t === "h" ? S.hist[id] : S.reviews[id]; if (!r) return;
+  const ans = r.ans || {};
+  const ids = wrongOnly ? r.ids.filter(x => !ans[x] || ans[x].res !== "O") : r.ids.slice();
+  if (!ids.length){ toast("다시 풀 문제가 없어요"); return; }
+  const key = r.key || "";
+  if (!wrongOnly && /^(day|cbt|concept):/.test(key)){ newSession(key, setOf(key).ids.length ? setOf(key).ids : ids); location.hash = "#/quiz/" + key; return; }
+  newSession("redo", ids, `${r.title}${wrongOnly ? " · 틀린 문제" : ""} 다시 풀기`);
+  location.hash = "#/quiz/redo";
+}
 /* self study: by concept (유형별) / by CBT round (회차별) */
 function viewSelf(){
   const tab = S.prefs.selfTab || "type", subj = S.prefs.selfSubj || "회로이론";
@@ -1430,10 +1527,8 @@ function startSelf(){
     .filter(id => scope === "all" || (scope === "new" ? !S.qstat[id] : S.qstat[id] && S.qstat[id].last !== "O"));
   if (S.prefs.selfShuffle !== false) ids = shuffle(ids);
   if (!ids.length){ toast("조건에 맞는 문제가 없어요"); return; }
-  S.sessions.self = { ans:{}, pos:0, ids, updated: Date.now() }; save();
-  location.hash = "#/quiz/self";
+  newSession("self", ids, `자율 학습 · 개념 ${sel.length}개`); location.hash = "#/quiz/self";
 }
-
 /* ink */
 const SIZES = [1.6, 2.8, 4.4, 7];
 function syncOverlay(){
@@ -1449,7 +1544,7 @@ function syncOverlay(){
 }
 const Ink = {
   qid:null, strokes:[], redo:[], saved:false, drafts:{}, cur:null, erasing:false, eraseMode:false, base:{w:0,h:0}, dirty:false, auto:false, nosave:false,
-  v:{ s:1, tx:0, ty:0 }, p0:null,
+  v:{ s:1, tx:0, ty:0 }, tp:new Map(), g:null,
   el(){ return $("#ink"); },
   tb(){
     if (!$("#tb")) return;
@@ -1506,11 +1601,36 @@ const Ink = {
   },
   pos(e){ const r = this.el().getBoundingClientRect(), k = this.scale() * this.v.s; return [(e.clientX - r.left - this.v.tx) / k, (e.clientY - r.top - this.v.ty) / k, e.pressure || 0.5]; },
   isSide(e){ return e.pointerType === "pen" && (((e.buttons & 2) !== 0) || ((e.buttons & 32) !== 0) || e.button === 2 || e.button === 5 || window.__spen === true || !!(window.Android && Android.penButton && Android.penButton())); },
+  gStart(){
+    const pts = [...this.tp.values()];
+    if (!pts.length){ this.g = null; return; }
+    const m = pts.length >= 2 ? { x: (pts[0].x + pts[1].x) / 2, y: (pts[0].y + pts[1].y) / 2 } : { x: pts[0].x, y: pts[0].y };
+    this.g = { n: pts.length, d: pts.length >= 2 ? Math.hypot(pts[0].x - pts[1].x, pts[0].y - pts[1].y) : 0, m, v: { ...this.v } };
+  },
+  gMove(){
+    const pts = [...this.tp.values()]; if (!this.g || !pts.length) return;
+    if (pts.length !== this.g.n){ this.gStart(); return; }
+    const r = this.el().getBoundingClientRect(), v0 = this.g.v;
+    const m = pts.length >= 2 ? { x: (pts[0].x + pts[1].x) / 2, y: (pts[0].y + pts[1].y) / 2 } : { x: pts[0].x, y: pts[0].y };
+    const s = pts.length >= 2 && this.g.d ? Math.min(4, Math.max(0.5, v0.s * Math.hypot(pts[0].x - pts[1].x, pts[0].y - pts[1].y) / this.g.d)) : v0.s;
+    const wx = (this.g.m.x - r.left - v0.tx) / v0.s, wy = (this.g.m.y - r.top - v0.ty) / v0.s;
+    this.v = { s, tx: (m.x - r.left) - wx * s, ty: (m.y - r.top) - wy * s };
+    this.redraw(); this.applyView();
+    const zb = $("#tb [data-ink=zoom] b"); if (zb) zb.textContent = Math.round(s * 100) + "%";
+  },
   down(e){
     const p = S.prefs;
-    if (e.pointerType === "touch" && (p.penOnly || this.p0)){
-      if (p.penOnly && !this.hinted){ this.hinted = true; toast("펜 전용 모드예요. 손가락은 이동, 두 손가락은 확대·축소예요"); }
-      return;
+    if (e.pointerType === "touch"){
+      if (this.cur && this.cur.ptype !== "touch") return;               // palm while the S Pen is writing
+      const fingerDraw = !p.penOnly && !this.tp.size && !this.cur;
+      this.tp.set(e.pointerId, { x: e.clientX, y: e.clientY });
+      try { this.el().setPointerCapture(e.pointerId); } catch(_){}
+      if (!fingerDraw){
+        if (this.cur && this.cur.ptype === "touch"){ this.cur = null; this.redraw(); }   // 2nd finger: pinch instead of drawing
+        this.gStart(); e.preventDefault();
+        if (p.penOnly && !this.hinted){ this.hinted = true; toast("손가락: 한 손가락 이동 · 두 손가락 확대·축소 / 필기는 S펜으로"); }
+        return;
+      }
     }
     if (e.pointerType === "mouse" && e.button !== 0) return;
     if (this.cur) return;
@@ -1523,6 +1643,10 @@ const Ink = {
     e.preventDefault();
   },
   move(e){
+    if (e.pointerType === "touch" && this.tp.has(e.pointerId)){
+      this.tp.set(e.pointerId, { x: e.clientX, y: e.clientY });
+      if (this.g){ this.gMove(); e.preventDefault(); return; }
+    }
     if (!this.cur || e.pointerId !== this.cur.id) return;
     if (this.cur.t === "p" && this.cur.pts.length < 10 && this.isSide(e)){ this.cur.t = "e"; this.cur.w = 24; this.erasing = true; this.badge(); this.redraw(); }
     const evs = e.getCoalescedEvents ? e.getCoalescedEvents() : [e];
@@ -1533,35 +1657,16 @@ const Ink = {
     e.preventDefault();
   },
   up(e){
+    if (this.tp.has(e.pointerId)){
+      this.tp.delete(e.pointerId);
+      if (this.g){ this.gStart(); if (!this.tp.size) this.tb(); }
+    }
     if (!this.cur || e.pointerId !== this.cur.id) return;
     const s = this.cur; this.cur = null; this.erasing = false;
     delete s.id; delete s.ptype;
     s.pts = s.pts.map(p => [Math.round(p[0] * 10) / 10, Math.round(p[1] * 10) / 10, Math.round(p[2] * 100) / 100]);
     if (s.pts.length === 1) s.pts.push([s.pts[0][0] + .1, s.pts[0][1] + .1, s.pts[0][2]]);
     this.strokes.push(s); this.redo = []; this.changed();
-  },
-  touch(e){
-    const ts = [...e.touches].filter(t => t.touchType !== "stylus");
-    const r = this.el().getBoundingClientRect();
-    if (e.type !== "touchmove"){
-      if (ts.length >= 2){
-        if (this.cur && this.cur.ptype === "touch"){ this.cur = null; this.redraw(); }
-        this.p0 = { d: dist(ts[0], ts[1]), m: midp(ts[0], ts[1]), v: { ...this.v } };
-      } else if (ts.length === 1 && S.prefs.penOnly){
-        this.p0 = { d: 0, m: { x: ts[0].clientX, y: ts[0].clientY }, v: { ...this.v } };
-      } else this.p0 = null;
-      if (!ts.length) this.tb();
-      return;
-    }
-    if (!this.p0 || !ts.length) return;
-    e.preventDefault();
-    const m = ts.length >= 2 ? midp(ts[0], ts[1]) : { x: ts[0].clientX, y: ts[0].clientY };
-    const v0 = this.p0.v;
-    const s = ts.length >= 2 && this.p0.d ? Math.min(4, Math.max(0.5, v0.s * dist(ts[0], ts[1]) / this.p0.d)) : v0.s;
-    const wx = (this.p0.m.x - r.left - v0.tx) / v0.s, wy = (this.p0.m.y - r.top - v0.ty) / v0.s;
-    this.v = { s, tx: (m.x - r.left) - wx * s, ty: (m.y - r.top) - wy * s };
-    this.redraw(); this.applyView();
-    const zb = $("#tb [data-ink=zoom] b"); if (zb) zb.textContent = Math.round(s * 100) + "%";
   },
   changed(){
     this.redraw(); this.tb();
@@ -1629,13 +1734,29 @@ function renderInkTo(canvas, rec, cssW){
 }
 
 /* scrap & notes */
+function scrapIds(f){ return S.scraps.filter(id => Q[id] && (f === "all" || Q[id].subject === f)); }
 function viewScrap(){
-  const ids = S.scraps.filter(id => Q[id]);
-  const body = ids.length ? `<div style="margin-top:20px"><button class="btn y" data-act="scrapgo">스크랩 ${ids.length}문제 풀기 ${I.right}</button></div>
-    <div class="nlist">${ids.map(id => { const q = Q[id]; return `<div class="ncard" data-scrapq="${id}"><div style="height:200px;overflow:hidden;border-bottom:1px solid var(--line)"><img src="${src(q.q[0][0])}" style="width:100%;display:block"></div>
-    <div class="ft"><b>${whereOf(q).replace(" ", " · ")}</b><span>${esc(q.conceptName)}</span></div></div>`; }).join("")}</div>`
-    : `<div class="empty"><b>스크랩한 문제가 없어요</b>문제 화면 오른쪽 위 ☆ 스크랩을 누르면 여기에 모여요</div>`;
-  return shell("scrap", `<div class="page"><h1 class="h1">스크랩</h1>${body}</div>`);
+  const all = S.scraps.filter(id => Q[id]), f = S.prefs.scrapSubj || "all";
+  const order = [...SUBJ6, ...SUBJ5.map(x => x.name)];
+  const subjects = [...new Set(all.map(id => Q[id].subject))].sort((a, b) => order.indexOf(a) - order.indexOf(b));
+  const cur = subjects.includes(f) ? f : "all", ids = scrapIds(cur);
+  const why = id => { const m = S.scrapMap[id] || {}; return m.kind === "auto" ? (m.why === "T" ? ["T", "해설 봄"] : ["X", "틀림"]) : ["M", "직접"]; };
+  const body = all.length ? `
+    <div class="subjs"><button class="chipb ${cur === "all" ? "on" : ""}" data-ssubj="all">전체 <b>${all.length}</b></button>${subjects.map(s => `<button class="chipb ${cur === s ? "on" : ""}" data-ssubj="${esc(s)}">${esc(s)} <b>${all.filter(id => Q[id].subject === s).length}</b></button>`).join("")}</div>
+    <div class="acts" style="margin:4px 0 6px"><button class="btn y" data-scrapsolve="${esc(cur)}">${cur === "all" ? "전체" : esc(cur)} ${ids.length}문제 다시 풀기 ${I.right}</button></div>
+    <div class="nlist">${ids.map(id => { const q = Q[id], [k, lab] = why(id); return `<div class="ncard" data-scrapq="${id}"><div style="height:190px;overflow:hidden;border-bottom:1px solid var(--line)"><img src="${src(q.q[0][0])}" style="width:100%;display:block"></div>
+      <div class="ft"><span class="why ${k}">${lab}</span><b>${whereOf(q)}</b><span>${esc(q.subject)}</span><button class="unsc" data-unscrap="${id}" title="스크랩 해제">${I.star}</button></div></div>`; }).join("")}</div>`
+    : `<div class="empty"><b>스크랩한 문제가 없어요</b>틀리거나 해설을 먼저 본 문제는 자동으로, 맞힌 문제는 ☆ 스크랩을 누르면 여기에 모여요</div>`;
+  return shell("scrap", `<div class="page"><h1 class="h1">스크랩</h1><span class="chip">틀린 문제·해설 본 문제는 자동 <span>맞힌 문제는 ☆로 직접</span></span>${body}</div>`);
+}
+function viewHistory(){
+  const hs = Object.values(S.hist).filter(h => histCounts(h).n).sort((a, b) => b.updated - a.updated);
+  const st = { done:["완료","ok"], run:["진행 중","run"], quit:["중단","no"] };
+  return shell("hist", `<div class="page"><h1 class="h1">학습 기록</h1><span class="chip">문제를 푼 묶음마다 기록이 남아요 <span>${hs.length}개</span></span>
+    ${hs.length ? `<div class="hlist">${hs.map(h => { const c = histCounts(h), [sl, sc] = st[h.status] || ["", ""];
+      return `<div class="hrow" data-go="#/hist/${h.id}"><span class="kpill">${esc(h.kind)}</span><div class="hmain"><b>${esc(h.title)}</b><small>${new Date(h.updated).toLocaleString("ko-KR")}</small></div>
+        <div class="hnums"><span>${h.ids.length}문제</span><span class="gr">맞힘 ${c.o}</span><span class="rd">오답 ${c.x + c.t}</span></div><span class="pill ${sc}">${sl}</span></div>`; }).join("")}</div>`
+      : `<div class="empty"><b>아직 기록이 없어요</b>DAY·자율 학습·스크랩·모의고사 문제를 풀면 여기에 쌓여요</div>`}</div>`);
 }
 let NOTES = {};
 function drawThumb(cv, rec){
@@ -1770,6 +1891,7 @@ function mergeState(R){
   by(S.reviews, R.reviews, v => v.at);
   by(S.rounds, R.rounds, v => v.ts);
   by(S.creads, R.creads, v => v.ts);
+  by(S.hist, R.hist || {}, v => v.updated);
   by(S.scrapMap, R.scrapMap, v => v.ts);
   S.scraps = Object.keys(S.scrapMap).filter(k => S.scrapMap[k].on);
   for (const [k, v] of Object.entries(R.noteDel || {})) S.noteDel[k] = Math.max(S.noteDel[k] || 0, v);
@@ -1887,7 +2009,9 @@ async function route(){
   else if (r === "mock") app.innerHTML = viewMock();
   else if (r === "self") app.innerHTML = viewSelf();
   else if (r === "print") await viewPrint(arg);
-  else if (r === "review"){ const h2 = viewReview(arg); if (!h2) return; app.innerHTML = h2; }
+  else if (r === "review"){ const h2 = viewReview(S.reviews[arg], arg); if (!h2) return; app.innerHTML = h2; }
+  else if (r === "hist"){ const h2 = viewReview(S.hist[arg], arg, true); if (!h2) return; app.innerHTML = h2; }
+  else if (r === "history") app.innerHTML = viewHistory();
   else if (r === "mockres"){ const h2 = viewMockRes(arg); if (!h2) return; app.innerHTML = h2; }
   else app.innerHTML = viewHome();
   const mn = $(".main"); if (mn) mn.scrollTop = 0;
@@ -1899,7 +2023,6 @@ function bindInk(){
   cv.addEventListener("pointerup", e => Ink.up(e));
   cv.addEventListener("pointercancel", e => Ink.up(e));
   cv.addEventListener("contextmenu", e => e.preventDefault());
-  ["touchstart","touchmove","touchend","touchcancel"].forEach(t => cv.addEventListener(t, e => Ink.touch(e), { passive:false }));
 }
 
 document.addEventListener("click", async e => {
@@ -1914,9 +2037,8 @@ document.addEventListener("click", async e => {
     if (d.msrc){ P.mockSrc = d.msrc; save(true); route(); return; }
     if (d.mround){ P.mockRound = d.mround; save(true); route(); return; }
     if (d.mfresh !== undefined){ P.mockFresh = P.mockFresh === false; save(true); route(); return; }
-    if (d.mwrong){ const m = mockById(d.mwrong); S.sessions.wrong = { ans:{}, pos:0, ids: m.ids.filter(x => m.ans[x] !== Q[x].answer), updated: Date.now() }; save(); location.hash = "#/quiz/wrong"; return; }
+    if (d.mwrong){ const m = mockById(d.mwrong); newSession("redo", m.ids.filter(x => m.ans[x] !== Q[x].answer), `${m.title} 틀린 문제`); location.hash = "#/quiz/redo"; return; }
     if (d.rfilt){ P.revFilter = d.rfilt; save(true); route(); return; }
-    if (d.rvwrong){ const r = S.reviews[d.rvwrong]; S.sessions.wrong = { ans:{}, pos:0, ids: r.ids.filter(x => !r.ans[x] || r.ans[x].res !== "O"), updated: Date.now() }; save(); location.hash = "#/quiz/wrong"; return; }
     const keep = () => { const y = $(".main") ? $(".main").scrollTop : 0, ly = $(".sellist") ? $(".sellist").scrollTop : 0; save(true); route().then(() => { if ($(".main")) $(".main").scrollTop = y; if ($(".sellist")) $(".sellist").scrollTop = ly; }); };
     if (d.stab){ P.selfTab = d.stab; keep(); return; }
     if (d.sbj){ P.selfSubj = d.sbj; keep(); return; }
@@ -1928,36 +2050,44 @@ document.addEventListener("click", async e => {
     if (d.scope){ P.selfScope = d.scope; keep(); return; }
     if (d.shuf !== undefined){ P.selfShuffle = P.selfShuffle === false; keep(); return; }
   }
+  const hx = e.target.closest("[data-hidekey],[data-redo],[data-rscrap],[data-ssubj],[data-scrapsolve],[data-unscrap],[data-hdel]");
+  if (hx){ const d = hx.dataset; e.stopPropagation();
+    if (d.hidekey){ if (d.hidekey.startsWith("exam:")){ const m = mockById(d.hidekey.slice(5)); if (m){ m.hidden = true; m.updated = Date.now(); } } else quitSession(d.hidekey); save(); route(); return; }
+    if (d.redo){ redo(d.redo, d.wrong === "1"); return; }
+    if (d.rscrap){ const on = toggleScrap(d.rscrap); hx.classList.toggle("on", on); hx.innerHTML = `${I.star}${on ? "스크랩됨" : "스크랩"}`; return; }
+    if (d.ssubj){ S.prefs.scrapSubj = d.ssubj; save(true); route(); return; }
+    if (d.scrapsolve){ const ids = scrapIds(d.scrapsolve); if (!ids.length) return; newSession("scrap", ids, `스크랩 다시 풀기 · ${d.scrapsolve === "all" ? "전체" : d.scrapsolve}`); location.hash = "#/quiz/scrap"; return; }
+    if (d.unscrap){ toggleScrap(d.unscrap); route(); return; }
+  }
   const cq = !e.target.closest(".modal") && e.target.closest("[data-cq]");
   if (cq){ startConceptQuiz(cq.dataset.cq); return; }
   const t = e.target.closest("[data-go],[data-act],[data-pick],[data-tab],[data-nav],[data-jump],[data-concept],[data-tool],[data-size],[data-ink],[data-note],[data-scrapq]");
   if (!t) return;
   const d = t.dataset;
-  if (d.act === "hideresume"){ e.stopPropagation(); setLast(null); save(); route(); return; }
   if (d.go !== undefined){ if (d.go) location.hash = d.go; return; }
   if (d.concept){ openConcept(d.concept); return; }
   if (d.pick){ answer(+d.pick); return; }
   if (d.tab){ setTab(d.tab, true); return; }
   if (d.nav){ go(+d.nav); return; }
-  if (d.jump !== undefined){ Ink.flush(); QZ.i = +d.jump; if (isMob()) QZ.tab = "q"; renderQuiz(); return; }
+  if (d.jump !== undefined){ jumpTo(+d.jump); return; }
   if (d.tool){ Ink.eraseMode = d.tool === "eraser"; Ink.tb(); return; }
   if (d.size !== undefined){ S.prefs.size = +d.size; Ink.eraseMode = false; save(true); Ink.tb(); return; }
   if (d.ink){ Ink.cmd(d.ink); return; }
   if (d.note){ openNote(d.note); return; }
-  if (d.scrapq){ const ids = S.scraps.filter(id => Q[id]); S.sessions.scrap = { ans:{}, pos: Math.max(0, ids.indexOf(d.scrapq)), ids, updated: Date.now() }; save(); location.hash = "#/quiz/scrap"; return; }
+  if (d.scrapq){ const f = S.prefs.scrapSubj || "all", ids = scrapIds(f); newSession("scrap", ids, `스크랩 다시 풀기 · ${f === "all" ? "전체" : f}`); S.sessions.scrap.pos = Math.max(0, ids.indexOf(d.scrapq)); save(); location.hash = "#/quiz/scrap"; return; }
   const a = d.act;
-  if (a === "wrong" || a === "dap" || a === "rand") startSpecial(a);
+  if (a === "dap" || a === "rand") startSpecial(a);
   else if (a === "scrapgo") startSpecial("scrap");
   else if (a === "reveal") reveal();
   else if (a === "result") finishSet();
   else if (a === "submit") submitMock(false);
   else if (a === "mockstart") createMock();
-  else if (a === "randmock"){ S.prefs.mockSrc = "book"; createMock(); }
+  else if (a === "randmock") location.hash = "#/mock";
   else if (a === "selfstart") startSelf();
   else if (a === "scrap"){ const on = toggleScrap(curQ().id); QZ.exam ? renderExamLeft() : renderLeft(); toast(on ? "스크랩했어요" : "스크랩을 해제했어요"); }
   else if (a === "export") doExport();
   else if (a === "import"){ const f = $("#impf"); f.onchange = () => f.files[0] && doImport(f.files[0]); f.click(); }
-  else if (a === "resetall"){ if (await ask("모든 풀이 기록을 지울까요?")){ S.sessions = {}; S.qstat = {}; S.mocks = []; S.reviews = {}; S.rounds = {}; setLast(null); S.attend = [todayStr()]; save(); route(); } }
+  else if (a === "resetall"){ if (await ask("모든 풀이 기록을 지울까요?")){ S.sessions = {}; S.qstat = {}; S.mocks = []; S.reviews = {}; S.rounds = {}; S.hist = {}; setLast(null); S.attend = [todayStr()]; save(); route(); } }
   else if (a === "otacheck") OTA.check(true);
   else if (a === "otareset"){ if (await ask("받은 업데이트를 지우고 설치된 기본 화면으로 되돌릴까요?<br>기록과 필기는 그대로예요.")){ Android.otaClear(); Android.reload(); } }
   else if (a === "doprint"){ if (window.Android && Android.printPage) Android.printPage("전기기사 개념 노트"); else window.print(); }
@@ -2004,6 +2134,7 @@ window.__androidBack = () => {
       (cb.rounds || []).forEach(x => titles[x.id] = x.title); D.cbt = cb.rounds || [];
       (cb.questions || []).forEach(q => { q.cbt = true; q.roundTitle = titles[q.round] || q.round; Q[q.id] = q; D.cbtQuestions.push(q); }); }
   } catch(e){}
+  if (!S.migr2){ Object.entries(S.qstat).forEach(([id, st]) => { if (Q[id] && (st.last === "X" || st.last === "T")) autoScrap(id, st.last); }); S.migr2 = true; save(true); }
   const t = todayStr(); if (!S.attend.includes(t)){ S.attend.push(t); S.attend = S.attend.slice(-200); save(); }
   route();
   if (window.Android && Android.bootOk) Android.bootOk();
