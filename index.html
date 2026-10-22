@@ -810,6 +810,55 @@ body.dark .stat3 div,body.dark .big4 div{background:#2A261E}
 body.dark .studycard .cal i{color:var(--sub)}body.dark .studycard .cal i.on{color:#15130E}
 body.dark .studycard .cal i.td{outline-color:var(--ink)}
 body.dark .seg button.on{background:var(--card)}
+/* v12: unified prev/next bars (same look as the quiz) */
+.navbar3{display:grid!important;grid-template-columns:1fr auto 1fr;align-items:center;gap:12px;padding:12px 22px calc(12px + env(safe-area-inset-bottom,0px));background:#fff;border-top:1px solid var(--line)}
+.navbar3 .btn{width:100%;max-width:190px;height:46px;padding:0 16px;justify-content:center;font-size:calc(var(--fs) * 16)}
+.navbar3 .btn:first-child{justify-self:start}.navbar3 .btn:last-child{justify-self:end}
+.navbar3 .btn:disabled{opacity:.35}
+.navbar3 .cpos{display:block!important;text-align:center;color:var(--sub);font-size:calc(var(--fs) * 15);white-space:nowrap}
+.navbar3 .cpos b{color:var(--ink)}
+.creads{display:flex;justify-content:center;padding:10px 16px 0;border-top:1px solid var(--line);background:#fff;flex:none}
+body.dark .navbar3,body.dark .creads{background:var(--card)}
+@media (max-width: 820px){
+  .navbar3{background:var(--yellow);border-top:0;gap:10px;padding:10px 14px calc(10px + env(safe-area-inset-bottom,0px))}
+  .navbar3 .btn{height:50px;max-width:none;border:0;background:#fff}
+  .navbar3 .cpos{color:#4a463d;font-size:calc(var(--fs) * 13)}
+  .navbar3 .cpos b{color:var(--ink)}
+  .creads{padding:8px 10px}
+  body.dark .navbar3{background:var(--yellow)}body.dark .navbar3 .btn{background:#fff;color:#15130E}body.dark .navbar3 .cpos,body.dark .navbar3 .cpos b{color:#15130E}
+}
+/* v13 */
+.predcard{padding:14px 20px}
+.pavg{font-size:calc(var(--fs) * 17)}
+.pbars{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;height:84px;margin:8px 0 4px}
+.pbar{position:relative;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;background:var(--bg);border-radius:10px;overflow:hidden;padding-bottom:2px}
+.pbar i{position:absolute;left:0;right:0;bottom:0;background:#F6E3A0}
+.pbar.risk i{background:#F4B6AA}
+.pbar b,.pbar small{position:relative;z-index:1}.pbar b{font-size:calc(var(--fs) * 15)}.pbar small{font-size:calc(var(--fs) * 11);color:var(--sub)}
+.pbar::after{content:"";position:absolute;left:0;right:0;bottom:40%;border-top:1px dashed rgba(228,85,63,.6)}
+.whybox{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-top:14px}
+.whybox b{margin-right:4px;font-size:calc(var(--fs) * 15)}
+.whybox .chipb{padding:6px 12px;font-size:calc(var(--fs) * 13)}
+.memobox{margin-top:14px}
+.memobox b{display:flex;align-items:center;gap:6px;font-size:calc(var(--fs) * 15);margin-bottom:6px}
+.memobox b svg{width:16px;height:16px}
+.memobox textarea{width:100%;border:1px solid var(--line2);border-radius:12px;padding:10px 12px;font:inherit;resize:vertical;background:#fff;color:var(--ink);-webkit-user-select:text;user-select:text}
+body.dark .memobox textarea{background:#2A261E}
+.rmemo{display:flex;align-items:center;gap:6px;margin-top:10px;background:var(--yellow-pale);border-radius:10px;padding:8px 12px;font-size:calc(var(--fs) * 14)}
+.rmemo svg{width:15px;height:15px;flex:none}
+.whytag{display:inline-block;margin:8px 8px 0 0;background:var(--red-soft);color:var(--red);border-radius:8px;padding:2px 8px;font-size:calc(var(--fs) * 12);font-weight:700}
+.whycard{margin:16px 0 4px;max-width:640px}
+.wrow{display:grid;grid-template-columns:110px 1fr 46px;gap:10px;align-items:center;padding:4px 0;font-size:calc(var(--fs) * 14)}
+.wrow .bar{height:10px}.wrow b{text-align:right}
+.clipov{position:absolute;left:0;right:0;height:100%;z-index:20;background:rgba(246,212,92,.12);cursor:crosshair;touch-action:none}
+.cliphint{position:sticky;top:8px;margin:8px auto 0;width:max-content;max-width:94%;display:flex;align-items:center;gap:10px;background:var(--ink);color:#fff;padding:8px 14px;border-radius:99px;font-size:calc(var(--fs) * 14)}
+.cliprect{display:none;position:absolute;border:2.5px dashed var(--red);background:rgba(228,85,63,.08)}
+.clipgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;margin-top:12px}
+.clipcard{background:#fff;border-radius:16px;border:1px solid #F3EFE2;padding:10px;cursor:zoom-in;display:flex;flex-direction:column;gap:6px}
+.clipcard img{width:100%;max-height:180px;object-fit:contain;background:#fff}
+.clipcard span{font-size:calc(var(--fs) * 12);color:var(--sub)}
+.pclips{display:grid;grid-template-columns:1fr 1fr;gap:10px}.pclips figure{margin:0;border:1px solid #ddd;border-radius:8px;padding:6px;break-inside:avoid}.pclips img{width:100%}.pclips figcaption{font-size:11px;color:#666}
+.subjhead small{font-weight:400;margin-left:6px}
 </style>
 </head>
 <body>
@@ -849,7 +898,7 @@ const src = p => (window.__IMG && window.__IMG[p]) || p;
 const $ = (s, r = document) => r.querySelector(s);
 
 /* app version + online update (screen files from GitHub) */
-const APP_VERSION = "2026102207";
+const APP_VERSION = "2026102209";
 const OTA_BASE = "https://raw.githubusercontent.com/kr302hs-code/elec21-web/main/";
 const b64of = buf => { let s = "", a = new Uint8Array(buf); for (let i = 0; i < a.length; i += 0x8000) s += String.fromCharCode.apply(null, a.subarray(i, i + 0x8000)); return btoa(s); };
 const OTA = {
@@ -895,9 +944,9 @@ async function loadState(){
   try { st = await IDB.get("S", "state"); } catch(e){}
   if (!st){ try { st = JSON.parse(localStorage.getItem(KEY) || "null"); } catch(e){ st = null; } }
   S = Object.assign({ sessions:{}, last:null, lastTs:0, scraps:[], scrapMap:{}, attend:[], qstat:{}, notes:{}, noteDel:{}, mocks:[],
-    reviews:{}, rounds:{}, creads:{}, hist:{}, histDel:{}, srs:{}, prefs:{ size:1, grid:true, penOnly:true } }, st || {});
+    reviews:{}, rounds:{}, creads:{}, hist:{}, histDel:{}, srs:{}, memos:{}, why:{}, clipDel:{}, prefs:{ size:1, grid:true, penOnly:true } }, st || {});
   ["mocks","attend"].forEach(k => { if (!Array.isArray(S[k])) S[k] = []; });
-  ["reviews","rounds","creads","scrapMap","noteDel","notes","qstat","sessions","hist","histDel","srs"].forEach(k => { if (!S[k] || typeof S[k] !== "object") S[k] = {}; });
+  ["reviews","rounds","creads","scrapMap","noteDel","notes","qstat","sessions","hist","histDel","srs","memos","why","clipDel"].forEach(k => { if (!S[k] || typeof S[k] !== "object") S[k] = {}; });
   S.scraps.forEach(id => { if (!S.scrapMap[id]) S.scrapMap[id] = { on:true, ts:1 }; });
   if (!S.migrIDB){ S.migrIDB = true; await IDB.put("S", JSON.parse(JSON.stringify(S)), "state"); try { localStorage.removeItem(KEY); } catch(e){} }
 }
@@ -917,6 +966,12 @@ function srsUpdate(id, pass){
   S.srs[id] = step >= SRS_STEPS.length ? { done:true, ts: Date.now() } : { step, due: dayAdd(SRS_STEPS[step]), ts: Date.now() };
 }
 const srsDue = () => Object.entries(S.srs).filter(([id, v]) => Q[id] && !v.done && v.due <= todayStr()).map(([id]) => id);
+function finalIds(){
+  const okd = id => S.qstat[id] && S.qstat[id].last === "O" && !S.qstat[id].guess;
+  const order = [...D.questions.filter(q => q.dap).map(q => q.id), ...srsDue(), ...S.scraps.filter(id => Q[id]),
+    ...D.questions.filter(q => q.grade === "A" && !okd(q.id)).map(q => q.id)];
+  return [...new Set(order)].slice(0, 120);
+}
 function startReview(){
   const ids = shuffle(srsDue()); if (!ids.length){ toast("오늘 복습할 문제가 없어요"); return; }
   newSession("review", ids, `오늘의 복습 ${ids.length}문제`); location.hash = "#/quiz/review";
@@ -946,11 +1001,12 @@ const IDB = {
   db:null,
   open(){ return new Promise(res => {
     try {
-      const r = indexedDB.open("elec21", 3);
+      const r = indexedDB.open("elec21", 4);
       r.onupgradeneeded = () => { const db = r.result;
         if (!db.objectStoreNames.contains("notes")) db.createObjectStore("notes");
         if (!db.objectStoreNames.contains("backups")) db.createObjectStore("backups");
-        if (!db.objectStoreNames.contains("state")) db.createObjectStore("state"); };
+        if (!db.objectStoreNames.contains("state")) db.createObjectStore("state");
+        if (!db.objectStoreNames.contains("clips")) db.createObjectStore("clips"); };
       r.onsuccess = () => { this.db = r.result; res(); };
       r.onerror = () => res();
     } catch(e){ res(); }
@@ -1005,7 +1061,7 @@ function setOf(key){
   if (ss && ss.title) t = ss.title;
   return { key, title: t, ids: (ss && ss.ids) || [] };
 }
-const KIND = { review:"복습", grade:"A등급", day:"DAY", concept:"개념 기출", self:"자율 학습", scrap:"스크랩", redo:"다시 풀기", wrong:"오답", dap:"답정너", rand:"랜덤", cbt:"CBT 회차", exam:"모의고사", mock:"모의고사" };
+const KIND = { final:"직전 세트", review:"복습", grade:"A등급", day:"DAY", concept:"개념 기출", self:"자율 학습", scrap:"스크랩", redo:"다시 풀기", wrong:"오답", dap:"답정너", rand:"랜덤", cbt:"CBT 회차", exam:"모의고사", mock:"모의고사" };
 const kindOf = key => KIND[key.split(":")[0]] || "학습";
 function newSession(key, ids, title){
   const old = S.sessions[key];
@@ -1136,6 +1192,26 @@ function shell(active, inner){
 }
 
 /* home */
+const WHY = [["know","개념 몰라서"],["calc","계산 실수"],["read","잘못 읽음"],["time","시간 부족"],["guess","헷갈림"]];
+function predict(){
+  const rows = SUBJ5.map(sj => {
+    const qs = D.questions.filter(q => sj.from.includes(q.subject)); let est = 0, tried = 0;
+    ["A","B","C"].forEach(g => { const gq = qs.filter(q => q.grade === g); if (!gq.length) return;
+      const t = gq.filter(q => S.qstat[q.id] && S.qstat[q.id].last), ok = t.filter(q => S.qstat[q.id].last === "O" && !S.qstat[q.id].guess).length;
+      tried += t.length; if (t.length) est += gq.length / qs.length * ok / t.length; });
+    return { sj, score: Math.round(est * 100), cover: Math.round(tried / qs.length * 100) };
+  });
+  const avg = Math.round(rows.reduce((a, r) => a + r.score, 0) / rows.length);
+  return { rows, avg, pass: avg >= 60 && rows.every(r => r.score >= 40), any: rows.some(r => r.cover > 0) };
+}
+function predictCard(){
+  const p = predict(), n = Object.keys(S.qstat).filter(id => Q[id] && !Q[id].cbt).length;
+  if (n < 20) return `<div class="card predcard"><p class="eyebrow" style="margin:0 0 4px">예상 점수</p><p class="cdesc small" style="margin:0">20문제 이상 풀면 과목별 예상 점수와 과락 위험을 알려드려요 (지금 ${n}문제)</p></div>`;
+  const risk = p.rows.filter(r => r.score < 40);
+  return `<div class="card predcard"><div class="rhead2"><p class="eyebrow" style="margin:0">예상 점수</p><b class="pavg ${p.pass ? "gr" : "rd"}">${p.avg}점 ${p.pass ? "합격권" : "불합격권"}</b></div>
+    <div class="pbars">${p.rows.map(r => `<button class="pbar ${r.score < 40 ? "risk" : ""}" data-psubj="${r.sj.n}" title="${esc(r.sj.name)} A등급 풀기"><i style="height:${Math.max(4, r.score)}%"></i><b>${r.score}</b><small>${r.sj.n}과목</small></button>`).join("")}</div>
+    <p class="cdesc small">${risk.length ? `<span class="rd">${risk.map(r => esc(r.sj.name)).join(", ")} 과락 위험</span> · 막대를 누르면 그 과목 A등급을 풀어요` : "등급별 정답률로 추정 · 막대를 누르면 그 과목 A등급을 풀어요"}</p></div>`;
+}
 function studyCard(){
   const days = new Set(S.attend), now = new Date(), y = now.getFullYear(), mo = now.getMonth(), t = todayStr();
   const first = new Date(y, mo, 1), off = (first.getDay() + 6) % 7, nd = new Date(y, mo + 1, 0).getDate();
@@ -1198,6 +1274,8 @@ function viewHome(){
         ${(() => { const As = D.questions.filter(q => q.grade === "A"), ok = As.filter(q => S.qstat[q.id] && S.qstat[q.id].last === "O").length;
           return `<div class="aprog"><span class="gb gA">A</span>핵심 ${As.length}문제 중 <b>${ok}</b> 맞힘<div class="bar"><i style="width:${ok / As.length * 100}%"></i></div></div>`; })()}
         <div class="acts"><button class="btn y" data-go="#/quiz/day:${next}">문제 풀기 ${I.right}</button>
+        ${(() => { const dd = S.examDate ? Math.ceil((new Date(S.examDate + "T00:00:00") - new Date(todayStr() + "T00:00:00")) / 86400000) : -1;
+          return dd >= 0 && dd <= 7 ? `<button class="btn k" data-act="final">시험 직전 세트 ${finalIds().length}문제</button>` : ""; })()}
         ${(() => { const n = srsDue().length; return n ? `<button class="btn k" data-act="review">오늘의 복습 ${n}문제</button>` : `<button class="btn g" data-go="#/concepts/${next}">개념 먼저 보기</button>`; })()}</div>
       </div><div class="bolt">${I.bolt}</div></div>
       ${resume}
@@ -1209,6 +1287,7 @@ function viewHome(){
       </div>
     </div><div class="col">
       ${studyCard()}
+      ${predictCard()}
       <div class="card tap histcard" data-go="#/history"><div class="rhead2"><p class="eyebrow" style="margin:0">학습 기록</p><span class="cdesc">${hs.length}개 ${I.right}</span></div>
         ${hs.length ? (() => { const h = hs[0], c = histCounts(h); return `<div class="hrow1"><span class="kpill">${esc(h.kind)}</span><b>${esc(h.title)}</b><span class="rmeta">${c.o}/${h.ids.length} 맞힘 · ${ago(h.updated)}</span></div>`; })() : `<p class="cdesc">문제를 풀면 여기에 기록이 쌓여요</p>`}</div>
     </div></div></div>`);
@@ -1261,10 +1340,11 @@ function openConcept(cid){
     m.innerHTML = `<div class="sheet cview"><div class="hd"><span class="grade">${pad(c.num)}</span><h3>${esc(c.name)}</h3>
       ${!QZ ? `<button class="btn g sm" data-go="#/concept/${id}">${I.note}메모장과 함께 보기</button>` : ""}${qs.length && !QZ ? `<button class="btn y sm" data-cq="${id}">기출 ${qs.length}문제</button>` : ""}<button class="x" data-close>${I.x}</button></div>
       <div class="bd zsc"><div class="cimgs">${c.imgs.map(i => `<img src="${src(i[0])}" width="${i[1]}" height="${i[2]}" alt="" draggable="false">`).join("")}</div></div>
-      <div class="cnav">
-        <button class="btn o" data-cmove="${prev ? prev.id : ""}" ${prev ? "" : "disabled"}>${I.left}<span>이전</span></button>
-        <div class="cpos"><b>DAY ${pad(c.day)}</b> · ${pos} / ${inDay.length}${readsHTML(id)}</div>
-        <button class="btn y" data-cmove="${next ? next.id : ""}" ${next ? "" : "disabled"}><span>${next && next.day !== c.day ? "다음 DAY" : "다음"}</span>${I.right}</button>
+      <div class="creads">${readsHTML(id)}</div>
+      <div class="cnav navbar3">
+        <button class="btn o" data-cmove="${prev ? prev.id : ""}" ${prev ? "" : "disabled"}>${I.left}<span class="tl-full">이전 개념</span><span class="tl-short">이전</span></button>
+        <div class="cpos"><b>DAY ${pad(c.day)}</b> · ${pos} / ${inDay.length}</div>
+        <button class="btn o" data-cmove="${next ? next.id : ""}" ${next ? "" : "disabled"}><span class="tl-full">${next && next.day !== c.day ? "다음 DAY" : "다음 개념"}</span><span class="tl-short">${next && next.day !== c.day ? "다음 DAY" : "다음"}</span>${I.right}</button>
       </div></div>`;
     attachPinch($(".bd", m), $(".cimgs", m));
   };
@@ -1292,8 +1372,8 @@ function viewConceptPage(cid){
   return `<div class="qwrap cpage">
     <div class="qtop"><button class="lg" data-go="#/concepts/${c.day}">${I.left}${I.bolt}<span>개념 공부</span></button>
       <div class="tt">필수개념 ${pad(c.num)} ${esc(c.name)}</div>
-      <div class="qbtns">${readsHTML(cid)}${qs.length ? `<button class="btn g sm" data-cq="${cid}">기출 ${qs.length}문제 풀기</button>` : ""}</div></div>
-    <div class="mprog mob-only">${readsHTML(cid)}</div>
+      <div class="qbtns"><button class="btn o sm" data-act="clip">✂ 공식 저장</button>${readsHTML(cid)}${qs.length ? `<button class="btn g sm" data-cq="${cid}">기출 ${qs.length}문제 풀기</button>` : ""}</div></div>
+    <div class="mprog mob-only">${readsHTML(cid)}<button class="btn o sm" data-act="clip" style="margin-left:6px">✂</button></div>
     <div class="qbody">
       <section class="qleft zsc"><div class="cimgs qin">${c.imgs.map(i => `<img src="${src(i[0])}" width="${i[1]}" height="${i[2]}" alt="" draggable="false">`).join("")}</div></section>
       <section class="qright">
@@ -1303,9 +1383,36 @@ function viewConceptPage(cid){
           <div class="cv" id="cv"><canvas id="ink"></canvas><div class="penbadge" id="pb">${I.stylus}</div></div>
         </div>
       </section></div>
-    <div class="cbar"><button class="btn o" data-go="${prev ? "#/concept/" + prev.id : ""}" ${prev ? "" : "disabled"}>${I.left}이전 개념</button>
+    <div class="cbar navbar3"><button class="btn o" data-go="${prev ? "#/concept/" + prev.id : ""}" ${prev ? "" : "disabled"}>${I.left}<span class="tl-full">이전 개념</span><span class="tl-short">이전</span></button>
       <div class="cpos"><b>DAY ${pad(c.day)}</b> · ${pos} / ${inDay.length}</div>
-      <button class="btn y" data-go="${next ? "#/concept/" + next.id : ""}" ${next ? "" : "disabled"}>${next && next.day !== c.day ? "다음 DAY" : "다음 개념"}${I.right}</button></div></div>`;
+      <button class="btn o" data-go="${next ? "#/concept/" + next.id : ""}" ${next ? "" : "disabled"}><span class="tl-full">${next && next.day !== c.day ? "다음 DAY" : "다음 개념"}</span><span class="tl-short">${next && next.day !== c.day ? "다음 DAY" : "다음"}</span>${I.right}</button></div></div>`;
+}
+function startClip(){
+  const ql = $(".qleft"); if (!ql || $(".clipov")) return;
+  const ov = document.createElement("div"); ov.className = "clipov";
+  ov.innerHTML = `<div class="cliphint">저장할 부분을 손가락으로 네모나게 끌어주세요 <button class="btn o sm" data-clipx>취소</button></div><div class="cliprect"></div>`;
+  ql.appendChild(ov); ov.style.top = ql.scrollTop + "px";
+  let p0 = null; const rect = $(".cliprect", ov);
+  const loc = e => { const r = ov.getBoundingClientRect(); return { x: e.clientX - r.left, y: e.clientY - r.top }; };
+  ov.addEventListener("pointerdown", e => { if (e.target.closest("[data-clipx]")) return; p0 = loc(e); ov.setPointerCapture(e.pointerId); e.preventDefault(); });
+  ov.addEventListener("pointermove", e => { if (!p0) return; const p = loc(e);
+    Object.assign(rect.style, { display:"block", left: Math.min(p.x, p0.x) + "px", top: Math.min(p.y, p0.y) + "px", width: Math.abs(p.x - p0.x) + "px", height: Math.abs(p.y - p0.y) + "px" }); });
+  ov.addEventListener("pointerup", async e => { if (!p0) return; const p = loc(e), a = p0; p0 = null;
+    const sel = { l: Math.min(a.x, p.x), t: Math.min(a.y, p.y), w: Math.abs(p.x - a.x), h: Math.abs(p.y - a.y) };
+    if (sel.w < 20 || sel.h < 20){ rect.style.display = "none"; return; }
+    const ob = ov.getBoundingClientRect(), cx = ob.left + sel.l + sel.w / 2, cy = ob.top + sel.t + sel.h / 2;
+    const img = [...ql.querySelectorAll(".cimgs img")].find(im => { const r = im.getBoundingClientRect(); return cx >= r.left && cx <= r.right && cy >= r.top && cy <= r.bottom; });
+    if (!img){ toast("이론 이미지 위를 선택해 주세요"); rect.style.display = "none"; return; }
+    const ir = img.getBoundingClientRect(), k = img.naturalWidth / ir.width;
+    const sx = Math.max(0, (ob.left + sel.l - ir.left) * k), sy = Math.max(0, (ob.top + sel.t - ir.top) * k);
+    const sw = Math.min(img.naturalWidth - sx, sel.w * k), sh = Math.min(img.naturalHeight - sy, sel.h * k);
+    const cv = document.createElement("canvas"); cv.width = Math.round(sw); cv.height = Math.round(sh);
+    cv.getContext("2d").drawImage(img, sx, sy, sw, sh, 0, 0, cv.width, cv.height);
+    const id = "clip" + Date.now().toString(36);
+    await IDB.put(id, { cid: CP.cid, img: cv.toDataURL("image/webp", .85), w: cv.width, h: cv.height, ts: Date.now() }, "clips");
+    S.changedAt = Date.now(); save(); ov.remove(); toast("공식 노트에 저장했어요 (필기노트에서 볼 수 있어요)");
+  });
+  ov.addEventListener("click", e => { if (e.target.closest("[data-clipx]")) ov.remove(); });
 }
 function cpTab(t, user){
   if (isMob() && user && t === CP.tab) t = "q";
@@ -1525,12 +1632,13 @@ function renderQuiz(){
   renderTop();
   if (QZ.exam){
     tick(true); renderExamLeft(); renderStat(); setTab(QZ.tab);
-    Ink.load("mock:" + q.id, { nosave:true }); return;
+    Ink.load(S.prefs.pad === "cont" ? "pad:" + QZ.set.key : "mock:" + q.id, { nosave:true }); return;
   }
   const a = ss.ans[q.id];
   $("#resb").innerHTML = a ? `<span class="res ${a.res}">${a.res === "O" ? I.check + (a.guess ? "정답(찍음)" : "정답") : a.res === "X" ? I.x + "오답" : "△ 해설 봄"}</span>` : "";
   renderLeft(); renderAns(); renderStat(); setTab(QZ.tab);
-  Ink.load(q.id); qTimerTick();
+  if (S.prefs.pad === "cont") Ink.load("pad:" + QZ.set.key, { nosave:true }); else Ink.load(q.id);
+  qTimerTick();
 }
 function renderAns(){
   const q = curQ(), a = sess(QZ.set.key).ans[q.id];
@@ -1544,7 +1652,12 @@ function renderAns(){
       <div class="box score">정답 <i>${q.answer}</i><span class="sep"></span>내 답 <i class="${a.res === "O" ? "" : a.res === "X" ? "r" : "t"}">${a.sel || "–"}</i></div></div></div>
     <div class="step"><div class="rail"><span class="ring y"></span></div><div class="bd"><h4>해설</h4>
       <div class="box">${q.e.length ? "" : `<p class="cdesc">이 문제는 해설이 없어요</p>`}<div class="eimg" data-zoom="${q.id}:e">${q.e.map(i => `<img src="${src(i[0])}" width="${i[1]}" height="${i[2]}" alt="해설">`).join("")}</div>
-      ${q.conceptId ? `<button class="clink" data-concept="${q.conceptId}">${I.book}<span>필수개념 ${pad(q.concept)} ${esc(q.conceptName)}<small>이론 다시 보기</small></span>${I.open}</button>` : ""}</div></div></div></div>`;
+      ${q.conceptId ? `<button class="clink" data-concept="${q.conceptId}">${I.book}<span>필수개념 ${pad(q.concept)} ${esc(q.conceptName)}<small>이론 다시 보기</small></span>${I.open}</button>` : ""}</div>
+      ${a.res !== "O" || a.guess ? `<div class="whybox"><b>왜 틀렸나요?</b>${WHY.map(([k, l]) => `<button class="chipb ${(S.why[q.id] || {}).r === k ? "on" : ""}" data-why="${q.id}|${k}">${l}</button>`).join("")}</div>` : ""}
+      <div class="memobox"><b>${I.note}한 줄 메모</b><textarea id="memo" data-qid="${q.id}" rows="2" placeholder="예: √3 빼먹지 말 것">${esc((S.memos[q.id] || {}).t || "")}</textarea></div>
+    </div></div></div>`;
+  const mt = $("#memo"); if (mt) mt.oninput = () => { clearTimeout(mt._t); mt._t = setTimeout(() => { const v = mt.value.trim(); S.memos[mt.dataset.qid] = { t: v, ts: Date.now() }; save(); }, 400); };
+  $("#ansp").scrollTop = 0;
 }
 function renderExamStat(){
   const m = QZ.exam, done = m.ids.filter(id => m.ans[id]).length;
@@ -1674,6 +1787,7 @@ function viewReview(r, ref, isHist){
       <button class="sbtn ${sc ? "on" : ""}" data-rscrap="${q.id}">${I.star}${sc ? "스크랩됨" : "스크랩"}</button></div>
       <div class="rbody"><div class="rq" data-zoom="${q.id}:q">${q.q.map(i => `<img loading="lazy" src="${src(i[0])}" width="${i[1]}" height="${i[2]}" alt="">`).join("")}</div>
       <div class="re" data-zoom="${q.id}:e">${q.e.length ? q.e.map(i => `<img loading="lazy" src="${src(i[0])}" width="${i[1]}" height="${i[2]}" alt="">`).join("") : `<p class="cdesc" style="padding:12px">해설이 없어요</p>`}</div></div>
+      ${(S.memos[q.id] || {}).t ? `<div class="rmemo">${I.note}${esc(S.memos[q.id].t)}</div>` : ""}${(S.why[q.id] || {}).r ? `<span class="whytag">${(WHY.find(w => w[0] === S.why[q.id].r) || ["", ""])[1]}</span>` : ""}
       ${conceptLink(q, "tlink", " 보기")}</div>`; };
   const refAttr = (isHist ? "h:" : "r:") + ref;
   return shell(isHist ? "hist" : "home", `<div class="page"><h1 class="h1">${esc(r.title)} 결과</h1>
@@ -1983,7 +2097,7 @@ async function deleteItems(page, ids){
     const ss = S.sessions[h.key]; if (ss && ss.hid === id){ ss.ans = {}; ss.pos = 0; ss.hid = null; ss.updated = Date.now(); }
     S.histDel[id] = Date.now(); delete S.hist[id]; });
   if (page === "scrap"){ ids.forEach(id => { S.scrapMap[id] = { on:false, ts: Date.now() }; }); syncScrapList(); }
-  if (page === "notes") for (const k of ids){ await IDB.del(k); markNoteDel(k); }
+  if (page === "notes") for (const k of ids){ if (k.startsWith("clip")){ await IDB.del(k, "clips"); S.clipDel[k] = Date.now(); } else { await IDB.del(k); markNoteDel(k); } }
   save();
 }
 function scrapIds(f){ return S.scraps.filter(id => Q[id] && (f === "all" || Q[id].subject === f)); }
@@ -2005,14 +2119,16 @@ function viewScrap(){
 function viewHistory(){
   const hs = Object.values(S.hist).filter(h => histCounts(h).n).sort((a, b) => b.updated - a.updated);
   const st = { done:["완료","ok"], run:["진행 중","run"], quit:["중단","no"] };
-  return shell("hist", `<div class="page"><h1 class="h1">학습 기록</h1><span class="chip">문제를 푼 묶음마다 기록이 남아요 <span>${hs.length}개</span></span>
+  const wc = {}; Object.values(S.why).forEach(v => { if (v.r) wc[v.r] = (wc[v.r] || 0) + 1; }); const wt = Object.values(wc).reduce((a, b) => a + b, 0);
+  const whyCard = wt ? `<div class="card whycard"><p class="eyebrow">내가 틀리는 이유 (${wt}문제)</p>${WHY.filter(([k]) => wc[k]).sort((a, b) => wc[b[0]] - wc[a[0]]).map(([k, l]) => `<div class="wrow"><span>${l}</span><div class="bar"><i style="width:${wc[k] / wt * 100}%"></i></div><b>${Math.round(wc[k] / wt * 100)}%</b></div>`).join("")}</div>` : "";
+  return shell("hist", `<div class="page"><h1 class="h1">학습 기록</h1><span class="chip">문제를 푼 묶음마다 기록이 남아요 <span>${hs.length}개</span></span>${whyCard}
     ${selBar("hist", hs.map(h => h.id))}
     ${hs.length ? `<div class="hlist">${hs.map(h => { const c = histCounts(h), [sl, sc] = st[h.status] || ["", ""];
       return `<div class="hrow ${selCls(h.id)}" data-selid="${h.id}" data-go="#/hist/${h.id}"><span class="kpill">${esc(h.kind)}</span><div class="hmain"><b>${esc(h.title)}</b><small>${new Date(h.updated).toLocaleString("ko-KR")}${h.sec ? ` · ${fmtDur(h.sec)}` : ""}</small></div>
         <div class="hnums"><span>${h.ids.length}문제</span><span class="gr">맞힘 ${c.o}</span><span class="rd">오답 ${c.x + c.t}</span></div><span class="pill ${sc}">${sl}</span></div>`; }).join("")}</div>`
       : `<div class="empty"><b>아직 기록이 없어요</b>DAY·자율 학습·스크랩·모의고사 문제를 풀면 여기에 쌓여요</div>`}</div>`);
 }
-let NOTES = {};
+let NOTES = {}, CLIPS = {};
 function drawThumb(cv, rec){
   const box = cv.parentElement;
   let x0 = 1e9, y0 = 1e9, x1 = 0, y1 = 0;
@@ -2025,6 +2141,8 @@ function drawThumb(cv, rec){
 }
 async function viewNotes(){
   const all = await IDB.all(); NOTES = all;
+  const clips = await IDB.all("clips"); CLIPS = clips;
+  const kids = Object.keys(clips).sort((a, b) => (clips[b].ts || 0) - (clips[a].ts || 0));
   const ids = Object.keys(all).filter(id => Q[id]).sort((a, b) => (all[b].ts || 0) - (all[a].ts || 0));
   const cids = Object.keys(all).filter(k => k.startsWith("concept:") && C[k.slice(8)]).sort((a, b) => (all[b].ts || 0) - (all[a].ts || 0));
   const csec = cids.length ? `<div class="subjhead">개념 노트</div><div class="nlist">${cids.map(k => { const c = C[k.slice(8)]; return `<div class="ncard ${selCls(k)}" data-selid="${k}" data-go="#/concept/${c.id}">
@@ -2033,8 +2151,11 @@ async function viewNotes(){
   const body = ids.length ? `<div class="nlist">${ids.map(id => { const q = Q[id]; return `<div class="ncard ${selCls(id)}" data-selid="${id}" data-note="${id}">
       <div class="pv"><div><img src="${src(q.q[0][0])}"></div><div><canvas data-thumb="${id}"></canvas></div></div>
       <div class="ft"><b>${whereOf(q).replace(" ", " · ")}</b><span>${esc(q.conceptName)}<br>${ago(all[id].ts || Date.now())}</span></div></div>`; }).join("")}</div>`
-    : cids.length ? `<div class="empty" style="margin-top:12px">저장한 문제 필기가 없어요</div>` : `<div class="empty"><b>저장한 필기가 없어요</b>문제 풀이 캔버스에서 ‘필기 저장’을 켜거나, 개념 공부 메모장에 쓰면 여기에 모여요</div>`;
-  $("#app").innerHTML = shell("notes", `<div class="page"><h1 class="h1">필기노트</h1><span class="chip">문제·개념과 내 필기를 함께 다시 볼 수 있어요 <span>${ids.length + cids.length}개</span></span>${selBar("notes", [...cids, ...ids])}${csec}${body}</div>`);
+    : (cids.length || kids.length) ? "" : `<div class="empty"><b>저장한 필기가 없어요</b>문제 풀이 캔버스에서 ‘필기 저장’을 켜거나, 개념 공부 메모장에 쓰면 여기에 모여요</div>`;
+  $("#app").innerHTML = shell("notes", `<div class="page"><h1 class="h1">필기노트</h1><span class="chip">공식·개념·문제 필기를 모아 봐요 <span>${ids.length + cids.length + kids.length}개</span></span>${selBar("notes", [...kids, ...cids, ...ids])}
+    ${kids.length ? `<div class="subjhead">공식 노트 <small class="cdesc">개념 공부 화면의 ✂ 공식 저장</small></div><div class="clipgrid">${kids.map(k => { const c = clips[k], cc = C[c.cid];
+      return `<div class="clipcard ${selCls(k)}" data-selid="${k}" data-clip="${k}"><img src="${c.img}" alt=""><span>${cc ? `DAY ${pad(cc.day)} · ${esc(cc.name)}` : ""}</span></div>`; }).join("")}</div>` : ""}
+    ${csec}${body}</div>`);
   document.querySelectorAll("[data-thumb]").forEach(cv => drawThumb(cv, all[cv.dataset.thumb]));
 }
 function openNote(id){
@@ -2065,12 +2186,14 @@ async function viewPrint(day){
   const keys = Object.keys(all).filter(k => k.startsWith("concept:") && C[k.slice(8)] && (!+day || C[k.slice(8)].day === +day))
     .sort((a, b) => D.concepts.findIndex(c => "concept:" + c.id === a) - D.concepts.findIndex(c => "concept:" + c.id === b));
   const days = [...new Set(Object.keys(all).filter(k => k.startsWith("concept:") && C[k.slice(8)]).map(k => C[k.slice(8)].day))].sort((a, b) => a - b);
+  const clipsP = Object.values(await IDB.all("clips")).filter(c => !+day || (C[c.cid] && C[c.cid].day === +day)).sort((a, b) => (D.concepts.findIndex(x => x.id === a.cid)) - (D.concepts.findIndex(x => x.id === b.cid)));
+  const clipSec = clipsP.length ? `<section class="ppage"><h2>공식 노트 (${clipsP.length})</h2><div class="pclips">${clipsP.map(c => `<figure><img src="${c.img}"><figcaption>${C[c.cid] ? `DAY ${pad(C[c.cid].day)} · ${esc(C[c.cid].name)}` : ""}</figcaption></figure>`).join("")}</div></section>` : "";
   $("#app").innerHTML = `<div class="printwrap"><div class="pbar noprint"><button class="btn o sm" data-go="#/settings">${I.left}설정</button>
       <b>개념 노트 출력</b><select id="pday">${["<option value='0'>전체 DAY</option>", ...days.map(d => `<option value="${d}" ${+day === d ? "selected" : ""}>DAY ${pad(d)}</option>`)].join("")}</select>
-      <span class="cdesc">${keys.length}개 개념</span><button class="btn y sm" data-act="doprint">인쇄 / PDF 저장</button></div>
+      <span class="cdesc">${keys.length}개 개념 · 공식 ${clipsP.length}개</span><button class="btn y sm" data-act="doprint">인쇄 / PDF 저장</button></div>
     ${keys.length ? keys.map(k => { const c = C[k.slice(8)]; return `<section class="ppage"><h2>DAY ${pad(c.day)} · 필수개념 ${pad(c.num)} ${esc(c.name)}</h2>
-      <div class="pcols"><div class="pimg">${c.imgs.map(i => `<img src="${src(i[0])}">`).join("")}</div><div class="pnote"><canvas data-pk="${k}"></canvas></div></div></section>`; }).join("")
-      : `<div class="empty noprint">출력할 개념 노트가 없어요. 개념 공부 화면 오른쪽 메모장에 필기하면 여기서 출력할 수 있어요.</div>`}</div>`;
+      <div class="pcols"><div class="pimg">${c.imgs.map(i => `<img src="${src(i[0])}">`).join("")}</div><div class="pnote"><canvas data-pk="${k}"></canvas></div></div></section>`; }).join("") + clipSec
+      : clipSec ? "" : `<div class="empty noprint">출력할 개념 노트가 없어요. 개념 공부 화면 오른쪽 메모장에 필기하면 여기서 출력할 수 있어요.</div>`}</div>`;
   $("#pday").onchange = e => location.hash = "#/print/" + e.target.value;
   document.querySelectorAll("[data-pk]").forEach(cv => { const rec = all[cv.dataset.pk]; renderInkTo(cv, rec, cv.parentElement.offsetWidth || 300);
     const img = new Image(); img.src = cv.toDataURL("image/png"); img.className = "pnoteimg"; cv.replaceWith(img); });
@@ -2099,6 +2222,7 @@ function viewSettings(){
     <div class="setrow"><div><b>펜 색</b></div>${segs("color", [["k","검정"],["b","파랑"],["r","빨강"]], P.color || "k")}</div>
     <div class="setrow"><div><b>펜 굵기</b></div>${segs("size", [[0,"가늘게"],[1,"보통"],[2,"굵게"],[3,"아주 굵게"]], P.size ?? 1)}</div>
     <div class="setrow"><div><b>격자</b></div>${segs("grid", [[1,"켜기"],[0,"끄기"]], P.grid ? 1 : 0)}</div>
+    <div class="setrow"><div><b>연습장 방식</b><small>이어 쓰기: 한 묶음을 푸는 동안 같은 연습장을 계속 써요 (필기노트 저장은 꺼져요).</small></div>${segs("pad", [["each","문제마다 새로"],["cont","이어 쓰기"]], P.pad || "each")}</div>
     <div class="setrow"><div><b>펜 전용</b><small>켜면 손가락은 필기 대신 이동·확대에 쓰여요.</small></div>${segs("penOnly", [[1,"켜기"],[0,"끄기"]], P.penOnly ? 1 : 0)}</div>
   </div>
   <div class="card" style="max-width:900px;margin-top:16px"><p class="eyebrow">기록 · 동기화</p>
@@ -2139,7 +2263,8 @@ async function restoreBackup(k){
 async function doExport(){
   Ink.flush();
   const notes = await IDB.all();
-  const blob = JSON.stringify({ app:"elec21", v:2, at:new Date().toISOString(), state:S, notes });
+  const clips = await IDB.all("clips");
+  const blob = JSON.stringify({ app:"elec21", v:2, at:new Date().toISOString(), state:S, notes, clips });
   const name = `전기기사21일_백업_${todayStr()}.json`;
   if (window.Android && window.Android.saveFile){ window.Android.saveFile(name, blob); return; }
   const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([blob], { type:"application/json" })); a.download = name; a.click();
@@ -2151,6 +2276,7 @@ async function doImport(file){
     if (j.app !== "elec21") throw 0;
     const prefs = S.prefs; S = Object.assign(S, j.state); S.prefs = prefs; save();
     for (const [k, v] of Object.entries(j.notes || {})) await IDB.put(k, v);
+    for (const [k, v] of Object.entries(j.clips || {})) await IDB.put(k, v, "clips");
     toast("백업을 불러왔어요"); route();
   } catch(e){ toast("이 앱의 백업 파일이 아니에요"); }
 }
@@ -2167,6 +2293,9 @@ function mergeState(R){
   for (const [k, v] of Object.entries(R.histDel || {})) S.histDel[k] = Math.max(S.histDel[k] || 0, v);
   by(S.hist, R.hist || {}, v => v.updated);
   by(S.srs, R.srs || {}, v => v.ts);
+  by(S.memos, R.memos || {}, v => v.ts);
+  by(S.why, R.why || {}, v => v.ts);
+  for (const [k, v] of Object.entries(R.clipDel || {})) S.clipDel[k] = Math.max(S.clipDel[k] || 0, v);
   for (const [k, t] of Object.entries(S.histDel)) if (S.hist[k] && (S.hist[k].updated || 0) <= t) delete S.hist[k];
   by(S.scrapMap, R.scrapMap, v => v.ts);
   S.scraps = Object.keys(S.scrapMap).filter(k => S.scrapMap[k].on);
@@ -2176,6 +2305,11 @@ function mergeState(R){
   S.attend = [...new Set([...(S.attend || []), ...(R.attend || [])])].sort().slice(-400);
   if ((R.examTs || 0) > (S.examTs || 0)){ S.examDate = R.examDate; S.examTs = R.examTs; }
   if ((R.lastTs || 0) > (S.lastTs || 0)){ S.last = R.last; S.lastTs = R.lastTs; }
+}
+async function mergeClips(remote){
+  const local = await IDB.all("clips");
+  for (const [k, v] of Object.entries(remote || {})){ if ((S.clipDel[k] || 0) >= (v.ts || 0)) continue; if (!local[k]) await IDB.put(k, v, "clips"); }
+  for (const [k, v] of Object.entries(local)) if ((S.clipDel[k] || 0) >= (v.ts || 0)) await IDB.del(k, "clips");
 }
 async function mergeNotes(remote){
   const local = await IDB.all();
@@ -2245,16 +2379,23 @@ const Sync = {
       const remoteChanged = !!f && String(f.version) !== String(S.gd.ver);
       const localChanged = (S.changedAt || 0) > (S.syncAt || 0);
       if (!force && !manual && !remoteChanged && !localChanged){ this.busy = false; return; }
+      const fp = () => JSON.stringify(Object.assign({}, S, { prefs:0, gd:0, syncAt:0, syncErr:0, changedAt:0 })) + Object.keys(S.notes).length;
+      let dataChanged = false;
       if (f && (remoteChanged || force || manual)){
+        const before = fp();
         const txt = await GD.download(f.id);
-        if (txt.trim()){ const r = JSON.parse(txt); if (r.app === "elec21"){ mergeState(r.state); await mergeNotes(r.notes); } }
+        if (txt.trim()){ const r = JSON.parse(txt); if (r.app === "elec21"){ mergeState(r.state); await mergeNotes(r.notes); await mergeClips(r.clips || {}); } }
+        dataChanged = fp() !== before;
       }
+      if (!manual && !force && !localChanged && !dataChanged){ S.gd.ver = f ? f.version : S.gd.ver; save(true); this.busy = false; return; }
       const notes = await IDB.all();
-      const out = JSON.stringify({ app:"elec21", v:3, at: Date.now(), state: Object.assign({}, S, { prefs: undefined, gd: undefined }), notes });
+      const clips = await IDB.all("clips");
+      const out = JSON.stringify({ app:"elec21", v:3, at: Date.now(), state: Object.assign({}, S, { prefs: undefined, gd: undefined }), notes, clips });
       const up = await GD.upload(f ? f.id : null, out);
       S.gd.fileId = up.id; S.gd.ver = up.version; S.syncAt = Date.now(); S.syncErr = ""; save(true);
       if (manual) toast("구글 드라이브와 동기화했어요");
-      if ((remoteChanged || force) && !QZ && !CP && !document.querySelector(".modal")) route();
+      const typing = document.activeElement && /INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName);
+      if (dataChanged && !QZ && !CP && !document.querySelector(".modal") && !typing && !location.hash.startsWith("#/settings")) keepScroll();
     } catch(e){
       S.syncErr = String(e).slice(0, 80); save(true);
       if (manual) toast(S.syncErr === "NEED_LOGIN" ? "구글 로그인이 필요해요. 설정에서 다시 연결해 주세요" : "동기화하지 못했어요: " + S.syncErr);
@@ -2322,6 +2463,10 @@ document.addEventListener("click", async e => {
     if (c){ e.preventDefault(); e.stopPropagation(); const id = c.dataset.selid; SEL.ids.has(id) ? SEL.ids.delete(id) : SEL.ids.add(id);
       c.classList.toggle("chk", SEL.ids.has(id)); const bar = $(".selctl"); if (bar) bar.outerHTML = selBar(SEL.page, SEL.all); return; }
   }
+  const cl = !SEL.page && e.target.closest("[data-clip]");
+  if (cl){ const c = CLIPS[cl.dataset.clip]; if (c){ const m = document.createElement("div"); m.className = "modal zpop";
+    m.innerHTML = `<div class="zcard"><div class="zsc"><div class="zin"><img src="${c.img}"></div></div><button class="x zx" data-close>${I.x}</button>${c.cid && C[c.cid] ? `<div class="zhint"><button class="btn y sm" data-go="#/concept/${c.cid}">개념으로 가기</button></div>` : ""}</div>`;
+    m.addEventListener("click", ev => { if (ev.target === m || ev.target.closest("[data-close]")) m.remove(); }); document.body.appendChild(m); } return; }
   const z = e.target.closest("[data-zoom]");
   if (z && !e.target.closest(".modal.zpop")){ const [id, part] = z.dataset.zoom.split(":"); if (Q[id]) openZoom(Q[id][part].map(i => i[0])); return; }
   const rd = e.target.closest("[data-read]");
@@ -2349,6 +2494,13 @@ document.addEventListener("click", async e => {
     if (d.sgrade){ P.selfGrade = d.sgrade; keep(); return; }
     if (d.shuf !== undefined){ P.selfShuffle = P.selfShuffle === false; keep(); return; }
   }
+  const wy = e.target.closest("[data-why]");
+  if (wy){ const [id, k] = wy.dataset.why.split("|"); const cur = (S.why[id] || {}).r;
+    S.why[id] = cur === k ? { r:"", ts: Date.now() } : { r: k, ts: Date.now() }; save();
+    wy.parentElement.querySelectorAll("[data-why]").forEach(b => b.classList.toggle("on", b === wy && cur !== k)); return; }
+  const ps = e.target.closest("[data-psubj]");
+  if (ps){ const sj = SUBJ5.find(x => x.n === +ps.dataset.psubj); let ids = shuffle(D.questions.filter(q => sj.from.includes(q.subject) && q.grade === "A").map(q => q.id));
+    newSession("self", ids, `${sj.name} · A등급 ${ids.length}문제`); location.hash = "#/quiz/self"; return; }
   const pf = e.target.closest("[data-pref]");
   if (pf){ const [k, v] = pf.dataset.pref.split("|"); const num = ["qTimer","size"].includes(k), bool = ["hideReveal","grid","penOnly"].includes(k);
     S.prefs[k] = bool ? v === "1" : num ? +v : v; save(true); applyTheme(); keepScroll(); return; }
@@ -2404,6 +2556,8 @@ document.addEventListener("click", async e => {
   else if (a === "resetall"){ if (await ask("모든 풀이 기록을 지울까요?")){ S.sessions = {}; S.qstat = {}; S.mocks = []; S.reviews = {}; S.rounds = {}; S.hist = {}; setLast(null); S.attend = [todayStr()]; save(); route(); } }
   else if (a === "otacheck") OTA.check(true);
   else if (a === "review") startReview();
+  else if (a === "final"){ const ids = finalIds(); if (!ids.length){ toast("남은 문제가 없어요"); } else { newSession("final", ids, `시험 직전 세트 ${ids.length}문제`); location.hash = "#/quiz/final"; } }
+  else if (a === "clip") startClip();
   else if (a === "guess"){ QZ.guess = !QZ.guess; const b = $("#guessb"); if (b) b.classList.toggle("on", QZ.guess); }
   else if (a === "__never"){}
   else if (a === "scrapgrad"){ S.prefs.scrapGrad = S.prefs.scrapGrad === false; save(true); route(); }
@@ -2414,7 +2568,7 @@ document.addEventListener("click", async e => {
   else if (a === "syncoff"){ if (await ask("드라이브 동기화 연결을 해제할까요?<br>이 기기의 기록은 그대로 남아요.")){ Sync.disconnect(); route(); } }
 });
 document.addEventListener("keydown", e => {
-  if (document.querySelector(".modal")) return;
+  if (document.querySelector(".modal") || /INPUT|TEXTAREA|SELECT/.test((document.activeElement || {}).tagName || "")) return;
   if (CP){ const bs = document.querySelectorAll(".cbar [data-go]"); if (e.key === "ArrowLeft" && bs[0] && bs[0].dataset.go) location.hash = bs[0].dataset.go; if (e.key === "ArrowRight" && bs[1] && bs[1].dataset.go) location.hash = bs[1].dataset.go; return; }
   if (!QZ) return;
   if (e.key === "ArrowRight") go(1); if (e.key === "ArrowLeft") go(-1); if (["1","2","3","4"].includes(e.key)) answer(+e.key);
