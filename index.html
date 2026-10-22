@@ -859,6 +859,52 @@ body.dark .memobox textarea{background:#2A261E}
 .clipcard span{font-size:calc(var(--fs) * 12);color:var(--sub)}
 .pclips{display:grid;grid-template-columns:1fr 1fr;gap:10px}.pclips figure{margin:0;border:1px solid #ddd;border-radius:8px;padding:6px;break-inside:avoid}.pclips img{width:100%}.pclips figcaption{font-size:11px;color:#666}
 .subjhead small{font-weight:400;margin-left:6px}
+/* v14 */
+.kchip{display:inline-block;border-radius:7px;padding:2px 8px;font-size:calc(var(--fs) * 12);font-weight:700;flex:none}
+.kchip.calc{background:#E4EEFD;color:#2D5BD8}.kchip.memo{background:#EFE9FB;color:#7048C8}
+body.dark .kchip.calc{background:#1E2A44;color:#8FB0F5}body.dark .kchip.memo{background:#2C2440;color:#B9A2F0}
+.samec{margin-top:14px}
+.fcard{max-width:720px;margin:20px auto 0;background:#fff;border-radius:28px;padding:34px 30px;text-align:center;border:1px solid #F3EFE2;display:flex;flex-direction:column;align-items:center;gap:12px}
+.fmeta{color:var(--sub);font-size:calc(var(--fs) * 14)}.fname{font-size:calc(var(--fs) * 26);font-weight:800}
+.fimg{width:100%;background:#fff;border-radius:16px;padding:8px;border:1px solid var(--line)}.fimg img{width:100%;max-height:50vh;object-fit:contain}
+body.dark .fcard{background:var(--card)}
+.wkrep .wkrange{color:var(--sub);margin-bottom:10px;font-size:calc(var(--fs) * 14)}
+.wkcard{margin:16px 0 4px;max-width:640px}.wkcard summary{display:flex;justify-content:space-between;cursor:pointer;list-style:none}.wkcard[open] summary{margin-bottom:12px}
+.splitter{display:none}
+@media (min-width: 821px){
+  .splitter{display:block;flex:none;width:12px;margin:0 -7px;cursor:col-resize;position:relative;z-index:3;touch-action:none}
+  .splitter::after{content:"";position:absolute;left:4px;top:50%;width:4px;height:56px;margin-top:-28px;border-radius:4px;background:#D9D3C2}
+  .splitter:hover::after,body.splitting .splitter::after{background:var(--yellow)}
+  body.splitting{cursor:col-resize}
+}
+.sbtn2{display:inline-flex;align-items:center;gap:6px;background:#fff;border-radius:99px;padding:7px 14px;font-size:calc(var(--fs) * 14);color:var(--ink);text-decoration:none}
+.sbtn2 svg{width:16px;height:16px}
+body.dark .sbtn2{background:var(--card)}
+.sbox{display:flex;align-items:center;gap:10px;background:#fff;border:1.5px solid var(--line2);border-radius:16px;padding:0 16px;margin-top:6px;max-width:720px}
+.sbox input{flex:1;height:52px;border:0;outline:0;font:inherit;font-size:calc(var(--fs) * 17);background:transparent;color:var(--ink);-webkit-user-select:text;user-select:text}
+body.dark .sbox{background:var(--card)}
+.sgroup{margin-top:18px;max-width:900px}.sgroup>b{display:block;margin-bottom:8px}
+.srow{display:flex;align-items:center;gap:10px;background:#fff;border-radius:14px;padding:12px 16px;margin-bottom:6px;cursor:pointer;border:1px solid #F3EFE2}
+.srow span:not(.gb){flex:1;min-width:0}.srow .gb{flex:none}.srow small{color:var(--sub);flex:none}
+body.dark .srow{background:var(--card)}
+/* CBT exam-room look */
+.qwrap.cbtui{background:#E6E9ED}
+.cbtui .qtop{background:#22364A;border-bottom:0}.cbtui .qtop .tt,.cbtui .prog,.cbtui .prog b{color:#fff}.cbtui .qtop .lg{background:#1A2A3A;color:#fff}
+.cbtui .qtop .btn.o{background:#E6E9ED;border:0;border-radius:6px}.cbtui .qtop .btn.k{background:#E4553F;color:#fff;border-radius:6px}
+.cbtui .timer{background:#fff;color:#22364A;border-radius:6px}
+.cbtui .qleft,.cbtui .qright{border-radius:6px}.cbtui .qbody{background:#E6E9ED}
+.cbtui .ch{border-radius:6px}.cbtui .ch.pick{background:#DCE8F7;border-color:#2D5BD8;color:#22364A}.cbtui .ch.pick .k{background:#2D5BD8;color:#fff}
+.cbtui .grade{background:#22364A;color:#fff;border-radius:6px}
+.cbtui .tabs button.on{background:#F1F3F5;border-bottom-color:#22364A}
+.omrhead{display:flex;justify-content:space-between;padding:12px 16px;background:#22364A;color:#fff;font-weight:700}
+.omrlist{padding:6px 10px}
+.omrrow{display:grid;grid-template-columns:44px repeat(4,1fr);gap:6px;align-items:center;padding:4px 6px;border-radius:6px}
+.omrrow.cur{background:#FFF6D6}.omrrow.un .omrno{color:#E4553F}
+.omrno{font-weight:700;text-align:left}
+.omrc{height:30px;border-radius:50%;border:1.5px solid #9AA5B1;color:#5B6875;font-size:calc(var(--fs) * 13);max-width:30px;justify-self:center;width:30px}
+.omrc.on{background:#22364A;border-color:#22364A;color:#fff}
+.omrfoot{position:sticky;bottom:0;padding:10px;background:#fff;border-top:1px solid var(--line);text-align:center}
+body.dark .omrfoot{background:var(--card)}
 </style>
 </head>
 <body>
@@ -898,7 +944,7 @@ const src = p => (window.__IMG && window.__IMG[p]) || p;
 const $ = (s, r = document) => r.querySelector(s);
 
 /* app version + online update (screen files from GitHub) */
-const APP_VERSION = "2026102209";
+const APP_VERSION = "2026102210";
 const OTA_BASE = "https://raw.githubusercontent.com/kr302hs-code/elec21-web/main/";
 const b64of = buf => { let s = "", a = new Uint8Array(buf); for (let i = 0; i < a.length; i += 0x8000) s += String.fromCharCode.apply(null, a.subarray(i, i + 0x8000)); return btoa(s); };
 const OTA = {
@@ -944,14 +990,30 @@ async function loadState(){
   try { st = await IDB.get("S", "state"); } catch(e){}
   if (!st){ try { st = JSON.parse(localStorage.getItem(KEY) || "null"); } catch(e){ st = null; } }
   S = Object.assign({ sessions:{}, last:null, lastTs:0, scraps:[], scrapMap:{}, attend:[], qstat:{}, notes:{}, noteDel:{}, mocks:[],
-    reviews:{}, rounds:{}, creads:{}, hist:{}, histDel:{}, srs:{}, memos:{}, why:{}, clipDel:{}, prefs:{ size:1, grid:true, penOnly:true } }, st || {});
+    reviews:{}, rounds:{}, creads:{}, hist:{}, histDel:{}, srs:{}, memos:{}, why:{}, clipDel:{}, clipSrs:{}, daySec:{}, prefs:{ size:1, grid:true, penOnly:true } }, st || {});
   ["mocks","attend"].forEach(k => { if (!Array.isArray(S[k])) S[k] = []; });
-  ["reviews","rounds","creads","scrapMap","noteDel","notes","qstat","sessions","hist","histDel","srs","memos","why","clipDel"].forEach(k => { if (!S[k] || typeof S[k] !== "object") S[k] = {}; });
+  ["reviews","rounds","creads","scrapMap","noteDel","notes","qstat","sessions","hist","histDel","srs","memos","why","clipDel","clipSrs","daySec"].forEach(k => { if (!S[k] || typeof S[k] !== "object") S[k] = {}; });
   S.scraps.forEach(id => { if (!S.scrapMap[id]) S.scrapMap[id] = { on:true, ts:1 }; });
   if (!S.migrIDB){ S.migrIDB = true; await IDB.put("S", JSON.parse(JSON.stringify(S)), "state"); try { localStorage.removeItem(KEY); } catch(e){} }
 }
 let persistT = null;
-function persist(){ clearTimeout(persistT); persistT = null; try { IDB.put("S", JSON.parse(JSON.stringify(S)), "state"); } catch(e){ toast("저장하지 못했어요"); } }
+let sumT = 0;
+function setReminder(){
+  if (!(window.Android && Android.setReminder)) return;
+  const [h, m] = (S.prefs.remindTime || "20:00").split(":").map(Number);
+  Android.setReminder(!!S.prefs.remind, h || 0, m || 0);
+}
+function pushSummary(){
+  if (!(window.Android && Android.setSummary) || !D) return;
+  const n = Date.now(); if (n - sumT < 4000) return; sumT = n;
+  const t = todayStr(), due = srsDue().length;
+  let dd = "전기기사 21일"; if (S.examDate){ const diff = Math.ceil((new Date(S.examDate + "T00:00:00") - new Date(t + "T00:00:00")) / 86400000); dd = diff > 0 ? `D-${diff}` : diff === 0 ? "D-DAY" : `D+${-diff}`; }
+  let streak = 0; const days = new Set(S.attend), c = new Date(); if (!days.has(t)) c.setDate(c.getDate() - 1);
+  while (days.has(ymd(c))){ streak++; c.setDate(c.getDate() - 1); }
+  const l1 = due ? `오늘 복습 ${due}문제` : "오늘 복습 완료", l2 = `연속 ${streak}일 · 오늘 ${days.has(t) ? "공부함 ✓" : "아직"}`;
+  try { Android.setSummary(dd, l1, l2, `${dd === "전기기사 21일" ? "" : dd + " · "}오늘도 공부할 시간이에요`, due ? `오늘 복습할 문제 ${due}개가 기다리고 있어요` : "오늘의 DAY를 이어서 풀어볼까요?"); } catch(e){}
+}
+function persist(){ clearTimeout(persistT); persistT = null; pushSummary(); try { IDB.put("S", JSON.parse(JSON.stringify(S)), "state"); } catch(e){ toast("저장하지 못했어요"); } }
 var save = function(quiet){
   if (!quiet) S.changedAt = Date.now();
   clearTimeout(persistT); persistT = setTimeout(persist, 300);
@@ -971,6 +1033,27 @@ function finalIds(){
   const order = [...D.questions.filter(q => q.dap).map(q => q.id), ...srsDue(), ...S.scraps.filter(id => Q[id]),
     ...D.questions.filter(q => q.grade === "A" && !okd(q.id)).map(q => q.id)];
   return [...new Set(order)].slice(0, 120);
+}
+const cardDue = keys => keys.filter(k => { const v = S.clipSrs[k]; return !(v && v.done) && (!v || v.due <= todayStr()); });
+let CARD = null;
+async function viewCards(){
+  const clips = await IDB.all("clips"), due = shuffle(cardDue(Object.keys(clips)));
+  CARD = { list: due, i: 0, shown: false, clips, ok: 0 }; renderCard();
+}
+function renderCard(){
+  const c = CARD, k = c.list[c.i], cl = k && c.clips[k], cc = cl && C[cl.cid];
+  const body = !c.list.length ? `<div class="empty"><b>오늘 볼 공식 카드가 없어요</b>개념 공부 화면에서 ✂ 공식 저장으로 카드를 만들 수 있어요</div>`
+    : !k ? `<div class="empty"><b>오늘 카드 끝! 🎉</b>${c.list.length}장 중 ${c.ok}장을 기억했어요. 헷갈린 카드는 내일 다시 나와요<div class="acts" style="justify-content:center;margin-top:16px"><button class="btn y" data-go="#/notes">필기노트로</button></div></div>`
+    : `<div class="fcard ${c.shown ? "shown" : ""}"><div class="fmeta">${cc ? `DAY ${pad(cc.day)} · 필수개념 ${pad(cc.num)}` : ""}</div><div class="fname">${cc ? esc(cc.name) : "공식 카드"}</div>
+        ${c.shown ? `<div class="fimg"><img src="${cl.img}" alt=""></div><div class="acts" style="justify-content:center"><button class="btn g" data-card="0">헷갈려요 (내일 다시)</button><button class="btn y" data-card="1">기억났어요</button></div>`
+          : `<p class="cdesc">이 개념의 공식을 떠올려 보세요</p><button class="btn k" data-card="show">공식 보기</button>`}</div>`;
+  $("#app").innerHTML = shell("notes", `<div class="page"><h1 class="h1">공식 암기 카드</h1><span class="chip">${c.list.length ? `${Math.min(c.i + 1, c.list.length)} / ${c.list.length}장` : "0장"} <span>1·3·7·14·30일 간격으로 다시 나와요</span></span>${body}</div>`);
+}
+function cardAnswer(pass){
+  const k = CARD.list[CARD.i], cur = S.clipSrs[k] || { step:0 };
+  if (!pass) S.clipSrs[k] = { step:0, due: dayAdd(1), ts: Date.now() };
+  else { const st = (cur.step || 0) + 1; S.clipSrs[k] = st >= SRS_STEPS.length ? { done:true, ts: Date.now() } : { step: st, due: dayAdd(SRS_STEPS[st]), ts: Date.now() }; CARD.ok++; }
+  markStudy(); save(); CARD.i++; CARD.shown = false; renderCard();
 }
 function startReview(){
   const ids = shuffle(srsDue()); if (!ids.length){ toast("오늘 복습할 문제가 없어요"); return; }
@@ -1061,7 +1144,7 @@ function setOf(key){
   if (ss && ss.title) t = ss.title;
   return { key, title: t, ids: (ss && ss.ids) || [] };
 }
-const KIND = { final:"직전 세트", review:"복습", grade:"A등급", day:"DAY", concept:"개념 기출", self:"자율 학습", scrap:"스크랩", redo:"다시 풀기", wrong:"오답", dap:"답정너", rand:"랜덤", cbt:"CBT 회차", exam:"모의고사", mock:"모의고사" };
+const KIND = { same:"같은 개념", search:"검색", final:"직전 세트", review:"복습", grade:"A등급", day:"DAY", concept:"개념 기출", self:"자율 학습", scrap:"스크랩", redo:"다시 풀기", wrong:"오답", dap:"답정너", rand:"랜덤", cbt:"CBT 회차", exam:"모의고사", mock:"모의고사" };
 const kindOf = key => KIND[key.split(":")[0]] || "학습";
 function newSession(key, ids, title){
   const old = S.sessions[key];
@@ -1188,11 +1271,16 @@ function shell(active, inner){
   const nav = [["home","학습하기",I.home,"#/"],["days","21일 플랜",I.cal,"#/days"],["concepts","개념 공부",I.book,"#/concepts"],["scrap","스크랩",I.star,"#/scrap"],["hist","학습 기록",I.cal2,"#/history"],["notes","필기노트",I.note,"#/notes"],["settings","설정",I.gear,"#/settings"]];
   return `<aside class="side"><div class="logo">${I.bolt}전기기사 21일</div><nav class="nav">${
     nav.map(([k,l,ic,h]) => `<a href="${h}" class="${k===active?"on":""}">${ic}<span>${l}</span></a>`).join("")}</nav></aside>
-    <main class="main"><div class="mhwrap"><div class="mhead"><span>${I.bolt}</span>전기기사 21일<a class="mgear" href="#/settings">${I.gear}</a></div></div>${inner}</main>`;
+    <main class="main"><div class="mhwrap"><div class="mhead"><span>${I.bolt}</span>전기기사 21일<a class="mgear" href="#/search" style="margin-left:auto">${I.search}</a><a class="mgear" href="#/settings" style="margin-left:0">${I.gear}</a></div></div>${inner}</main>`;
 }
 
 /* home */
 const WHY = [["know","개념 몰라서"],["calc","계산 실수"],["read","잘못 읽음"],["time","시간 부족"],["guess","헷갈림"]];
+const kindOk = (q, k) => !k || k === "all" || q.kind === k;
+const kindChip = q => q.kind ? `<span class="kchip ${q.kind}">${q.kind === "calc" ? "계산" : "암기"}</span>` : "";
+function kindSeg(){ const k = S.prefs.selfKind || "all"; return `<div class="seg">${[["all","계산+암기"],["calc","계산형"],["memo","암기형"]].map(([v, l]) => `<button class="${k === v ? "on" : ""}" data-skind="${v}">${l}</button>`).join("")}</div>`; }
+const sameIds = q => q.conceptId ? D.questions.filter(x => x.conceptId === q.conceptId && x.id !== q.id).map(x => x.id) : [];
+function addSec(n){ const t = todayStr(); S.daySec[t] = (S.daySec[t] || 0) + n; }
 function predict(){
   const rows = SUBJ5.map(sj => {
     const qs = D.questions.filter(q => sj.from.includes(q.subject)); let est = 0, tried = 0;
@@ -1203,6 +1291,34 @@ function predict(){
   });
   const avg = Math.round(rows.reduce((a, r) => a + r.score, 0) / rows.length);
   return { rows, avg, pass: avg >= 60 && rows.every(r => r.score >= 40), any: rows.some(r => r.cover > 0) };
+}
+const ymd = d => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+function weekRange(offset){ const n = new Date(); const mon = new Date(n); mon.setDate(n.getDate() - ((n.getDay() + 6) % 7) - 7 * offset); mon.setHours(0,0,0,0);
+  const sun = new Date(mon); sun.setDate(mon.getDate() + 6); return { from: ymd(mon), to: ymd(sun), t0: mon.getTime(), t1: mon.getTime() + 7 * 86400000 }; }
+function weekStats(offset){
+  const w = weekRange(offset); let o = 0, x = 0; const bad = {};
+  Object.values(S.hist).forEach(h => { if ((h.updated || 0) < w.t0 || (h.updated || 0) >= w.t1) return;
+    Object.entries(h.ans || {}).forEach(([id, a]) => { if (a.res === "O" && !a.guess) o++; else { x++; const q = Q[id]; if (q && q.conceptId) bad[q.conceptId] = (bad[q.conceptId] || 0) + 1; } }); });
+  const days = S.attend.filter(d => d >= w.from && d <= w.to).length;
+  const sec = Object.entries(S.daySec).filter(([d]) => d >= w.from && d <= w.to).reduce((a, [, v]) => a + v, 0);
+  const top = Object.entries(bad).sort((a, b) => b[1] - a[1]).slice(0, 3).map(([c]) => c);
+  return { w, days, sec, n: o + x, acc: o + x ? Math.round(o / (o + x) * 100) : null, top };
+}
+function weeklyHTML(){
+  const a = weekStats(1), b = weekStats(2), diff = a.acc != null && b.acc != null ? a.acc - b.acc : null;
+  return `<div class="wkrep"><div class="wkrange">${a.w.from.slice(5).replace("-", "/")} ~ ${a.w.to.slice(5).replace("-", "/")}</div>
+    <div class="stat3"><div><b>${a.days}일</b><small>공부한 날</small></div><div><b>${fmtDur(a.sec) || "0분"}</b><small>공부 시간</small></div><div><b>${a.acc != null ? a.acc + "%" : "–"}</b><small>정답률${diff != null ? ` <span class="${diff >= 0 ? "gr" : "rd"}">(${diff >= 0 ? "+" : ""}${diff}%)</span>` : ""}</small></div></div>
+    <p class="cdesc" style="margin:12px 0 6px">${a.n}문제를 풀었어요</p>
+    ${a.top.length ? `<b>가장 많이 틀린 개념</b><div class="weaklist" style="margin-top:6px">${a.top.map(c => `<span class="wk">${pad(C[c].num)} ${esc(C[c].name)}</span>`).join("")}</div>
+      <div class="acts" style="margin-top:14px"><button class="btn y" data-wkweak="${a.top.join(",")}">이 개념들 다시 풀기</button></div>` : ""}</div>`;
+}
+function maybeWeekly(){
+  const wk = weekRange(0).from; if (S.weekShown === wk) return;
+  const a = weekStats(1); S.weekShown = wk; save(true); if (!a.days && !a.n) return;
+  const m = document.createElement("div"); m.className = "modal";
+  m.innerHTML = `<div class="sheet" style="max-width:560px;height:auto"><div class="hd"><h3>지난주 리포트</h3><button class="x" data-close>${I.x}</button></div><div class="bd">${weeklyHTML()}</div></div>`;
+  m.addEventListener("click", ev => { if (ev.target === m || ev.target.closest("[data-close]")) m.remove(); });
+  document.body.appendChild(m);
 }
 function predictCard(){
   const p = predict(), n = Object.keys(S.qstat).filter(id => Q[id] && !Q[id].cbt).length;
@@ -1265,7 +1381,7 @@ function viewHome(){
   const scrapN = S.scraps.filter(id => Q[id]).length;
   return shell("home", `<div class="page home">
     <div class="hhead"><div><p class="hello">안녕하세요</p><h1 class="h1">오늘도 한 DAY씩 끝내 볼까요?</h1></div>
-      <div class="hchips">${syncBadge()}<span class="chip">전기기사 · 필기 <span>시하끝하 ${D.questions.length}문제</span></span></div></div>
+      <div class="hchips"><a class="sbtn2" href="#/search">${I.search}검색</a>${syncBadge()}<span class="chip">전기기사 · 필기 <span>시하끝하 ${D.questions.length}문제</span></span></div></div>
     <div class="grid2 hgrid"><div class="col">
       <div class="card plan"><div>
         <p class="eyebrow">21일 플랜 ${rn ? `· ${rn + 1}회차` : ""}</p>
@@ -1375,7 +1491,8 @@ function viewConceptPage(cid){
       <div class="qbtns"><button class="btn o sm" data-act="clip">✂ 공식 저장</button>${readsHTML(cid)}${qs.length ? `<button class="btn g sm" data-cq="${cid}">기출 ${qs.length}문제 풀기</button>` : ""}</div></div>
     <div class="mprog mob-only">${readsHTML(cid)}<button class="btn o sm" data-act="clip" style="margin-left:6px">✂</button></div>
     <div class="qbody">
-      <section class="qleft zsc"><div class="cimgs qin">${c.imgs.map(i => `<img src="${src(i[0])}" width="${i[1]}" height="${i[2]}" alt="" draggable="false">`).join("")}</div></section>
+      <section class="qleft zsc" id="cleft"><div class="cimgs qin">${c.imgs.map(i => `<img src="${src(i[0])}" width="${i[1]}" height="${i[2]}" alt="" draggable="false">`).join("")}</div></section>
+      <div class="splitter" data-split="splitC"></div>
       <section class="qright">
         <div class="tabs"><button data-ctab="canvas">${I.note}필기 노트</button>${qs.length ? `<button class="mob-only" data-cq="${cid}">${I.answer}기출 ${qs.length}문제</button>` : ""}</div>
         <div class="tabpane" data-pane="canvas">
@@ -1410,6 +1527,7 @@ function startClip(){
     cv.getContext("2d").drawImage(img, sx, sy, sw, sh, 0, 0, cv.width, cv.height);
     const id = "clip" + Date.now().toString(36);
     await IDB.put(id, { cid: CP.cid, img: cv.toDataURL("image/webp", .85), w: cv.width, h: cv.height, ts: Date.now() }, "clips");
+    S.clipSrs[id] = { step:0, due: dayAdd(1), ts: Date.now() };
     S.changedAt = Date.now(); save(); ov.remove(); toast("공식 노트에 저장했어요 (필기노트에서 볼 수 있어요)");
   });
   ov.addEventListener("click", e => { if (e.target.closest("[data-clipx]")) ov.remove(); });
@@ -1440,6 +1558,7 @@ function viewMock(){
         ${opt("cbt", "CBT 기출 회차", hasCbt ? "실제 시험 회차 100문제를 그대로 풀어요" : "CBT 기출 자료를 추가하면 선택할 수 있어요", !hasCbt)}
         ${rounds}
         ${srcSel === "book" ? `<div class="seg" style="margin:0 0 10px">${[["all","전 등급에서 출제"],["AB","A+B에서"],["A","A만"]].map(([k, l]) => `<button class="${(S.prefs.mockGrade || "all") === k ? "on" : ""}" data-mgrade="${k}">${l}</button>`).join("")}</div>` : ""}
+        <button class="opt sm ${S.prefs.cbtUi ? "on" : ""}" data-mcbt><span class="bx">${I.check}</span><div><b>CBT 시험장 화면으로 풀기</b></div></button>
         ${srcSel === "book" ? `<button class="opt sm ${fresh ? "on" : ""}" data-mfresh><span class="bx">${I.check}</span><div><b>안 풀어본 문제 우선</b></div></button>` : ""}
         <div class="acts" style="margin-top:18px"><button class="btn y" data-act="mockstart">${I.clock}모의고사 시작</button><button class="btn g" data-act="rand">랜덤 20문제 빠르게</button></div>
         <p class="cdesc" style="margin-top:16px;font-size:14px">과목별 40점 미만이면 과락, 5과목 평균 60점 이상이면 합격으로 채점해요. 풀이 중에는 정답이 표시되지 않아요.</p>
@@ -1494,7 +1613,7 @@ function createMock(){
 const fmtClock = sec => { const h = Math.floor(sec / 3600), mi = Math.floor(sec % 3600 / 60), se = sec % 60; return `${h}:${pad(mi)}:${pad(se)}`; };
 function tick(only){
   const m = QZ && QZ.exam; if (!m) return;
-  if (!only && !document.hidden){ m.elapsed++; if (m.elapsed % 10 === 0) save(); }
+  if (!only && !document.hidden){ m.elapsed++; m.updated = m.updated || Date.now(); if (m.elapsed % 10 === 0) save(); }
   const rem = Math.max(0, m.limit - m.elapsed);
   const r = $("#resb"); if (r) r.innerHTML = `<span class="timer ${rem < 600 ? "low" : ""}">${I.clock}${fmtClock(rem)}</span>`;
   if (rem <= 0 && !only){ toast("시험 시간이 끝나 자동 제출했어요"); submitMock(true); }
@@ -1558,10 +1677,10 @@ function viewQuiz(key){
   QZ = { set, exam, i: Math.min(ss.pos || 0, set.ids.length - 1), tab: isMob() ? "q" : "canvas" };
   if (!exam){ ensureHist(key, set); if (ss.ans[set.ids[QZ.i]]) QZ.tab = "ans"; save(true);
     QZ.qStart = Date.now();
-    QZ.timer = setInterval(() => { if (document.hidden || !QZ) return; const h = S.hist[(S.sessions[QZ.set.key] || {}).hid]; if (h){ h.sec = (h.sec || 0) + 1; if (h.sec % 20 === 0) save(true); } qTimerTick(); }, 1000); }
-  if (exam) QZ.timer = setInterval(() => tick(false), 1000);
+    QZ.timer = setInterval(() => { if (document.hidden || !QZ) return; addSec(1); const h = S.hist[(S.sessions[QZ.set.key] || {}).hid]; if (h){ h.sec = (h.sec || 0) + 1; if (h.sec % 20 === 0) save(true); } qTimerTick(); }, 1000); }
+  if (exam){ QZ.timer = setInterval(() => { tick(false); if (!document.hidden) addSec(1); }, 1000); if (S.prefs.cbtUi && !isMob()) QZ.tab = "stat"; }
   const endBtn = exam ? `data-act="submit">답안 제출` : `data-act="result">결과 보기`;
-  return `<div class="qwrap">
+  return `<div class="qwrap ${exam && S.prefs.cbtUi ? "cbtui" : ""}">
     <div class="qtop"><button class="lg" data-go="${exam ? "#/mock" : "#/"}">${I.left}${I.bolt}<span>전기기사 21일</span></button>
       <div class="tt">${esc(set.title)}</div>
       <div class="prog" id="prog"></div>
@@ -1569,7 +1688,7 @@ function viewQuiz(key){
         <button class="btn k sm" ${endBtn}</button><button class="btn o sm" data-nav="1">다음${I.right}</button></div></div>
     <div class="mprog mob-only" id="mprog"></div>
     <div class="qbody">
-      <section class="qleft" id="qleft"></section>
+      <section class="qleft" id="qleft"></section><div class="splitter" data-split="splitQ"></div>
       <section class="qright">
         <div class="tabs">
           <button data-tab="canvas">${I.canvas}캔버스</button>
@@ -1621,7 +1740,7 @@ function renderLeft(){
       <div class="qtools"><button title="남은 문제 비율">${I.search}${remainPct}%</button>
       ${q.conceptId ? `<button data-concept="${q.conceptId}">${I.book}개념</button>` : ""}
       <button data-act="scrap" class="${scr ? "on" : ""}">${I.star}스크랩</button></div></div>
-    <div class="tags"><span class="tag"><b>${esc(q.subject)}</b> <span>· ${whereOf(q, !set.key.startsWith("day:") && !set.key.startsWith("cbt:"))}</span></span>${conceptLink(q, "tlink")}</div>
+    <div class="tags">${kindChip(q)}<span class="tag"><b>${esc(q.subject)}</b> <span>· ${whereOf(q, !set.key.startsWith("day:") && !set.key.startsWith("cbt:"))}</span></span>${conceptLink(q, "tlink")}</div>
     ${qimgHTML(q, "문제 " + q.no)}
     <div class="choices">${choices}</div>
     ${a ? (a.guess ? `<div class="guessnote">찍어서 맞힌 문제예요 · 스크랩과 복습에 넣었어요</div>` : "") : `<button class="guessb ${QZ.guess ? "on" : ""}" id="guessb" data-act="guess">${I.check}확실하지 않아요 (찍음)</button>`}</div>`;
@@ -1653,13 +1772,21 @@ function renderAns(){
     <div class="step"><div class="rail"><span class="ring y"></span></div><div class="bd"><h4>해설</h4>
       <div class="box">${q.e.length ? "" : `<p class="cdesc">이 문제는 해설이 없어요</p>`}<div class="eimg" data-zoom="${q.id}:e">${q.e.map(i => `<img src="${src(i[0])}" width="${i[1]}" height="${i[2]}" alt="해설">`).join("")}</div>
       ${q.conceptId ? `<button class="clink" data-concept="${q.conceptId}">${I.book}<span>필수개념 ${pad(q.concept)} ${esc(q.conceptName)}<small>이론 다시 보기</small></span>${I.open}</button>` : ""}</div>
-      ${a.res !== "O" || a.guess ? `<div class="whybox"><b>왜 틀렸나요?</b>${WHY.map(([k, l]) => `<button class="chipb ${(S.why[q.id] || {}).r === k ? "on" : ""}" data-why="${q.id}|${k}">${l}</button>`).join("")}</div>` : ""}
+      ${a.res !== "O" || a.guess ? `${sameIds(q).length ? `<button class="btn y sm samec" data-same="${q.id}">${I.book}같은 개념 문제 ${sameIds(q).length}개 더 풀기</button>` : ""}<div class="whybox"><b>왜 틀렸나요?</b>${WHY.map(([k, l]) => `<button class="chipb ${(S.why[q.id] || {}).r === k ? "on" : ""}" data-why="${q.id}|${k}">${l}</button>`).join("")}</div>` : ""}
       <div class="memobox"><b>${I.note}한 줄 메모</b><textarea id="memo" data-qid="${q.id}" rows="2" placeholder="예: √3 빼먹지 말 것">${esc((S.memos[q.id] || {}).t || "")}</textarea></div>
     </div></div></div>`;
   const mt = $("#memo"); if (mt) mt.oninput = () => { clearTimeout(mt._t); mt._t = setTimeout(() => { const v = mt.value.trim(); S.memos[mt.dataset.qid] = { t: v, ts: Date.now() }; save(); }, 400); };
   $("#ansp").scrollTop = 0;
 }
+function renderCbtOmr(){
+  const m = QZ.exam, done = m.ids.filter(id => m.ans[id]).length;
+  $("#statp").innerHTML = `<div class="omrhead">답안 표기란 <span>${done} / ${m.ids.length}</span></div><div class="omrlist">${m.ids.map((id, i) => { const sel = m.ans[id];
+    return `<div class="omrrow ${i === QZ.i ? "cur" : ""} ${sel ? "" : "un"}"><button class="omrno" data-jump="${i}">${i + 1}</button>${[1,2,3,4].map(k => `<button class="omrc ${sel === k ? "on" : ""}" data-omr="${i}|${k}">${k}</button>`).join("")}</div>`; }).join("")}</div>
+    <div class="omrfoot"><button class="btn o sm" data-omrun>안 푼 문제로</button></div>`;
+  const cur = $("#statp .omrrow.cur"); if (cur) cur.scrollIntoView({ block:"nearest" });
+}
 function renderExamStat(){
+  if (S.prefs.cbtUi) return renderCbtOmr();
   const m = QZ.exam, done = m.ids.filter(id => m.ans[id]).length;
   let html = `<div class="ptitle">답안지<span class="legend"><span class="or">표기 ${done}</span><span style="color:var(--sub)">남음 ${m.ids.length - done}</span></span></div>`;
   SUBJ5.forEach(sj => {
@@ -1703,6 +1830,17 @@ function setTab(t, user){
   document.querySelectorAll(".tabpane").forEach(p => p.classList.toggle("on", p.dataset.pane === t));
   if (t === "canvas") Ink.resize(); else syncOverlay();
   if (t === "stat"){ const cur = $("#statp .cur"); cur && cur.scrollIntoView({ block:"center" }); }
+}
+function applySplit(){
+  const sp = $(".splitter"); if (!sp) return;
+  const v = S.prefs[sp.dataset.split], ql = $(".qleft");
+  if (ql) ql.style.flexBasis = v && !isMob() ? v + "%" : "";
+  sp.onpointerdown = e => { if (isMob()) return; e.preventDefault(); const body = $(".qbody").getBoundingClientRect(); try { sp.setPointerCapture(e.pointerId); } catch(_){}
+    document.body.classList.add("splitting");
+    sp.onpointermove = ev => { const p = Math.min(70, Math.max(25, (ev.clientX - body.left) / body.width * 100)); ql.style.flexBasis = p + "%"; Ink.resize(); };
+    sp.onpointerup = ev => { sp.onpointermove = null; document.body.classList.remove("splitting"); S.prefs[sp.dataset.split] = Math.round(parseFloat(ql.style.flexBasis)); save(true); Ink.resize(); };
+  };
+  sp.ondblclick = () => { delete S.prefs[sp.dataset.split]; ql.style.flexBasis = ""; save(true); Ink.resize(); };
 }
 function bindSheets(){
   document.querySelectorAll(".sheetp").forEach(pane => {
@@ -1821,7 +1959,7 @@ function viewSelf(){
   const qn = {}; D.questions.forEach(q => { (qn[q.conceptId] = qn[q.conceptId] || []).push(q.id); });
   const acc = cid => { const ids = qn[cid] || [], t = ids.filter(id => S.qstat[id] && S.qstat[id].last); if (!t.length) return "–"; return Math.round(t.filter(id => S.qstat[id].last === "O").length / t.length * 100) + "%"; };
   const gf = S.prefs.selfGrade || "all";
-  const pick = ids => ids.filter(id => gradeOk(Q[id], gf) && (scope === "all" || (scope === "new" ? !S.qstat[id] : S.qstat[id] && S.qstat[id].last !== "O")));
+  const pick = ids => ids.filter(id => gradeOk(Q[id], gf) && kindOk(Q[id], S.prefs.selfKind) && (scope === "all" || (scope === "new" ? !S.qstat[id] : S.qstat[id] && S.qstat[id].last !== "O")));
   const selIds = [...sel].flatMap(cid => pick(qn[cid] || []));
   let body;
   if (tab === "type"){
@@ -1835,7 +1973,7 @@ function viewSelf(){
       <div class="card selcard"><div class="selhead"><b>${esc(subj)} 필수개념</b><button class="btn o sm" data-selall="${allOn ? 0 : 1}">${allOn ? "전체 해제" : "전체 선택"}</button></div>
       <div class="sellist">${list.map(c => `<button class="selrow ${sel.has(c.id) ? "on" : ""}" data-sel="${c.id}"><span class="bx">${I.check}</span>
         <span class="num">${pad(c.num)}</span>${c.grade ? `<span class="gb g${c.grade}">${c.grade}</span>` : ""}<span class="nm">${esc(c.name)}</span><span class="meta">DAY ${pad(c.day)} · ${qn[c.id].length}문제 · 정답률 ${acc(c.id)}</span></button>`).join("")}</div></div>
-      <div class="selfoot"><div class="seg">${[["all","전 등급"],["AB","A+B"],["A","A만"]].map(([k, l]) => `<button class="${gf === k ? "on" : ""}" data-sgrade="${k}">${l}</button>`).join("")}</div>
+      <div class="selfoot">${kindSeg()}<div class="seg">${[["all","전 등급"],["AB","A+B"],["A","A만"]].map(([k, l]) => `<button class="${gf === k ? "on" : ""}" data-sgrade="${k}">${l}</button>`).join("")}</div>
         <div class="seg"><button class="${scope === "all" ? "on" : ""}" data-scope="all">전체 문제</button><button class="${scope === "new" ? "on" : ""}" data-scope="new">안 푼 문제만</button><button class="${scope === "wrong" ? "on" : ""}" data-scope="wrong">틀린 문제만</button></div>
         <button class="opt sm ${shuf ? "on" : ""}" data-shuf><span class="bx">${I.check}</span><div><b>순서 섞기</b></div></button>
         <span class="selsum">개념 <b>${sel.size}</b>개 · 문제 <b>${selIds.length}</b>개</span>
@@ -1843,14 +1981,14 @@ function viewSelf(){
         <button class="btn y" data-act="selfstart" ${selIds.length ? "" : "disabled"}>풀기 시작</button></div>`;
   } else if (tab === "grade"){
     const scopeOf = id => scope === "all" || (scope === "new" ? !S.qstat[id] : S.qstat[id] && S.qstat[id].last !== "O");
-    const cell = (sj, g) => { const all = D.questions.filter(q => q.subject === sj && q.grade === g), ids = all.filter(q => scopeOf(q.id));
+    const cell = (sj, g) => { const all = D.questions.filter(q => q.subject === sj && q.grade === g && kindOk(q, S.prefs.selfKind)), ids = all.filter(q => scopeOf(q.id));
       const tried = all.filter(q => S.qstat[q.id] && S.qstat[q.id].last), ok = tried.filter(q => S.qstat[q.id].last === "O").length;
       return `<button class="gcell g${g}" data-gstart="${sj}|${g}" ${ids.length ? "" : "disabled"}><span class="gb g${g}">${g}</span><b>${ids.length}<small>/${all.length}</small></b>
         <span class="gacc">${tried.length ? `정답률 ${Math.round(ok / tried.length * 100)}%` : "아직 안 풂"}</span><div class="bar"><i style="width:${all.length ? tried.length / all.length * 100 : 0}%"></i></div></button>`; };
     body = `<p class="cdesc" style="margin:0 0 12px">과목별로 원하는 등급만 골라 풀어요. A = 자주 나오는 핵심(과목별 상위 50%), B = 가끔, C = 드물게 · 답정너는 A</p>
       <div class="gtable">${SUBJ6.map(sj => `<div class="grow"><div class="gsj"><b>${esc(sj)}</b><small>${D.questions.filter(q => q.subject === sj).length}문제</small>
         <button class="tlink" data-gstart="${sj}|AB">A+B</button><button class="tlink" data-gstart="${sj}|ALL">전체</button></div>${["A","B","C"].map(g => cell(sj, g)).join("")}</div>`).join("")}</div>
-      <div class="selfoot"><div class="seg"><button class="${scope === "all" ? "on" : ""}" data-scope="all">전체 문제</button><button class="${scope === "new" ? "on" : ""}" data-scope="new">안 푼 문제만</button><button class="${scope === "wrong" ? "on" : ""}" data-scope="wrong">틀린 문제만</button></div>
+      <div class="selfoot">${kindSeg()}<div class="seg"><button class="${scope === "all" ? "on" : ""}" data-scope="all">전체 문제</button><button class="${scope === "new" ? "on" : ""}" data-scope="new">안 푼 문제만</button><button class="${scope === "wrong" ? "on" : ""}" data-scope="wrong">틀린 문제만</button></div>
         <button class="opt sm ${shuf ? "on" : ""}" data-shuf><span class="bx">${I.check}</span><div><b>순서 섞기</b></div></button>
         <span class="selsum">칸을 누르면 바로 시작해요 · 숫자는 조건에 맞는 문제/전체</span></div>`;
   } else {
@@ -1867,7 +2005,7 @@ function viewSelf(){
 function startSelf(){
   const sel = S.prefs.selfSel || [], scope = S.prefs.selfScope || "all";
   let ids = D.questions.filter(q => sel.includes(q.conceptId)).map(q => q.id)
-    .filter(id => gradeOk(Q[id], S.prefs.selfGrade || "all") && (scope === "all" || (scope === "new" ? !S.qstat[id] : S.qstat[id] && S.qstat[id].last !== "O")));
+    .filter(id => gradeOk(Q[id], S.prefs.selfGrade || "all") && kindOk(Q[id], S.prefs.selfKind) && (scope === "all" || (scope === "new" ? !S.qstat[id] : S.qstat[id] && S.qstat[id].last !== "O")));
   if (S.prefs.selfShuffle !== false) ids = shuffle(ids);
   if (!ids.length){ toast("조건에 맞는 문제가 없어요"); return; }
   newSession("self", ids, `자율 학습 · 개념 ${sel.length}개`); location.hash = "#/quiz/self";
@@ -2097,7 +2235,7 @@ async function deleteItems(page, ids){
     const ss = S.sessions[h.key]; if (ss && ss.hid === id){ ss.ans = {}; ss.pos = 0; ss.hid = null; ss.updated = Date.now(); }
     S.histDel[id] = Date.now(); delete S.hist[id]; });
   if (page === "scrap"){ ids.forEach(id => { S.scrapMap[id] = { on:false, ts: Date.now() }; }); syncScrapList(); }
-  if (page === "notes") for (const k of ids){ if (k.startsWith("clip")){ await IDB.del(k, "clips"); S.clipDel[k] = Date.now(); } else { await IDB.del(k); markNoteDel(k); } }
+  if (page === "notes") for (const k of ids){ if (k.startsWith("clip")){ await IDB.del(k, "clips"); S.clipDel[k] = Date.now(); delete S.clipSrs[k]; } else { await IDB.del(k); markNoteDel(k); } }
   save();
 }
 function scrapIds(f){ return S.scraps.filter(id => Q[id] && (f === "all" || Q[id].subject === f)); }
@@ -2116,19 +2254,39 @@ function viewScrap(){
     : `<div class="empty"><b>스크랩한 문제가 없어요</b>틀리거나 해설을 먼저 본 문제는 자동으로, 맞힌 문제는 ☆ 스크랩을 누르면 여기에 모여요</div>`;
   return shell("scrap", `<div class="page"><h1 class="h1">스크랩</h1><span class="chip">틀린 문제·해설 본 문제는 자동 <span>맞힌 문제는 ☆로 직접 · ${S.prefs.scrapGrad !== false ? "2번 연속 맞히면 자동 졸업" : "자동 졸업 꺼짐"}</span></span>${body}</div>`);
 }
+function viewSearch(){
+  return shell("home", `<div class="page"><h1 class="h1">검색</h1>
+    <div class="sbox">${I.search}<input id="sq" type="search" placeholder="필수개념 이름, 내 메모, 틀린 이유, DAY 3 12 …" autocomplete="off"></div>
+    <p class="cdesc" style="margin:8px 0 0">문제 본문은 그림이라 검색되지 않아요. 개념 이름·메모·틀린 이유·DAY 번호로 찾아요.</p><div id="sres"></div></div>`);
+}
+function runSearch(t){
+  const el = $("#sres"); if (!el) return; t = t.trim();
+  if (!t){ el.innerHTML = ""; return; }
+  const lo = t.toLowerCase(), out = [];
+  const m = t.match(/(?:day\s*)?(\d{1,2})\s*[-·.\s번]\s*(\d{1,3})/i);
+  if (m){ const q = D.questions.find(x => x.day === +m[1] && x.no === +m[2]); if (q) out.push(`<div class="sgroup"><b>문제</b><div class="srow" data-sq="${q.id}">${gBadge(q)}<span>DAY ${pad(q.day)} ${q.no}번 · ${esc(q.subject)}</span><small>${esc(q.conceptName || "")}</small></div></div>`); }
+  const cs = D.concepts.filter(c => c.name.toLowerCase().includes(lo)).slice(0, 30);
+  if (cs.length) out.push(`<div class="sgroup"><b>필수개념 ${cs.length}</b>${cs.map(c => `<div class="srow" data-go="#/concept/${c.id}">${c.grade ? `<span class="gb g${c.grade}">${c.grade}</span>` : ""}<span>${esc(c.name)}</span><small>DAY ${pad(c.day)} · 필수개념 ${pad(c.num)}</small></div>`).join("")}</div>`);
+  const ms = Object.entries(S.memos).filter(([id, v]) => Q[id] && v.t && v.t.toLowerCase().includes(lo));
+  if (ms.length) out.push(`<div class="sgroup"><b>내 메모 ${ms.length}</b>${ms.map(([id, v]) => `<div class="srow" data-sq="${id}" data-sqall="${ms.map(x => x[0]).join(",")}"><span>${esc(v.t)}</span><small>${whereOf(Q[id])} · ${esc(Q[id].subject)}</small></div>`).join("")}</div>`);
+  WHY.filter(([, l]) => l.includes(t)).forEach(([k, l]) => { const ids = Object.entries(S.why).filter(([id, v]) => v.r === k && Q[id]).map(([id]) => id);
+    if (ids.length) out.push(`<div class="sgroup"><b>틀린 이유 "${l}" ${ids.length}문제</b><div class="acts" style="margin-top:6px"><button class="btn y sm" data-sqset="${ids.join(",")}" data-sqt="${l}">${ids.length}문제 다시 풀기</button></div></div>`); });
+  el.innerHTML = out.join("") || `<div class="empty">"${esc(t)}"에 해당하는 결과가 없어요</div>`;
+}
 function viewHistory(){
   const hs = Object.values(S.hist).filter(h => histCounts(h).n).sort((a, b) => b.updated - a.updated);
   const st = { done:["완료","ok"], run:["진행 중","run"], quit:["중단","no"] };
   const wc = {}; Object.values(S.why).forEach(v => { if (v.r) wc[v.r] = (wc[v.r] || 0) + 1; }); const wt = Object.values(wc).reduce((a, b) => a + b, 0);
+  const wkCard = `<details class="card wkcard"><summary><b>지난주 리포트</b><span class="cdesc">눌러서 보기</span></summary>${weeklyHTML()}</details>`;
   const whyCard = wt ? `<div class="card whycard"><p class="eyebrow">내가 틀리는 이유 (${wt}문제)</p>${WHY.filter(([k]) => wc[k]).sort((a, b) => wc[b[0]] - wc[a[0]]).map(([k, l]) => `<div class="wrow"><span>${l}</span><div class="bar"><i style="width:${wc[k] / wt * 100}%"></i></div><b>${Math.round(wc[k] / wt * 100)}%</b></div>`).join("")}</div>` : "";
-  return shell("hist", `<div class="page"><h1 class="h1">학습 기록</h1><span class="chip">문제를 푼 묶음마다 기록이 남아요 <span>${hs.length}개</span></span>${whyCard}
+  return shell("hist", `<div class="page"><h1 class="h1">학습 기록</h1><span class="chip">문제를 푼 묶음마다 기록이 남아요 <span>${hs.length}개</span></span>${wkCard}${whyCard}
     ${selBar("hist", hs.map(h => h.id))}
     ${hs.length ? `<div class="hlist">${hs.map(h => { const c = histCounts(h), [sl, sc] = st[h.status] || ["", ""];
       return `<div class="hrow ${selCls(h.id)}" data-selid="${h.id}" data-go="#/hist/${h.id}"><span class="kpill">${esc(h.kind)}</span><div class="hmain"><b>${esc(h.title)}</b><small>${new Date(h.updated).toLocaleString("ko-KR")}${h.sec ? ` · ${fmtDur(h.sec)}` : ""}</small></div>
         <div class="hnums"><span>${h.ids.length}문제</span><span class="gr">맞힘 ${c.o}</span><span class="rd">오답 ${c.x + c.t}</span></div><span class="pill ${sc}">${sl}</span></div>`; }).join("")}</div>`
       : `<div class="empty"><b>아직 기록이 없어요</b>DAY·자율 학습·스크랩·모의고사 문제를 풀면 여기에 쌓여요</div>`}</div>`);
 }
-let NOTES = {}, CLIPS = {};
+let NOTES = {}, CLIPS = {}, SEARCHQ = "";
 function drawThumb(cv, rec){
   const box = cv.parentElement;
   let x0 = 1e9, y0 = 1e9, x1 = 0, y1 = 0;
@@ -2153,7 +2311,7 @@ async function viewNotes(){
       <div class="ft"><b>${whereOf(q).replace(" ", " · ")}</b><span>${esc(q.conceptName)}<br>${ago(all[id].ts || Date.now())}</span></div></div>`; }).join("")}</div>`
     : (cids.length || kids.length) ? "" : `<div class="empty"><b>저장한 필기가 없어요</b>문제 풀이 캔버스에서 ‘필기 저장’을 켜거나, 개념 공부 메모장에 쓰면 여기에 모여요</div>`;
   $("#app").innerHTML = shell("notes", `<div class="page"><h1 class="h1">필기노트</h1><span class="chip">공식·개념·문제 필기를 모아 봐요 <span>${ids.length + cids.length + kids.length}개</span></span>${selBar("notes", [...kids, ...cids, ...ids])}
-    ${kids.length ? `<div class="subjhead">공식 노트 <small class="cdesc">개념 공부 화면의 ✂ 공식 저장</small></div><div class="clipgrid">${kids.map(k => { const c = clips[k], cc = C[c.cid];
+    ${kids.length ? `<div class="subjhead">공식 노트 <small class="cdesc">개념 공부 화면의 ✂ 공식 저장</small><button class="btn y sm" style="margin-left:auto" data-go="#/cards">암기 카드 ${cardDue(kids).length}장</button></div><div class="clipgrid">${kids.map(k => { const c = clips[k], cc = C[c.cid];
       return `<div class="clipcard ${selCls(k)}" data-selid="${k}" data-clip="${k}"><img src="${c.img}" alt=""><span>${cc ? `DAY ${pad(cc.day)} · ${esc(cc.name)}` : ""}</span></div>`; }).join("")}</div>` : ""}
     ${csec}${body}</div>`);
   document.querySelectorAll("[data-thumb]").forEach(cv => drawThumb(cv, all[cv.dataset.thumb]));
@@ -2231,6 +2389,11 @@ function viewSettings(){
       <button class="btn y sm" data-act="otacheck">업데이트 확인</button>${(window.Android && Android.bundledVersion && Android.bundledVersion() !== APP_VERSION) ? `<button class="btn g sm" data-act="otareset">기본 화면으로 되돌리기</button>` : ""}</div>
     <div class="setrow"><div><b>시험일 (D-day)</b><small>홈의 공부한 날 카드에 D-day로 보여줘요. 폰·탭에 같이 맞춰져요.</small></div><input type="date" id="examdate" value="${S.examDate || ""}" class="dinput"></div>
     <div class="setrow"><div><b>스크랩 자동 졸업</b><small>스크랩한 문제를 2번 연속 맞히면 스크랩에서 자동으로 빼요.</small></div><button class="btn ${S.prefs.scrapGrad !== false ? "y" : "g"} sm" data-act="scrapgrad">${S.prefs.scrapGrad !== false ? "켜짐" : "꺼짐"}</button></div>
+    ${window.Android && Android.setReminder ? `
+    <div class="setrow"><div><b>공부 중 화면 켜짐 유지</b><small>문제 풀이·개념 공부 중에는 화면이 꺼지지 않아요.</small></div>${segs("keepOn", [[1,"켜기"],[0,"끄기"]], S.prefs.keepOn !== false ? 1 : 0)}</div>
+    <div class="setrow"><div><b>매일 공부 알림</b><small>정한 시간에 "오늘 복습 n문제"를 알려드려요. 처음 켤 때 알림 권한을 물어봐요.</small></div>${segs("remind", [[1,"켜기"],[0,"끄기"]], S.prefs.remind ? 1 : 0)}<input type="time" id="rtime" class="dinput" value="${S.prefs.remindTime || "20:00"}"><button class="btn o sm" data-act="testnoti">알림 테스트</button></div>
+    <div class="setrow"><div><b>홈 화면 위젯</b><small>폰·탭 홈 화면을 길게 누르고 → 위젯 → "전기기사 21일"을 추가하면 D-day와 오늘 복습 수가 보여요.</small></div></div>`
+    : `<div class="setrow"><div><b>화면 켜짐 유지 · 매일 알림 · 홈 위젯</b><small>새 APK를 설치하면 쓸 수 있어요.</small></div></div>`}
     <div class="setrow"><div><b>개념 노트 출력</b><small>필수개념 이론과 내 메모를 나란히 A4로 인쇄하거나 PDF로 저장해요.</small></div><button class="btn y sm" data-go="#/print/0">출력하기</button></div>
     <div class="setrow"><div><b>백업 파일 내보내기</b><small>풀이 기록, 스크랩, 필기(${nNotes}개)를 파일 하나로 저장해요.</small></div><button class="btn o sm" data-act="export">내보내기</button></div>
     <div class="setrow"><div><b>백업 파일 불러오기</b><small>내보낸 파일로 기록을 되살려요. 지금 기록은 덮어써집니다.</small></div><button class="btn o sm" data-act="import">불러오기</button><input type="file" id="impf" accept=".json,application/json" hidden></div>
@@ -2295,6 +2458,8 @@ function mergeState(R){
   by(S.srs, R.srs || {}, v => v.ts);
   by(S.memos, R.memos || {}, v => v.ts);
   by(S.why, R.why || {}, v => v.ts);
+  by(S.clipSrs, R.clipSrs || {}, v => v.ts);
+  for (const [k, v] of Object.entries(R.daySec || {})) S.daySec[k] = Math.max(S.daySec[k] || 0, v);
   for (const [k, v] of Object.entries(R.clipDel || {})) S.clipDel[k] = Math.max(S.clipDel[k] || 0, v);
   for (const [k, t] of Object.entries(S.histDel)) if (S.hist[k] && (S.hist[k].updated || 0) <= t) delete S.hist[k];
   by(S.scrapMap, R.scrapMap, v => v.ts);
@@ -2416,22 +2581,25 @@ async function route(keepSel){
   if (QZ && QZ.timer){ clearInterval(QZ.timer); save(); }
   const app = $("#app");
   document.body.classList.toggle("homeb", !r);
-  if (r === "concept"){ QZ = null; const html = viewConceptPage(arg); if (!html) return; app.innerHTML = html; bindInk(); attachPinch($(".qleft"), $(".cimgs")); cpTab(CP.tab); Ink.load("concept:" + arg, { autosave:true }); return; }
+  if (window.Android && Android.keepOn) Android.keepOn(S.prefs.keepOn !== false && ["quiz","exam","concept","cards"].includes(r));
+  if (r === "concept"){ QZ = null; const html = viewConceptPage(arg); if (!html) return; app.innerHTML = html; bindInk(); attachPinch($(".qleft"), $(".cimgs")); applySplit(); cpTab(CP.tab); Ink.load("concept:" + arg, { autosave:true }); return; }
   CP = null;
-  if (r === "exam"){ const html = viewQuiz("exam:" + arg); if (!html) return; app.innerHTML = html; bindInk(); bindSheets(); renderQuiz(); return; }
-  if (r === "quiz"){ const html = viewQuiz(arg); if (!html) return; app.innerHTML = html; bindInk(); bindSheets(); renderQuiz(); return; }
+  if (r === "exam"){ const html = viewQuiz("exam:" + arg); if (!html) return; app.innerHTML = html; bindInk(); bindSheets(); applySplit(); renderQuiz(); return; }
+  if (r === "quiz"){ const html = viewQuiz(arg); if (!html) return; app.innerHTML = html; bindInk(); bindSheets(); applySplit(); renderQuiz(); return; }
   QZ = null;
   if (r === "days") app.innerHTML = viewDays();
   else if (r === "concepts") app.innerHTML = viewConcepts(arg);
   else if (r === "scrap") app.innerHTML = viewScrap();
   else if (r === "notes") await viewNotes();
-  else if (r === "settings"){ app.innerHTML = viewSettings(); fillBackups(); const di = $("#examdate"); if (di) di.onchange = () => { S.examDate = di.value; S.examTs = Date.now(); save(); toast(di.value ? "시험일을 저장했어요" : "시험일을 지웠어요"); }; }
+  else if (r === "settings"){ app.innerHTML = viewSettings(); fillBackups(); const rt = $("#rtime"); if (rt) rt.onchange = () => { S.prefs.remindTime = rt.value; save(true); setReminder(); toast("알림 시간을 " + rt.value + "로 정했어요"); }; const di = $("#examdate"); if (di) di.onchange = () => { S.examDate = di.value; S.examTs = Date.now(); save(); toast(di.value ? "시험일을 저장했어요" : "시험일을 지웠어요"); }; }
   else if (r === "mock") app.innerHTML = viewMock();
   else if (r === "self") app.innerHTML = viewSelf();
   else if (r === "print") await viewPrint(arg);
   else if (r === "review"){ const h2 = viewReview(S.reviews[arg], arg); if (!h2) return; app.innerHTML = h2; }
   else if (r === "hist"){ const h2 = viewReview(S.hist[arg], arg, true); if (!h2) return; app.innerHTML = h2; }
   else if (r === "history") app.innerHTML = viewHistory();
+  else if (r === "search"){ app.innerHTML = viewSearch(); const i = $("#sq"); i.value = SEARCHQ || ""; runSearch(i.value); i.oninput = () => { SEARCHQ = i.value; runSearch(i.value); }; if (!isMob()) i.focus(); }
+  else if (r === "cards"){ await viewCards(); }
   else if (r === "mockres"){ const h2 = viewMockRes(arg); if (!h2) return; app.innerHTML = h2; }
   else app.innerHTML = viewHome();
   const mn = $(".main"); if (mn) mn.scrollTop = 0;
@@ -2463,6 +2631,8 @@ document.addEventListener("click", async e => {
     if (c){ e.preventDefault(); e.stopPropagation(); const id = c.dataset.selid; SEL.ids.has(id) ? SEL.ids.delete(id) : SEL.ids.add(id);
       c.classList.toggle("chk", SEL.ids.has(id)); const bar = $(".selctl"); if (bar) bar.outerHTML = selBar(SEL.page, SEL.all); return; }
   }
+  const cd = e.target.closest("[data-card]");
+  if (cd){ const v = cd.dataset.card; if (v === "show"){ CARD.shown = true; renderCard(); } else cardAnswer(v === "1"); return; }
   const cl = !SEL.page && e.target.closest("[data-clip]");
   if (cl){ const c = CLIPS[cl.dataset.clip]; if (c){ const m = document.createElement("div"); m.className = "modal zpop";
     m.innerHTML = `<div class="zcard"><div class="zsc"><div class="zin"><img src="${c.img}"></div></div><button class="x zx" data-close>${I.x}</button>${c.cid && C[c.cid] ? `<div class="zhint"><button class="btn y sm" data-go="#/concept/${c.cid}">개념으로 가기</button></div>` : ""}</div>`;
@@ -2471,12 +2641,13 @@ document.addEventListener("click", async e => {
   if (z && !e.target.closest(".modal.zpop")){ const [id, part] = z.dataset.zoom.split(":"); if (Q[id]) openZoom(Q[id][part].map(i => i[0])); return; }
   const rd = e.target.closest("[data-read]");
   if (rd){ const [cid, i] = rd.dataset.read.split(":"); toggleRead(cid, +i); return; }
-  const mo = e.target.closest("[data-msrc],[data-mround],[data-mfresh],[data-mwrong],[data-ctab],[data-rfilt],[data-rvwrong],[data-stab],[data-sbj],[data-sel],[data-selall],[data-scope],[data-shuf],[data-selclear],[data-restore],[data-weakpick],[data-sgrade],[data-mgrade]");
+  const mo = e.target.closest("[data-msrc],[data-mround],[data-mfresh],[data-mwrong],[data-ctab],[data-rfilt],[data-rvwrong],[data-stab],[data-sbj],[data-sel],[data-selall],[data-scope],[data-shuf],[data-selclear],[data-restore],[data-weakpick],[data-sgrade],[data-mgrade],[data-skind],[data-mcbt]");
   if (mo){ const d = mo.dataset, P = S.prefs;
     if (d.ctab){ cpTab(d.ctab, true); return; }
     if (d.restore){ restoreBackup(d.restore); return; }
     if (d.msrc){ P.mockSrc = d.msrc; save(true); route(); return; }
     if (d.mround){ P.mockRound = d.mround; save(true); route(); return; }
+    if (d.mcbt !== undefined){ P.cbtUi = !P.cbtUi; save(true); route(); return; }
     if (d.mgrade){ P.mockGrade = d.mgrade; save(true); route(); return; }
     if (d.mfresh !== undefined){ P.mockFresh = P.mockFresh === false; save(true); route(); return; }
     if (d.mwrong){ const m = mockById(d.mwrong); newSession("redo", m.ids.filter(x => m.ans[x] !== Q[x].answer), `${m.title} 틀린 문제`); location.hash = "#/quiz/redo"; return; }
@@ -2492,8 +2663,22 @@ document.addEventListener("click", async e => {
     if (d.weakpick){ P.selfSel = weakConcepts().map(o => o.cid); P.selfScope = "all"; keep(); toast(`약한 개념 ${P.selfSel.length}개를 선택했어요`); return; }
     if (d.scope){ P.selfScope = d.scope; keep(); return; }
     if (d.sgrade){ P.selfGrade = d.sgrade; keep(); return; }
+    if (d.skind){ P.selfKind = d.skind; keep(); return; }
     if (d.shuf !== undefined){ P.selfShuffle = P.selfShuffle === false; keep(); return; }
   }
+  const om = e.target.closest("[data-omr],[data-omrun]");
+  if (om && QZ && QZ.exam){ const m = QZ.exam;
+    if (om.dataset.omr){ const [i, k] = om.dataset.omr.split("|").map(Number), id = m.ids[i]; if (m.ans[id] === k) delete m.ans[id]; else m.ans[id] = k; m.updated = Date.now(); save(); if (QZ.i !== i){ QZ.i = i; renderQuiz(); } else { renderExamLeft(); renderStat(); } }
+    else { const i = m.ids.findIndex((id, j) => j > QZ.i && !m.ans[id]), j = i >= 0 ? i : m.ids.findIndex(id => !m.ans[id]); if (j >= 0){ QZ.i = j; renderQuiz(); } else toast("안 푼 문제가 없어요"); }
+    return; }
+  const wkw = e.target.closest("[data-wkweak]");
+  if (wkw){ const cs = wkw.dataset.wkweak.split(","); const ids = shuffle(D.questions.filter(q => cs.includes(q.conceptId)).map(q => q.id));
+    document.querySelectorAll(".modal").forEach(x => x.remove()); newSession("self", ids, `지난주 약한 개념 ${ids.length}문제`); location.hash = "#/quiz/self"; return; }
+  const sr = e.target.closest("[data-sq],[data-sqset]");
+  if (sr){ if (sr.dataset.sqset){ newSession("search", sr.dataset.sqset.split(","), `틀린 이유 · ${sr.dataset.sqt}`); location.hash = "#/quiz/search"; return; }
+    const all = (sr.dataset.sqall || sr.dataset.sq).split(","); newSession("search", all, `검색 · ${SEARCHQ}`); S.sessions.search.pos = Math.max(0, all.indexOf(sr.dataset.sq)); save(); location.hash = "#/quiz/search"; return; }
+  const sm = e.target.closest("[data-same]");
+  if (sm){ const q = Q[sm.dataset.same], ids = shuffle(sameIds(q)); newSession("same", ids, `같은 개념 · ${q.conceptName || ""} ${ids.length}문제`); location.hash = "#/quiz/same"; return; }
   const wy = e.target.closest("[data-why]");
   if (wy){ const [id, k] = wy.dataset.why.split("|"); const cur = (S.why[id] || {}).r;
     S.why[id] = cur === k ? { r:"", ts: Date.now() } : { r: k, ts: Date.now() }; save();
@@ -2502,11 +2687,13 @@ document.addEventListener("click", async e => {
   if (ps){ const sj = SUBJ5.find(x => x.n === +ps.dataset.psubj); let ids = shuffle(D.questions.filter(q => sj.from.includes(q.subject) && q.grade === "A").map(q => q.id));
     newSession("self", ids, `${sj.name} · A등급 ${ids.length}문제`); location.hash = "#/quiz/self"; return; }
   const pf = e.target.closest("[data-pref]");
-  if (pf){ const [k, v] = pf.dataset.pref.split("|"); const num = ["qTimer","size"].includes(k), bool = ["hideReveal","grid","penOnly"].includes(k);
-    S.prefs[k] = bool ? v === "1" : num ? +v : v; save(true); applyTheme(); keepScroll(); return; }
+  if (pf){ const [k, v] = pf.dataset.pref.split("|"); const num = ["qTimer","size"].includes(k), bool = ["hideReveal","grid","penOnly","keepOn","remind"].includes(k);
+    S.prefs[k] = bool ? v === "1" : num ? +v : v; save(true); applyTheme();
+    if (k === "remind") setReminder();
+    keepScroll(); return; }
   const gs = e.target.closest("[data-gstart]");
   if (gs){ const [sj, g] = gs.dataset.gstart.split("|"), scope = S.prefs.selfScope || "all";
-    let ids = D.questions.filter(q => q.subject === sj && (g === "ALL" || (g === "AB" ? q.grade !== "C" : q.grade === g))).map(q => q.id)
+    let ids = D.questions.filter(q => q.subject === sj && kindOk(q, S.prefs.selfKind) && (g === "ALL" || (g === "AB" ? q.grade !== "C" : q.grade === g))).map(q => q.id)
       .filter(id => scope === "all" || (scope === "new" ? !S.qstat[id] : S.qstat[id] && S.qstat[id].last !== "O"));
     if (S.prefs.selfShuffle !== false) ids = shuffle(ids);
     if (!ids.length){ toast("조건에 맞는 문제가 없어요"); return; }
@@ -2555,6 +2742,7 @@ document.addEventListener("click", async e => {
   else if (a === "import"){ const f = $("#impf"); f.onchange = () => f.files[0] && doImport(f.files[0]); f.click(); }
   else if (a === "resetall"){ if (await ask("모든 풀이 기록을 지울까요?")){ S.sessions = {}; S.qstat = {}; S.mocks = []; S.reviews = {}; S.rounds = {}; S.hist = {}; setLast(null); S.attend = [todayStr()]; save(); route(); } }
   else if (a === "otacheck") OTA.check(true);
+  else if (a === "testnoti"){ if (window.Android && Android.testNotify){ sumT = 0; pushSummary(); Android.testNotify(); } }
   else if (a === "review") startReview();
   else if (a === "final"){ const ids = finalIds(); if (!ids.length){ toast("남은 문제가 없어요"); } else { newSession("final", ids, `시험 직전 세트 ${ids.length}문제`); location.hash = "#/quiz/final"; } }
   else if (a === "clip") startClip();
@@ -2617,6 +2805,7 @@ window.__androidBack = () => {
   autoBackup();
   setTimeout(() => Sync.run(), 1200);
   setTimeout(() => OTA.check(false), 2500);
+  setTimeout(() => { if (!location.hash || location.hash === "#/") maybeWeekly(); pushSummary(); }, 1500);
 })();
 
 </script>
