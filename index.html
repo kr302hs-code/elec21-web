@@ -905,6 +905,45 @@ body.dark .srow{background:var(--card)}
 .omrc.on{background:#22364A;border-color:#22364A;color:#fff}
 .omrfoot{position:sticky;bottom:0;padding:10px;background:#fff;border-top:1px solid var(--line);text-align:center}
 body.dark .omrfoot{background:var(--card)}
+/* v15: motion */
+.qtop .lg span{white-space:nowrap}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes slideL{from{opacity:0;transform:translateX(26px)}to{opacity:1;transform:none}}
+@keyframes slideR{from{opacity:0;transform:translateX(-26px)}to{opacity:1;transform:none}}
+@keyframes popIn{0%{transform:scale(.96)}55%{transform:scale(1.03)}100%{transform:scale(1)}}
+@keyframes shake{0%,100%{transform:none}20%{transform:translateX(-6px)}40%{transform:translateX(5px)}60%{transform:translateX(-3px)}80%{transform:translateX(2px)}}
+@keyframes sheetUp{from{transform:translateY(24px);opacity:0}to{transform:none;opacity:1}}
+@keyframes modalIn{from{opacity:0;transform:translateY(14px) scale(.98)}to{opacity:1;transform:none}}
+@keyframes toastIn{from{opacity:0;transform:translate(-50%,12px)}to{opacity:1;transform:translate(-50%,0)}}
+@keyframes ringPulse{0%{box-shadow:0 0 0 0 rgba(59,184,106,.45)}100%{box-shadow:0 0 0 14px rgba(59,184,106,0)}}
+body.navanim .page>*{animation:fadeUp .34s cubic-bezier(.2,.7,.2,1) both}
+body.navanim .page>*:nth-child(2){animation-delay:.03s}body.navanim .page>*:nth-child(3){animation-delay:.06s}
+body.navanim .page>*:nth-child(4){animation-delay:.09s}body.navanim .page>*:nth-child(n+5){animation-delay:.12s}
+body.navanim .hgrid .card,body.navanim .days .day,body.navanim .rcard,body.navanim .hrow,body.navanim .citem,body.navanim .ncard{animation:fadeUp .36s cubic-bezier(.2,.7,.2,1) both}
+body.navanim .hgrid .col:nth-child(2) .card{animation-delay:.06s}
+body.navanim .qwrap .qbody{animation:fadeIn .25s ease both}
+.qin.an-nx{animation:slideL .24s cubic-bezier(.2,.7,.2,1)}
+.qin.an-pv{animation:slideR .24s cubic-bezier(.2,.7,.2,1)}
+.tabpane.on{animation:fadeIn .18s ease}
+.ch.ok{animation:popIn .32s ease, ringPulse .7s ease}
+.ch.bad{animation:shake .38s ease}
+.res{animation:popIn .3s ease}
+.modal{animation:fadeIn .18s ease}
+.modal .sheet,.modal .zcard{animation:modalIn .24s cubic-bezier(.2,.7,.2,1)}
+.toast{animation:toastIn .22s ease}
+.btn,.card.tap,.ch,.chipb,.seg button,.tb .t,.day,.citem,.ncard,.hrow,.rrow,.gcell,.selrow,.opt,.nav a,.tabs button{transition:transform .14s ease, background-color .18s ease, border-color .18s ease, color .18s ease, box-shadow .18s ease}
+.btn:active,.card.tap:active,.ch:not(:disabled):active,.chipb:active,.day:active,.citem:active,.ncard:active,.hrow:active,.gcell:active{transform:scale(.97)}
+.bar i{transition:width .45s cubic-bezier(.2,.7,.2,1)}
+.sgrid button{transition:background-color .2s ease, transform .12s ease}
+.sgrid button:active{transform:scale(.94)}
+.fcard{animation:modalIn .28s cubic-bezier(.2,.7,.2,1)}
+.fcard.shown .fimg{animation:fadeUp .3s ease}
+.studycard .cal i.on{animation:popIn .4s ease}
+@media (max-width: 820px){ .tabpane.sheetp.on{animation:sheetUp .26s cubic-bezier(.2,.7,.2,1)} }
+body.noanim *,body.noanim *::before,body.noanim *::after{animation:none!important;transition:none!important}
+@media (prefers-reduced-motion: reduce){ *{animation-duration:.01ms!important;transition-duration:.01ms!important} }
+.btn.danger{color:var(--red)}
 </style>
 </head>
 <body>
@@ -944,7 +983,7 @@ const src = p => (window.__IMG && window.__IMG[p]) || p;
 const $ = (s, r = document) => r.querySelector(s);
 
 /* app version + online update (screen files from GitHub) */
-const APP_VERSION = "2026102210";
+const APP_VERSION = "2026102211";
 const OTA_BASE = "https://raw.githubusercontent.com/kr302hs-code/elec21-web/main/";
 const b64of = buf => { let s = "", a = new Uint8Array(buf); for (let i = 0; i < a.length; i += 0x8000) s += String.fromCharCode.apply(null, a.subarray(i, i + 0x8000)); return btoa(s); };
 const OTA = {
@@ -1348,6 +1387,7 @@ function syncBadge(){
   return `<a class="sbadge ${S.syncErr ? "err" : ""}" href="#/settings">${S.syncErr ? "동기화 오류" : S.syncAt ? "동기화됨 · " + ago(S.syncAt) : "동기화 대기"}</a>`;
 }
 function applyTheme(){
+  document.body.classList.toggle("noanim", S.prefs.anim === false);
   const m = S.prefs.theme || "light", dark = m === "dark" || (m === "auto" && window.matchMedia("(prefers-color-scheme: dark)").matches);
   document.body.classList.toggle("dark", dark);
   document.documentElement.style.setProperty("--fsk", { s:.9, m:1, l:1.12, xl:1.25 }[S.prefs.font || "m"]);
@@ -1720,7 +1760,7 @@ const qimgHTML = (q, label) => `<div class="qimg" data-zoom="${q.id}:q">${q.q.ma
 function renderExamLeft(){
   const q = curQ(), m = QZ.exam, sel = m.ans[q.id], sj = examSubj(q), n = QZ.i + 1, left = m.ids.filter(id => !m.ans[id]).length;
   const scr = S.scraps.includes(q.id);
-  $("#qleft").innerHTML = `<div class="qin">
+  $("#qleft").innerHTML = `<div class="qin ${QZ.anim ? "an-" + QZ.anim : ""}">
     <div class="qhead"><span class="grade">${sj.n}과목</span><span class="qno">${n}</span>
       <div class="qtools"><button>${I.search}안 푼 문제 ${left}</button><button data-act="scrap" class="${scr ? "on" : ""}">${I.star}스크랩</button></div></div>
     <div class="tags"><span class="tag"><b>제${sj.n}과목</b> <span>${esc(sj.name)}</span></span></div>
@@ -1735,7 +1775,7 @@ function renderLeft(){
     if (a){ if (a.res === "O" && k === q.answer) cls = "ok"; else if (a.res === "X" && k === a.sel) cls = "bad"; else if ((a.res === "X" || a.res === "T") && k === q.answer) cls = "ans"; }
     return `<button class="ch ${cls}" data-pick="${k}" ${a ? "disabled" : ""}><span class="k">${k}</span>${"①②③④"[k-1]}번</button>`;
   }).join("");
-  $("#qleft").innerHTML = `<div class="qin">
+  $("#qleft").innerHTML = `<div class="qin ${QZ.anim ? "an-" + QZ.anim : ""}">
     <div class="qhead">${gBadge(q, "grade")}${q.dap ? '<span class="grade dapb">답정너</span>' : ""}<span class="qno">${set.key.startsWith("day:") || set.key.startsWith("cbt:") ? q.no : n}</span>
       <div class="qtools"><button title="남은 문제 비율">${I.search}${remainPct}%</button>
       ${q.conceptId ? `<button data-concept="${q.conceptId}">${I.book}개념</button>` : ""}
@@ -1750,12 +1790,12 @@ function renderQuiz(){
   ss.pos = QZ.i; save(true);
   renderTop();
   if (QZ.exam){
-    tick(true); renderExamLeft(); renderStat(); setTab(QZ.tab);
+    tick(true); renderExamLeft(); QZ.anim = null; renderStat(); setTab(QZ.tab);
     Ink.load(S.prefs.pad === "cont" ? "pad:" + QZ.set.key : "mock:" + q.id, { nosave:true }); return;
   }
   const a = ss.ans[q.id];
   $("#resb").innerHTML = a ? `<span class="res ${a.res}">${a.res === "O" ? I.check + (a.guess ? "정답(찍음)" : "정답") : a.res === "X" ? I.x + "오답" : "△ 해설 봄"}</span>` : "";
-  renderLeft(); renderAns(); renderStat(); setTab(QZ.tab);
+  renderLeft(); QZ.anim = null; renderAns(); renderStat(); setTab(QZ.tab);
   if (S.prefs.pad === "cont") Ink.load("pad:" + QZ.set.key, { nosave:true }); else Ink.load(q.id);
   qTimerTick();
 }
@@ -1883,6 +1923,7 @@ function answer(k){
 function reveal(){ const q = curQ(); if (sess(QZ.set.key).ans[q.id]) return; record(q, "T", null); }
 function go(delta){ const n = QZ.i + delta; if (n < 0 || n >= QZ.set.ids.length) return; jumpTo(n); }
 function jumpTo(n){
+  QZ.anim = n > QZ.i ? "nx" : "pv";
   Ink.flush(); QZ.i = n; QZ.qStart = Date.now(); QZ.guess = false;
   const w = $(".qwrap"); if (w) w.style.removeProperty("--sheet");
   if (!QZ.exam){ const a = sess(QZ.set.key).ans[curQ().id]; QZ.tab = a ? "ans" : (isMob() ? "q" : "canvas"); }
@@ -2370,6 +2411,7 @@ function viewSettings(){
   return shell("settings", `<div class="page"><h1 class="h1">설정</h1>
   <div class="card" style="max-width:900px;margin-top:20px"><p class="eyebrow">화면</p>
     <div class="setrow"><div><b>글자 크기</b><small>이 기기에만 적용돼요.</small></div>${segs("font", [["s","작게"],["m","보통"],["l","크게"],["xl","아주 크게"]], P.font || "m")}</div>
+    <div class="setrow"><div><b>애니메이션</b><small>화면 전환·팝업·정답/오답 효과를 부드럽게 보여줘요.</small></div>${segs("anim", [[1,"켜기"],[0,"끄기"]], S.prefs.anim === false ? 0 : 1)}</div>
     <div class="setrow"><div><b>화면 모드</b><small>시스템은 기기 설정(다크 모드)을 따라가요. 필기 영역은 항상 밝게 유지돼요.</small></div>${segs("theme", [["light","라이트"],["dark","다크"],["auto","시스템"]], P.theme || "light")}</div>
   </div>
   <div class="card" style="max-width:900px;margin-top:16px"><p class="eyebrow">문제 풀이</p>
@@ -2398,7 +2440,8 @@ function viewSettings(){
     <div class="setrow"><div><b>백업 파일 내보내기</b><small>풀이 기록, 스크랩, 필기(${nNotes}개)를 파일 하나로 저장해요.</small></div><button class="btn o sm" data-act="export">내보내기</button></div>
     <div class="setrow"><div><b>백업 파일 불러오기</b><small>내보낸 파일로 기록을 되살려요. 지금 기록은 덮어써집니다.</small></div><button class="btn o sm" data-act="import">불러오기</button><input type="file" id="impf" accept=".json,application/json" hidden></div>
     <div class="setrow"><div><b>자동 백업</b><small>매일 처음 열 때 기기 안에 자동으로 백업해요 (최근 3개 보관).</small><div id="bklist" class="bklist"></div></div></div>
-    <div class="setrow"><div><b>풀이 기록 초기화</b><small>모든 풀이 기록, 회차, 모의고사 기록, 출석을 지워요. 스크랩과 필기는 유지돼요.</small></div><button class="btn g sm" data-act="resetall">초기화</button></div>
+    <div class="setrow"><div><b>풀이 기록 초기화</b><small>풀이 기록·정답률·오늘의 복습·학습 기록·모의고사·DAY 회차·공부한 날을 지워요. 스크랩·필기·메모는 남아요. 구글 드라이브와 다른 기기에도 적용돼요.</small></div><button class="btn g sm" data-act="resetall">초기화</button></div>
+    <div class="setrow"><div><b>전체 초기화</b><small>위 기록에 더해 스크랩·필기·공식 노트·메모·회독 체크까지 모두 지워요. 처음 설치한 상태가 돼요.</small></div><button class="btn g sm danger" data-act="resetevery">전체 초기화</button></div>
     <div class="setrow"><div><b>S펜 사용법</b><small>펜 전용을 켜면 손가락 터치는 필기 대신 이동·확대에 쓰여요. S펜 옆 버튼을 누른 채로 쓰면 지우개로 동작해요.</small></div></div>
   </div></div>`);
 }
@@ -2445,8 +2488,30 @@ async function doImport(file){
 }
 
 /* Google Drive sync (file linked through the system picker; merge by timestamps) */
+// reset points: anything older than S.resetAt (records) / S.resetAllAt (everything) is dropped on every device
+const REC_KEYS = ["sessions","qstat","reviews","rounds","hist","srs","why"], ALL_KEYS = ["scrapMap","memos","creads","clipSrs"];
+function clearRecords(){ REC_KEYS.forEach(k => S[k] = {}); S.mocks = []; S.attend = []; S.daySec = {}; S.last = null; S.lastTs = 0; S.weekShown = ""; }
+function clearAll(){ clearRecords(); ALL_KEYS.forEach(k => S[k] = {}); S.scraps = []; S.notes = {}; }
+async function wipeLocalFiles(){ for (const k of await IDB.keys()) await IDB.del(k); for (const k of await IDB.keys("clips")) await IDB.del(k, "clips"); }
+async function doReset(all){
+  const t = Date.now();
+  if (all){ clearAll(); await wipeLocalFiles(); S.resetAllAt = t; } else clearRecords();
+  S.resetAt = t; S.changedAt = t; persist(); toast(all ? "전체 초기화했어요" : "풀이 기록을 초기화했어요");
+  if (Sync.linked()) await Sync.run(true, true);
+  route();
+}
+function tsOf(k, v){ return k === "sessions" ? v.updated : k === "reviews" ? v.at : k === "hist" ? v.updated : v.ts; }
 function mergeState(R){
   if (!R) return;
+  // the other device reset later than us → apply its reset here first
+  if ((R.resetAllAt || 0) > (S.resetAllAt || 0)){ clearAll(); S.resetAllAt = R.resetAllAt; S._wipe = true; }
+  if ((R.resetAt || 0) > (S.resetAt || 0)){ clearRecords(); S.resetAt = R.resetAt; }
+  const rA = S.resetAt || 0, rB = S.resetAllAt || 0;
+  R = Object.assign({}, R);
+  REC_KEYS.forEach(k => { const o = {}; for (const [id, v] of Object.entries(R[k] || {})) if ((tsOf(k, v) || 0) > rA) o[id] = v; R[k] = o; });
+  ALL_KEYS.forEach(k => { const o = {}; for (const [id, v] of Object.entries(R[k] || {})) if ((v.ts || 0) > rB) o[id] = v; R[k] = o; });
+  R.mocks = (R.mocks || []).filter(m => (m.updated || m.done || m.created || 0) > rA);
+  if ((R.resetAt || 0) < rA){ R.attend = (R.attend || []).filter(d => d >= todayStr()); R.daySec = {}; }
   const by = (L, Rm, f) => { for (const [k, v] of Object.entries(Rm || {})) if (!L[k] || (f(v) || 0) > (f(L[k]) || 0)) L[k] = v; };
   by(S.qstat, R.qstat, v => v.ts);
   by(S.sessions, R.sessions, v => v.updated);
@@ -2472,11 +2537,15 @@ function mergeState(R){
   if ((R.lastTs || 0) > (S.lastTs || 0)){ S.last = R.last; S.lastTs = R.lastTs; }
 }
 async function mergeClips(remote){
+  const rB = S.resetAllAt || 0; remote = Object.fromEntries(Object.entries(remote || {}).filter(([k, v]) => (v.ts || 0) > rB));
   const local = await IDB.all("clips");
   for (const [k, v] of Object.entries(remote || {})){ if ((S.clipDel[k] || 0) >= (v.ts || 0)) continue; if (!local[k]) await IDB.put(k, v, "clips"); }
   for (const [k, v] of Object.entries(local)) if ((S.clipDel[k] || 0) >= (v.ts || 0)) await IDB.del(k, "clips");
 }
 async function mergeNotes(remote){
+  if (S._wipe){ await wipeLocalFiles(); delete S._wipe; }
+  const rB = S.resetAllAt || 0;
+  remote = Object.fromEntries(Object.entries(remote || {}).filter(([k, v]) => (v.ts || 0) > rB));
   const local = await IDB.all();
   for (const [k, v] of Object.entries(remote || {})){
     if ((S.noteDel[k] || 0) >= (v.ts || 0)) continue;
@@ -2576,7 +2645,7 @@ function keepScroll(){ const y = $(".main") ? $(".main").scrollTop : 0; route(tr
 /* router */
 async function route(keepSel){
   const h = location.hash.replace(/^#\/?/, ""), [r, arg0] = h.split("/"), arg = decodeURIComponent(arg0 || "");
-  if (!keepSel) SEL = { page:null, ids:new Set(), all:[] };
+  if (!keepSel){ SEL = { page:null, ids:new Set(), all:[] }; document.body.classList.add("navanim"); clearTimeout(window.__navT); window.__navT = setTimeout(() => document.body.classList.remove("navanim"), 700); }
   document.querySelectorAll(".modal").forEach(m => m.remove());
   if (QZ && QZ.timer){ clearInterval(QZ.timer); save(); }
   const app = $("#app");
@@ -2687,7 +2756,7 @@ document.addEventListener("click", async e => {
   if (ps){ const sj = SUBJ5.find(x => x.n === +ps.dataset.psubj); let ids = shuffle(D.questions.filter(q => sj.from.includes(q.subject) && q.grade === "A").map(q => q.id));
     newSession("self", ids, `${sj.name} · A등급 ${ids.length}문제`); location.hash = "#/quiz/self"; return; }
   const pf = e.target.closest("[data-pref]");
-  if (pf){ const [k, v] = pf.dataset.pref.split("|"); const num = ["qTimer","size"].includes(k), bool = ["hideReveal","grid","penOnly","keepOn","remind"].includes(k);
+  if (pf){ const [k, v] = pf.dataset.pref.split("|"); const num = ["qTimer","size"].includes(k), bool = ["hideReveal","grid","penOnly","keepOn","remind","anim"].includes(k);
     S.prefs[k] = bool ? v === "1" : num ? +v : v; save(true); applyTheme();
     if (k === "remind") setReminder();
     keepScroll(); return; }
@@ -2740,7 +2809,8 @@ document.addEventListener("click", async e => {
   else if (a === "scrap"){ const on = toggleScrap(curQ().id); QZ.exam ? renderExamLeft() : renderLeft(); toast(on ? "스크랩했어요" : "스크랩을 해제했어요"); }
   else if (a === "export") doExport();
   else if (a === "import"){ const f = $("#impf"); f.onchange = () => f.files[0] && doImport(f.files[0]); f.click(); }
-  else if (a === "resetall"){ if (await ask("모든 풀이 기록을 지울까요?")){ S.sessions = {}; S.qstat = {}; S.mocks = []; S.reviews = {}; S.rounds = {}; S.hist = {}; setLast(null); S.attend = [todayStr()]; save(); route(); } }
+  else if (a === "resetall"){ if (await ask(`풀이 기록을 초기화할까요?<br><small>풀이·정답률·오늘의 복습·학습 기록·모의고사·DAY 회차·공부한 날이 지워져요.${Sync.linked() ? "<br>구글 드라이브와 다른 기기에도 똑같이 적용돼요." : ""}</small>`, "초기화", "취소")) doReset(false); }
+  else if (a === "resetevery"){ if (await ask(`<b>전체 초기화</b>할까요?<br><small>풀이 기록에 더해 스크랩·필기·공식 노트·메모·회독 체크까지 모두 지워져요. 되돌릴 수 없어요.${Sync.linked() ? "<br>구글 드라이브와 다른 기기에도 적용돼요." : ""}</small>`, "모두 지우기", "취소")) doReset(true); }
   else if (a === "otacheck") OTA.check(true);
   else if (a === "testnoti"){ if (window.Android && Android.testNotify){ sumT = 0; pushSummary(); Android.testNotify(); } }
   else if (a === "review") startReview();
