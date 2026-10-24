@@ -1060,6 +1060,33 @@ body.dark .nbscroll{background:#2A261E}body.dark .nbcard{background:var(--card)}
   .nbtb{display:flex!important;flex-wrap:nowrap!important;overflow-x:auto!important}
   .nbtb .t{flex:none;min-width:50px}
 }
+.slotbox{max-width:620px;height:auto}.slotrow{border-top:1px solid var(--line);padding:10px 4px}.slotrow:first-of-type{border-top:0}
+/* v19 */
+.nbnav{position:absolute;left:50%;bottom:14px;transform:translateX(-50%);z-index:6;display:flex;align-items:center;gap:4px;background:rgba(29,29,27,.82);color:#fff;border-radius:99px;padding:4px;box-shadow:0 4px 14px rgba(0,0,0,.18)}
+.nbnav button{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;color:#fff}
+.nbnav button svg{width:18px;height:18px}
+.nbnav button:active{background:rgba(255,255,255,.18)}
+.nbnav .nbind{min-width:62px;text-align:center;font-size:14px;font-weight:700;font-variant-numeric:tabular-nums}
+.hrow .hres{flex:none;margin-left:4px}
+@media (max-width: 820px){ .hrow .hres{margin-left:auto} }
+/* v20 */
+.paper-lined{background-image:repeating-linear-gradient(#fff 0, #fff calc(100% / 35.35 - 1px), #E7E2D4 calc(100% / 35.35 - 1px), #E7E2D4 calc(100% / 35.35))}
+.paper-grid{background-image:linear-gradient(#ECE7DA 1px, transparent 1px),linear-gradient(90deg, #ECE7DA 1px, transparent 1px);background-size:4% calc(4% * 1000 / 1414);background-color:#fff}
+.ovbox{max-width:880px}
+.ovgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:14px}
+.ovcell{display:flex;flex-direction:column;gap:6px}
+.ovthumb{position:relative;aspect-ratio:1000/1414;background:#fff;border:1px solid var(--line2);border-radius:8px;overflow:hidden;display:grid;place-items:center}
+.ovthumb img{width:100%;height:100%;object-fit:cover}
+.ovthumb .ovno{position:absolute;right:6px;bottom:4px;font-size:12px;color:var(--sub)}
+.ovload{color:var(--mute)}
+.ovbar{display:flex;align-items:center;justify-content:space-between}
+.ovbar button{width:34px;height:30px;border-radius:8px;background:var(--gray-chip);display:grid;place-items:center}
+.ovbar button svg{width:16px;height:16px}.ovbar button:disabled{opacity:.3}
+.studycard .cal i.lv1{background:#FBEBB3}.studycard .cal i.lv2{background:#F8DD7E}.studycard .cal i.lv3{background:#F6D45C}.studycard .cal i.lv4{background:#E8B92A;color:#1D1D1B}
+.calleg{display:flex;align-items:center;gap:4px;justify-content:flex-end;font-size:calc(var(--fs) * 11);color:var(--sub);margin:-2px 0 6px}
+.calleg i{width:12px;height:12px;border-radius:3px;display:inline-block}
+.calleg i.lv1{background:#FBEBB3}.calleg i.lv2{background:#F8DD7E}.calleg i.lv3{background:#F6D45C}.calleg i.lv4{background:#E8B92A}
+.bkrow{display:flex;align-items:center;justify-content:space-between;padding:6px 0;border-top:1px dashed var(--line)}
 </style>
 </head>
 <body>
@@ -1099,7 +1126,7 @@ const src = p => (window.__IMG && window.__IMG[p]) || p;
 const $ = (s, r = document) => r.querySelector(s);
 
 /* app version + online update (screen files from GitHub) */
-const APP_VERSION = "2026102215";
+const APP_VERSION = "2026102218";
 const OTA_BASE = "https://raw.githubusercontent.com/kr302hs-code/elec21-web/main/";
 const b64of = buf => { let s = "", a = new Uint8Array(buf); for (let i = 0; i < a.length; i += 0x8000) s += String.fromCharCode.apply(null, a.subarray(i, i + 0x8000)); return btoa(s); };
 const OTA = {
@@ -1253,8 +1280,10 @@ const IDB = {
   });},
   tx(mode, st = "notes"){ return this.db.transaction(st, mode).objectStore(st); },
   get(k, st){ return new Promise(res => { if(!this.db) return res(null); const r = this.tx("readonly", st).get(k); r.onsuccess = () => res(r.result || null); r.onerror = () => res(null); }); },
-  put(k, v, st){ return new Promise(res => { if(!this.db) return res(); const r = this.tx("readwrite", st).put(v, k); r.onsuccess = r.onerror = () => res(); }); },
-  del(k, st){ return new Promise(res => { if(!this.db) return res(); const r = this.tx("readwrite", st).delete(k); r.onsuccess = r.onerror = () => res(); }); },
+  put(k, v, st){ const c = BCODE[st || "notes"]; if (c && S && v){ S.blobTs = S.blobTs || {}; S.blobTs[c + ":" + k] = v.ts || Date.now(); }
+    return new Promise(res => { if(!this.db) return res(); const r = this.tx("readwrite", st).put(v, k); r.onsuccess = r.onerror = () => res(); }); },
+  del(k, st){ const c = BCODE[st || "notes"]; if (c && S && S.blobTs) delete S.blobTs[c + ":" + k];
+    return new Promise(res => { if(!this.db) return res(); const r = this.tx("readwrite", st).delete(k); r.onsuccess = r.onerror = () => res(); }); },
   keys(st){ return new Promise(res => { if(!this.db) return res([]); const r = this.tx("readonly", st).getAllKeys(); r.onsuccess = () => res(r.result || []); r.onerror = () => res([]); }); },
   all(st){ return new Promise(res => { if(!this.db) return res({}); const out = {}; const r = this.tx("readonly", st).openCursor();
     r.onsuccess = () => { const c = r.result; if(c){ out[c.key] = c.value; c.continue(); } else res(out); }; r.onerror = () => res(out); }); }
@@ -1303,9 +1332,15 @@ function setOf(key){
 }
 const KIND = { same:"같은 개념", search:"검색", final:"직전 세트", review:"복습", grade:"A등급", day:"DAY", concept:"개념 기출", self:"자율 학습", scrap:"스크랩", redo:"다시 풀기", wrong:"오답", dap:"답정너", rand:"랜덤", cbt:"CBT 회차", exam:"모의고사", mock:"모의고사" };
 const kindOf = key => KIND[key.split(":")[0]] || "학습";
+const DYN = ["self","scrap","same","search","redo","review","final","dap","rand","wrong"];
 function newSession(key, ids, title){
   const old = S.sessions[key];
-  if (old && old.hid) closeHist(old.hid, "quit");
+  if (old && old.hid){
+    const h = S.hist[old.hid], base = key.split(":")[0];
+    if (h && h.status === "run" && Object.keys(old.ans || {}).length && DYN.includes(base) && !key.includes(":")){
+      const nk = base + ":" + old.hid; S.sessions[nk] = old; h.key = nk;   // keep it in 이어서 풀기
+    } else closeHist(old.hid, "quit");
+  }
   S.sessions[key] = { ans:{}, pos:0, ids, title, updated: Date.now() }; save();
 }
 function closeHist(hid, status){ const h = S.hist[hid]; if (!h || h.status !== "run") return; h.status = status; h.updated = Date.now(); }
@@ -1489,7 +1524,8 @@ function studyCard(){
   const days = new Set(S.attend), now = new Date(), y = now.getFullYear(), mo = now.getMonth(), t = todayStr();
   const first = new Date(y, mo, 1), off = (first.getDay() + 6) % 7, nd = new Date(y, mo + 1, 0).getDate();
   let cells = ""; for (let i = 0; i < off; i++) cells += "<i></i>";
-  for (let d = 1; d <= nd; d++){ const ds = `${y}-${pad(mo + 1)}-${pad(d)}`; cells += `<i class="${days.has(ds) ? "on" : ""} ${ds === t ? "td" : ""}">${d}</i>`; }
+  for (let d = 1; d <= nd; d++){ const ds = `${y}-${pad(mo + 1)}-${pad(d)}`, sec = S.daySec[ds] || 0, lv = !days.has(ds) && !sec ? 0 : sec >= 7200 ? 4 : sec >= 3600 ? 3 : sec >= 1800 ? 2 : 1;
+    cells += `<i class="${lv ? "on lv" + lv : ""} ${ds === t ? "td" : ""}" ${sec ? `title="${fmtDur(sec)}"` : ""}>${d}</i>`; }
   let streak = 0; const c = new Date(now); if (!days.has(t)) c.setDate(c.getDate() - 1);
   while (days.has(`${c.getFullYear()}-${pad(c.getMonth() + 1)}-${pad(c.getDate())}`)){ streak++; c.setDate(c.getDate() - 1); }
   const month = S.attend.filter(d => d.startsWith(`${y}-${pad(mo + 1)}`)).length;
@@ -1497,6 +1533,7 @@ function studyCard(){
   const doneDays = D.days.filter(d => S.rounds["day:" + d.day]).length;
   return `<div class="card studycard"><div class="rhead2"><p class="eyebrow" style="margin:0">공부한 날 · ${mo + 1}월</p>${dd ? `<span class="ddpill">${dd}</span>` : `<button class="tlink" data-go="#/settings">시험일 설정</button>`}</div>
     <div class="cal"><b>월</b><b>화</b><b>수</b><b>목</b><b>금</b><b>토</b><b>일</b>${cells}</div>
+    <div class="calleg"><span>공부 시간</span><i class="lv1"></i><i class="lv2"></i><i class="lv3"></i><i class="lv4"></i><span>2시간+</span></div>
     <div class="sstat"><span>연속 <b>${streak}</b>일</span><span>이번 달 <b>${month}</b>일</span><span>누적 <b>${S.attend.length}</b>일</span><span>플랜 <b>${doneDays}</b>/21</span></div></div>`;
 }
 function syncBadge(){
@@ -1510,15 +1547,40 @@ function applyTheme(){
   document.body.classList.toggle("dark", dark);
   document.documentElement.style.setProperty("--fsk", { s:.9, m:1, l:1.12, xl:1.25 }[S.prefs.font || "m"]);
 }
-function viewHome(){
-  // up to 3 unfinished study sets (+ unfinished mock exams)
+function runList(){
   const runs = Object.values(S.hist).filter(h => h.status === "run" && S.sessions[h.key] && S.sessions[h.key].hid === h.id && setOf(h.key).ids.length)
     .map(h => { const a = Object.values(S.sessions[h.key].ans || {}), tot = setOf(h.key).ids.length;
       return { key: h.key, title: setOf(h.key).title, kind: h.kind, o: a.filter(x => x.res === "O").length, x: a.filter(x => x.res !== "O").length, left: tot - a.length, total: tot, t: S.sessions[h.key].updated || h.updated, go: "#/quiz/" + h.key }; });
   S.mocks.filter(m => !m.submitted && !m.hidden).forEach(m => runs.push({ key: "exam:" + m.id, title: m.title, kind: "모의고사", exam: true, o: Object.keys(m.ans).length, x: 0, left: m.ids.length - Object.keys(m.ans).length, total: m.ids.length, t: m.updated || m.created, go: "#/exam/" + m.id }));
-  runs.sort((a, b) => b.t - a.t);
+  return runs.sort((a, b) => b.t - a.t);
+}
+const RUN_MAX = 3;
+function slotGate(key){
+  return new Promise(res => {
+    const ss = key && S.sessions[key];
+    const isNew = !(ss && ss.hid && S.hist[ss.hid] && S.hist[ss.hid].status === "run");
+    const others = runList().filter(r => r.key !== key);
+    if (!isNew || others.length < RUN_MAX) return res(true);
+    const m = document.createElement("div"); m.className = "modal";
+    m.innerHTML = `<div class="sheet slotbox"><div class="hd"><h3>이어서 풀기가 꽉 찼어요</h3><button class="x" data-close>${I.x}</button></div><div class="bd">
+      <p class="cdesc" style="margin:0 0 12px">이어서 풀기는 ${RUN_MAX}개까지 보관돼요. 정리할 1개를 고르면 새로 시작해요.<br>정리한 것은 학습 기록에 ‘중단’으로 남아요.</p>
+      ${others.map(r => `<div class="rrow slotrow"><div class="rmain"><div class="rtop"><span class="kpill">${esc(r.kind)}</span><b>${esc(r.title)}</b></div>
+        <div class="rnums">${r.exam ? `<span>표기 <b>${r.o}</b></span>` : `<span class="gr">맞힘 <b>${r.o}</b></span><span class="rd">틀림 <b>${r.x}</b></span>`}<span class="or">남음 <b>${r.left}</b></span><span class="rago">${ago(r.t)}</span></div></div>
+        <button class="btn g sm" data-slotdrop="${r.key}">정리</button></div>`).join("")}
+      <div class="acts" style="justify-content:flex-end;margin-top:12px"><button class="btn o" data-close>취소</button></div></div></div>`;
+    m.addEventListener("click", ev => {
+      const d = ev.target.closest("[data-slotdrop]");
+      if (d){ const k = d.dataset.slotdrop; if (k.startsWith("exam:")){ const mk = mockById(k.slice(5)); if (mk){ mk.hidden = true; mk.updated = Date.now(); } } else quitSession(k); save(); m.remove(); toast("정리했어요 · 학습 기록에 남아 있어요"); return res(true); }
+      if (ev.target === m || ev.target.closest("[data-close]")){ m.remove(); res(false); }
+    });
+    document.body.appendChild(m);
+  });
+}
+function viewHome(){
+  // up to 3 unfinished study sets (+ unfinished mock exams)
+  const runs = runList();
   const top = runs.slice(0, 3);
-  const resume = `<div class="card resume3"><div class="rhead2"><span class="tagy">이어서 풀기</span><span class="cdesc">최근 ${top.length}개</span></div>
+  const resume = `<div class="card resume3"><div class="rhead2"><span class="tagy">이어서 풀기</span><span class="cdesc">${top.length} / ${RUN_MAX}</span></div>
     ${top.length ? top.map(r => `<div class="rrow" data-go="${r.go}"><div class="rmain"><div class="rtop"><span class="kpill">${esc(r.kind)}</span><b>${esc(r.title)}</b></div>
       <div class="rnums">${r.exam ? `<span>표기 <b>${r.o}</b></span>` : `<span class="gr">맞힘 <b>${r.o}</b></span><span class="rd">틀림 <b>${r.x}</b></span>`}<span class="or">남음 <b>${r.left}</b></span><span class="rago">${ago(r.t)}</span></div></div>
       <button class="rx" data-hidekey="${r.key}" title="목록에서 지우기">${I.x}</button></div>`).join("")
@@ -1742,6 +1804,7 @@ function mockTrend(done){
       <polyline points="${pts}" class="pl"/>${L.map((m, i) => `<circle cx="${px(i)}" cy="${py(m.result.avg)}" r="4.5" class="${m.result.pass ? "cp" : "cf"}"/><text x="${px(i)}" y="${H - 4}" text-anchor="middle" class="tx">${i + 1}</text>`).join("")}</svg>
     <div class="lastsub">${SUBJ5.map((sj, i) => `<span class="${last.scores[i] < 40 ? "rd" : ""}">${sj.n}과목 <b>${last.scores[i]}</b></span>`).join("")}</div></div>`;
 }
+async function createMockGated(){ if (await slotGate(null)) createMock(); }
 function createMock(){
   const srcSel = S.prefs.mockSrc || "book";
   let ids = [], title;
@@ -1771,7 +1834,9 @@ function createMock(){
 const fmtClock = sec => { const h = Math.floor(sec / 3600), mi = Math.floor(sec % 3600 / 60), se = sec % 60; return `${h}:${pad(mi)}:${pad(se)}`; };
 function tick(only){
   const m = QZ && QZ.exam; if (!m) return;
-  if (!only && !document.hidden){ m.elapsed++; m.updated = m.updated || Date.now(); if (m.elapsed % 10 === 0) save(); }
+  if (!only){ const now = Date.now(), gap = m.lastTick ? Math.round((now - m.lastTick) / 1000) : 1; m.lastTick = now;
+    if (S.prefs.examRealtime) m.elapsed = Math.min(m.limit, m.elapsed + Math.max(1, gap)); else if (!document.hidden) m.elapsed++;
+    m.updated = m.updated || now; if (m.elapsed % 10 === 0) save(); }
   const rem = Math.max(0, m.limit - m.elapsed);
   const r = $("#resb"); if (r) r.innerHTML = `<span class="timer ${rem < 600 ? "low" : ""}">${I.clock}${fmtClock(rem)}</span>`;
   if (rem <= 0 && !only){ toast("시험 시간이 끝나 자동 제출했어요"); submitMock(true); }
@@ -1836,7 +1901,7 @@ function viewQuiz(key){
   if (!exam){ ensureHist(key, set); if (ss.ans[set.ids[QZ.i]]) QZ.tab = "ans"; save(true);
     QZ.qStart = Date.now();
     QZ.timer = setInterval(() => { if (document.hidden || !QZ) return; addSec(1); const h = S.hist[(S.sessions[QZ.set.key] || {}).hid]; if (h){ h.sec = (h.sec || 0) + 1; if (h.sec % 20 === 0) save(true); } qTimerTick(); }, 1000); }
-  if (exam){ QZ.timer = setInterval(() => { tick(false); if (!document.hidden) addSec(1); }, 1000); if (S.prefs.cbtUi && !isMob()) QZ.tab = "stat"; }
+  if (exam){ exam.lastTick = null; QZ.timer = setInterval(() => { tick(false); if (!document.hidden) addSec(1); }, 1000); if (S.prefs.cbtUi && !isMob()) QZ.tab = "stat"; }
   const endBtn = exam ? `data-act="submit">답안 제출` : `data-act="result">결과 보기`;
   return `<div class="qwrap ${exam && S.prefs.cbtUi ? "cbtui" : ""}">
     <div class="qtop"><button class="lg" data-go="${exam ? "#/mock" : "#/"}">${I.left}${I.bolt}<span>전기기사 21일</span></button>
@@ -2092,7 +2157,7 @@ function viewReview(r, ref, isHist){
   return shell(isHist ? "hist" : "home", `<div class="page"><h1 class="h1">${esc(r.title)} 결과</h1>
     <span class="chip"><span class="kpill">${esc(r.kind || kindOf(key))}</span> ${new Date(r.updated || r.at).toLocaleString("ko-KR")} <span>${status}${r.sec ? ` · ${fmtDur(r.sec)}` : ""} · 정답 ${ok} · 오답 ${bad}${none ? ` · 안 풂 ${none}` : ""} · 정답률 ${ok + bad ? Math.round(ok / (ok + bad) * 100) : 0}%</span></span>
     <div class="revbar"><div class="seg"><button class="${filt === "all" ? "on" : ""}" data-rfilt="all">전체 ${total}</button><button class="${filt === "bad" ? "on" : ""}" data-rfilt="bad">오답·안 푼 문제 ${bad + none}</button></div>
-      <div class="acts">${bad + none ? `<button class="btn y" data-redo="${refAttr}" data-wrong="1">틀린 문제만 다시 풀기</button>` : ""}<button class="btn g" data-redo="${refAttr}">전체 다시 풀기</button></div></div>
+      <div class="acts">${isHist && r.status === "quit" && none ? `<button class="btn k" data-hresume="${r.id}">이어서 풀기 (남은 ${none}문제)</button>` : ""}${bad + none ? `<button class="btn y" data-redo="${refAttr}" data-wrong="1">틀린 문제만 다시 풀기</button>` : ""}<button class="btn g" data-redo="${refAttr}">전체 다시 풀기</button></div></div>
     <div class="rlist">${items.map(card).join("") || '<div class="empty"><b>모두 맞혔어요</b></div>'}</div></div>`);
 }
 function redo(ref, wrongOnly){
@@ -2440,6 +2505,21 @@ function runSearch(t){
     if (ids.length) out.push(`<div class="sgroup"><b>틀린 이유 "${l}" ${ids.length}문제</b><div class="acts" style="margin-top:6px"><button class="btn y sm" data-sqset="${ids.join(",")}" data-sqt="${l}">${ids.length}문제 다시 풀기</button></div></div>`); });
   el.innerHTML = out.join("") || `<div class="empty">"${esc(t)}"에 해당하는 결과가 없어요</div>`;
 }
+async function resumeHist(hid){
+  const h = S.hist[hid]; if (!h || h.status !== "quit") return;
+  if (!(await slotGate(null))) return;
+  let key = h.key; const base = key.split(":")[0], cur = S.sessions[key];
+  if (cur && cur.hid && cur.hid !== hid && S.hist[cur.hid] && S.hist[cur.hid].status === "run"){
+    if (DYN.includes(base)) key = base + ":" + hid;
+    else { if (!(await ask(`같은 세트(${esc(setOf(key).title)})를 지금 풀고 있어요.<br>그걸 정리하고 이 기록을 이어서 풀까요?`, "이어 풀기", "취소"))) return; quitSession(key); }
+  }
+  const ans = JSON.parse(JSON.stringify(h.ans || {})), ids = h.ids.slice();
+  const pos = Math.max(0, ids.findIndex(id => !ans[id]));
+  S.sessions[key] = { ans, pos, ids, title: h.title, hid, updated: Date.now() };
+  h.status = "run"; h.key = key; h.updated = Date.now(); save();
+  toast(`${h.title} 이어서 풀어요 · ${Object.keys(ans).length}/${ids.length}`);
+  location.hash = "#/quiz/" + key;
+}
 function viewHistory(){
   const hs = Object.values(S.hist).filter(h => histCounts(h).n).sort((a, b) => b.updated - a.updated);
   const st = { done:["완료","ok"], run:["진행 중","run"], quit:["중단","no"] };
@@ -2450,7 +2530,7 @@ function viewHistory(){
     ${selBar("hist", hs.map(h => h.id))}
     ${hs.length ? `<div class="hlist">${hs.map(h => { const c = histCounts(h), [sl, sc] = st[h.status] || ["", ""];
       return `<div class="hrow ${selCls(h.id)}" data-selid="${h.id}" data-go="#/hist/${h.id}"><span class="kpill">${esc(h.kind)}</span><div class="hmain"><b>${esc(h.title)}</b><small>${new Date(h.updated).toLocaleString("ko-KR")}${h.sec ? ` · ${fmtDur(h.sec)}` : ""}</small></div>
-        <div class="hnums"><span>${h.ids.length}문제</span><span class="gr">맞힘 ${c.o}</span><span class="rd">오답 ${c.x + c.t}</span></div><span class="pill ${sc}">${sl}</span></div>`; }).join("")}</div>`
+        <div class="hnums"><span>${h.ids.length}문제</span><span class="gr">맞힘 ${c.o}</span><span class="rd">오답 ${c.x + c.t}</span></div><span class="pill ${sc}">${sl}</span>${h.status === "quit" && !SEL.page && c.n < h.ids.length ? `<button class="btn y sm hres" data-hresume="${h.id}">이어 풀기</button>` : ""}</div>`; }).join("")}</div>`
       : `<div class="empty"><b>아직 기록이 없어요</b>DAY·자율 학습·스크랩·모의고사 문제를 풀면 여기에 쌓여요</div>`}</div>`);
 }
 let NOTES = {}, CLIPS = {}, SEARCHQ = "";
@@ -2542,6 +2622,7 @@ function viewSettings(){
     row("애니메이션", "화면 전환·정답 효과", segs("anim", [[1,"켜기"],[0,"끄기"]], P.anim === false ? 0 : 1)))}
   ${card("문제 풀이",
     row("문제당 제한 시간", "모의고사는 150분 타이머 사용", segs("qTimer", [[0,"끄기"],[60,"1분"],[90,"1분 30초"],[120,"2분"]], P.qTimer || 0)) +
+    row("모의고사 시간", "앱을 내려도 실전처럼 계속 흐르게", segs("examRealtime", [[0,"화면 볼 때만"],[1,"계속 흐름"]], P.examRealtime ? 1 : 0)) +
     row("해설 바로보기 버튼", "풀기 전 해설 보기 방지", segs("hideReveal", [[0,"보이기"],[1,"숨기기"]], P.hideReveal ? 1 : 0)) +
     row("스크랩 자동 졸업", "2번 연속 맞히면 스크랩에서 빼요", segs("scrapGrad", [[1,"켜기"],[0,"끄기"]], P.scrapGrad === false ? 0 : 1)) +
     row("시험일", "홈에 D-day 표시", `<input type="date" id="examdate" value="${S.examDate || ""}" class="dinput">`, true))}
@@ -2563,6 +2644,7 @@ function viewSettings(){
     row("백업 내보내기", `기록·스크랩·필기 ${nNotes}개를 파일로`, `<button class="btn o sm" data-act="export">내보내기</button>`, true) +
     row("백업 불러오기", "지금 기록을 덮어써요", `<button class="btn o sm" data-act="import">불러오기</button><input type="file" id="impf" accept=".json,application/json" hidden>`, true) +
     row("자동 백업", "매일 1번, 최근 3개 보관", "", true) + `<div id="bklist" class="bklist"></div>` +
+    (on ? row("드라이브 백업본", "매주 자동 · 최근 4개 보관", `<button class="btn o sm" data-act="snapnow">지금 만들기</button>`, true) + `<div id="snaplist" class="bklist"></div>` : "") +
     row("과목 노트 출력", "노트를 A4로 인쇄·PDF 저장", `<button class="btn o sm" data-go="#/print/0">출력</button>`, true))}
   ${card("앱 정보",
     row(`버전 ${APP_VERSION}`, bv && bv !== APP_VERSION ? `설치 ${esc(bv)} · 온라인 업데이트 적용` : "새 버전이 있으면 켤 때 알려줘요",
@@ -2603,15 +2685,19 @@ async function doExport(){
   const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([blob], { type:"application/json" })); a.download = name; a.click();
   toast("백업 파일을 저장했어요");
 }
+async function fillSnaps(){
+  const el = $("#snaplist"); if (!el || !Sync.linked()) return;
+  el.innerHTML = `<span class="cdesc">불러오는 중…</span>`;
+  try { const L = await Sync.snapList();
+    el.innerHTML = L.length ? L.map(f => { const d = f.name.slice(12, 22); return `<div class="bkrow"><span>${d} 백업</span><button class="btn g sm" data-snaprestore="${f.id}">이걸로 되돌리기</button></div>`; }).join("") : `<span class="cdesc">아직 드라이브 백업본이 없어요</span>`;
+  } catch(e){ el.innerHTML = `<span class="cdesc">불러오지 못했어요</span>`; }
+}
 async function doImport(file){
   try {
     const j = JSON.parse(await file.text());
     if (j.app !== "elec21") throw 0;
-    const prefs = S.prefs; S = Object.assign(S, j.state); S.prefs = prefs; save();
-    for (const [k, v] of Object.entries(j.notes || {})) await IDB.put(k, v);
-    for (const [k, v] of Object.entries(j.clips || {})) await IDB.put(k, v, "clips");
-    for (const [k, v] of Object.entries(j.pages || {})) await IDB.put(k, v, "pages");
-    toast("백업을 불러왔어요"); route();
+    if (!(await ask("백업 파일로 되돌릴까요?<br><small>지금 기록은 백업 내용으로 바뀌고, 구글 드라이브와 다른 기기에도 적용돼요.</small>", "되돌리기", "취소"))) return;
+    await restoreAll(j); toast("백업을 불러왔어요"); route();
   } catch(e){ toast("이 앱의 백업 파일이 아니에요"); }
 }
 
@@ -2620,7 +2706,7 @@ async function doImport(file){
 const REC_KEYS = ["sessions","qstat","reviews","rounds","hist","srs","why"], ALL_KEYS = ["scrapMap","memos","creads","clipSrs","nb"];
 function clearRecords(){ REC_KEYS.forEach(k => S[k] = {}); S.mocks = []; S.attend = []; S.daySec = {}; S.last = null; S.lastTs = 0; S.weekShown = ""; }
 function clearAll(){ clearRecords(); ALL_KEYS.forEach(k => S[k] = {}); S.scraps = []; S.notes = {}; S.migrNB = true; }
-async function wipeLocalFiles(){ for (const st of [undefined, "clips", "pages"]) for (const k of await IDB.keys(st)) await IDB.del(k, st); }
+async function wipeLocalFiles(){ for (const st of [undefined, "clips", "pages"]) for (const k of await IDB.keys(st)) await IDB.del(k, st); S.blobTs = {}; }
 async function doReset(all){
   const t = Date.now();
   if (all){ clearAll(); await wipeLocalFiles(); S.resetAllAt = t; } else clearRecords();
@@ -2649,6 +2735,7 @@ function mergeState(R){
   for (const [k, v] of Object.entries(R.histDel || {})) S.histDel[k] = Math.max(S.histDel[k] || 0, v);
   by(S.hist, R.hist || {}, v => v.updated);
   by(S.srs, R.srs || {}, v => v.ts);
+  S.snapAt = Math.max(S.snapAt || 0, R.snapAt || 0);
   by(S.memos, R.memos || {}, v => v.ts);
   by(S.why, R.why || {}, v => v.ts);
   by(S.clipSrs, R.clipSrs || {}, v => v.ts);
@@ -2702,23 +2789,26 @@ const GD = {
     const t = await this.tok();
     const r = await fetch(url, { ...opt, headers: { ...(opt.headers || {}), Authorization: "Bearer " + t } });
     if (r.status === 401 && retry){ this.token = null; return this.api(url, opt, false); }
-    if (!r.ok) throw "HTTP " + r.status;
+    if (!r.ok && !(opt.method === "DELETE" && r.status === 404)) throw "HTTP " + r.status;
     return r;
   },
-  async find(){
-    const q = encodeURIComponent("name='elec21-sync.json'");
-    const j = await (await this.api(`https://www.googleapis.com/drive/v3/files?spaces=appDataFolder&q=${q}&fields=files(id,version,modifiedTime)`)).json();
-    return j.files && j.files[0] || null;
+  async list(){
+    let out = [], pt = "";
+    do {
+      const j = await (await this.api(`https://www.googleapis.com/drive/v3/files?spaces=appDataFolder&pageSize=1000&fields=nextPageToken,files(id,name,version,appProperties)${pt ? "&pageToken=" + pt : ""}`)).json();
+      out = out.concat(j.files || []); pt = j.nextPageToken || "";
+    } while (pt);
+    return out;
   },
-  async meta(id){ return (await this.api(`https://www.googleapis.com/drive/v3/files/${id}?fields=id,version,modifiedTime`)).json(); },
   async download(id){ return (await this.api(`https://www.googleapis.com/drive/v3/files/${id}?alt=media`)).text(); },
-  async upload(id, body){
-    if (id) return (await this.api(`https://www.googleapis.com/upload/drive/v3/files/${id}?uploadType=media&fields=id,version`, { method:"PATCH", headers:{ "Content-Type":"application/json" }, body })).json();
-    const bd = "elec21b" + Date.now();
-    const meta = JSON.stringify({ name:"elec21-sync.json", parents:["appDataFolder"], mimeType:"application/json" });
+  async put(id, name, body, props){
+    const bd = "elec21b" + Date.now() + Math.random().toString(36).slice(2, 6);
+    const meta = JSON.stringify(id ? { appProperties: props || {} } : { name, parents:["appDataFolder"], mimeType:"application/json", appProperties: props || {} });
     const mp = `--${bd}\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n${meta}\r\n--${bd}\r\nContent-Type: application/json\r\n\r\n${body}\r\n--${bd}--`;
-    return (await this.api(`https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id,version`, { method:"POST", headers:{ "Content-Type":"multipart/related; boundary=" + bd }, body: mp })).json();
+    const url = id ? `https://www.googleapis.com/upload/drive/v3/files/${id}?uploadType=multipart&fields=id,version` : `https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id,version`;
+    return (await this.api(url, { method: id ? "PATCH" : "POST", headers:{ "Content-Type":"multipart/related; boundary=" + bd }, body: mp })).json();
   },
+  async del(id){ await this.api(`https://www.googleapis.com/drive/v3/files/${id}`, { method:"DELETE" }); },
   async email(){ try { return (await (await this.api("https://www.googleapis.com/oauth2/v3/userinfo")).json()).email || ""; } catch(e){ return ""; } }
 };
 window.__gToken = (token, err) => {
@@ -2726,13 +2816,28 @@ window.__gToken = (token, err) => {
   if (token){ GD.token = token; GD.exp = Date.now() + 50 * 60 * 1000; ws.forEach(w => w.res(token)); }
   else ws.forEach(w => w.rej(err || "로그인 실패"));
 };
+// local index of handwriting / notebook pages / clips: "n:key" | "p:pid" | "c:id" → ts (only changed ones are uploaded)
+const BSTORE = { n: "notes", p: "pages", c: "clips" }, BCODE = { notes: "n", pages: "p", clips: "c" };
+const tombOf = (code, k) => code === "n" ? (S.noteDel[k] || 0) : code === "p" ? (S.pageDel[k] || 0) : (S.clipDel[k] || 0);
+async function buildBlobIndex(){
+  S.blobTs = {};
+  for (const [code, st] of Object.entries(BSTORE)){ const all = await IDB.all(st); for (const [k, v] of Object.entries(all)) S.blobTs[code + ":" + k] = (v && v.ts) || 1; }
+  S.blobIdx = true; save(true);
+}
+async function applyBlobTombs(){
+  const rB = S.resetAllAt || 0;
+  for (const [ck, lts] of Object.entries(S.blobTs || {})){
+    const code = ck[0], k = ck.slice(2);
+    if (tombOf(code, k) >= lts || lts <= rB){ await IDB.del(k, BSTORE[code]); if (code === "n") delete S.notes[k]; }
+  }
+}
 const Sync = {
   busy:false, again:false,
   linked(){ return GD.app() && S.gd && S.gd.on; },
   async connect(){
     try {
       await GD.tok(true);
-      S.gd = { on:true, fileId:null, ver:null, email: await GD.email() }; save(true);
+      S.gd = { on:true, email: await GD.email() }; save(true);
       await this.run(true, true); route();
     } catch(e){ toast("구글 로그인을 완료하지 못했어요: " + String(e).slice(0, 60)); }
   },
@@ -2742,29 +2847,53 @@ const Sync = {
     if (this.busy){ this.again = true; return; }
     this.busy = true;
     try {
-      Ink.flush();
-      let f = S.gd.fileId ? await GD.meta(S.gd.fileId).catch(() => null) : null;
-      if (!f) f = await GD.find();
-      const remoteChanged = !!f && String(f.version) !== String(S.gd.ver);
+      Ink.flush(); if (typeof NB !== "undefined") NB.flushAll();
+      if (!S.blobIdx) await buildBlobIndex();
+      const files = await GD.list(), byName = {}; files.forEach(f => byName[f.name] = f);
+      const sf = byName["elec21-state.json"], legacy = byName["elec21-sync.json"];
       const localChanged = (S.changedAt || 0) > (S.syncAt || 0);
-      if (!force && !manual && !remoteChanged && !localChanged){ this.busy = false; return; }
-      const fp = () => JSON.stringify(Object.assign({}, S, { prefs:0, gd:0, syncAt:0, syncErr:0, changedAt:0 })) + Object.keys(S.notes).length;
-      let dataChanged = false;
-      if (f && (remoteChanged || force || manual)){
-        const before = fp();
-        const txt = await GD.download(f.id);
+      const fp = () => JSON.stringify(Object.assign({}, S, { prefs:0, gd:0, syncAt:0, syncErr:0, changedAt:0, blobTs:0 }));
+      const before = fp(); let blobsIn = 0, blobsOut = 0;
+      // 0) one-time: data written by the old single-file sync (or an older device)
+      if (legacy && String(legacy.version) !== String(S.gd.legacyVer || "")){
+        const txt = await GD.download(legacy.id);
         if (txt.trim()){ const r = JSON.parse(txt); if (r.app === "elec21"){ mergeState(r.state); await mergeNotes(r.notes); await mergeClips(r.clips || {}); await mergePages(r.pages || {}); } }
-        dataChanged = fp() !== before;
+        S.gd.legacyVer = String(legacy.version);
       }
-      if (!manual && !force && !localChanged && !dataChanged){ S.gd.ver = f ? f.version : S.gd.ver; save(true); this.busy = false; return; }
-      const notes = await IDB.all();
-      const clips = await IDB.all("clips"), pages = await IDB.all("pages");
-      const out = JSON.stringify({ app:"elec21", v:3, at: Date.now(), state: Object.assign({}, S, { prefs: undefined, gd: undefined }), notes, clips, pages });
-      const up = await GD.upload(f ? f.id : null, out);
-      S.gd.fileId = up.id; S.gd.ver = up.version; S.syncAt = Date.now(); S.syncErr = ""; save(true);
-      if (manual) toast("구글 드라이브와 동기화했어요");
+      // 1) records (one small file)
+      if (sf && (String(sf.version) !== String(S.gd.sver || "") || manual || force)){
+        const txt = await GD.download(sf.id);
+        if (txt.trim()){ const r = JSON.parse(txt); if (r.app === "elec21") mergeState(r.state); }
+      }
+      if (S._wipe){ await wipeLocalFiles(); delete S._wipe; }
+      await applyBlobTombs();
+      // 2) files: download what's newer on Drive, upload what's newer here, delete what was deleted
+      const rB = S.resetAllAt || 0;
+      for (const f of files){
+        if (!f.name.startsWith("b.")) continue;
+        const code = f.name[2], k = f.name.slice(4), rts = +((f.appProperties || {}).ts || 0), lts = (S.blobTs || {})[code + ":" + k] || 0;
+        if (!BSTORE[code]) continue;
+        if (rts <= Math.max(tombOf(code, k), rB)){ await GD.del(f.id); delete byName[f.name]; continue; }
+        if (rts > lts){ const v = JSON.parse(await GD.download(f.id)); await IDB.put(k, v, BSTORE[code]); S.blobTs[code + ":" + k] = rts; if (code === "n") S.notes[k] = rts; blobsIn++; }
+      }
+      for (const [ck, lts] of Object.entries(S.blobTs || {})){
+        const code = ck[0], k = ck.slice(2), f = byName["b." + code + "." + k], rts = f ? +((f.appProperties || {}).ts || 0) : 0;
+        if (lts <= rts) continue;
+        const v = await IDB.get(k, BSTORE[code]); if (!v){ delete S.blobTs[ck]; continue; }
+        await GD.put(f ? f.id : null, "b." + code + "." + k, JSON.stringify(v), { ts: String(lts) }); blobsOut++;
+      }
+      const dataChanged = fp() !== before || blobsIn > 0;
+      // 3) upload records when anything changed
+      if (manual || force || localChanged || dataChanged || !sf){
+        const out = JSON.stringify({ app:"elec21", v:4, at: Date.now(), state: Object.assign({}, S, { prefs: undefined, gd: undefined, blobTs: undefined, blobIdx: undefined }) });
+        const up = await GD.put(sf ? sf.id : null, "elec21-state.json", out, {});
+        S.gd.sver = String(up.version);
+      }
+      S.syncAt = Date.now(); S.syncErr = ""; save(true);
+      await this.snapshot(files, false);
+      if (manual) toast(`구글 드라이브와 동기화했어요${blobsOut || blobsIn ? ` · 노트·필기 ${blobsOut}개 올림, ${blobsIn}개 받음` : ""}`);
       const typing = document.activeElement && /INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName);
-      if (dataChanged && !QZ && !CP && !document.querySelector(".modal") && !typing && !location.hash.startsWith("#/settings")) keepScroll();
+      if (dataChanged && !QZ && !CP && !document.querySelector(".modal") && !typing && !location.hash.startsWith("#/settings") && !location.hash.startsWith("#/nb/")) keepScroll();
     } catch(e){
       S.syncErr = String(e).slice(0, 80); save(true);
       if (manual) toast(S.syncErr === "NEED_LOGIN" ? "구글 로그인이 필요해요. 설정에서 다시 연결해 주세요" : "동기화하지 못했어요: " + S.syncErr);
@@ -2772,9 +2901,40 @@ const Sync = {
       this.busy = false;
       if (this.again){ this.again = false; setTimeout(() => this.run(), 500); }
     }
-  }
+  },
+  // weekly full backup on Drive (keeps the newest 4)
+  async snapshot(files, now){
+    if (!now && Date.now() - (S.snapAt || 0) < 7 * 86400000) return;
+    files = files || await GD.list();
+    const body = JSON.stringify(await fullBackup());
+    await GD.put(null, `elec21-snap-${todayStr()}-${Date.now().toString(36)}.json`, body, { snap: "1" });
+    S.snapAt = Date.now(); S.changedAt = Date.now(); save(true);
+    const snaps = files.filter(f => f.name.startsWith("elec21-snap-")).sort((a, b) => b.name.localeCompare(a.name));
+    for (const f of snaps.slice(3)) await GD.del(f.id);
+  },
+  async snapList(){ return (await GD.list()).filter(f => f.name.startsWith("elec21-snap-")).sort((a, b) => b.name.localeCompare(a.name)); }
 };
 window.__onPause = () => { persist(); Sync.run(); };
+async function fullBackup(){
+  return { app:"elec21", v:4, at: new Date().toISOString(), state: Object.assign({}, S, { prefs: undefined, gd: undefined, blobTs: undefined, blobIdx: undefined }),
+    notes: await IDB.all(), clips: await IDB.all("clips"), pages: await IDB.all("pages") };
+}
+// restore a backup so that it wins everywhere: reset point + every item stamped "now"
+async function restoreAll(j){
+  const t = Date.now(), st = j.state || {}, prefs = S.prefs, gd = S.gd;
+  await wipeLocalFiles(); clearAll();
+  Object.keys(st).forEach(k => { if (!["prefs","gd","blobTs","blobIdx","syncAt","syncErr"].includes(k)) S[k] = st[k]; });
+  S.prefs = prefs; S.gd = gd; S.resetAt = t; S.resetAllAt = t; S.histDel = {}; S.noteDel = {}; S.pageDel = {}; S.clipDel = {};
+  const T = t + 1;
+  [...REC_KEYS, ...ALL_KEYS].forEach(k => Object.values(S[k] || {}).forEach(v => { if (!v || typeof v !== "object") return; if (k === "sessions" || k === "hist") v.updated = T; else if (k === "reviews") v.at = T; else v.ts = T; }));
+  (S.mocks || []).forEach(m => m.updated = T); if (S.examDate) S.examTs = T;
+  S.blobTs = {}; S.blobIdx = true;
+  for (const [k, v] of Object.entries(j.notes || {})){ v.ts = T; await IDB.put(k, v); S.notes[k] = T; }
+  for (const [k, v] of Object.entries(j.clips || {})){ v.ts = T; await IDB.put(k, v, "clips"); }
+  for (const [k, v] of Object.entries(j.pages || {})){ v.ts = T; await IDB.put(k, v, "pages"); }
+  S.changedAt = T; persist();
+  if (Sync.linked()) await Sync.run(false, true);
+}
 
 function keepScroll(){ const y = $(".main") ? $(".main").scrollTop : 0; route(true).then(() => { if ($(".main")) $(".main").scrollTop = y; }); }
 /* ===================== subject notebooks (6권) ===================== */
@@ -2787,7 +2947,7 @@ const pageOrder = subj => ((S.nb[subj] || {}).pages || []).slice();
 async function nbLoad(subj){
   if (!S.nb[subj]) S.nb[subj] = { pages: [], ts: Date.now() };
   const meta = S.nb[subj], pages = {};
-  for (const pid of meta.pages) pages[pid] = (await IDB.get(pid, "pages")) || { subj, items: [], strokes: [], ts: Date.now() };
+  for (const pid of meta.pages) pages[pid] = nbNormalize((await IDB.get(pid, "pages")) || { subj, items: [], strokes: [], ts: Date.now(), v: 2 });
   if (!meta.pages.length){ const pid = nuid("pg"); meta.pages.push(pid); meta.ts = Date.now(); pages[pid] = { subj, items: [], strokes: [], ts: Date.now() }; await IDB.put(pid, pages[pid], "pages"); save(); }
   return pages;
 }
@@ -2847,6 +3007,7 @@ const NB = {
       <button class="t" data-nbact="redo" ${this.redo.length ? "" : "disabled"}>${I.redo}<em>다시</em></button>
       <span class="sp"></span>
       <button class="t ${this.review ? "on" : ""}" data-nbact="review"><svg class="i" viewBox="0 0 24 24"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><em>${this.review ? "가림 중" : "복습 가림"}</em></button>
+      <button class="t" data-nbact="pages"><svg class="i" viewBox="0 0 24 24"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/></svg><em>쪽 보기</em></button>
       <button class="t" data-nbact="toc"><svg class="i" viewBox="0 0 24 24"><path d="M4 6h16M4 12h10M4 18h13"/></svg><em>목차</em></button>
       <button class="t ${p.penOnly ? "on" : ""}" data-ink="penonly">${I.stylus}<em>펜 전용</em></button>
       <button class="t ${z !== 100 ? "on" : ""}" data-nbact="zoom"><b>${z}%</b><em>배율</em></button>
@@ -2855,11 +3016,14 @@ const NB = {
   render(){
     if (!this.host) return;
     this.host.innerHTML = `<div class="nbwrap" data-tool="${this.tool}">${this.toolbar()}<div class="nbscroll"><div class="nbpages" style="width:${this.zoom * 100}%">
-      ${this.order().map((pid, i) => `<div class="nbpage" data-pid="${pid}"><div class="nbitems"></div><canvas></canvas><div class="nbpno">${i + 1}</div>
+      ${this.order().map((pid, i) => `<div class="nbpage paper-${(this.pages[pid] || {}).paper || "blank"}" data-pid="${pid}"><div class="nbitems"></div><canvas></canvas><div class="nbpno">${i + 1}</div>
         <button class="nbpmenu" data-nbpage="${pid}" title="페이지 메뉴">⋯</button></div>`).join("")}
-      <button class="nbadd" data-nbact="addpage">＋ 페이지 추가</button></div></div><div class="penbadge nbbadge" id="nbpb">${I.stylus}</div></div>`;
+      <button class="nbadd" data-nbact="addpage">＋ 페이지 추가</button></div></div>
+      <div class="nbnav"><button data-nbact="pgprev" title="이전 쪽">${I.left}</button><span class="nbind">1 / ${this.order().length}</span><button data-nbact="pgnext" title="다음 쪽">${I.right}</button></div>
+      <div class="penbadge nbbadge" id="nbpb">${I.stylus}</div></div>`;
     const sc = $(".nbscroll", this.host);
     ["pointerdown", "pointermove", "pointerup", "pointercancel"].forEach(t => sc.addEventListener(t, e => this["p_" + t.slice(7)](e)));
+    sc.addEventListener("scroll", () => this.onScroll(), { passive:true });
     sc.addEventListener("wheel", e => { if (!e.ctrlKey) return; e.preventDefault(); this.setZoom(this.zoom * (e.deltaY < 0 ? 1.1 : 0.9), e); }, { passive:false });
     this.order().forEach(pid => this.drawPage(pid));
     if (this.pending) this.renderPending();
@@ -2870,15 +3034,28 @@ const NB = {
     const el = this.pageEl(pid), rec = this.pages[pid]; if (!el || !rec) return;
     const k = el.clientWidth / PW, items = $(".nbitems", el);
     items.innerHTML = rec.items.map(it => this.itemHTML(it, k)).join("");
-    const cv = $("canvas", el), dpr = window.devicePixelRatio || 1;
-    cv.width = Math.round(el.clientWidth * dpr); cv.height = Math.round(el.clientWidth * PH / PW * dpr);
-    this.paint(pid);
+    const cv = $("canvas", el), dpr = Math.min(2, window.devicePixelRatio || 1);
+    if (!this.near(pid)){ cv.width = 1; cv.height = 1; cv.dataset.live = ""; }
+    else { cv.width = Math.round(el.clientWidth * dpr); cv.height = Math.round(el.clientWidth * PH / PW * dpr); cv.dataset.live = "1"; this.paint(pid); }
     if (this.sel && this.sel.pid === pid) this.showSel();
     if (this.pending && pid === this.order()[this.order().length - 1]) this.renderPending();
   },
+  near(pid){
+    const el = this.pageEl(pid), sc = this.host && $(".nbscroll", this.host); if (!el || !sc) return true;
+    const top = el.offsetTop, h = el.offsetHeight || 1, v0 = sc.scrollTop - sc.clientHeight, v1 = sc.scrollTop + sc.clientHeight * 2;
+    return top + h > v0 && top < v1;
+  },
+  onScroll(){
+    clearTimeout(this.st); this.st = setTimeout(() => {
+      this.order().forEach(pid => { const el = this.pageEl(pid); if (!el) return; const cv = $("canvas", el), live = cv.dataset.live === "1", nr = this.near(pid);
+        if (nr && !live) this.drawPage(pid); else if (!nr && live){ cv.width = 1; cv.height = 1; cv.dataset.live = ""; } });
+      this.pageInd();
+    }, 90);
+  },
   paint(pid, extra){
     const el = this.pageEl(pid), rec = this.pages[pid]; if (!el) return;
-    const cv = $("canvas", el), ctx = cv.getContext("2d"), dpr = window.devicePixelRatio || 1, k = el.clientWidth / PW;
+    const cv = $("canvas", el); if (cv.dataset.live !== "1") return;
+    const ctx = cv.getContext("2d"), dpr = Math.min(2, window.devicePixelRatio || 1), k = el.clientWidth / PW;
     ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.clearRect(0, 0, cv.width, cv.height); ctx.setTransform(dpr * k, 0, 0, dpr * k, 0, 0);
     rec.strokes.forEach(s => nbStroke(ctx, s));
     if (extra) nbStroke(ctx, extra);
@@ -2912,7 +3089,8 @@ const NB = {
   },
   addPage(silent, afterPid){
     const pid = nuid("pg"), meta = S.nb[this.subj];
-    this.pages[pid] = { subj: this.subj, items: [], strokes: [], ts: Date.now() };
+    const prevP = this.pages[afterPid || meta.pages[meta.pages.length - 1]];
+    this.pages[pid] = { subj: this.subj, items: [], strokes: [], ts: Date.now(), v: 2, paper: (prevP && prevP.paper) || "blank" };
     const i = afterPid ? meta.pages.indexOf(afterPid) + 1 : meta.pages.length; meta.pages.splice(i, 0, pid); meta.ts = Date.now();
     IDB.put(pid, this.pages[pid], "pages"); save();
     if (!silent){ this.render(); this.scrollTo(pid, 0); } else this.render();
@@ -2923,7 +3101,7 @@ const NB = {
   pushUndo(pid){ this.undo.push({ pid, snap: JSON.stringify(this.pages[pid]) }); if (this.undo.length > 60) this.undo.shift(); this.redo = []; },
   restore(stackFrom, stackTo){ const u = stackFrom.pop(); if (!u) return; stackTo.push({ pid: u.pid, snap: JSON.stringify(this.pages[u.pid]) }); this.pages[u.pid] = JSON.parse(u.snap); this.sel = null; this.touch(u.pid); this.drawPage(u.pid); this.refreshTb(); },
   refreshTb(){ const tb = this.host && $(".nbtb", this.host); if (!tb) return; const sl = tb.scrollLeft; tb.outerHTML = this.toolbar(); const n = $(".nbtb", this.host); if (n) n.scrollLeft = sl; const w = $(".nbwrap", this.host); if (w) w.dataset.tool = this.tool; },
-  scrollTo(pid, y){ const el = this.pageEl(pid), sc = this.host && $(".nbscroll", this.host); if (!el || !sc) return; sc.scrollTop = el.offsetTop + y * this.k(pid) - 30; },
+  scrollTo(pid, y){ const el = this.pageEl(pid), sc = this.host && $(".nbscroll", this.host); if (!el || !sc) return; sc.scrollTop = el.offsetTop + y * this.k(pid) - (y ? 30 : 8); this.onScroll(); },
   scrollToEnd(){ const pid = this.order()[this.order().length - 1]; this.scrollTo(pid, Math.max(0, pageBottom(this.pages[pid]) - 200)); },
   setZoom(z, e){
     const sc = $(".nbscroll", this.host), pg = $(".nbpages", this.host); z = Math.min(3, Math.max(1, z));
@@ -2991,7 +3169,10 @@ const NB = {
     if (c.pts.length === 1) c.pts.push([c.pts[0][0] + .1, c.pts[0][1] + .1, c.pts[0][2]]);
     const s = { t: c.t, w: c.w, pts: c.pts.map(p => [Math.round(p[0] * 10) / 10, Math.round(p[1] * 10) / 10, Math.round((p[2] || .5) * 100) / 100]) }; if (c.c) s.c = c.c;
     if (s.t !== "e") await this.commitPending();
-    this.pushUndo(c.pid); this.pages[c.pid].strokes.push(s); this.touch(c.pid); this.paint(c.pid); this.refreshTb();
+    this.pushUndo(c.pid);
+    const rec = this.pages[c.pid];
+    if (s.t === "e") rec.strokes = eraseInk(rec.strokes, s); else rec.strokes.push(s);
+    rec.v = 2; this.touch(c.pid); this.paint(c.pid); this.refreshTb();
     const b = $("#nbpb"); if (b){ b.classList.remove("er"); b.innerHTML = I.stylus; }
   },
   // ---------- text ----------
@@ -3003,6 +3184,8 @@ const NB = {
   editText(pid, it, fresh){
     const el = this.host.querySelector(`[data-it="${it.id}"]`); if (!el) return;
     el.classList.add("editing"); el.contentEditable = "true"; el.innerText = it.text; el.focus();
+    const keep = () => { try { el.scrollIntoView({ block: "center", behavior: "smooth" }); } catch(_){} };
+    setTimeout(keep, 250); if (window.visualViewport){ visualViewport.addEventListener("resize", keep); el.addEventListener("blur", () => visualViewport.removeEventListener("resize", keep), { once: true }); }
     const done = () => { el.contentEditable = "false"; el.classList.remove("editing"); const v = el.innerText.replace(/\n+$/, "");
       const rec = this.pages[pid]; if (!v.trim()) rec.items = rec.items.filter(x => x !== it); else { if (!fresh && v !== it.text) this.pushUndo(pid); it.text = v; }
       this.touch(pid); this.drawPage(pid); setTimeout(() => this.refreshTb(), 350); };
@@ -3078,17 +3261,37 @@ const NB = {
     const i = this.order().indexOf(pid);
     const m = document.createElement("div"); m.className = "modal ask";
     m.innerHTML = `<div class="sheet askbox"><div class="bd"><p class="askmsg"><b>${i + 1}쪽</b></p><div class="acts" style="flex-direction:column">
+      <div class="seg" style="justify-content:center">${[["blank","무지"],["lined","줄노트"],["grid","모눈"]].map(([k, l]) => `<button class="${(this.pages[pid].paper || "blank") === k ? "on" : ""}" data-pm="paper:${k}">${l}</button>`).join("")}</div>
       <button class="btn o" data-pm="above">위에 새 페이지 넣기</button><button class="btn o" data-pm="below">아래에 새 페이지 넣기</button>
       <button class="btn g danger" data-pm="del">이 페이지 삭제</button><button class="btn g" data-pm="x">닫기</button></div></div></div>`;
     document.body.appendChild(m);
     m.addEventListener("click", async ev => { const b = ev.target.closest("[data-pm]"); if (!b && ev.target !== m) return; m.remove(); const a = b ? b.dataset.pm : "x";
       const meta = S.nb[this.subj];
+      if (a.startsWith("paper:")){ this.pushUndo(pid); this.pages[pid].paper = a.slice(6); this.touch(pid); const el = this.pageEl(pid); if (el) el.className = `nbpage paper-${a.slice(6)}`; return; }
       if (a === "above"){ this.addPage(true, meta.pages[i - 1] || null); if (i === 0){ const np = meta.pages.pop(); meta.pages.unshift(np); this.render(); } }
       if (a === "below") this.addPage(true, pid);
       if (a === "del"){ if (!(await ask(`${i + 1}쪽을 삭제할까요?<br><small>되돌릴 수 없어요</small>`, "삭제", "취소"))) return;
         meta.pages = meta.pages.filter(x => x !== pid); meta.ts = Date.now(); delete this.pages[pid]; S.pageDel[pid] = Date.now(); await IDB.del(pid, "pages");
         if (!meta.pages.length){ this.pages = await nbLoad(this.subj); } save(); this.render(); }
     });
+  },
+  async overview(){
+    const m = document.createElement("div"); m.className = "modal";
+    const draw = async () => {
+      const o = this.order();
+      m.innerHTML = `<div class="sheet ovbox"><div class="hd"><h3>${esc(this.subj)} 노트 · ${o.length}쪽</h3><button class="x" data-close>${I.x}</button></div><div class="bd"><div class="ovgrid">
+        ${o.map((pid, i) => `<div class="ovcell"><button class="ovthumb" data-ovgo="${pid}"><span class="ovload">${i + 1}</span></button>
+          <div class="ovbar"><button data-ovmv="${i}|-1" ${i ? "" : "disabled"}>${I.left}</button><b>${i + 1}</b><button data-ovmv="${i}|1" ${i < o.length - 1 ? "" : "disabled"}>${I.right}</button></div></div>`).join("")}</div></div></div>`;
+      for (const [i, pid] of o.entries()){ const b = m.querySelector(`[data-ovgo="${pid}"]`); if (!b) break; const u = await nbPageImage(this.pages[pid], 260); if (b.isConnected) b.innerHTML = `<img src="${u}" alt=""><span class="ovno">${i + 1}</span>`; }
+    };
+    m.addEventListener("click", ev => {
+      if (ev.target === m || ev.target.closest("[data-close]")){ m.remove(); return; }
+      const g = ev.target.closest("[data-ovgo]"); if (g){ m.remove(); this.scrollTo(g.dataset.ovgo, 0); return; }
+      const mv = ev.target.closest("[data-ovmv]");
+      if (mv){ const [i, d] = mv.dataset.ovmv.split("|").map(Number), meta = S.nb[this.subj], j = i + d; if (j < 0 || j >= meta.pages.length) return;
+        [meta.pages[i], meta.pages[j]] = [meta.pages[j], meta.pages[i]]; meta.ts = Date.now(); S.changedAt = Date.now(); save(); this.render(); draw(); }
+    });
+    document.body.appendChild(m); draw();
   },
   toc(){
     const hs = this.heads(); const m = document.createElement("div"); m.className = "modal";
@@ -3097,12 +3300,17 @@ const NB = {
     m.addEventListener("click", ev => { if (ev.target === m || ev.target.closest("[data-close]")){ m.remove(); return; } const t = ev.target.closest("[data-toc]"); if (t){ const h = hs[+t.dataset.toc]; m.remove(); this.scrollTo(h.pid, h.y); } });
     document.body.appendChild(m);
   },
+  curPage(){ const sc = this.host && $(".nbscroll", this.host); if (!sc) return 0; const mid = sc.scrollTop + sc.clientHeight * .35; let idx = 0;
+    this.order().forEach((pid, i) => { const el = this.pageEl(pid); if (el && el.offsetTop <= mid) idx = i; }); return idx; },
+  pageInd(){ const el = this.host && $(".nbind", this.host); if (el) el.textContent = `${this.curPage() + 1} / ${this.order().length}`; },
   action(a){
+    if (a === "pgprev" || a === "pgnext"){ const o = this.order(), i = Math.max(0, Math.min(o.length - 1, this.curPage() + (a === "pgnext" ? 1 : -1))); this.scrollTo(o[i], 0); setTimeout(() => this.pageInd(), 120); return; }
     if (a === "undo") this.restore(this.undo, this.redo);
     if (a === "redo") this.restore(this.redo, this.undo);
     if (a === "straight"){ this.straight = !this.straight; this.refreshTb(); toast(this.straight ? "직선 모드: 긋는 선이 모두 직선이 돼요" : "직선 모드 끔 · 선을 긋고 잠깐 멈추면 직선이 돼요"); }
     if (a === "review"){ this.review = !this.review; this.revealed = new Set(); this.order().forEach(p => this.drawPage(p)); this.refreshTb(); toast(this.review ? "캡처 이미지를 가렸어요 · 눌러서 확인" : "가림을 풀었어요"); }
     if (a === "toc") this.toc();
+    if (a === "pages") this.overview();
     if (a === "zoom"){ this.setZoom(1); }
     if (a === "addpage") this.addPage(false);
   },
@@ -3119,6 +3327,33 @@ const NB = {
   },
   resize(){ if (this.host && this.subj) this.order().forEach(p => this.drawPage(p)); }
 };
+// erase = remove the parts of earlier ink that the eraser path touches (splits strokes)
+function eraseInk(strokes, er){
+  const path = [], r = er.w / 2;
+  for (let i = 0; i < er.pts.length; i++){ const a = er.pts[i], b = er.pts[i + 1] || a, d = Math.hypot(b[0] - a[0], b[1] - a[1]), n = Math.max(1, Math.ceil(d / (r / 2)));
+    for (let k = 0; k < n; k++) path.push([a[0] + (b[0] - a[0]) * k / n, a[1] + (b[1] - a[1]) * k / n]); }
+  if (!path.length) return strokes;
+  let x0 = 1e9, y0 = 1e9, x1 = -1e9, y1 = -1e9; path.forEach(p => { x0 = Math.min(x0, p[0]); y0 = Math.min(y0, p[1]); x1 = Math.max(x1, p[0]); y1 = Math.max(y1, p[1]); });
+  const out = [];
+  for (const s of strokes){
+    if (s.t === "e"){ out.push(s); continue; }
+    const rr = r + (s.w || 2) / 2, hit = p => p[0] > x0 - rr && p[0] < x1 + rr && p[1] > y0 - rr && p[1] < y1 + rr && path.some(q => Math.hypot(q[0] - p[0], q[1] - p[1]) < rr);
+    // densify long segments so a line is cut where the eraser crosses it
+    const dense = []; s.pts.forEach((p, i) => { const nx = s.pts[i + 1]; dense.push(p); if (nx){ const d = Math.hypot(nx[0] - p[0], nx[1] - p[1]), n = Math.floor(d / Math.max(2, rr / 2)); for (let k = 1; k < n; k++) dense.push([p[0] + (nx[0] - p[0]) * k / n, p[1] + (nx[1] - p[1]) * k / n, p[2]]); } });
+    if (!dense.some(hit)){ out.push(s); continue; }
+    let seg = [];
+    const flush = () => { if (seg.length >= 2) out.push(Object.assign({}, s, { pts: seg })); seg = []; };
+    dense.forEach(p => { if (hit(p)) flush(); else seg.push(p); }); flush();
+  }
+  return out;
+}
+// old notebook pages stored eraser strokes as "paint"; turn them into real cuts once
+function nbNormalize(rec){
+  if (!rec || rec.v === 2) return rec;
+  let st = [];
+  for (const s of rec.strokes || []){ if (s.t === "e") st = eraseInk(st, s); else st.push(s); }
+  rec.strokes = st; rec.v = 2; return rec;
+}
 function nbStroke(ctx, s){
   if (s.t !== "h") return drawStroke(ctx, s);
   ctx.save(); ctx.globalAlpha = .32; ctx.globalCompositeOperation = "multiply"; ctx.strokeStyle = HL[s.c || "y"]; ctx.lineWidth = s.w; ctx.lineCap = "round"; ctx.lineJoin = "round";
@@ -3126,8 +3361,13 @@ function nbStroke(ctx, s){
 }
 // render one notebook page to an image (print / thumbnails)
 async function nbPageImage(rec, width = 1240){
+  rec = nbNormalize(JSON.parse(JSON.stringify(rec)));
   const k = width / PW, cv = document.createElement("canvas"); cv.width = width; cv.height = Math.round(PH * k);
   const ctx = cv.getContext("2d"); ctx.fillStyle = "#fff"; ctx.fillRect(0, 0, cv.width, cv.height);
+  if (rec.paper === "lined" || rec.paper === "grid"){ ctx.strokeStyle = "#E3DED0"; ctx.lineWidth = Math.max(1, k); ctx.beginPath();
+    for (let y = 80; y < PH; y += 40){ ctx.moveTo(0, y * k); ctx.lineTo(cv.width, y * k); }
+    if (rec.paper === "grid") for (let x = 40; x < PW; x += 40){ ctx.moveTo(x * k, 0); ctx.lineTo(x * k, cv.height); }
+    ctx.stroke(); }
   const load = s => new Promise(r => { const im = new Image(); im.onload = () => r(im); im.onerror = () => r(null); im.src = s.startsWith("data:") ? s : src(s); });
   for (const it of rec.items){
     if (it.type === "img"){ const im = await load(it.src); if (im) ctx.drawImage(im, it.x * k, it.y * k, it.w * k, it.h * k); }
@@ -3164,6 +3404,14 @@ async function migrateNotebooks(){
     S.nb[subj] = { pages: order, ts: 1 };
   }
   S.migrNB = true; save(true);
+}
+async function cleanOldConceptNotes(){
+  if (S.migrClean || !S.migrNB) return;
+  const heads = new Set();
+  for (const subj of SUBJ6){ const m = S.nb[subj]; if (!m) continue; for (const pid of m.pages){ const r = await IDB.get(pid, "pages"); if (r) r.items.forEach(it => { if (it.type === "head" && it.cid) heads.add(it.cid); }); } }
+  let n = 0;
+  for (const k of await IDB.keys()){ if (k.startsWith("concept:") && heads.has(k.slice(8))){ await IDB.del(k); S.noteDel[k] = Date.now(); delete S.notes[k]; n++; } }
+  S.migrClean = true; if (n) S.changedAt = Date.now(); save(true);
 }
 async function sendToNote(qid){
   const q = Q[qid], subj = nbSubj(q.subject);
@@ -3204,13 +3452,13 @@ async function route(keepSel){
   if (r === "nb"){ QZ = null; CP = null; app.innerHTML = viewNotebook(arg); await NB.open(arg, $("#nbhost")); return; }
   CP = null;
   if (r === "exam"){ const html = viewQuiz("exam:" + arg); if (!html) return; app.innerHTML = html; bindInk(); bindSheets(); applySplit(); renderQuiz(); return; }
-  if (r === "quiz"){ const html = viewQuiz(arg); if (!html) return; app.innerHTML = html; bindInk(); bindSheets(); applySplit(); renderQuiz(); return; }
+  if (r === "quiz"){ if (!(await slotGate(arg))){ if (history.length > 1) history.back(); else location.hash = "#/"; return; } const html = viewQuiz(arg); if (!html) return; app.innerHTML = html; bindInk(); bindSheets(); applySplit(); renderQuiz(); return; }
   QZ = null;
   if (r === "days") app.innerHTML = viewDays();
   else if (r === "concepts") app.innerHTML = viewConcepts(arg);
   else if (r === "scrap") app.innerHTML = viewScrap();
   else if (r === "notes") await viewNotes();
-  else if (r === "settings"){ app.innerHTML = viewSettings(); fillBackups(); const rt = $("#rtime"); if (rt) rt.onchange = () => { S.prefs.remindTime = rt.value; save(true); setReminder(); toast("알림 시간을 " + rt.value + "로 정했어요"); }; const di = $("#examdate"); if (di) di.onchange = () => { S.examDate = di.value; S.examTs = Date.now(); save(); toast(di.value ? "시험일을 저장했어요" : "시험일을 지웠어요"); }; }
+  else if (r === "settings"){ app.innerHTML = viewSettings(); fillBackups(); fillSnaps(); const rt = $("#rtime"); if (rt) rt.onchange = () => { S.prefs.remindTime = rt.value; save(true); setReminder(); toast("알림 시간을 " + rt.value + "로 정했어요"); }; const di = $("#examdate"); if (di) di.onchange = () => { S.examDate = di.value; S.examTs = Date.now(); save(); toast(di.value ? "시험일을 저장했어요" : "시험일을 지웠어요"); }; }
   else if (r === "mock") app.innerHTML = viewMock();
   else if (r === "self") app.innerHTML = viewSelf();
   else if (r === "print") await viewPrint(arg);
@@ -3233,6 +3481,11 @@ function bindInk(){
 }
 
 document.addEventListener("click", async e => {
+  const sr2 = e.target.closest("[data-snaprestore]");
+  if (sr2){ if (!(await ask("이 드라이브 백업본으로 되돌릴까요?<br><small>지금 기록·노트가 백업 시점으로 바뀌고, 다른 기기에도 적용돼요.</small>", "되돌리기", "취소"))) return;
+    toast("백업본을 받는 중…"); try { const j = JSON.parse(await GD.download(sr2.dataset.snaprestore)); await restoreAll(j); toast("백업본으로 되돌렸어요"); route(); } catch(e){ toast("되돌리지 못했어요: " + String(e).slice(0, 40)); } return; }
+  const hr = e.target.closest("[data-hresume]");
+  if (hr){ e.stopPropagation(); e.preventDefault(); await resumeHist(hr.dataset.hresume); return; }
   const nbx = e.target.closest("[data-nbtool],[data-nbcol],[data-nbhl],[data-nbact],[data-nbsel],[data-nbpage],[data-sendnote]");
   if (nbx){ const d = nbx.dataset;
     if (d.nbtool){ NB.tool = d.nbtool; if (NB.tool !== "select") NB.clearSel(); NB.refreshTb(); return; }
@@ -3318,7 +3571,7 @@ document.addEventListener("click", async e => {
   if (ps){ const sj = SUBJ5.find(x => x.n === +ps.dataset.psubj); let ids = shuffle(D.questions.filter(q => sj.from.includes(q.subject) && q.grade === "A").map(q => q.id));
     newSession("self", ids, `${sj.name} A등급`); location.hash = "#/quiz/self"; return; }
   const pf = e.target.closest("[data-pref]");
-  if (pf){ const [k, v] = pf.dataset.pref.split("|"); const num = ["qTimer","size"].includes(k), bool = ["hideReveal","grid","penOnly","keepOn","remind","anim","scrapGrad"].includes(k);
+  if (pf){ const [k, v] = pf.dataset.pref.split("|"); const num = ["qTimer","size"].includes(k), bool = ["hideReveal","grid","penOnly","keepOn","remind","anim","scrapGrad","examRealtime"].includes(k);
     S.prefs[k] = bool ? v === "1" : num ? +v : v; save(true); applyTheme();
     if (k === "remind") setReminder();
     keepScroll(); return; }
@@ -3365,7 +3618,7 @@ document.addEventListener("click", async e => {
   else if (a === "reveal") reveal();
   else if (a === "result") finishSet();
   else if (a === "submit") submitMock(false);
-  else if (a === "mockstart") createMock();
+  else if (a === "mockstart") createMockGated();
   else if (a === "randmock") location.hash = "#/mock";
   else if (a === "selfstart") startSelf();
   else if (a === "scrap"){ const on = toggleScrap(curQ().id); QZ.exam ? renderExamLeft() : renderLeft(); toast(on ? "스크랩했어요" : "스크랩을 해제했어요"); }
@@ -3374,6 +3627,7 @@ document.addEventListener("click", async e => {
   else if (a === "resetall"){ if (await ask(`풀이 기록을 초기화할까요?<br><small>풀이·정답률·오늘의 복습·학습 기록·모의고사·DAY 회차·공부한 날이 지워져요.${Sync.linked() ? "<br>구글 드라이브와 다른 기기에도 똑같이 적용돼요." : ""}</small>`, "초기화", "취소")) doReset(false); }
   else if (a === "resetevery"){ if (await ask(`<b>전체 초기화</b>할까요?<br><small>풀이 기록에 더해 스크랩·필기·공식 노트·메모·회독 체크까지 모두 지워져요. 되돌릴 수 없어요.${Sync.linked() ? "<br>구글 드라이브와 다른 기기에도 적용돼요." : ""}</small>`, "모두 지우기", "취소")) doReset(true); }
   else if (a === "otacheck") OTA.check(true);
+  else if (a === "snapnow"){ toast("드라이브 백업본을 만드는 중…"); try { await Sync.snapshot(null, true); toast("드라이브 백업본을 만들었어요"); fillSnaps(); } catch(e){ toast("만들지 못했어요: " + String(e).slice(0, 40)); } }
   else if (a === "testnoti"){ if (window.Android && Android.testNotify){ sumT = 0; pushSummary(); Android.testNotify(); } }
   else if (a === "review") startReview();
   else if (a === "final"){ const ids = finalIds(); if (!ids.length){ toast("남은 문제가 없어요"); } else { newSession("final", ids, `시험 직전 세트 ${ids.length}문제`); location.hash = "#/quiz/final"; } }
@@ -3421,7 +3675,7 @@ window.__androidBack = () => {
   D.questions.forEach(q => { Q[q.id] = q; (byDay[q.day] = byDay[q.day] || []).push(q.id); });
   D.concepts.forEach(c => C[c.id] = c);
   computeGrades();
-  try { await migrateNotebooks(); } catch(e){ console.warn("nb migrate", e); }
+  try { await migrateNotebooks(); await cleanOldConceptNotes(); } catch(e){ console.warn("nb migrate", e); }
   applyTheme(); window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", applyTheme);
   // CBT rounds (optional file: cbt/cbt.json — comes with an APK update or an online update)
   D.cbt = D.cbt || []; D.cbtQuestions = [];
