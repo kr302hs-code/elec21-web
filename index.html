@@ -977,6 +977,89 @@ body.noanim *,body.noanim *::before,body.noanim *::after{animation:none!importan
   .hrow{align-items:flex-start}
   .page{overflow-x:hidden}
 }
+/* v17: tidy settings + single-line titles */
+.setpage .scard{max-width:860px;margin-top:16px;padding:8px 26px}
+.setpage .scard .eyebrow{margin:12px 0 2px;font-weight:700;color:var(--ink);font-size:calc(var(--fs) * 15)}
+.srow2{display:flex;align-items:center;gap:18px;padding:13px 0;border-bottom:1px solid var(--line)}
+.scard>.srow2:last-child,.scard>.bklist:last-child{border-bottom:0}
+.sl{flex:1;min-width:0}
+.sl b{display:flex;align-items:center;gap:8px;font-size:calc(var(--fs) * 16)}
+.sl small{display:block;margin-top:2px;color:var(--sub);font-size:calc(var(--fs) * 13);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sc{display:flex;align-items:center;gap:8px;flex:none}
+.sc .seg{flex-wrap:nowrap}
+.sc .seg button{white-space:nowrap;padding:7px 14px}
+.sc .btn{white-space:nowrap}
+.setpage .bklist{margin:0;padding:0 0 10px}
+.rtop b,.hmain b,.histcard .hrow1 b{-webkit-line-clamp:1!important}
+@media (max-width: 820px){
+  .setpage .scard{padding:6px 16px}
+  .srow2{flex-wrap:wrap;gap:8px 12px;padding:12px 0}
+  .srow2:not(.one) .sl{flex:1 1 100%}
+  .srow2:not(.one) .sc{flex:1 1 100%}
+  .srow2:not(.one) .sc .seg{display:flex;width:100%}
+  .srow2:not(.one) .sc .seg button{flex:1;padding:8px 2px;font-size:calc(var(--fs) * 14)}
+  .srow2.one .sc{flex:none}
+  .srow2.one .sl small{white-space:normal}
+  .qtop .tt{-webkit-line-clamp:1!important;font-size:calc(var(--fs) * 16)!important}
+}
+/* v18: subject notebooks */
+.tb.nbtb{display:flex!important;flex-wrap:nowrap!important;overflow-x:auto;overflow-y:hidden;scrollbar-width:none}
+.tb.nbtb::-webkit-scrollbar{display:none}
+.tb.nbtb>*{flex:none}
+.subjhead{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.nbhost,.nbfull{flex:1;min-height:0;display:flex;flex-direction:column;position:relative}
+.nbpage-view .nbfull{background:var(--bg)}
+.nbwrap{flex:1;min-height:0;display:flex;flex-direction:column;position:relative}
+.nbtb{flex-wrap:nowrap;overflow-x:auto}
+.nbscroll{flex:1;min-height:0;overflow:auto;background:#EDE9DD;touch-action:none;padding:14px 12px 40px}
+.nbpages{margin:0 auto;display:flex;flex-direction:column;gap:14px;min-width:100%}
+.nbpage-view .nbpages{max-width:none}
+.nbpage{position:relative;width:100%;aspect-ratio:1000/1414;background:#fff;border-radius:6px;box-shadow:0 1px 4px rgba(60,50,20,.15);overflow:hidden}
+.nbpage canvas{position:absolute;inset:0;width:100%;height:100%;z-index:2;pointer-events:none}
+.nbitems{position:absolute;inset:0;z-index:1}
+.nbitem{position:absolute;box-sizing:border-box;pointer-events:none}
+.nbitem *{pointer-events:none}
+.nbtext.editing{pointer-events:auto}
+.nbimg img{width:100%;height:100%;object-fit:contain;display:block;user-select:none;-webkit-user-drag:none}
+.nbimg.hidden img{filter:blur(14px) brightness(1.1);opacity:.45}
+.nbhide{position:absolute;inset:0;display:grid;place-items:center;color:var(--sub);font-weight:700;font-size:14px}
+.nbhead{background:var(--yellow-soft);border-left:6px solid var(--yellow);border-radius:4px;padding:0 .7em;display:flex;align-items:center;font-weight:800;color:#1D1D1B;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nbtext{color:#1D1D1B;line-height:1.35;white-space:pre-wrap;word-break:keep-all;min-height:1.4em}
+.nbtext.editing{z-index:5;outline:2px dashed var(--yellow);background:rgba(255,255,255,.9);-webkit-user-select:text;user-select:text}
+.nbghost{position:absolute;left:4%;right:4%;border:2px dashed #E9C23F;border-radius:6px;padding:.35em .7em;color:#9a7a10;background:rgba(253,242,204,.5);pointer-events:none}
+.nbwrap[data-tool="select"] .nbscroll{cursor:default}
+.nbselbox{position:absolute;outline:2px dashed #2D5BD8;outline-offset:2px;z-index:4;pointer-events:none}
+.nbselbox .nbh{position:absolute;right:-12px;bottom:-12px;width:24px;height:24px;border-radius:50%;background:#2D5BD8;border:3px solid #fff;pointer-events:auto;cursor:nwse-resize}
+.nbselbar{position:absolute;left:0;top:-46px;display:flex;gap:4px;pointer-events:auto;white-space:nowrap}
+.nbselbar button{background:#1D1D1B;color:#fff;border-radius:10px;padding:6px 10px;font-size:13px;display:inline-flex;align-items:center;gap:4px}
+.nbselbar button svg{width:14px;height:14px}
+.nbselbar .rd{background:var(--red)}
+.nblasso{position:absolute;inset:0;width:100%;height:100%;z-index:4;pointer-events:none}
+.nblasso polyline{fill:rgba(45,91,216,.06);stroke:#2D5BD8;stroke-width:3;stroke-dasharray:10 8}
+.nbpno{position:absolute;right:12px;bottom:8px;font-size:12px;color:#B9B3A3;z-index:3;pointer-events:none}
+.nbpmenu{position:absolute;right:6px;top:6px;z-index:3;width:30px;height:30px;border-radius:8px;color:#B9B3A3;font-size:18px;line-height:1}
+.nbpmenu:hover{background:var(--gray-chip)}
+.nbadd{align-self:center;margin:6px auto;padding:10px 20px;border-radius:99px;background:#fff;border:1.5px dashed var(--line2);color:var(--sub)}
+.nbbadge{position:absolute;right:14px;bottom:14px;z-index:6}
+.sendnote{margin-top:12px}
+.nbgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:14px;margin:12px 0 20px}
+.nbcard{background:#fff;border-radius:18px;border:1px solid #F3EFE2;overflow:hidden;cursor:pointer;display:flex;flex-direction:column}
+.nbthumb{aspect-ratio:1000/1000;background:#FBFAF6;display:grid;place-items:start center;overflow:hidden;border-bottom:1px solid var(--line)}
+.nbthumb img{width:100%}
+.nbthumb span{align-self:center;color:var(--mute);font-size:14px}
+.nbcard .ft{padding:10px 14px;display:flex;flex-direction:column}
+.nbcard .ft b{font-size:calc(var(--fs) * 16)}.nbcard .ft span{color:var(--sub);font-size:calc(var(--fs) * 13)}
+.ppage.nbp img{width:100%;display:block}
+body.dark .nbscroll{background:#2A261E}body.dark .nbcard{background:var(--card)}body.dark .nbadd{background:var(--card)}
+@media (min-width: 821px){ .cpage .qright .tabpane[data-pane=canvas]{padding:0} }
+@media (max-width: 820px){
+  .qwrap.cpage .tabpane[data-pane=canvas]{background:var(--bg)}
+  .qwrap.cpage[data-mode=canvas] .qleft{opacity:1}
+  .nbscroll{padding:10px 6px 30px}
+  .nbgrid{grid-template-columns:repeat(2,1fr)}
+  .nbtb{display:flex!important;flex-wrap:nowrap!important;overflow-x:auto!important}
+  .nbtb .t{flex:none;min-width:50px}
+}
 </style>
 </head>
 <body>
@@ -1016,7 +1099,7 @@ const src = p => (window.__IMG && window.__IMG[p]) || p;
 const $ = (s, r = document) => r.querySelector(s);
 
 /* app version + online update (screen files from GitHub) */
-const APP_VERSION = "2026102212";
+const APP_VERSION = "2026102215";
 const OTA_BASE = "https://raw.githubusercontent.com/kr302hs-code/elec21-web/main/";
 const b64of = buf => { let s = "", a = new Uint8Array(buf); for (let i = 0; i < a.length; i += 0x8000) s += String.fromCharCode.apply(null, a.subarray(i, i + 0x8000)); return btoa(s); };
 const OTA = {
@@ -1062,9 +1145,9 @@ async function loadState(){
   try { st = await IDB.get("S", "state"); } catch(e){}
   if (!st){ try { st = JSON.parse(localStorage.getItem(KEY) || "null"); } catch(e){ st = null; } }
   S = Object.assign({ sessions:{}, last:null, lastTs:0, scraps:[], scrapMap:{}, attend:[], qstat:{}, notes:{}, noteDel:{}, mocks:[],
-    reviews:{}, rounds:{}, creads:{}, hist:{}, histDel:{}, srs:{}, memos:{}, why:{}, clipDel:{}, clipSrs:{}, daySec:{}, prefs:{ size:1, grid:true, penOnly:true } }, st || {});
+    reviews:{}, rounds:{}, creads:{}, hist:{}, histDel:{}, srs:{}, memos:{}, why:{}, clipDel:{}, clipSrs:{}, daySec:{}, nb:{}, pageDel:{}, prefs:{ size:1, grid:true, penOnly:true } }, st || {});
   ["mocks","attend"].forEach(k => { if (!Array.isArray(S[k])) S[k] = []; });
-  ["reviews","rounds","creads","scrapMap","noteDel","notes","qstat","sessions","hist","histDel","srs","memos","why","clipDel","clipSrs","daySec"].forEach(k => { if (!S[k] || typeof S[k] !== "object") S[k] = {}; });
+  ["reviews","rounds","creads","scrapMap","noteDel","notes","qstat","sessions","hist","histDel","srs","memos","why","clipDel","clipSrs","daySec","nb","pageDel"].forEach(k => { if (!S[k] || typeof S[k] !== "object") S[k] = {}; });
   S.scraps.forEach(id => { if (!S.scrapMap[id]) S.scrapMap[id] = { on:true, ts:1 }; });
   if (!S.migrIDB){ S.migrIDB = true; await IDB.put("S", JSON.parse(JSON.stringify(S)), "state"); try { localStorage.removeItem(KEY); } catch(e){} }
 }
@@ -1109,12 +1192,13 @@ function finalIds(){
 const cardDue = keys => keys.filter(k => { const v = S.clipSrs[k]; return !(v && v.done) && (!v || v.due <= todayStr()); });
 let CARD = null;
 async function viewCards(){
-  const clips = await IDB.all("clips"), due = shuffle(cardDue(Object.keys(clips)));
+  const cards = await allNbImages(), clips = {}; cards.forEach(c => clips[c.id] = c);
+  const due = shuffle(cardDue(Object.keys(clips)));
   CARD = { list: due, i: 0, shown: false, clips, ok: 0 }; renderCard();
 }
 function renderCard(){
   const c = CARD, k = c.list[c.i], cl = k && c.clips[k], cc = cl && C[cl.cid];
-  const body = !c.list.length ? `<div class="empty"><b>오늘 볼 공식 카드가 없어요</b>개념 공부 화면에서 ✂ 공식 저장으로 카드를 만들 수 있어요</div>`
+  const body = !c.list.length ? `<div class="empty"><b>오늘 볼 공식 카드가 없어요</b>개념 공부 화면에서 ✂ 노트에 캡처한 이미지가 카드가 돼요</div>`
     : !k ? `<div class="empty"><b>오늘 카드 끝! 🎉</b>${c.list.length}장 중 ${c.ok}장을 기억했어요. 헷갈린 카드는 내일 다시 나와요<div class="acts" style="justify-content:center;margin-top:16px"><button class="btn y" data-go="#/notes">필기노트로</button></div></div>`
     : `<div class="fcard ${c.shown ? "shown" : ""}"><div class="fmeta">${cc ? `DAY ${pad(cc.day)} · 필수개념 ${pad(cc.num)}` : ""}</div><div class="fname">${cc ? esc(cc.name) : "공식 카드"}</div>
         ${c.shown ? `<div class="fimg"><img src="${cl.img}" alt=""></div><div class="acts" style="justify-content:center"><button class="btn g" data-card="0">헷갈려요 (내일 다시)</button><button class="btn y" data-card="1">기억났어요</button></div>`
@@ -1156,12 +1240,13 @@ const IDB = {
   db:null,
   open(){ return new Promise(res => {
     try {
-      const r = indexedDB.open("elec21", 4);
+      const r = indexedDB.open("elec21", 5);
       r.onupgradeneeded = () => { const db = r.result;
         if (!db.objectStoreNames.contains("notes")) db.createObjectStore("notes");
         if (!db.objectStoreNames.contains("backups")) db.createObjectStore("backups");
         if (!db.objectStoreNames.contains("state")) db.createObjectStore("state");
-        if (!db.objectStoreNames.contains("clips")) db.createObjectStore("clips"); };
+        if (!db.objectStoreNames.contains("clips")) db.createObjectStore("clips");
+        if (!db.objectStoreNames.contains("pages")) db.createObjectStore("pages"); };
       r.onsuccess = () => { this.db = r.result; res(); };
       r.onerror = () => res();
     } catch(e){ res(); }
@@ -1563,17 +1648,14 @@ function viewConceptPage(cid){
   return `<div class="qwrap cpage">
     <div class="qtop"><button class="lg" data-go="#/concepts/${c.day}">${I.left}${I.bolt}<span>개념 공부</span></button>
       <div class="tt">필수개념 ${pad(c.num)} ${esc(c.name)}</div>
-      <div class="qbtns"><button class="btn o sm" data-act="clip">✂ 공식 저장</button>${readsHTML(cid)}${qs.length ? `<button class="btn g sm" data-cq="${cid}">기출 ${qs.length}문제 풀기</button>` : ""}</div></div>
+      <div class="qbtns"><button class="btn o sm" data-act="clip">✂ 노트에 캡처</button>${readsHTML(cid)}${qs.length ? `<button class="btn g sm" data-cq="${cid}">기출 ${qs.length}문제 풀기</button>` : ""}</div></div>
     <div class="mprog mob-only">${readsHTML(cid)}<button class="btn o sm" data-act="clip" style="margin-left:6px">✂</button></div>
     <div class="qbody">
       <section class="qleft zsc" id="cleft"><div class="cimgs qin">${c.imgs.map(i => `<img src="${src(i[0])}" width="${i[1]}" height="${i[2]}" alt="" draggable="false">`).join("")}</div></section>
       <div class="splitter" data-split="splitC"></div>
       <section class="qright">
-        <div class="tabs"><button data-ctab="canvas">${I.note}필기 노트</button>${qs.length ? `<button class="mob-only" data-cq="${cid}">${I.answer}기출 ${qs.length}문제</button>` : ""}</div>
-        <div class="tabpane" data-pane="canvas">
-          <div class="tb" id="tb"></div>
-          <div class="cv" id="cv"><canvas id="ink"></canvas><div class="penbadge" id="pb">${I.stylus}</div></div>
-        </div>
+        <div class="tabs"><button data-ctab="canvas">${I.note}${esc(subjOfConcept(c))} 노트</button>${qs.length ? `<button class="mob-only" data-cq="${cid}">${I.answer}기출 ${qs.length}문제</button>` : ""}</div>
+        <div class="tabpane" data-pane="canvas"><div class="nbhost" id="nbhost"></div></div>
       </section></div>
     <div class="cbar navbar3"><button class="btn o" data-go="${prev ? "#/concept/" + prev.id : ""}" ${prev ? "" : "disabled"}>${I.left}<span class="tl-full">이전 개념</span><span class="tl-short">이전</span></button>
       <div class="cpos"><b>DAY ${pad(c.day)}</b> · ${pos} / ${inDay.length}</div>
@@ -1600,10 +1682,11 @@ function startClip(){
     const sw = Math.min(img.naturalWidth - sx, sel.w * k), sh = Math.min(img.naturalHeight - sy, sel.h * k);
     const cv = document.createElement("canvas"); cv.width = Math.round(sw); cv.height = Math.round(sh);
     cv.getContext("2d").drawImage(img, sx, sy, sw, sh, 0, 0, cv.width, cv.height);
-    const id = "clip" + Date.now().toString(36);
-    await IDB.put(id, { cid: CP.cid, img: cv.toDataURL("image/webp", .85), w: cv.width, h: cv.height, ts: Date.now() }, "clips");
-    S.clipSrs[id] = { step:0, due: dayAdd(1), ts: Date.now() };
-    S.changedAt = Date.now(); save(); ov.remove(); toast("공식 노트에 저장했어요 (필기노트에서 볼 수 있어요)");
+    const data = cv.toDataURL("image/webp", .85); ov.remove();
+    if (isMob() && CP) cpTab("canvas");
+    const w = Math.min(920, cv.width * (1000 / 1044)), it = await NB.insertImage(data, w, cv.height * w / cv.width, { cid: CP.cid });
+    S.clipSrs[it.id] = { step:0, due: dayAdd(1), ts: Date.now() }; save();
+    toast("노트에 붙였어요 · 끌어서 옮기고 모서리로 크기 조절");
   });
   ov.addEventListener("click", e => { if (e.target.closest("[data-clipx]")) ov.remove(); });
 }
@@ -1615,7 +1698,7 @@ function cpTab(t, user){
   document.documentElement.style.setProperty("--dim", S.prefs.dim ?? .5);
   document.querySelectorAll(".tabs [data-ctab]").forEach(b => b.classList.toggle("on", t === "canvas"));
   document.querySelectorAll(".tabpane").forEach(p => p.classList.toggle("on", t === "canvas"));
-  if (t === "canvas") Ink.resize(); else syncOverlay();
+  if (t === "canvas") setTimeout(() => NB.resize(), 30);
 }
 
 /* mock exam */
@@ -1849,6 +1932,7 @@ function renderAns(){
       <div class="box">${q.e.length ? "" : `<p class="cdesc">이 문제는 해설이 없어요</p>`}<div class="eimg" data-zoom="${q.id}:e">${q.e.map(i => `<img src="${src(i[0])}" width="${i[1]}" height="${i[2]}" alt="해설">`).join("")}</div>
       ${q.conceptId ? `<button class="clink" data-concept="${q.conceptId}">${I.book}<span>필수개념 ${pad(q.concept)} ${esc(q.conceptName)}<small>이론 다시 보기</small></span>${I.open}</button>` : ""}</div>
       ${a.res !== "O" || a.guess ? `${sameIds(q).length ? `<button class="btn y sm samec" data-same="${q.id}">${I.book}같은 개념 문제 ${sameIds(q).length}개 더 풀기</button>` : ""}<div class="whybox"><b>왜 틀렸나요?</b>${WHY.map(([k, l]) => `<button class="chipb ${(S.why[q.id] || {}).r === k ? "on" : ""}" data-why="${q.id}|${k}">${l}</button>`).join("")}</div>` : ""}
+      <button class="btn o sm sendnote" data-sendnote="${q.id}">${I.note}${esc(nbSubj(q.subject))} 노트로 보내기</button>
       <div class="memobox"><b>${I.note}한 줄 메모</b><textarea id="memo" data-qid="${q.id}" rows="2" placeholder="예: √3 빼먹지 말 것">${esc((S.memos[q.id] || {}).t || "")}</textarea></div>
     </div></div></div>`;
   const mt = $("#memo"); if (mt) mt.oninput = () => { clearTimeout(mt._t); mt._t = setTimeout(() => { const v = mt.value.trim(); S.memos[mt.dataset.qid] = { t: v, ts: Date.now() }; save(); }, 400); };
@@ -2055,7 +2139,7 @@ function viewSelf(){
       <div class="selfoot">${kindSeg()}<div class="seg">${[["all","전 등급"],["AB","A+B"],["A","A만"]].map(([k, l]) => `<button class="${gf === k ? "on" : ""}" data-sgrade="${k}">${l}</button>`).join("")}</div>
         <div class="seg"><button class="${scope === "all" ? "on" : ""}" data-scope="all">전체 문제</button><button class="${scope === "new" ? "on" : ""}" data-scope="new">안 푼 문제만</button><button class="${scope === "wrong" ? "on" : ""}" data-scope="wrong">틀린 문제만</button></div>
         <button class="opt sm ${shuf ? "on" : ""}" data-shuf><span class="bx">${I.check}</span><div><b>순서 섞기</b></div></button>
-        <span class="selsum">개념 <b>${sel.size}</b>개 · 문제 <b>${selIds.length}</b>개</span>
+        <span class="selsum">${sel.size ? `<b>${esc(subjLabel([...sel]))}</b> · ` : ""}개념 <b>${sel.size}</b>개 · 문제 <b>${selIds.length}</b>개</span>
         ${sel.size ? `<button class="btn o sm" data-selclear>선택 비우기</button>` : ""}
         <button class="btn y" data-act="selfstart" ${selIds.length ? "" : "disabled"}>풀기 시작</button></div>`;
   } else if (tab === "grade"){
@@ -2081,13 +2165,17 @@ function viewSelf(){
     <div class="seg big"><button class="${tab === "type" ? "on" : ""}" data-stab="type">유형별 학습</button><button class="${tab === "round" ? "on" : ""}" data-stab="round">회차별 학습</button><button class="${tab === "grade" ? "on" : ""}" data-stab="grade">등급별 학습</button></div>
     ${body}</div>`);
 }
+function subjLabel(cids){
+  const subs = SUBJ6.filter(sj => cids.some(c => C[c] && subjOfConcept(C[c]) === sj));
+  return !subs.length ? "" : subs.length <= 2 ? subs.join("·") : `${subs[0]} 외 ${subs.length - 1}과목`;
+}
 function startSelf(){
   const sel = S.prefs.selfSel || [], scope = S.prefs.selfScope || "all";
   let ids = D.questions.filter(q => sel.includes(q.conceptId)).map(q => q.id)
     .filter(id => gradeOk(Q[id], S.prefs.selfGrade || "all") && kindOk(Q[id], S.prefs.selfKind) && (scope === "all" || (scope === "new" ? !S.qstat[id] : S.qstat[id] && S.qstat[id].last !== "O")));
   if (S.prefs.selfShuffle !== false) ids = shuffle(ids);
   if (!ids.length){ toast("조건에 맞는 문제가 없어요"); return; }
-  newSession("self", ids, `자율 학습 · 개념 ${sel.length}개`); location.hash = "#/quiz/self";
+  newSession("self", ids, `${subjLabel(sel)} · 개념 ${sel.length}개`); location.hash = "#/quiz/self";
 }
 /* ink */
 const SIZES = [1.6, 2.8, 4.4, 7];
@@ -2376,24 +2464,28 @@ function drawThumb(cv, rec){
   const ctx = cv.getContext("2d"); ctx.setTransform(dpr * k, 0, 0, dpr * k, dpr * (padd - x0) * k, dpr * (padd - y0) * k);
   rec.strokes.forEach(s => drawStroke(ctx, s));
 }
+async function allNbImages(){
+  const out = [];
+  for (const subj of SUBJ6){ const m = S.nb[subj]; if (!m) continue;
+    for (const pid of m.pages){ const r = await IDB.get(pid, "pages"); if (r) r.items.forEach(it => { if (it.type === "img" && it.cid && it.review !== false) out.push({ id: it.id, img: it.src, cid: it.cid, subj }); }); } }
+  return out;
+}
 async function viewNotes(){
   const all = await IDB.all(); NOTES = all;
-  const clips = await IDB.all("clips"); CLIPS = clips;
-  const kids = Object.keys(clips).sort((a, b) => (clips[b].ts || 0) - (clips[a].ts || 0));
   const ids = Object.keys(all).filter(id => Q[id]).sort((a, b) => (all[b].ts || 0) - (all[a].ts || 0));
-  const cids = Object.keys(all).filter(k => k.startsWith("concept:") && C[k.slice(8)]).sort((a, b) => (all[b].ts || 0) - (all[a].ts || 0));
-  const csec = cids.length ? `<div class="subjhead">개념 노트</div><div class="nlist">${cids.map(k => { const c = C[k.slice(8)]; return `<div class="ncard ${selCls(k)}" data-selid="${k}" data-go="#/concept/${c.id}">
-      <div class="pv"><div><img src="${src(c.imgs[0][0])}"></div><div><canvas data-thumb="${k}"></canvas></div></div>
-      <div class="ft"><b>필수개념 ${pad(c.num)}</b><span>${esc(c.name)}<br>DAY ${pad(c.day)} · ${ago(all[k].ts || Date.now())}</span></div></div>`; }).join("")}</div><div class="subjhead">문제 필기</div>` : "";
-  const body = ids.length ? `<div class="nlist">${ids.map(id => { const q = Q[id]; return `<div class="ncard ${selCls(id)}" data-selid="${id}" data-note="${id}">
+  const cards = await allNbImages(), due = cardDue(cards.map(c => c.id)).length;
+  const nbs = SUBJ6.map(subj => { const m = S.nb[subj]; return { subj, pages: m ? m.pages.length : 0, ts: m ? m.ts : 0 }; });
+  const grid = `<div class="subjhead">과목 노트 <small class="cdesc">개념 공부 화면 오른쪽 노트와 같아요</small>${cards.length ? `<button class="btn y sm" style="margin-left:auto" data-go="#/cards">암기 카드 ${due}장</button>` : ""}</div>
+    <div class="nbgrid">${nbs.map(n => `<div class="nbcard" data-go="#/nb/${encodeURIComponent(n.subj)}"><div class="nbthumb" data-nbthumb="${esc(n.subj)}">${n.pages ? "" : `<span>빈 노트</span>`}</div>
+      <div class="ft"><b>${esc(n.subj)}</b><span>${n.pages ? `${n.pages}쪽 · ${n.ts > 1 ? ago(n.ts) : ""}` : "아직 없음"}</span></div></div>`).join("")}</div>`;
+  const body = ids.length ? `<div class="subjhead">문제 필기</div><div class="nlist">${ids.map(id => { const q = Q[id]; return `<div class="ncard ${selCls(id)}" data-selid="${id}" data-note="${id}">
       <div class="pv"><div><img src="${src(q.q[0][0])}"></div><div><canvas data-thumb="${id}"></canvas></div></div>
-      <div class="ft"><b>${whereOf(q).replace(" ", " · ")}</b><span>${esc(q.conceptName)}<br>${ago(all[id].ts || Date.now())}</span></div></div>`; }).join("")}</div>`
-    : (cids.length || kids.length) ? "" : `<div class="empty"><b>저장한 필기가 없어요</b>문제 풀이 캔버스에서 ‘필기 저장’을 켜거나, 개념 공부 메모장에 쓰면 여기에 모여요</div>`;
-  $("#app").innerHTML = shell("notes", `<div class="page"><h1 class="h1">필기노트</h1><span class="chip">공식·개념·문제 필기를 모아 봐요 <span>${ids.length + cids.length + kids.length}개</span></span>${selBar("notes", [...kids, ...cids, ...ids])}
-    ${kids.length ? `<div class="subjhead">공식 노트 <small class="cdesc">개념 공부 화면의 ✂ 공식 저장</small><button class="btn y sm" style="margin-left:auto" data-go="#/cards">암기 카드 ${cardDue(kids).length}장</button></div><div class="clipgrid">${kids.map(k => { const c = clips[k], cc = C[c.cid];
-      return `<div class="clipcard ${selCls(k)}" data-selid="${k}" data-clip="${k}"><img src="${c.img}" alt=""><span>${cc ? `DAY ${pad(cc.day)} · ${esc(cc.name)}` : ""}</span></div>`; }).join("")}</div>` : ""}
-    ${csec}${body}</div>`);
+      <div class="ft"><b>${whereOf(q).replace(" ", " · ")}</b><span>${esc(q.conceptName)}<br>${ago(all[id].ts || Date.now())}</span></div></div>`; }).join("")}</div>` : "";
+  $("#app").innerHTML = shell("notes", `<div class="page"><h1 class="h1">필기노트</h1><span class="chip">과목 노트 6권 · 문제 필기 <span>${ids.length}개</span></span>
+    ${grid}${ids.length ? selBar("notes", ids) : ""}${body}</div>`);
   document.querySelectorAll("[data-thumb]").forEach(cv => drawThumb(cv, all[cv.dataset.thumb]));
+  for (const el of document.querySelectorAll("[data-nbthumb]")){ const m = S.nb[el.dataset.nbthumb]; if (!m || !m.pages.length) continue;
+    const r = await IDB.get(m.pages[0], "pages"); if (r && (r.items.length || r.strokes.length)){ const u = await nbPageImage(r, 360); if (document.body.contains(el)) el.innerHTML = `<img src="${u}" alt="">`; } }
 }
 function openNote(id){
   const q = Q[id], rec = NOTES[id]; if (!q || !rec) return;
@@ -2418,70 +2510,67 @@ function openAt(key, id){
 }
 
 /* print concept notes */
-async function viewPrint(day){
-  const all = await IDB.all();
-  const keys = Object.keys(all).filter(k => k.startsWith("concept:") && C[k.slice(8)] && (!+day || C[k.slice(8)].day === +day))
-    .sort((a, b) => D.concepts.findIndex(c => "concept:" + c.id === a) - D.concepts.findIndex(c => "concept:" + c.id === b));
-  const days = [...new Set(Object.keys(all).filter(k => k.startsWith("concept:") && C[k.slice(8)]).map(k => C[k.slice(8)].day))].sort((a, b) => a - b);
-  const clipsP = Object.values(await IDB.all("clips")).filter(c => !+day || (C[c.cid] && C[c.cid].day === +day)).sort((a, b) => (D.concepts.findIndex(x => x.id === a.cid)) - (D.concepts.findIndex(x => x.id === b.cid)));
-  const clipSec = clipsP.length ? `<section class="ppage"><h2>공식 노트 (${clipsP.length})</h2><div class="pclips">${clipsP.map(c => `<figure><img src="${c.img}"><figcaption>${C[c.cid] ? `DAY ${pad(C[c.cid].day)} · ${esc(C[c.cid].name)}` : ""}</figcaption></figure>`).join("")}</div></section>` : "";
-  $("#app").innerHTML = `<div class="printwrap"><div class="pbar noprint"><button class="btn o sm" data-go="#/settings">${I.left}설정</button>
-      <b>개념 노트 출력</b><select id="pday">${["<option value='0'>전체 DAY</option>", ...days.map(d => `<option value="${d}" ${+day === d ? "selected" : ""}>DAY ${pad(d)}</option>`)].join("")}</select>
-      <span class="cdesc">${keys.length}개 개념 · 공식 ${clipsP.length}개</span><button class="btn y sm" data-act="doprint">인쇄 / PDF 저장</button></div>
-    ${keys.length ? keys.map(k => { const c = C[k.slice(8)]; return `<section class="ppage"><h2>DAY ${pad(c.day)} · 필수개념 ${pad(c.num)} ${esc(c.name)}</h2>
-      <div class="pcols"><div class="pimg">${c.imgs.map(i => `<img src="${src(i[0])}">`).join("")}</div><div class="pnote"><canvas data-pk="${k}"></canvas></div></div></section>`; }).join("") + clipSec
-      : clipSec ? "" : `<div class="empty noprint">출력할 개념 노트가 없어요. 개념 공부 화면 오른쪽 메모장에 필기하면 여기서 출력할 수 있어요.</div>`}</div>`;
-  $("#pday").onchange = e => location.hash = "#/print/" + e.target.value;
-  document.querySelectorAll("[data-pk]").forEach(cv => { const rec = all[cv.dataset.pk]; renderInkTo(cv, rec, cv.parentElement.offsetWidth || 300);
-    const img = new Image(); img.src = cv.toDataURL("image/png"); img.className = "pnoteimg"; cv.replaceWith(img); });
+async function viewPrint(arg){
+  const subj = decodeURIComponent(arg || "");
+  if (!SUBJ6.includes(subj)){
+    $("#app").innerHTML = shell("notes", `<div class="page"><h1 class="h1">노트 출력</h1><span class="chip">출력할 과목 노트를 고르세요</span>
+      <div class="hlist">${SUBJ6.map(s2 => { const m = S.nb[s2]; return `<div class="hrow" data-go="#/print/${encodeURIComponent(s2)}"><div class="hmain"><b>${esc(s2)} 노트</b><small>${m ? m.pages.length + "쪽" : "비어 있음"}</small></div>${I.right}</div>`; }).join("")}</div></div>`);
+    return;
+  }
+  const pages = await nbLoad(subj), order = pageOrder(subj);
+  $("#app").innerHTML = `<div class="printwrap"><div class="pbar noprint"><button class="btn o sm" data-go="#/print/0">${I.left}과목 선택</button>
+      <b>${esc(subj)} 노트 출력</b><span class="cdesc">${order.length}쪽 · A4</span><button class="btn y sm" data-act="doprint">인쇄 / PDF 저장</button></div><div id="pp"><p class="cdesc" style="padding:20px">페이지를 만드는 중…</p></div></div>`;
+  let html = ""; for (const pid of order) html += `<section class="ppage nbp"><img src="${await nbPageImage(pages[pid], 1240)}" alt=""></section>`;
+  const pp = $("#pp"); if (pp) pp.innerHTML = html;
 }
-
 /* settings / backup / sync */
 function viewSettings(){
-  const nNotes = Object.keys(S.notes).length, app = GD.app(), on = Sync.linked();
-  const syncRow = !app ? `<div class="setrow"><div><b>구글 드라이브 실시간 동기화</b><small>설치한 앱에서만 쓸 수 있어요.</small></div></div>`
-    : on ? `<div class="setrow"><div><b>구글 드라이브 실시간 동기화 <span class="pill ok">연결됨</span></b><small>${esc(S.gd.email || "구글 계정")} · 마지막 동기화 ${S.syncAt ? ago(S.syncAt) : "아직 없음"}${S.syncErr ? ` · <span class="rd">${esc(S.syncErr === "NEED_LOGIN" ? "다시 로그인 필요" : S.syncErr)}</span>` : ""}<br>풀이·필기가 바뀌면 10초 안에 올리고, 20초마다 다른 기기의 변경을 받아와요.</small></div>
-        <button class="btn y sm" data-act="syncnow">지금 동기화</button><button class="btn g sm" data-act="syncoff">연결 해제</button></div>`
-    : `<div class="setrow"><div><b>구글 드라이브 실시간 동기화</b><small>폰과 갤럭시탭에서 같은 구글 계정으로 연결하면 기록·필기가 자동으로 맞춰져요. 드라이브의 앱 전용 숨김 공간에 저장돼요.</small></div>
-        <button class="btn y sm" data-act="synclogin">구글 계정으로 연결</button></div>`;
+  const nNotes = Object.keys(S.notes).length, app = GD.app(), on = Sync.linked(), P = S.prefs;
   const segs = (key, opts, cur) => `<div class="seg">${opts.map(([v, l]) => `<button class="${String(cur) === String(v) ? "on" : ""}" data-pref="${key}|${v}">${l}</button>`).join("")}</div>`;
-  const P = S.prefs;
-  return shell("settings", `<div class="page"><h1 class="h1">설정</h1>
-  <div class="card" style="max-width:900px;margin-top:20px"><p class="eyebrow">화면</p>
-    <div class="setrow"><div><b>글자 크기</b><small>이 기기에만 적용돼요.</small></div>${segs("font", [["s","작게"],["m","보통"],["l","크게"],["xl","아주 크게"]], P.font || "m")}</div>
-    <div class="setrow"><div><b>애니메이션</b><small>화면 전환·팝업·정답/오답 효과를 부드럽게 보여줘요.</small></div>${segs("anim", [[1,"켜기"],[0,"끄기"]], S.prefs.anim === false ? 0 : 1)}</div>
-    <div class="setrow"><div><b>화면 모드</b><small>시스템은 기기 설정(다크 모드)을 따라가요. 필기 영역은 항상 밝게 유지돼요.</small></div>${segs("theme", [["light","라이트"],["dark","다크"],["auto","시스템"]], P.theme || "light")}</div>
-  </div>
-  <div class="card" style="max-width:900px;margin-top:16px"><p class="eyebrow">문제 풀이</p>
-    <div class="setrow"><div><b>문제당 제한 시간 연습</b><small>문제마다 남은 시간이 보이고, 넘기면 빨간색으로 초과 시간이 표시돼요. 모의고사는 150분 타이머를 따로 써요.</small></div>${segs("qTimer", [[0,"끄기"],[60,"1분"],[90,"1분 30초"],[120,"2분"]], P.qTimer || 0)}</div>
-    <div class="setrow"><div><b>해설 바로보기 숨기기</b><small>풀기 전에 해설을 먼저 보지 않도록 버튼을 숨겨요.</small></div>${segs("hideReveal", [[0,"보이기"],[1,"숨기기"]], P.hideReveal ? 1 : 0)}</div>
-  </div>
-  <div class="card" style="max-width:900px;margin-top:16px"><p class="eyebrow">필기 기본값</p>
-    <div class="setrow"><div><b>펜 색</b></div>${segs("color", [["k","검정"],["b","파랑"],["r","빨강"]], P.color || "k")}</div>
-    <div class="setrow"><div><b>펜 굵기</b></div>${segs("size", [[0,"가늘게"],[1,"보통"],[2,"굵게"],[3,"아주 굵게"]], P.size ?? 1)}</div>
-    <div class="setrow"><div><b>격자</b></div>${segs("grid", [[1,"켜기"],[0,"끄기"]], P.grid ? 1 : 0)}</div>
-    <div class="setrow"><div><b>연습장 방식</b><small>이어 쓰기: 한 묶음을 푸는 동안 같은 연습장을 계속 써요 (필기노트 저장은 꺼져요).</small></div>${segs("pad", [["each","문제마다 새로"],["cont","이어 쓰기"]], P.pad || "each")}</div>
-    <div class="setrow"><div><b>펜 전용</b><small>켜면 손가락은 필기 대신 이동·확대에 쓰여요.</small></div>${segs("penOnly", [[1,"켜기"],[0,"끄기"]], P.penOnly ? 1 : 0)}</div>
-  </div>
-  <div class="card" style="max-width:900px;margin-top:16px"><p class="eyebrow">기록 · 동기화</p>
-    ${syncRow}
-    <div class="setrow"><div><b>앱 버전 ${APP_VERSION}</b><small>앱을 켤 때 새 화면 업데이트가 있으면 알려드려요.${(window.Android && Android.bundledVersion && Android.bundledVersion() !== APP_VERSION) ? ` (설치된 기본 버전 ${esc(Android.bundledVersion())})` : ""}</small></div>
-      <button class="btn y sm" data-act="otacheck">업데이트 확인</button>${(window.Android && Android.bundledVersion && Android.bundledVersion() !== APP_VERSION) ? `<button class="btn g sm" data-act="otareset">기본 화면으로 되돌리기</button>` : ""}</div>
-    <div class="setrow"><div><b>시험일 (D-day)</b><small>홈의 공부한 날 카드에 D-day로 보여줘요. 폰·탭에 같이 맞춰져요.</small></div><input type="date" id="examdate" value="${S.examDate || ""}" class="dinput"></div>
-    <div class="setrow"><div><b>스크랩 자동 졸업</b><small>스크랩한 문제를 2번 연속 맞히면 스크랩에서 자동으로 빼요.</small></div><button class="btn ${S.prefs.scrapGrad !== false ? "y" : "g"} sm" data-act="scrapgrad">${S.prefs.scrapGrad !== false ? "켜짐" : "꺼짐"}</button></div>
-    ${window.Android && Android.setReminder ? `
-    <div class="setrow"><div><b>공부 중 화면 켜짐 유지</b><small>문제 풀이·개념 공부 중에는 화면이 꺼지지 않아요.</small></div>${segs("keepOn", [[1,"켜기"],[0,"끄기"]], S.prefs.keepOn !== false ? 1 : 0)}</div>
-    <div class="setrow"><div><b>매일 공부 알림</b><small>정한 시간에 "오늘 복습 n문제"를 알려드려요. 처음 켤 때 알림 권한을 물어봐요.</small></div>${segs("remind", [[1,"켜기"],[0,"끄기"]], S.prefs.remind ? 1 : 0)}<input type="time" id="rtime" class="dinput" value="${S.prefs.remindTime || "20:00"}"><button class="btn o sm" data-act="testnoti">알림 테스트</button></div>
-    <div class="setrow"><div><b>홈 화면 위젯</b><small>폰·탭 홈 화면을 길게 누르고 → 위젯 → "전기기사 21일"을 추가하면 D-day와 오늘 복습 수가 보여요.</small></div></div>`
-    : `<div class="setrow"><div><b>화면 켜짐 유지 · 매일 알림 · 홈 위젯</b><small>새 APK를 설치하면 쓸 수 있어요.</small></div></div>`}
-    <div class="setrow"><div><b>개념 노트 출력</b><small>필수개념 이론과 내 메모를 나란히 A4로 인쇄하거나 PDF로 저장해요.</small></div><button class="btn y sm" data-go="#/print/0">출력하기</button></div>
-    <div class="setrow"><div><b>백업 파일 내보내기</b><small>풀이 기록, 스크랩, 필기(${nNotes}개)를 파일 하나로 저장해요.</small></div><button class="btn o sm" data-act="export">내보내기</button></div>
-    <div class="setrow"><div><b>백업 파일 불러오기</b><small>내보낸 파일로 기록을 되살려요. 지금 기록은 덮어써집니다.</small></div><button class="btn o sm" data-act="import">불러오기</button><input type="file" id="impf" accept=".json,application/json" hidden></div>
-    <div class="setrow"><div><b>자동 백업</b><small>매일 처음 열 때 기기 안에 자동으로 백업해요 (최근 3개 보관).</small><div id="bklist" class="bklist"></div></div></div>
-    <div class="setrow"><div><b>풀이 기록 초기화</b><small>풀이 기록·정답률·오늘의 복습·학습 기록·모의고사·DAY 회차·공부한 날을 지워요. 스크랩·필기·메모는 남아요. 구글 드라이브와 다른 기기에도 적용돼요.</small></div><button class="btn g sm" data-act="resetall">초기화</button></div>
-    <div class="setrow"><div><b>전체 초기화</b><small>위 기록에 더해 스크랩·필기·공식 노트·메모·회독 체크까지 모두 지워요. 처음 설치한 상태가 돼요.</small></div><button class="btn g sm danger" data-act="resetevery">전체 초기화</button></div>
-    <div class="setrow"><div><b>S펜 사용법</b><small>펜 전용을 켜면 손가락 터치는 필기 대신 이동·확대에 쓰여요. S펜 옆 버튼을 누른 채로 쓰면 지우개로 동작해요.</small></div></div>
-  </div></div>`);
+  const row = (title, desc, ctl, one) => `<div class="srow2 ${one ? "one" : ""}"><div class="sl"><b>${title}</b>${desc ? `<small>${desc}</small>` : ""}</div>${ctl ? `<div class="sc">${ctl}</div>` : ""}</div>`;
+  const card = (title, rows) => `<div class="card scard"><p class="eyebrow">${title}</p>${rows}</div>`;
+  const bv = window.Android && Android.bundledVersion ? Android.bundledVersion() : "";
+  const native = !!(window.Android && Android.setReminder);
+  const sync = !app ? row("구글 드라이브 동기화", "설치한 앱에서만 쓸 수 있어요", "", true)
+    : on ? row(`구글 드라이브 동기화 <span class="pill ok">연결됨</span>`, `${esc(S.gd.email || "구글 계정")} · ${S.syncErr ? `<span class="rd">${esc(S.syncErr === "NEED_LOGIN" ? "다시 로그인 필요" : "오류")}</span>` : S.syncAt ? ago(S.syncAt) + " 동기화" : "대기 중"}`,
+        `<button class="btn y sm" data-act="syncnow">지금 동기화</button><button class="btn g sm" data-act="syncoff">해제</button>`)
+    : row("구글 드라이브 동기화", "폰·탭·PC 기록을 자동으로 맞춰요", `<button class="btn y sm" data-act="synclogin">구글 계정 연결</button>`, true);
+  return shell("settings", `<div class="page setpage"><h1 class="h1">설정</h1>
+  ${card("화면",
+    row("글자 크기", "이 기기에만 적용", segs("font", [["s","작게"],["m","보통"],["l","크게"],["xl","최대"]], P.font || "m")) +
+    row("화면 모드", "필기 영역은 항상 밝게 유지", segs("theme", [["light","라이트"],["dark","다크"],["auto","시스템"]], P.theme || "light")) +
+    row("애니메이션", "화면 전환·정답 효과", segs("anim", [[1,"켜기"],[0,"끄기"]], P.anim === false ? 0 : 1)))}
+  ${card("문제 풀이",
+    row("문제당 제한 시간", "모의고사는 150분 타이머 사용", segs("qTimer", [[0,"끄기"],[60,"1분"],[90,"1분 30초"],[120,"2분"]], P.qTimer || 0)) +
+    row("해설 바로보기 버튼", "풀기 전 해설 보기 방지", segs("hideReveal", [[0,"보이기"],[1,"숨기기"]], P.hideReveal ? 1 : 0)) +
+    row("스크랩 자동 졸업", "2번 연속 맞히면 스크랩에서 빼요", segs("scrapGrad", [[1,"켜기"],[0,"끄기"]], P.scrapGrad === false ? 0 : 1)) +
+    row("시험일", "홈에 D-day 표시", `<input type="date" id="examdate" value="${S.examDate || ""}" class="dinput">`, true))}
+  ${card("필기",
+    row("펜 색", "", segs("color", [["k","검정"],["b","파랑"],["r","빨강"]], P.color || "k")) +
+    row("펜 굵기", "", segs("size", [[0,"가늘게"],[1,"보통"],[2,"굵게"],[3,"최대"]], P.size ?? 1)) +
+    row("격자", "", segs("grid", [[1,"켜기"],[0,"끄기"]], P.grid ? 1 : 0)) +
+    row("펜 전용", "손가락은 이동·확대만", segs("penOnly", [[1,"켜기"],[0,"끄기"]], P.penOnly ? 1 : 0)) +
+    row("연습장", "이어 쓰기는 저장되지 않아요", segs("pad", [["each","문제마다"],["cont","이어 쓰기"]], P.pad || "each")) +
+    row("S펜 지우개", "옆 버튼을 누른 채 쓰면 지워져요", "", true))}
+  ${card("알림 · 기기", native ?
+    row("화면 켜짐 유지", "공부 중 화면 꺼짐 방지", segs("keepOn", [[1,"켜기"],[0,"끄기"]], P.keepOn !== false ? 1 : 0)) +
+    row("매일 공부 알림", "정한 시간에 복습 알림", segs("remind", [[1,"켜기"],[0,"끄기"]], P.remind ? 1 : 0)) +
+    row("알림 시간", "", `<input type="time" id="rtime" class="dinput" value="${P.remindTime || "20:00"}"><button class="btn o sm" data-act="testnoti">테스트</button>`, true) +
+    row("홈 화면 위젯", "홈 화면 길게 누르기 → 위젯", "", true)
+    : row("화면 켜짐 · 알림 · 위젯", "새 APK를 설치하면 쓸 수 있어요", "", true))}
+  ${card("동기화 · 백업",
+    sync +
+    row("백업 내보내기", `기록·스크랩·필기 ${nNotes}개를 파일로`, `<button class="btn o sm" data-act="export">내보내기</button>`, true) +
+    row("백업 불러오기", "지금 기록을 덮어써요", `<button class="btn o sm" data-act="import">불러오기</button><input type="file" id="impf" accept=".json,application/json" hidden>`, true) +
+    row("자동 백업", "매일 1번, 최근 3개 보관", "", true) + `<div id="bklist" class="bklist"></div>` +
+    row("과목 노트 출력", "노트를 A4로 인쇄·PDF 저장", `<button class="btn o sm" data-go="#/print/0">출력</button>`, true))}
+  ${card("앱 정보",
+    row(`버전 ${APP_VERSION}`, bv && bv !== APP_VERSION ? `설치 ${esc(bv)} · 온라인 업데이트 적용` : "새 버전이 있으면 켤 때 알려줘요",
+      `<button class="btn y sm" data-act="otacheck">업데이트 확인</button>${bv && bv !== APP_VERSION ? `<button class="btn g sm" data-act="otareset">되돌리기</button>` : ""}`, !(bv && bv !== APP_VERSION)))}
+  ${card("초기화",
+    row("풀이 기록 초기화", "스크랩·필기·메모는 남아요", `<button class="btn g sm" data-act="resetall">초기화</button>`, true) +
+    row("전체 초기화", "모든 데이터 삭제 (되돌릴 수 없음)", `<button class="btn g sm danger" data-act="resetevery">전체 삭제</button>`, true))}
+  </div>`);
 }
 async function fillBackups(){
   const el = $("#bklist"); if (!el) return;
@@ -2507,8 +2596,8 @@ async function restoreBackup(k){
 async function doExport(){
   Ink.flush();
   const notes = await IDB.all();
-  const clips = await IDB.all("clips");
-  const blob = JSON.stringify({ app:"elec21", v:2, at:new Date().toISOString(), state:S, notes, clips });
+  const clips = await IDB.all("clips"), pages = await IDB.all("pages");
+  const blob = JSON.stringify({ app:"elec21", v:2, at:new Date().toISOString(), state:S, notes, clips, pages });
   const name = `전기기사21일_백업_${todayStr()}.json`;
   if (window.Android && window.Android.saveFile){ window.Android.saveFile(name, blob); return; }
   const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([blob], { type:"application/json" })); a.download = name; a.click();
@@ -2521,16 +2610,17 @@ async function doImport(file){
     const prefs = S.prefs; S = Object.assign(S, j.state); S.prefs = prefs; save();
     for (const [k, v] of Object.entries(j.notes || {})) await IDB.put(k, v);
     for (const [k, v] of Object.entries(j.clips || {})) await IDB.put(k, v, "clips");
+    for (const [k, v] of Object.entries(j.pages || {})) await IDB.put(k, v, "pages");
     toast("백업을 불러왔어요"); route();
   } catch(e){ toast("이 앱의 백업 파일이 아니에요"); }
 }
 
 /* Google Drive sync (file linked through the system picker; merge by timestamps) */
 // reset points: anything older than S.resetAt (records) / S.resetAllAt (everything) is dropped on every device
-const REC_KEYS = ["sessions","qstat","reviews","rounds","hist","srs","why"], ALL_KEYS = ["scrapMap","memos","creads","clipSrs"];
+const REC_KEYS = ["sessions","qstat","reviews","rounds","hist","srs","why"], ALL_KEYS = ["scrapMap","memos","creads","clipSrs","nb"];
 function clearRecords(){ REC_KEYS.forEach(k => S[k] = {}); S.mocks = []; S.attend = []; S.daySec = {}; S.last = null; S.lastTs = 0; S.weekShown = ""; }
-function clearAll(){ clearRecords(); ALL_KEYS.forEach(k => S[k] = {}); S.scraps = []; S.notes = {}; }
-async function wipeLocalFiles(){ for (const k of await IDB.keys()) await IDB.del(k); for (const k of await IDB.keys("clips")) await IDB.del(k, "clips"); }
+function clearAll(){ clearRecords(); ALL_KEYS.forEach(k => S[k] = {}); S.scraps = []; S.notes = {}; S.migrNB = true; }
+async function wipeLocalFiles(){ for (const st of [undefined, "clips", "pages"]) for (const k of await IDB.keys(st)) await IDB.del(k, st); }
 async function doReset(all){
   const t = Date.now();
   if (all){ clearAll(); await wipeLocalFiles(); S.resetAllAt = t; } else clearRecords();
@@ -2562,6 +2652,8 @@ function mergeState(R){
   by(S.memos, R.memos || {}, v => v.ts);
   by(S.why, R.why || {}, v => v.ts);
   by(S.clipSrs, R.clipSrs || {}, v => v.ts);
+  by(S.nb, R.nb || {}, v => v.ts);
+  for (const [k, v] of Object.entries(R.pageDel || {})) S.pageDel[k] = Math.max(S.pageDel[k] || 0, v);
   for (const [k, v] of Object.entries(R.daySec || {})) S.daySec[k] = Math.max(S.daySec[k] || 0, v);
   for (const [k, v] of Object.entries(R.clipDel || {})) S.clipDel[k] = Math.max(S.clipDel[k] || 0, v);
   for (const [k, t] of Object.entries(S.histDel)) if (S.hist[k] && (S.hist[k].updated || 0) <= t) delete S.hist[k];
@@ -2573,6 +2665,11 @@ function mergeState(R){
   S.attend = [...new Set([...(S.attend || []), ...(R.attend || [])])].sort().slice(-400);
   if ((R.examTs || 0) > (S.examTs || 0)){ S.examDate = R.examDate; S.examTs = R.examTs; }
   if ((R.lastTs || 0) > (S.lastTs || 0)){ S.last = R.last; S.lastTs = R.lastTs; }
+}
+async function mergePages(remote){
+  const rB = S.resetAllAt || 0, local = await IDB.all("pages");
+  for (const [k, v] of Object.entries(remote || {})){ if ((v.ts || 0) <= rB || (S.pageDel[k] || 0) >= (v.ts || 0)) continue; if (!local[k] || (v.ts || 0) > (local[k].ts || 0)) await IDB.put(k, v, "pages"); }
+  for (const [k, v] of Object.entries(local)) if ((S.pageDel[k] || 0) >= (v.ts || 0)) await IDB.del(k, "pages");
 }
 async function mergeClips(remote){
   const rB = S.resetAllAt || 0; remote = Object.fromEntries(Object.entries(remote || {}).filter(([k, v]) => (v.ts || 0) > rB));
@@ -2656,13 +2753,13 @@ const Sync = {
       if (f && (remoteChanged || force || manual)){
         const before = fp();
         const txt = await GD.download(f.id);
-        if (txt.trim()){ const r = JSON.parse(txt); if (r.app === "elec21"){ mergeState(r.state); await mergeNotes(r.notes); await mergeClips(r.clips || {}); } }
+        if (txt.trim()){ const r = JSON.parse(txt); if (r.app === "elec21"){ mergeState(r.state); await mergeNotes(r.notes); await mergeClips(r.clips || {}); await mergePages(r.pages || {}); } }
         dataChanged = fp() !== before;
       }
       if (!manual && !force && !localChanged && !dataChanged){ S.gd.ver = f ? f.version : S.gd.ver; save(true); this.busy = false; return; }
       const notes = await IDB.all();
-      const clips = await IDB.all("clips");
-      const out = JSON.stringify({ app:"elec21", v:3, at: Date.now(), state: Object.assign({}, S, { prefs: undefined, gd: undefined }), notes, clips });
+      const clips = await IDB.all("clips"), pages = await IDB.all("pages");
+      const out = JSON.stringify({ app:"elec21", v:3, at: Date.now(), state: Object.assign({}, S, { prefs: undefined, gd: undefined }), notes, clips, pages });
       const up = await GD.upload(f ? f.id : null, out);
       S.gd.fileId = up.id; S.gd.ver = up.version; S.syncAt = Date.now(); S.syncErr = ""; save(true);
       if (manual) toast("구글 드라이브와 동기화했어요");
@@ -2680,6 +2777,420 @@ const Sync = {
 window.__onPause = () => { persist(); Sync.run(); };
 
 function keepScroll(){ const y = $(".main") ? $(".main").scrollTop : 0; route(true).then(() => { if ($(".main")) $(".main").scrollTop = y; }); }
+/* ===================== subject notebooks (6권) ===================== */
+const PW = 1000, PH = 1414;
+const HL = { y:"#FFD400", g:"#3FD07A", p:"#FF6FB5" };
+const subjOfConcept = c => (D.days.find(d => d.day === c.day) || {}).subject || "회로이론";
+const nbSubj = s => SUBJ6.includes(s) ? s : ((SUBJ5.find(x => x.name === s) || { from:["회로이론"] }).from[0]);
+const nuid = p => p + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+const pageOrder = subj => ((S.nb[subj] || {}).pages || []).slice();
+async function nbLoad(subj){
+  if (!S.nb[subj]) S.nb[subj] = { pages: [], ts: Date.now() };
+  const meta = S.nb[subj], pages = {};
+  for (const pid of meta.pages) pages[pid] = (await IDB.get(pid, "pages")) || { subj, items: [], strokes: [], ts: Date.now() };
+  if (!meta.pages.length){ const pid = nuid("pg"); meta.pages.push(pid); meta.ts = Date.now(); pages[pid] = { subj, items: [], strokes: [], ts: Date.now() }; await IDB.put(pid, pages[pid], "pages"); save(); }
+  return pages;
+}
+function pageBottom(rec){
+  let y = 30;
+  rec.items.forEach(it => { y = Math.max(y, it.y + (it.h || 60)); });
+  rec.strokes.forEach(s => { if (s.t === "e") return; s.pts.forEach(p => { y = Math.max(y, p[1] + 10); }); });
+  return y;
+}
+// append items (built at the end of the subject notebook); returns {pid, y}
+async function nbAppend(subj, build, pages){
+  pages = pages || await nbLoad(subj);
+  const meta = S.nb[subj]; let pid = meta.pages[meta.pages.length - 1], rec = pages[pid];
+  let y = pageBottom(rec) + 24;
+  const items = build(); const need = items.reduce((a, it) => a + (it.h || 60) + 16, 0);
+  if (y + Math.min(need, PH - 120) > PH - 40){ pid = nuid("pg"); rec = pages[pid] = { subj, items: [], strokes: [], ts: Date.now() }; meta.pages.push(pid); y = 60; }
+  for (const it of items){
+    if (y + (it.h || 60) > PH - 30 && y > 80){ pid = nuid("pg"); rec = pages[pid] = { subj, items: [], strokes: [], ts: Date.now() }; meta.pages.push(pid); y = 60; }
+    if (it.h > PH - 120){ const k = (PH - 120) / it.h; it.h *= k; it.w *= k; }
+    it.y = y; it.x = it.x ?? 40; rec.items.push(it); y += (it.h || 60) + 16; rec.ts = Date.now();
+    await IDB.put(pid, rec, "pages");
+  }
+  meta.ts = Date.now(); S.changedAt = Date.now(); save();
+  return { pid, y };
+}
+const headItem = (text, extra) => Object.assign({ id: nuid("it"), type: "head", x: 40, w: 920, h: 64, text }, extra || {});
+
+const NB = {
+  subj:null, host:null, pages:{}, zoom:1, tool:"pen", hl:"y", straight:false, sel:null, pending:null,
+  undo:[], redo:[], review:false, revealed:new Set(), cur:null, tp:new Map(), g:null, lasso:null, drag:null,
+  async open(subj, host, opts = {}){
+    this.flushAll(); this.subj = subj; this.host = host; this.pages = await nbLoad(subj);
+    this.sel = null; this.undo = []; this.redo = []; this.pending = null; this.revealed = new Set();
+    this.render();
+    if (opts.cid){
+      const hit = this.findHead(opts.cid);
+      if (hit) this.scrollTo(hit.pid, hit.y);
+      else { this.pending = { cid: opts.cid, text: `DAY ${pad(C[opts.cid].day)} · 필수개념 ${pad(C[opts.cid].num)} ${C[opts.cid].name}` }; this.renderPending(); this.scrollToEnd(); }
+    }
+  },
+  order(){ return pageOrder(this.subj); },
+  findHead(cid){ for (const pid of this.order()){ const it = (this.pages[pid] || { items: [] }).items.find(x => x.type === "head" && x.cid === cid); if (it) return { pid, y: it.y }; } return null; },
+  heads(){ const out = []; this.order().forEach((pid, i) => (this.pages[pid] || { items: [] }).items.filter(x => x.type === "head").sort((a, b) => a.y - b.y).forEach(h => out.push({ pid, y: h.y, text: h.text, page: i + 1 }))); return out; },
+  toolbar(){
+    const p = S.prefs, t = this.tool, z = Math.round(this.zoom * 100);
+    const tb = (k, ic, l) => `<button class="t ${t === k ? "on" : ""}" data-nbtool="${k}">${ic}<em>${l}</em></button>`;
+    return `<div class="tb nbtb">
+      ${tb("pen", I.pen, "펜")}<div class="pcol">${Object.entries(PEN_COLORS).map(([k, c]) => `<button class="${(p.color || "k") === k && t === "pen" ? "on" : ""}" data-nbcol="${k}" style="--c:${c}"></button>`).join("")}</div>
+      ${tb("hl", `<svg class="i" viewBox="0 0 24 24"><path d="M4 20h8M14.5 4.5l5 5L10 19H5v-5z" fill="${HL[this.hl]}"/></svg>`, "형광펜")}
+      ${t === "hl" ? `<div class="pcol">${Object.entries(HL).map(([k, c]) => `<button class="${this.hl === k ? "on" : ""}" data-nbhl="${k}" style="--c:${c}"></button>`).join("")}</div>` : ""}
+      ${tb("eraser", I.eraser, "지우개")}
+      <button class="t ${this.straight ? "on" : ""}" data-nbact="straight"><svg class="i" viewBox="0 0 24 24"><path d="M4 20 20 4"/></svg><em>직선</em></button>
+      ${tb("text", `<svg class="i" viewBox="0 0 24 24"><path d="M5 5h14M12 5v14M9 19h6"/></svg>`, "텍스트")}
+      ${tb("select", `<svg class="i" viewBox="0 0 24 24"><path d="M5 9c0-3 3-5 7-5s7 2 7 5-3 5-7 5c-2 0-3.5-.4-4.6-1.1L4 15l1.6-3.2C5.2 11 5 10 5 9z" stroke-dasharray="3 2"/></svg>`, "선택")}
+      <span class="div"></span>
+      <button class="t" data-nbact="undo" ${this.undo.length ? "" : "disabled"}>${I.undo}<em>취소</em></button>
+      <button class="t" data-nbact="redo" ${this.redo.length ? "" : "disabled"}>${I.redo}<em>다시</em></button>
+      <span class="sp"></span>
+      <button class="t ${this.review ? "on" : ""}" data-nbact="review"><svg class="i" viewBox="0 0 24 24"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><em>${this.review ? "가림 중" : "복습 가림"}</em></button>
+      <button class="t" data-nbact="toc"><svg class="i" viewBox="0 0 24 24"><path d="M4 6h16M4 12h10M4 18h13"/></svg><em>목차</em></button>
+      <button class="t ${p.penOnly ? "on" : ""}" data-ink="penonly">${I.stylus}<em>펜 전용</em></button>
+      <button class="t ${z !== 100 ? "on" : ""}" data-nbact="zoom"><b>${z}%</b><em>배율</em></button>
+    </div>`;
+  },
+  render(){
+    if (!this.host) return;
+    this.host.innerHTML = `<div class="nbwrap" data-tool="${this.tool}">${this.toolbar()}<div class="nbscroll"><div class="nbpages" style="width:${this.zoom * 100}%">
+      ${this.order().map((pid, i) => `<div class="nbpage" data-pid="${pid}"><div class="nbitems"></div><canvas></canvas><div class="nbpno">${i + 1}</div>
+        <button class="nbpmenu" data-nbpage="${pid}" title="페이지 메뉴">⋯</button></div>`).join("")}
+      <button class="nbadd" data-nbact="addpage">＋ 페이지 추가</button></div></div><div class="penbadge nbbadge" id="nbpb">${I.stylus}</div></div>`;
+    const sc = $(".nbscroll", this.host);
+    ["pointerdown", "pointermove", "pointerup", "pointercancel"].forEach(t => sc.addEventListener(t, e => this["p_" + t.slice(7)](e)));
+    sc.addEventListener("wheel", e => { if (!e.ctrlKey) return; e.preventDefault(); this.setZoom(this.zoom * (e.deltaY < 0 ? 1.1 : 0.9), e); }, { passive:false });
+    this.order().forEach(pid => this.drawPage(pid));
+    if (this.pending) this.renderPending();
+  },
+  pageEl(pid){ return this.host && this.host.querySelector(`.nbpage[data-pid="${pid}"]`); },
+  k(pid){ const el = this.pageEl(pid); return el ? el.clientWidth / PW : 1; },
+  drawPage(pid){
+    const el = this.pageEl(pid), rec = this.pages[pid]; if (!el || !rec) return;
+    const k = el.clientWidth / PW, items = $(".nbitems", el);
+    items.innerHTML = rec.items.map(it => this.itemHTML(it, k)).join("");
+    const cv = $("canvas", el), dpr = window.devicePixelRatio || 1;
+    cv.width = Math.round(el.clientWidth * dpr); cv.height = Math.round(el.clientWidth * PH / PW * dpr);
+    this.paint(pid);
+    if (this.sel && this.sel.pid === pid) this.showSel();
+    if (this.pending && pid === this.order()[this.order().length - 1]) this.renderPending();
+  },
+  paint(pid, extra){
+    const el = this.pageEl(pid), rec = this.pages[pid]; if (!el) return;
+    const cv = $("canvas", el), ctx = cv.getContext("2d"), dpr = window.devicePixelRatio || 1, k = el.clientWidth / PW;
+    ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.clearRect(0, 0, cv.width, cv.height); ctx.setTransform(dpr * k, 0, 0, dpr * k, 0, 0);
+    rec.strokes.forEach(s => nbStroke(ctx, s));
+    if (extra) nbStroke(ctx, extra);
+  },
+  itemHTML(it, k){
+    const st = `left:${it.x / PW * 100}%;top:${it.y / PH * 100}%;width:${it.w / PW * 100}%;${it.h ? `height:${it.h / PH * 100}%;` : ""}`;
+    const selc = this.sel && this.sel.item === it.id ? " sel" : "";
+    if (it.type === "head") return `<div class="nbitem nbhead${selc}" data-it="${it.id}" style="${st}font-size:${26 * k}px">${esc(it.text)}</div>`;
+    if (it.type === "text") return `<div class="nbitem nbtext${selc}" data-it="${it.id}" style="${st}height:auto;font-size:${(it.size || 30) * k}px">${esc(it.text).replace(/\n/g, "<br>")}</div>`;
+    const hide = this.review && it.review !== false && !this.revealed.has(it.id);
+    return `<div class="nbitem nbimg${selc}${hide ? " hidden" : ""}" data-it="${it.id}" style="${st}"><img src="${it.src.startsWith("data:") ? it.src : src(it.src)}" draggable="false" alt="">${hide ? `<span class="nbhide">눌러서 확인</span>` : ""}</div>`;
+  },
+  renderPending(){
+    this.host && this.host.querySelectorAll(".nbghost").forEach(x => x.remove());
+    if (!this.pending) return;
+    const pid = this.order()[this.order().length - 1], el = this.pageEl(pid), rec = this.pages[pid]; if (!el) return;
+    const y = pageBottom(rec) + 24, k = el.clientWidth / PW;
+    this.pending.pid = pid; this.pending.y = y > PH - 160 ? null : y;
+    if (this.pending.y == null) return;
+    const g = document.createElement("div"); g.className = "nbghost";
+    g.style.cssText = `top:${y / PH * 100}%;font-size:${22 * k}px`; g.textContent = "여기부터 · " + this.pending.text;
+    $(".nbitems", el).appendChild(g);
+  },
+  async commitPending(){
+    if (!this.pending) return;
+    const p = this.pending; this.pending = null;
+    let pid = p.pid || this.order()[this.order().length - 1];
+    if (p.y == null){ pid = this.addPage(true); p.y = 60; }
+    const rec = this.pages[pid]; this.pushUndo(pid);
+    rec.items.push(headItem(p.text, { cid: p.cid, y: p.y })); this.touch(pid); this.drawPage(pid);
+  },
+  addPage(silent, afterPid){
+    const pid = nuid("pg"), meta = S.nb[this.subj];
+    this.pages[pid] = { subj: this.subj, items: [], strokes: [], ts: Date.now() };
+    const i = afterPid ? meta.pages.indexOf(afterPid) + 1 : meta.pages.length; meta.pages.splice(i, 0, pid); meta.ts = Date.now();
+    IDB.put(pid, this.pages[pid], "pages"); save();
+    if (!silent){ this.render(); this.scrollTo(pid, 0); } else this.render();
+    return pid;
+  },
+  touch(pid){ const r = this.pages[pid]; r.ts = Date.now(); S.nb[this.subj].ts = Date.now(); clearTimeout(this["t_" + pid]); this["t_" + pid] = setTimeout(() => { IDB.put(pid, r, "pages"); }, 400); S.changedAt = Date.now(); markStudy(); save(); },
+  flushAll(){ if (!this.subj) return; Object.keys(this.pages).forEach(pid => { if (this["t_" + pid]){ clearTimeout(this["t_" + pid]); IDB.put(pid, this.pages[pid], "pages"); this["t_" + pid] = null; } }); },
+  pushUndo(pid){ this.undo.push({ pid, snap: JSON.stringify(this.pages[pid]) }); if (this.undo.length > 60) this.undo.shift(); this.redo = []; },
+  restore(stackFrom, stackTo){ const u = stackFrom.pop(); if (!u) return; stackTo.push({ pid: u.pid, snap: JSON.stringify(this.pages[u.pid]) }); this.pages[u.pid] = JSON.parse(u.snap); this.sel = null; this.touch(u.pid); this.drawPage(u.pid); this.refreshTb(); },
+  refreshTb(){ const tb = this.host && $(".nbtb", this.host); if (!tb) return; const sl = tb.scrollLeft; tb.outerHTML = this.toolbar(); const n = $(".nbtb", this.host); if (n) n.scrollLeft = sl; const w = $(".nbwrap", this.host); if (w) w.dataset.tool = this.tool; },
+  scrollTo(pid, y){ const el = this.pageEl(pid), sc = this.host && $(".nbscroll", this.host); if (!el || !sc) return; sc.scrollTop = el.offsetTop + y * this.k(pid) - 30; },
+  scrollToEnd(){ const pid = this.order()[this.order().length - 1]; this.scrollTo(pid, Math.max(0, pageBottom(this.pages[pid]) - 200)); },
+  setZoom(z, e){
+    const sc = $(".nbscroll", this.host), pg = $(".nbpages", this.host); z = Math.min(3, Math.max(1, z));
+    const r = sc.getBoundingClientRect(), mx = e ? e.clientX - r.left : r.width / 2, my = e ? e.clientY - r.top : r.height / 2;
+    const cx = sc.scrollLeft + mx, cy = sc.scrollTop + my, f = z / this.zoom; this.zoom = z;
+    pg.style.width = z * 100 + "%"; sc.scrollLeft = cx * f - mx; sc.scrollTop = cy * f - my;
+    clearTimeout(this.zt); this.zt = setTimeout(() => { this.order().forEach(pid => this.drawPage(pid)); this.refreshTb(); }, 160);
+  },
+  local(e, pid){ const el = this.pageEl(pid), r = el.getBoundingClientRect(), k = r.width / PW; return [(e.clientX - r.left) / k, (e.clientY - r.top) / k, e.pressure || 0.5]; },
+  hitItem(pid, x, y){ const rec = this.pages[pid]; for (let i = rec.items.length - 1; i >= 0; i--){ const it = rec.items[i], el = this.host.querySelector(`[data-it="${it.id}"]`);
+    const h = it.h || (el ? el.offsetHeight / this.k(pid) : 60); if (x >= it.x && x <= it.x + it.w && y >= it.y && y <= it.y + h) return it; } return null; },
+  // ---------- pointer input: pen draws, fingers scroll/zoom ----------
+  p_down(e){
+    const pg = e.target.closest(".nbpage"), sc = $(".nbscroll", this.host);
+    if (e.target.closest(".nbpmenu,.nbadd,.nbselbar,.nbtext.editing")) return;
+    if (e.pointerType === "touch"){
+      if (this.cur && this.cur.ptype !== "touch") return;
+      const fingerDraw = !S.prefs.penOnly && !this.tp.size && !this.cur && pg && ["pen","hl","eraser"].includes(this.tool);
+      this.tp.set(e.pointerId, { x: e.clientX, y: e.clientY });
+      if (!fingerDraw){ if (this.cur && this.cur.ptype === "touch"){ this.cur = null; this.paint(this.cur && this.cur.pid); }
+        const pts = [...this.tp.values()];
+        this.g = { n: pts.length, sl: sc.scrollLeft, st: sc.scrollTop, x: pts[0].x, y: pts[0].y, z: this.zoom, d: pts.length > 1 ? Math.hypot(pts[0].x - pts[1].x, pts[0].y - pts[1].y) : 0 };
+        try { sc.setPointerCapture(e.pointerId); } catch(_){} e.preventDefault(); return; }
+    }
+    if (!pg || (e.pointerType === "mouse" && e.button !== 0)) return;
+    const pid = pg.dataset.pid, [x, y] = this.local(e, pid);
+    try { sc.setPointerCapture(e.pointerId); } catch(_){}
+    e.preventDefault();
+    if (this.review){ const it = this.hitItem(pid, x, y); if (it && it.type === "img"){ this.revealed.has(it.id) ? this.revealed.delete(it.id) : this.revealed.add(it.id); this.drawPage(pid); return; } }
+    if (this.tool === "select") return this.selDown(pid, x, y, e);
+    if (this.tool === "text"){ const it = this.hitItem(pid, x, y); if (it && it.type === "text") return this.editText(pid, it); return this.newText(pid, x, y); }
+    const side = Ink.isSide(e), er = this.tool === "eraser" || side, p = S.prefs;
+    this.cur = { pid, id: e.pointerId, ptype: e.pointerType, t: er ? "e" : this.tool === "hl" ? "h" : "p", w: er ? 34 : this.tool === "hl" ? 22 : SIZES[p.size] * 1.6, pts: [[x, y, e.pressure || 0.5]], lastMove: Date.now() };
+    if (this.cur.t === "p" && (p.color || "k") !== "k") this.cur.c = p.color;
+    if (this.cur.t === "h") this.cur.c = this.hl;
+    const b = $("#nbpb"); if (b){ b.classList.toggle("er", er); b.innerHTML = er ? I.eraser : I.stylus; }
+  },
+  p_move(e){
+    if (this.tp.has(e.pointerId)){
+      this.tp.set(e.pointerId, { x: e.clientX, y: e.clientY });
+      if (this.g){ const sc = $(".nbscroll", this.host), pts = [...this.tp.values()];
+        if (pts.length !== this.g.n){ this.g = { n: pts.length, sl: sc.scrollLeft, st: sc.scrollTop, x: pts[0].x, y: pts[0].y, z: this.zoom, d: pts.length > 1 ? Math.hypot(pts[0].x - pts[1].x, pts[0].y - pts[1].y) : 0 }; return; }
+        if (pts.length >= 2 && this.g.d){ const d = Math.hypot(pts[0].x - pts[1].x, pts[0].y - pts[1].y); this.setZoom(this.g.z * d / this.g.d, { clientX: (pts[0].x + pts[1].x) / 2, clientY: (pts[0].y + pts[1].y) / 2 }); this.g.z = this.zoom; this.g.d = d; }
+        else { sc.scrollLeft = this.g.sl - (pts[0].x - this.g.x); sc.scrollTop = this.g.st - (pts[0].y - this.g.y); }
+        e.preventDefault(); return; }
+    }
+    if (this.drag) return this.selMove(e);
+    if (this.lasso) return this.lassoMove(e);
+    const c = this.cur; if (!c || e.pointerId !== c.id) return;
+    if (c.t === "p" && c.pts.length < 10 && Ink.isSide(e)){ c.t = "e"; c.w = 34; }
+    const evs = e.getCoalescedEvents ? e.getCoalescedEvents() : [e];
+    for (const ev of (evs.length ? evs : [e])) c.pts.push(this.local(ev, c.pid));
+    const L = c.pts[c.pts.length - 1];
+    if (this.straight && c.t !== "e") c.pts = [c.pts[0], L];
+    else if (c.t !== "e"){ clearTimeout(this.holdT); this.holdT = setTimeout(() => { if (this.cur === c && c.pts.length > 4){ c.pts = [c.pts[0], c.pts[c.pts.length - 1]]; c.line = true; this.paint(c.pid, c); } }, 550); if (c.line) c.pts = [c.pts[0], L]; }
+    this.paint(c.pid, c); e.preventDefault();
+  },
+  async p_up(e){
+    if (this.tp.has(e.pointerId)){ this.tp.delete(e.pointerId); const sc = $(".nbscroll", this.host), pts = [...this.tp.values()];
+      this.g = pts.length ? { n: pts.length, sl: sc.scrollLeft, st: sc.scrollTop, x: pts[0].x, y: pts[0].y, z: this.zoom, d: 0 } : null; return; }
+    if (this.drag) return this.selUp(e);
+    if (this.lasso) return this.lassoUp(e);
+    const c = this.cur; if (!c || e.pointerId !== c.id) return;
+    this.cur = null; clearTimeout(this.holdT);
+    if (c.pts.length === 1) c.pts.push([c.pts[0][0] + .1, c.pts[0][1] + .1, c.pts[0][2]]);
+    const s = { t: c.t, w: c.w, pts: c.pts.map(p => [Math.round(p[0] * 10) / 10, Math.round(p[1] * 10) / 10, Math.round((p[2] || .5) * 100) / 100]) }; if (c.c) s.c = c.c;
+    if (s.t !== "e") await this.commitPending();
+    this.pushUndo(c.pid); this.pages[c.pid].strokes.push(s); this.touch(c.pid); this.paint(c.pid); this.refreshTb();
+    const b = $("#nbpb"); if (b){ b.classList.remove("er"); b.innerHTML = I.stylus; }
+  },
+  // ---------- text ----------
+  async newText(pid, x, y){
+    await this.commitPending();
+    const it = { id: nuid("it"), type: "text", x: Math.min(x, PW - 300), y, w: Math.min(560, PW - x - 20), text: "", size: 30 };
+    this.pushUndo(pid); this.pages[pid].items.push(it); this.drawPage(pid); this.editText(pid, it, true);
+  },
+  editText(pid, it, fresh){
+    const el = this.host.querySelector(`[data-it="${it.id}"]`); if (!el) return;
+    el.classList.add("editing"); el.contentEditable = "true"; el.innerText = it.text; el.focus();
+    const done = () => { el.contentEditable = "false"; el.classList.remove("editing"); const v = el.innerText.replace(/\n+$/, "");
+      const rec = this.pages[pid]; if (!v.trim()) rec.items = rec.items.filter(x => x !== it); else { if (!fresh && v !== it.text) this.pushUndo(pid); it.text = v; }
+      this.touch(pid); this.drawPage(pid); setTimeout(() => this.refreshTb(), 350); };
+    el.addEventListener("blur", done, { once: true });
+  },
+  // ---------- select: items (move / resize) and lasso strokes ----------
+  selDown(pid, x, y, e){
+    const handle = e.target.closest(".nbh");
+    if (handle && this.sel){ this.pushUndo(this.sel.pid); this.drag = { mode: "resize", x0: x, y0: y, snap: JSON.parse(JSON.stringify(this.selected())) }; return; }
+    const inBox = this.sel && this.sel.pid === pid && this.sel.box && x >= this.sel.box.x && x <= this.sel.box.x + this.sel.box.w && y >= this.sel.box.y && y <= this.sel.box.y + this.sel.box.h;
+    if (inBox){ this.pushUndo(pid); this.drag = { mode: "move", x0: x, y0: y, snap: JSON.parse(JSON.stringify(this.selected())) }; return; }
+    const it = this.hitItem(pid, x, y);
+    if (it){ this.sel = { pid, item: it.id }; this.sel.box = this.itemBox(pid, it); this.drawPage(pid); this.pushUndo(pid); this.drag = { mode: "move", x0: x, y0: y, snap: JSON.parse(JSON.stringify(it)) }; return; }
+    this.clearSel(); this.lasso = { pid, pts: [[x, y]] };
+  },
+  itemBox(pid, it){ const el = this.host.querySelector(`[data-it="${it.id}"]`); return { x: it.x, y: it.y, w: it.w, h: it.h || (el ? el.offsetHeight / this.k(pid) : 60) }; },
+  selected(){ const rec = this.pages[this.sel.pid]; return this.sel.item ? rec.items.find(x => x.id === this.sel.item) : this.sel.idx.map(i => rec.strokes[i]); },
+  selMove(e){
+    const s = this.sel, d = this.drag; if (!s) return; const [x, y] = this.local(e, s.pid), dx = x - d.x0, dy = y - d.y0, rec = this.pages[s.pid];
+    if (s.item){ const it = rec.items.find(q => q.id === s.item);
+      if (d.mode === "move"){ it.x = Math.max(0, Math.min(PW - 40, d.snap.x + dx)); it.y = Math.max(0, Math.min(PH - 40, d.snap.y + dy)); }
+      else { const nw = Math.max(80, d.snap.w + dx); if (it.type === "img"){ it.h = d.snap.h * nw / d.snap.w; } it.w = nw; if (it.type === "text") it.size = Math.max(14, (d.snap.size || 30) * nw / d.snap.w); }
+      s.box = this.itemBox(s.pid, it); this.drawPage(s.pid);
+    } else {
+      const f = d.mode === "resize" ? Math.max(.2, (s.box0.w + dx) / s.box0.w) : 1;
+      s.idx.forEach((i, j) => { rec.strokes[i].pts = d.snap[j].pts.map(p => d.mode === "move" ? [p[0] + dx, p[1] + dy, p[2]] : [s.box0.x + (p[0] - s.box0.x) * f, s.box0.y + (p[1] - s.box0.y) * f, p[2]]);
+        if (d.mode === "resize") rec.strokes[i].w = d.snap[j].w * f; });
+      s.box = d.mode === "move" ? { ...s.box0, x: s.box0.x + dx, y: s.box0.y + dy } : { ...s.box0, w: s.box0.w * f, h: s.box0.h * f };
+      this.paint(s.pid); this.showSel();
+    }
+    e.preventDefault();
+  },
+  selUp(){ const s = this.sel; this.drag = null; if (s && s.idx) s.box0 = { ...s.box }; if (s) this.touch(s.pid); },
+  lassoMove(e){ const L = this.lasso, p = this.local(e, L.pid); L.pts.push([p[0], p[1]]);
+    const el = this.pageEl(L.pid); let svg = el.querySelector(".nblasso"); if (!svg){ svg = document.createElementNS("http://www.w3.org/2000/svg", "svg"); svg.setAttribute("class", "nblasso"); svg.setAttribute("viewBox", `0 0 ${PW} ${PH}`); el.appendChild(svg); }
+    svg.innerHTML = `<polyline points="${L.pts.map(q => q.join(",")).join(" ")}"/>`; },
+  lassoUp(){
+    const L = this.lasso; this.lasso = null; const el = this.pageEl(L.pid), sv = el && el.querySelector(".nblasso"); if (sv) sv.remove();
+    if (L.pts.length < 4) return;
+    const inside = (x, y) => { let c = false; for (let i = 0, j = L.pts.length - 1; i < L.pts.length; j = i++){ const [xi, yi] = L.pts[i], [xj, yj] = L.pts[j]; if ((yi > y) !== (yj > y) && x < (xj - xi) * (y - yi) / (yj - yi) + xi) c = !c; } return c; };
+    const rec = this.pages[L.pid], idx = [];
+    rec.strokes.forEach((s, i) => { if (s.t === "e") return; const n = s.pts.filter(p => inside(p[0], p[1])).length; if (n / s.pts.length > .6) idx.push(i); });
+    if (!idx.length) return;
+    let x0 = 1e9, y0 = 1e9, x1 = 0, y1 = 0; idx.forEach(i => rec.strokes[i].pts.forEach(p => { x0 = Math.min(x0, p[0]); y0 = Math.min(y0, p[1]); x1 = Math.max(x1, p[0]); y1 = Math.max(y1, p[1]); }));
+    this.sel = { pid: L.pid, idx, box: { x: x0 - 8, y: y0 - 8, w: x1 - x0 + 16, h: y1 - y0 + 16 } }; this.sel.box0 = { ...this.sel.box }; this.showSel();
+  },
+  clearSel(){ const p = this.sel && this.sel.pid; this.sel = null; if (p) this.drawPage(p); this.host.querySelectorAll(".nbselbox").forEach(x => x.remove()); },
+  showSel(){
+    this.host.querySelectorAll(".nbselbox").forEach(x => x.remove()); const s = this.sel; if (!s || !s.box) return;
+    const el = this.pageEl(s.pid); if (!el) return; const b = s.box, it = s.item && this.pages[s.pid].items.find(x => x.id === s.item);
+    const box = document.createElement("div"); box.className = "nbselbox";
+    box.style.cssText = `left:${b.x / PW * 100}%;top:${b.y / PH * 100}%;width:${b.w / PW * 100}%;height:${b.h / PH * 100}%`;
+    box.innerHTML = `<span class="nbh"></span><div class="nbselbar">
+      ${it && (it.cid || it.qid) ? `<button data-nbsel="goto">${I.open}원래 위치</button>` : ""}
+      ${it && it.type === "img" ? `<button data-nbsel="review">${it.review === false ? "복습 가림 켜기" : "복습 가림 끄기"}</button>` : ""}
+      ${it && it.type === "text" ? `<button data-nbsel="edit">수정</button>` : ""}
+      ${it ? `<button data-nbsel="front">앞으로</button><button data-nbsel="back">뒤로</button>` : ""}
+      <button data-nbsel="del" class="rd">${I.trash}삭제</button></div>`;
+    $(".nbitems", el).appendChild(box);
+  },
+  selAction(a){
+    const s = this.sel; if (!s) return; const rec = this.pages[s.pid], it = s.item && rec.items.find(x => x.id === s.item);
+    if (a === "goto" && it){ if (it.cid) location.hash = "#/concept/" + it.cid; else if (it.qid){ newSession("search", [it.qid], `노트에서 · ${whereOf(Q[it.qid])}`); location.hash = "#/quiz/search"; } return; }
+    if (a === "edit" && it){ this.editText(s.pid, it); return; }
+    this.pushUndo(s.pid);
+    if (a === "del"){ if (it) rec.items = rec.items.filter(x => x !== it); else rec.strokes = rec.strokes.filter((_, i) => !s.idx.includes(i)); this.sel = null; }
+    if (a === "review" && it){ it.review = it.review === false ? true : false; }
+    if (a === "front" && it){ rec.items = rec.items.filter(x => x !== it).concat(it); }
+    if (a === "back" && it){ rec.items = [it].concat(rec.items.filter(x => x !== it)); }
+    this.touch(s.pid); this.drawPage(s.pid); this.refreshTb();
+  },
+  async pageMenu(pid){
+    const i = this.order().indexOf(pid);
+    const m = document.createElement("div"); m.className = "modal ask";
+    m.innerHTML = `<div class="sheet askbox"><div class="bd"><p class="askmsg"><b>${i + 1}쪽</b></p><div class="acts" style="flex-direction:column">
+      <button class="btn o" data-pm="above">위에 새 페이지 넣기</button><button class="btn o" data-pm="below">아래에 새 페이지 넣기</button>
+      <button class="btn g danger" data-pm="del">이 페이지 삭제</button><button class="btn g" data-pm="x">닫기</button></div></div></div>`;
+    document.body.appendChild(m);
+    m.addEventListener("click", async ev => { const b = ev.target.closest("[data-pm]"); if (!b && ev.target !== m) return; m.remove(); const a = b ? b.dataset.pm : "x";
+      const meta = S.nb[this.subj];
+      if (a === "above"){ this.addPage(true, meta.pages[i - 1] || null); if (i === 0){ const np = meta.pages.pop(); meta.pages.unshift(np); this.render(); } }
+      if (a === "below") this.addPage(true, pid);
+      if (a === "del"){ if (!(await ask(`${i + 1}쪽을 삭제할까요?<br><small>되돌릴 수 없어요</small>`, "삭제", "취소"))) return;
+        meta.pages = meta.pages.filter(x => x !== pid); meta.ts = Date.now(); delete this.pages[pid]; S.pageDel[pid] = Date.now(); await IDB.del(pid, "pages");
+        if (!meta.pages.length){ this.pages = await nbLoad(this.subj); } save(); this.render(); }
+    });
+  },
+  toc(){
+    const hs = this.heads(); const m = document.createElement("div"); m.className = "modal";
+    m.innerHTML = `<div class="sheet" style="max-width:640px"><div class="hd"><h3>${esc(this.subj)} 노트 목차</h3><button class="x" data-close>${I.x}</button></div><div class="bd">
+      ${hs.length ? hs.map((h, i) => `<div class="srow" data-toc="${i}"><span>${esc(h.text)}</span><small>${h.page}쪽</small></div>`).join("") : `<p class="cdesc">아직 제목이 없어요. 개념 공부 화면에서 필기하면 개념 제목이 자동으로 들어가요.</p>`}</div></div>`;
+    m.addEventListener("click", ev => { if (ev.target === m || ev.target.closest("[data-close]")){ m.remove(); return; } const t = ev.target.closest("[data-toc]"); if (t){ const h = hs[+t.dataset.toc]; m.remove(); this.scrollTo(h.pid, h.y); } });
+    document.body.appendChild(m);
+  },
+  action(a){
+    if (a === "undo") this.restore(this.undo, this.redo);
+    if (a === "redo") this.restore(this.redo, this.undo);
+    if (a === "straight"){ this.straight = !this.straight; this.refreshTb(); toast(this.straight ? "직선 모드: 긋는 선이 모두 직선이 돼요" : "직선 모드 끔 · 선을 긋고 잠깐 멈추면 직선이 돼요"); }
+    if (a === "review"){ this.review = !this.review; this.revealed = new Set(); this.order().forEach(p => this.drawPage(p)); this.refreshTb(); toast(this.review ? "캡처 이미지를 가렸어요 · 눌러서 확인" : "가림을 풀었어요"); }
+    if (a === "toc") this.toc();
+    if (a === "zoom"){ this.setZoom(1); }
+    if (a === "addpage") this.addPage(false);
+  },
+  async insertImage(srcData, w, h, extra){
+    await this.commitPending();
+    const sc = $(".nbscroll", this.host); let pid = this.order()[this.order().length - 1], y = pageBottom(this.pages[pid]) + 20;
+    // prefer the page in view
+    for (const p of this.order()){ const el = this.pageEl(p); if (el && el.offsetTop + el.offsetHeight > sc.scrollTop + sc.clientHeight / 2){ pid = p; const vis = (sc.scrollTop + sc.clientHeight * .25 - el.offsetTop) / this.k(p); y = Math.max(pageBottom(this.pages[p]) + 20 > vis ? Math.max(vis, 40) : vis, 40); y = Math.min(Math.max(y, 40), pageBottom(this.pages[p]) + 20); break; } }
+    if (y + h > PH - 30){ pid = this.addPage(true); y = 60; }
+    const it = Object.assign({ id: nuid("it"), type: "img", src: srcData, x: 40, y, w, h }, extra || {});
+    this.pushUndo(pid); this.pages[pid].items.push(it); this.touch(pid); this.drawPage(pid); this.scrollTo(pid, Math.max(0, y - 140));
+    this.sel = { pid, item: it.id, box: { x: it.x, y: it.y, w: it.w, h: it.h } }; this.showSel();
+    return it;
+  },
+  resize(){ if (this.host && this.subj) this.order().forEach(p => this.drawPage(p)); }
+};
+function nbStroke(ctx, s){
+  if (s.t !== "h") return drawStroke(ctx, s);
+  ctx.save(); ctx.globalAlpha = .32; ctx.globalCompositeOperation = "multiply"; ctx.strokeStyle = HL[s.c || "y"]; ctx.lineWidth = s.w; ctx.lineCap = "round"; ctx.lineJoin = "round";
+  ctx.beginPath(); s.pts.forEach((p, i) => i ? ctx.lineTo(p[0], p[1]) : ctx.moveTo(p[0], p[1])); ctx.stroke(); ctx.restore();
+}
+// render one notebook page to an image (print / thumbnails)
+async function nbPageImage(rec, width = 1240){
+  const k = width / PW, cv = document.createElement("canvas"); cv.width = width; cv.height = Math.round(PH * k);
+  const ctx = cv.getContext("2d"); ctx.fillStyle = "#fff"; ctx.fillRect(0, 0, cv.width, cv.height);
+  const load = s => new Promise(r => { const im = new Image(); im.onload = () => r(im); im.onerror = () => r(null); im.src = s.startsWith("data:") ? s : src(s); });
+  for (const it of rec.items){
+    if (it.type === "img"){ const im = await load(it.src); if (im) ctx.drawImage(im, it.x * k, it.y * k, it.w * k, it.h * k); }
+    if (it.type === "head"){ ctx.fillStyle = "#FDF2CC"; ctx.fillRect(it.x * k, it.y * k, it.w * k, 52 * k); ctx.fillStyle = "#F6D45C"; ctx.fillRect(it.x * k, it.y * k, 8 * k, 52 * k);
+      ctx.fillStyle = "#1D1D1B"; ctx.font = `bold ${26 * k}px "Malgun Gothic", sans-serif`; ctx.fillText(it.text, (it.x + 22) * k, (it.y + 35) * k, (it.w - 30) * k); }
+    if (it.type === "text"){ ctx.fillStyle = "#1D1D1B"; const fs = (it.size || 30) * k; ctx.font = `${fs}px "Malgun Gothic", sans-serif`; let yy = it.y * k + fs;
+      it.text.split("\n").forEach(line => { let cur = ""; for (const ch of line){ if (ctx.measureText(cur + ch).width > it.w * k){ ctx.fillText(cur, it.x * k, yy); yy += fs * 1.35; cur = ch; } else cur += ch; } ctx.fillText(cur, it.x * k, yy); yy += fs * 1.35; }); }
+  }
+  const sc = document.createElement("canvas"); sc.width = cv.width; sc.height = cv.height; const sx = sc.getContext("2d"); sx.setTransform(k, 0, 0, k, 0, 0);
+  rec.strokes.forEach(s => nbStroke(sx, s)); ctx.drawImage(sc, 0, 0);
+  return cv.toDataURL("image/jpeg", .9);
+}
+// one-time: concept memos + formula clips → subject notebooks (deterministic ids so two devices don't duplicate)
+async function migrateNotebooks(){
+  if (S.migrNB) return;
+  const notes = await IDB.all(), clips = await IDB.all("clips"), byC = {};
+  Object.entries(notes).forEach(([k, v]) => { if (k.startsWith("concept:") && C[k.slice(8)] && v.strokes && v.strokes.length) (byC[k.slice(8)] = byC[k.slice(8)] || { clips: [] }).note = v; });
+  Object.entries(clips).forEach(([k, v]) => { if (C[v.cid]) (byC[v.cid] = byC[v.cid] || { clips: [] }).clips.push([k, v]); });
+  for (const subj of SUBJ6){
+    const cids = D.concepts.filter(c => byC[c.id] && subjOfConcept(c) === subj).map(c => c.id);
+    if (!cids.length || (S.nb[subj] && S.nb[subj].pages.length)) continue;
+    const si = SUBJ6.indexOf(subj); let n = 1, pid = `pgm${si}_${n}`, rec = { subj, items: [], strokes: [], ts: 1 }; const pages = { [pid]: rec }, order = [pid]; let y = 50;
+    const newPage = () => { n++; pid = `pgm${si}_${n}`; rec = pages[pid] = { subj, items: [], strokes: [], ts: 1 }; order.push(pid); y = 50; };
+    for (const cid of cids){
+      const c = C[cid], b = byC[cid];
+      if (y > PH - 300) newPage();
+      rec.items.push({ id: `hm_${cid}`, type: "head", x: 40, y, w: 920, h: 64, text: `DAY ${pad(c.day)} · 필수개념 ${pad(c.num)} ${c.name}`, cid }); y += 80;
+      if (b.note){ let f = 920 / b.note.w, h = b.note.h * f; if (h > PH - 140){ f *= (PH - 140) / h; h = PH - 140; } if (y + h > PH - 30) newPage();
+        const oy = y; b.note.strokes.forEach(s => rec.strokes.push(Object.assign({}, s, { w: s.w * f, pts: s.pts.map(p => [40 + p[0] * f, oy + p[1] * f, p[2]]) }))); y += h + 20; }
+      for (const [k, v] of b.clips){ let w = Math.min(920, v.w * (1000 / 1044)), h = v.h * w / v.w; if (h > PH - 140){ w *= (PH - 140) / h; h = PH - 140; } if (y + h > PH - 30) newPage();
+        rec.items.push({ id: k, type: "img", src: v.img, x: 40, y, w, h, cid }); y += h + 20; }
+    }
+    for (const p of order) await IDB.put(p, pages[p], "pages");
+    S.nb[subj] = { pages: order, ts: 1 };
+  }
+  S.migrNB = true; save(true);
+}
+async function sendToNote(qid){
+  const q = Q[qid], subj = nbSubj(q.subject);
+  const dims = await Promise.all(q.q.map(i => Promise.resolve([i[0], i[1], i[2]])));
+  let scratch = null;
+  const rec = Ink.qid === qid && Ink.strokes.length ? { strokes: Ink.strokes, w: Ink.base.w, h: Ink.base.h } : await IDB.get(qid);
+  if (rec && rec.strokes && rec.strokes.length){
+    let x0 = 1e9, y0 = 1e9, x1 = 0, y1 = 0; rec.strokes.forEach(s => s.t !== "e" && s.pts.forEach(p => { x0 = Math.min(x0, p[0]); y0 = Math.min(y0, p[1]); x1 = Math.max(x1, p[0]); y1 = Math.max(y1, p[1]); }));
+    if (x1 > x0){ const pad2 = 16, W = x1 - x0 + pad2 * 2, H = y1 - y0 + pad2 * 2, sc = 2, cv = document.createElement("canvas"); cv.width = W * sc; cv.height = H * sc;
+      const ctx = cv.getContext("2d"); ctx.setTransform(sc, 0, 0, sc, (pad2 - x0) * sc, (pad2 - y0) * sc); rec.strokes.forEach(s => drawStroke(ctx, s)); scratch = { src: cv.toDataURL("image/png"), w: W, h: H }; }
+  }
+  const a = Object.values(S.sessions).map(s => s.ans && s.ans[qid]).filter(Boolean).pop();
+  const head = headItem(`${whereOf(q)} · 정답 ${q.answer}${a && a.sel && a.sel !== q.answer ? ` · 내 답 ${a.sel}` : ""}`, { qid, cid: undefined });
+  await nbAppend(subj, () => {
+    const out = [head];
+    dims.forEach(([p, w, h]) => { const ww = Math.min(700, w * .9); out.push({ id: nuid("it"), type: "img", src: p, x: 40, w: ww, h: h * ww / w, qid, review: false }); });
+    if (scratch){ const ww = Math.min(700, scratch.w * 1.2); out.push({ id: nuid("it"), type: "img", src: scratch.src, x: 60, w: ww, h: scratch.h * ww / scratch.w, review: false }); }
+    return out;
+  });
+  toast(`${subj} 노트에 보냈어요`);
+}
+function viewNotebook(subj){
+  return `<div class="qwrap nbpage-view"><div class="qtop"><button class="lg" data-go="#/notes">${I.left}${I.bolt}<span>필기노트</span></button>
+    <div class="tt">${esc(subj)} 노트</div><div class="qbtns"><button class="btn o sm" data-go="#/print/${encodeURIComponent(subj)}">출력</button></div></div>
+    <div class="nbfull" id="nbhost"></div></div>`;
+}
+
 /* router */
 async function route(keepSel){
   const h = location.hash.replace(/^#\/?/, ""), [r, arg0] = h.split("/"), arg = decodeURIComponent(arg0 || "");
@@ -2688,8 +3199,9 @@ async function route(keepSel){
   if (QZ && QZ.timer){ clearInterval(QZ.timer); save(); }
   const app = $("#app");
   document.body.classList.toggle("homeb", !r);
-  if (window.Android && Android.keepOn) Android.keepOn(S.prefs.keepOn !== false && ["quiz","exam","concept","cards"].includes(r));
-  if (r === "concept"){ QZ = null; const html = viewConceptPage(arg); if (!html) return; app.innerHTML = html; bindInk(); attachPinch($(".qleft"), $(".cimgs")); applySplit(); cpTab(CP.tab); Ink.load("concept:" + arg, { autosave:true }); return; }
+  if (window.Android && Android.keepOn) Android.keepOn(S.prefs.keepOn !== false && ["quiz","exam","concept","cards","nb"].includes(r));
+  if (r === "concept"){ QZ = null; const html = viewConceptPage(arg); if (!html) return; app.innerHTML = html; attachPinch($(".qleft"), $(".cimgs")); applySplit(); cpTab(CP.tab); await NB.open(subjOfConcept(C[arg]), $("#nbhost"), { cid: arg }); return; }
+  if (r === "nb"){ QZ = null; CP = null; app.innerHTML = viewNotebook(arg); await NB.open(arg, $("#nbhost")); return; }
   CP = null;
   if (r === "exam"){ const html = viewQuiz("exam:" + arg); if (!html) return; app.innerHTML = html; bindInk(); bindSheets(); applySplit(); renderQuiz(); return; }
   if (r === "quiz"){ const html = viewQuiz(arg); if (!html) return; app.innerHTML = html; bindInk(); bindSheets(); applySplit(); renderQuiz(); return; }
@@ -2721,6 +3233,16 @@ function bindInk(){
 }
 
 document.addEventListener("click", async e => {
+  const nbx = e.target.closest("[data-nbtool],[data-nbcol],[data-nbhl],[data-nbact],[data-nbsel],[data-nbpage],[data-sendnote]");
+  if (nbx){ const d = nbx.dataset;
+    if (d.nbtool){ NB.tool = d.nbtool; if (NB.tool !== "select") NB.clearSel(); NB.refreshTb(); return; }
+    if (d.nbcol){ S.prefs.color = d.nbcol; NB.tool = "pen"; save(true); NB.refreshTb(); return; }
+    if (d.nbhl){ NB.hl = d.nbhl; NB.refreshTb(); return; }
+    if (d.nbact){ NB.action(d.nbact); return; }
+    if (d.nbsel){ NB.selAction(d.nbsel); return; }
+    if (d.nbpage){ NB.pageMenu(d.nbpage); return; }
+    if (d.sendnote){ nbx.disabled = true; await sendToNote(d.sendnote); nbx.innerHTML = `${I.check}노트에 보냈어요`; return; }
+  }
   const sb = e.target.closest("[data-selmode],[data-delall],[data-selallp],[data-seldel],[data-seloff]");
   if (sb){ const d = sb.dataset;
     if (d.selmode){ SEL = { page: d.selmode, ids: new Set(), all: SEL.all }; keepScroll(); return; }
@@ -2784,19 +3306,19 @@ document.addEventListener("click", async e => {
   if (wkw){ const cs = wkw.dataset.wkweak.split(","); const ids = shuffle(D.questions.filter(q => cs.includes(q.conceptId)).map(q => q.id));
     document.querySelectorAll(".modal").forEach(x => x.remove()); newSession("self", ids, `지난주 약한 개념 ${ids.length}문제`); location.hash = "#/quiz/self"; return; }
   const sr = e.target.closest("[data-sq],[data-sqset]");
-  if (sr){ if (sr.dataset.sqset){ newSession("search", sr.dataset.sqset.split(","), `틀린 이유 · ${sr.dataset.sqt}`); location.hash = "#/quiz/search"; return; }
-    const all = (sr.dataset.sqall || sr.dataset.sq).split(","); newSession("search", all, `검색 · ${SEARCHQ}`); S.sessions.search.pos = Math.max(0, all.indexOf(sr.dataset.sq)); save(); location.hash = "#/quiz/search"; return; }
+  if (sr){ if (sr.dataset.sqset){ newSession("search", sr.dataset.sqset.split(","), `${sr.dataset.sqt} 문제`); location.hash = "#/quiz/search"; return; }
+    const all = (sr.dataset.sqall || sr.dataset.sq).split(","); newSession("search", all, `"${SEARCHQ}" 검색`); S.sessions.search.pos = Math.max(0, all.indexOf(sr.dataset.sq)); save(); location.hash = "#/quiz/search"; return; }
   const sm = e.target.closest("[data-same]");
-  if (sm){ const q = Q[sm.dataset.same], ids = shuffle(sameIds(q)); newSession("same", ids, `같은 개념 · ${q.conceptName || ""} ${ids.length}문제`); location.hash = "#/quiz/same"; return; }
+  if (sm){ const q = Q[sm.dataset.same], ids = shuffle(sameIds(q)); newSession("same", ids, `${(q.conceptName || "").split(/[,(]/)[0].trim()} ${ids.length}문제`); location.hash = "#/quiz/same"; return; }
   const wy = e.target.closest("[data-why]");
   if (wy){ const [id, k] = wy.dataset.why.split("|"); const cur = (S.why[id] || {}).r;
     S.why[id] = cur === k ? { r:"", ts: Date.now() } : { r: k, ts: Date.now() }; save();
     wy.parentElement.querySelectorAll("[data-why]").forEach(b => b.classList.toggle("on", b === wy && cur !== k)); return; }
   const ps = e.target.closest("[data-psubj]");
   if (ps){ const sj = SUBJ5.find(x => x.n === +ps.dataset.psubj); let ids = shuffle(D.questions.filter(q => sj.from.includes(q.subject) && q.grade === "A").map(q => q.id));
-    newSession("self", ids, `${sj.name} · A등급 ${ids.length}문제`); location.hash = "#/quiz/self"; return; }
+    newSession("self", ids, `${sj.name} A등급`); location.hash = "#/quiz/self"; return; }
   const pf = e.target.closest("[data-pref]");
-  if (pf){ const [k, v] = pf.dataset.pref.split("|"); const num = ["qTimer","size"].includes(k), bool = ["hideReveal","grid","penOnly","keepOn","remind","anim"].includes(k);
+  if (pf){ const [k, v] = pf.dataset.pref.split("|"); const num = ["qTimer","size"].includes(k), bool = ["hideReveal","grid","penOnly","keepOn","remind","anim","scrapGrad"].includes(k);
     S.prefs[k] = bool ? v === "1" : num ? +v : v; save(true); applyTheme();
     if (k === "remind") setReminder();
     keepScroll(); return; }
@@ -2807,7 +3329,7 @@ document.addEventListener("click", async e => {
     if (S.prefs.selfShuffle !== false) ids = shuffle(ids);
     if (!ids.length){ toast("조건에 맞는 문제가 없어요"); return; }
     const lab = g === "ALL" ? "전체" : g === "AB" ? "A+B" : g + "등급";
-    newSession("self", ids, `${sj} · ${lab} ${ids.length}문제`); location.hash = "#/quiz/self"; return; }
+    newSession("self", ids, `${sj} ${lab} ${ids.length}문제`); location.hash = "#/quiz/self"; return; }
   const gd = e.target.closest("[data-gday]");
   if (gd){ e.stopPropagation(); const d = +gd.dataset.gday, ids = (byDay[d] || []).filter(id => Q[id].grade === "A");
     newSession("grade:" + d, ids, `DAY ${pad(d)} · A등급 ${ids.length}문제`); location.hash = "#/quiz/grade:" + d; return; }
@@ -2817,7 +3339,7 @@ document.addEventListener("click", async e => {
     if (d.redo){ redo(d.redo, d.wrong === "1"); return; }
     if (d.rscrap){ const on = toggleScrap(d.rscrap); hx.classList.toggle("on", on); hx.innerHTML = `${I.star}${on ? "스크랩됨" : "스크랩"}`; return; }
     if (d.ssubj){ S.prefs.scrapSubj = d.ssubj; save(true); route(); return; }
-    if (d.scrapsolve){ const ids = scrapIds(d.scrapsolve); if (!ids.length) return; newSession("scrap", ids, `스크랩 다시 풀기 · ${d.scrapsolve === "all" ? "전체" : d.scrapsolve}`); location.hash = "#/quiz/scrap"; return; }
+    if (d.scrapsolve){ const ids = scrapIds(d.scrapsolve); if (!ids.length) return; newSession("scrap", ids, `${d.scrapsolve === "all" ? "전체" : d.scrapsolve} ${ids.length}문제`); location.hash = "#/quiz/scrap"; return; }
     if (d.unscrap){ toggleScrap(d.unscrap); route(); return; }
   }
   const cq = !e.target.closest(".modal") && e.target.closest("[data-cq]");
@@ -2834,9 +3356,9 @@ document.addEventListener("click", async e => {
   if (d.tool){ Ink.eraseMode = d.tool === "eraser"; Ink.tb(); return; }
   if (d.pcol){ S.prefs.color = d.pcol; Ink.eraseMode = false; save(true); Ink.tb(); return; }
   if (d.size !== undefined){ S.prefs.size = +d.size; Ink.eraseMode = false; save(true); Ink.tb(); return; }
-  if (d.ink){ Ink.cmd(d.ink); return; }
+  if (d.ink){ Ink.cmd(d.ink); if (NB.host && document.body.contains(NB.host)) NB.refreshTb(); return; }
   if (d.note){ openNote(d.note); return; }
-  if (d.scrapq){ const f = S.prefs.scrapSubj || "all", ids = scrapIds(f); newSession("scrap", ids, `스크랩 다시 풀기 · ${f === "all" ? "전체" : f}`); S.sessions.scrap.pos = Math.max(0, ids.indexOf(d.scrapq)); save(); location.hash = "#/quiz/scrap"; return; }
+  if (d.scrapq){ const f = S.prefs.scrapSubj || "all", ids = scrapIds(f); newSession("scrap", ids, `${f === "all" ? "전체" : f} ${ids.length}문제`); S.sessions.scrap.pos = Math.max(0, ids.indexOf(d.scrapq)); save(); location.hash = "#/quiz/scrap"; return; }
   const a = d.act;
   if (a === "dap" || a === "rand") startSpecial(a);
   else if (a === "scrapgo") startSpecial("scrap");
@@ -2878,7 +3400,7 @@ document.addEventListener("keydown", e => {
 });
 window.addEventListener("resize", () => { if ((QZ && QZ.tab === "canvas") || CP) Ink.resize(); });
 MQ.addEventListener("change", () => { if (QZ){ if (!isMob() && QZ.tab === "q") QZ.tab = "canvas"; renderQuiz(); } if (CP) cpTab(isMob() ? "q" : "canvas"); });
-window.addEventListener("hashchange", () => { Ink.flush(); route(); });
+window.addEventListener("hashchange", () => { Ink.flush(); NB.flushAll(); route(); });
 document.addEventListener("visibilitychange", () => { if (document.hidden){ Ink.flush(); persist(); Sync.run(); } });
 window.addEventListener("pagehide", () => persist());
 setInterval(() => { if (!document.hidden) Sync.run(); }, 20 * 1000);
@@ -2886,6 +3408,7 @@ let syncDeb; const _save = save; save = function(quiet){ _save(quiet); if (!quie
 window.__androidBack = () => {
   const m = document.querySelector(".modal"); if (m){ m.remove(); return true; }
   if (CP){ location.hash = "#/concepts/" + C[CP.cid].day; return true; }
+  if (location.hash.startsWith("#/nb/")){ location.hash = "#/notes"; return true; }
   if (QZ && QZ.exam){ location.hash = "#/mock"; return true; }
   if (location.hash && location.hash !== "#/" && location.hash !== "#"){ location.hash = "#/"; return true; }
   return false;
@@ -2898,6 +3421,7 @@ window.__androidBack = () => {
   D.questions.forEach(q => { Q[q.id] = q; (byDay[q.day] = byDay[q.day] || []).push(q.id); });
   D.concepts.forEach(c => C[c.id] = c);
   computeGrades();
+  try { await migrateNotebooks(); } catch(e){ console.warn("nb migrate", e); }
   applyTheme(); window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", applyTheme);
   // CBT rounds (optional file: cbt/cbt.json — comes with an APK update or an online update)
   D.cbt = D.cbt || []; D.cbtQuestions = [];
