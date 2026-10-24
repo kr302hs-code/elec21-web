@@ -944,6 +944,39 @@ body.navanim .qwrap .qbody{animation:fadeIn .25s ease both}
 body.noanim *,body.noanim *::before,body.noanim *::after{animation:none!important;transition:none!important}
 @media (prefers-reduced-motion: reduce){ *{animation-duration:.01ms!important;transition-duration:.01ms!important} }
 .btn.danger{color:var(--red)}
+/* v16: weak concept chips with clear state */
+.weaklist{max-height:180px;overflow:auto}
+.wk{display:inline-flex;align-items:center;gap:6px;border:1.5px solid transparent;text-align:left}
+.wk .wkb{width:18px;height:18px;border-radius:6px;border:2px solid #E3A99D;display:grid;place-items:center;background:#fff;color:transparent;flex:none}
+.wk .wkb svg{width:12px;height:12px;stroke-width:3}
+.wk.on{background:var(--yellow-soft);border-color:#E9C23F}
+.wk.on .wkb{background:var(--yellow);border-color:var(--yellow);color:var(--ink)}
+.wkcount{margin-left:auto;margin-right:8px;font-size:calc(var(--fs) * 13);color:var(--sub)}
+.weakcard .selhead{flex-wrap:wrap;gap:6px}
+/* v16: no clipped text, no sideways overflow */
+.grid2{grid-template-columns:minmax(0,1fr) 380px}
+.grid2>.col{min-width:0}
+.clamp2,.rrow .rtop b,.hmain b,.histcard .hrow1 b{white-space:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;word-break:keep-all;overflow-wrap:anywhere}
+.rrow{align-items:center}
+.rmain{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+.rtop{display:flex;align-items:center;gap:8px;min-width:0}
+.rtop b{flex:1;min-width:0;font-size:calc(var(--fs) * 16);line-height:1.3}
+.rnums{display:flex;flex-wrap:wrap;gap:10px;font-size:calc(var(--fs) * 13);color:var(--sub)}
+.rnums b{font-weight:800}
+.rnums .rago{margin-left:auto;color:var(--mute)}
+.hmain b{line-height:1.3}
+.scroll,#ansp{overflow-anchor:none}
+@media (max-width: 820px){
+  .grid2{grid-template-columns:minmax(0,1fr)}
+  .qtop .tt{white-space:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-size:calc(var(--fs) * 15);line-height:1.25;word-break:keep-all}
+  .choices{grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:6px}
+  .ch{min-width:0;padding:0 4px;gap:5px;font-size:calc(var(--fs) * 15)}
+  .ch .k{width:26px;height:26px;font-size:calc(var(--fs) * 14)}
+  .tb .t em{font-size:calc(var(--fs) * 10)}
+  .rnums{gap:8px}
+  .hrow{align-items:flex-start}
+  .page{overflow-x:hidden}
+}
 </style>
 </head>
 <body>
@@ -983,7 +1016,7 @@ const src = p => (window.__IMG && window.__IMG[p]) || p;
 const $ = (s, r = document) => r.querySelector(s);
 
 /* app version + online update (screen files from GitHub) */
-const APP_VERSION = "2026102211";
+const APP_VERSION = "2026102212";
 const OTA_BASE = "https://raw.githubusercontent.com/kr302hs-code/elec21-web/main/";
 const b64of = buf => { let s = "", a = new Uint8Array(buf); for (let i = 0; i < a.length; i += 0x8000) s += String.fromCharCode.apply(null, a.subarray(i, i + 0x8000)); return btoa(s); };
 const OTA = {
@@ -1395,13 +1428,15 @@ function applyTheme(){
 function viewHome(){
   // up to 3 unfinished study sets (+ unfinished mock exams)
   const runs = Object.values(S.hist).filter(h => h.status === "run" && S.sessions[h.key] && S.sessions[h.key].hid === h.id && setOf(h.key).ids.length)
-    .map(h => ({ key: h.key, title: setOf(h.key).title, kind: h.kind, done: Object.keys(S.sessions[h.key].ans || {}).length, total: setOf(h.key).ids.length, t: S.sessions[h.key].updated || h.updated, go: "#/quiz/" + h.key }));
-  S.mocks.filter(m => !m.submitted && !m.hidden).forEach(m => runs.push({ key: "exam:" + m.id, title: m.title, kind: "모의고사", done: Object.keys(m.ans).length, total: m.ids.length, t: m.updated || m.created, go: "#/exam/" + m.id }));
+    .map(h => { const a = Object.values(S.sessions[h.key].ans || {}), tot = setOf(h.key).ids.length;
+      return { key: h.key, title: setOf(h.key).title, kind: h.kind, o: a.filter(x => x.res === "O").length, x: a.filter(x => x.res !== "O").length, left: tot - a.length, total: tot, t: S.sessions[h.key].updated || h.updated, go: "#/quiz/" + h.key }; });
+  S.mocks.filter(m => !m.submitted && !m.hidden).forEach(m => runs.push({ key: "exam:" + m.id, title: m.title, kind: "모의고사", exam: true, o: Object.keys(m.ans).length, x: 0, left: m.ids.length - Object.keys(m.ans).length, total: m.ids.length, t: m.updated || m.created, go: "#/exam/" + m.id }));
   runs.sort((a, b) => b.t - a.t);
   const top = runs.slice(0, 3);
   const resume = `<div class="card resume3"><div class="rhead2"><span class="tagy">이어서 풀기</span><span class="cdesc">최근 ${top.length}개</span></div>
-    ${top.length ? top.map(r => `<div class="rrow" data-go="${r.go}"><span class="kpill">${esc(r.kind)}</span><b>${esc(r.title)}</b>
-      <span class="rmeta">${r.done}/${r.total} · ${ago(r.t)}</span><button class="rx" data-hidekey="${r.key}" title="목록에서 지우기">${I.x}</button></div>`).join("")
+    ${top.length ? top.map(r => `<div class="rrow" data-go="${r.go}"><div class="rmain"><div class="rtop"><span class="kpill">${esc(r.kind)}</span><b>${esc(r.title)}</b></div>
+      <div class="rnums">${r.exam ? `<span>표기 <b>${r.o}</b></span>` : `<span class="gr">맞힘 <b>${r.o}</b></span><span class="rd">틀림 <b>${r.x}</b></span>`}<span class="or">남음 <b>${r.left}</b></span><span class="rago">${ago(r.t)}</span></div></div>
+      <button class="rx" data-hidekey="${r.key}" title="목록에서 지우기">${I.x}</button></div>`).join("")
       : `<p class="cdesc" style="margin:8px 0 0">이어서 풀 문제가 없어요. DAY를 고르거나 자율 학습으로 시작해 보세요</p>`}</div>`;
   let next = D.days[0].day;
   for (const d of D.days){ const c = counts(setOf("day:" + d.day)); if (c.left > 0 && !(S.rounds["day:" + d.day])){ next = d.day; break; } }
@@ -1796,6 +1831,7 @@ function renderQuiz(){
   const a = ss.ans[q.id];
   $("#resb").innerHTML = a ? `<span class="res ${a.res}">${a.res === "O" ? I.check + (a.guess ? "정답(찍음)" : "정답") : a.res === "X" ? I.x + "오답" : "△ 해설 봄"}</span>` : "";
   renderLeft(); QZ.anim = null; renderAns(); renderStat(); setTab(QZ.tab);
+  const ap = $("#ansp"); if (ap){ ap.scrollTop = 0; requestAnimationFrame(() => { ap.scrollTop = 0; }); setTimeout(() => { if (QZ && QZ.set.ids[QZ.i] === q.id) ap.scrollTop = 0; }, 80); }
   if (S.prefs.pad === "cont") Ink.load("pad:" + QZ.set.key, { nosave:true }); else Ink.load(q.id);
   qTimerTick();
 }
@@ -2009,8 +2045,10 @@ function viewSelf(){
     body = `<div class="subjs">${SUBJ6.map(s => { const n = [...sel].filter(cid => qn[cid] && Q[qn[cid][0]].subject === s).length;
         return `<button class="chipb ${s === subj ? "on" : ""}" data-sbj="${s}">${s}${n ? ` <b>${n}</b>` : ""}</button>`; }).join("")}</div>
       ${(() => { const w = weakConcepts(); return `<div class="card weakcard"><div class="selhead"><b>약한 개념 ${w.length}개</b><span class="cdesc">정답률 60% 미만 · 많이 틀린 순</span>
-        ${w.length ? `<button class="btn y sm" data-weakpick="1">약한 개념 자동 선택</button>` : ""}</div>
-        ${w.length ? `<div class="weaklist">${w.slice(0, 6).map(o => `<span class="wk" data-sel="${o.cid}"><b>${pad(C[o.cid].num)}</b> ${esc(C[o.cid].name)} <i>${o.acc}%</i></span>`).join("")}</div>` : `<p class="cdesc">문제를 풀면 정답률이 낮은 개념을 찾아드려요</p>`}</div>`; })()}
+        ${w.length ? (() => { const n = w.filter(o => sel.has(o.cid)).length, all = n === w.length;
+          return `<span class="wkcount">${n}/${w.length} 선택됨</span><button class="btn ${all ? "g" : "y"} sm" data-weakpick="${all ? 0 : 1}">${all ? "약한 개념 선택 해제" : "약한 개념 모두 선택"}</button>`; })() : ""}</div>
+        ${w.length ? `<div class="weaklist">${w.map(o => `<button class="wk ${sel.has(o.cid) ? "on" : ""}" data-sel="${o.cid}"><span class="wkb">${I.check}</span><b>${pad(C[o.cid].num)}</b> ${esc(C[o.cid].name)} <i>${o.acc}%</i></button>`).join("")}</div>
+          <p class="cdesc small" style="margin:8px 0 0">개념을 누르면 선택/해제돼요 · 노란색 = 선택됨</p>` : `<p class="cdesc">문제를 풀면 정답률이 낮은 개념을 찾아드려요</p>`}</div>`; })()}
       <div class="card selcard"><div class="selhead"><b>${esc(subj)} 필수개념</b><button class="btn o sm" data-selall="${allOn ? 0 : 1}">${allOn ? "전체 해제" : "전체 선택"}</button></div>
       <div class="sellist">${list.map(c => `<button class="selrow ${sel.has(c.id) ? "on" : ""}" data-sel="${c.id}"><span class="bx">${I.check}</span>
         <span class="num">${pad(c.num)}</span>${c.grade ? `<span class="gb g${c.grade}">${c.grade}</span>` : ""}<span class="nm">${esc(c.name)}</span><span class="meta">DAY ${pad(c.day)} · ${qn[c.id].length}문제 · 정답률 ${acc(c.id)}</span></button>`).join("")}</div></div>
@@ -2085,10 +2123,10 @@ const Ink = {
       ${this.nosave ? "" : `<button class="t save ${this.saved ? "on" : ""}" data-ink="save"><span class="sw"></span><em>${this.saved ? (this.auto ? "자동 저장" : "저장 중") : "필기 저장"}</em></button>`}
       <button class="t ${p.grid ? "on" : ""}" data-ink="grid">${I.grid}<em>격자</em></button>
       <button class="t ${p.penOnly ? "on" : ""}" data-ink="penonly">${I.stylus}<em>펜 전용</em></button>
-      <button class="t mob-only" data-ink="dim"><b>${Math.round((p.dim ?? .5) * 100)}%</b><em>${CP ? "이론" : "문제"} 투명도</em></button>
+      <button class="t mob-only" data-ink="dim"><b>${Math.round((p.dim ?? .5) * 100)}%</b><em><span class="tl-full">${CP ? "이론" : "문제"} 투명도</span><span class="tl-short">투명도</span></em></button>
       <button class="t ${z !== 100 ? "on" : ""}" data-ink="zoom"><b>${z}%</b><em>${z === 100 ? "확대" : "원래대로"}</em></button>
       <span class="div"></span>
-      <button class="t danger" data-ink="clear">${I.trash}<em>전체지우기</em></button>`;
+      <button class="t danger" data-ink="clear">${I.trash}<em><span class="tl-full">전체지우기</span><span class="tl-short">모두삭제</span></em></button>`;
     $("#cv").classList.toggle("grid", !!p.grid);
     this.applyView(); this.badge();
   },
@@ -2724,12 +2762,14 @@ document.addEventListener("click", async e => {
     const keep = () => { const y = $(".main") ? $(".main").scrollTop : 0, ly = $(".sellist") ? $(".sellist").scrollTop : 0; save(true); route().then(() => { if ($(".main")) $(".main").scrollTop = y; if ($(".sellist")) $(".sellist").scrollTop = ly; }); };
     if (d.stab){ P.selfTab = d.stab; keep(); return; }
     if (d.sbj){ P.selfSubj = d.sbj; keep(); return; }
-    if (d.sel){ const s = new Set(P.selfSel || []); s.has(d.sel) ? s.delete(d.sel) : s.add(d.sel); P.selfSel = [...s]; keep(); return; }
+    if (d.sel){ const s = new Set(P.selfSel || []); const on = !s.has(d.sel); on ? s.add(d.sel) : s.delete(d.sel); P.selfSel = [...s]; keep(); toast(`${C[d.sel] ? C[d.sel].name : "개념"} ${on ? "선택" : "해제"}`); return; }
     if (d.selall !== undefined){ const s = new Set(P.selfSel || []), subj = P.selfSubj || "회로이론";
       const qcount = {}; D.questions.forEach(q => { if (q.subject === subj) qcount[q.conceptId] = 1; });
       D.concepts.filter(c => qcount[c.id]).forEach(c => d.selall === "1" ? s.add(c.id) : s.delete(c.id)); P.selfSel = [...s]; keep(); return; }
     if (d.selclear !== undefined){ P.selfSel = []; keep(); return; }
-    if (d.weakpick){ P.selfSel = weakConcepts().map(o => o.cid); P.selfScope = "all"; keep(); toast(`약한 개념 ${P.selfSel.length}개를 선택했어요`); return; }
+    if (d.weakpick !== undefined){ const w = weakConcepts().map(o => o.cid), s2 = new Set(P.selfSel || []);
+      if (d.weakpick === "1"){ w.forEach(c => s2.add(c)); toast(`약한 개념 ${w.length}개를 선택했어요`); } else { w.forEach(c => s2.delete(c)); toast("약한 개념 선택을 해제했어요"); }
+      P.selfSel = [...s2]; keep(); return; }
     if (d.scope){ P.selfScope = d.scope; keep(); return; }
     if (d.sgrade){ P.selfGrade = d.sgrade; keep(); return; }
     if (d.skind){ P.selfKind = d.skind; keep(); return; }
