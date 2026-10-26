@@ -1227,6 +1227,10 @@ body.lefty .qbody{flex-direction:row-reverse}
 @media (max-width: 820px), (orientation: portrait) and (max-width: 1100px){ .pbar4{flex-direction:column} .pbar4 .ph{flex:none!important;display:flex;justify-content:space-between;align-items:center;gap:8px} .pbar4 .ph b{white-space:normal} }
 /* v24: no flicker on in-place updates */
 body.rerender *,body.rerender *::before,body.rerender *::after{animation:none!important;transition:none!important}
+/* v28: 모바일 상단 아이콘 정렬 */
+.mhead .mgear{margin-left:4px}.mhead .mgear.mlib{margin-left:auto}
+/* v28: 상단 아이콘 정렬 */
+.mhead .mgear:not(.mlib){margin-left:0}.mhead .mlib{margin-left:auto}.mhead{gap:2px}
 /* v27: 최종 UI 정리 */
 .secjump{position:sticky;top:0;z-index:5;display:flex;gap:6px;overflow-x:auto;padding:8px 0 10px;margin:4px 0 6px;background:var(--bg);scrollbar-width:none}
 .secjump::-webkit-scrollbar{display:none}
@@ -1321,7 +1325,7 @@ const src = p => (window.__IMG && window.__IMG[p]) || p;
 const $ = (s, r = document) => r.querySelector(s);
 
 /* app version + online update (screen files from GitHub) */
-const APP_VERSION = "2026102225";
+const APP_VERSION = "2026102226";
 const OTA_BASE = "https://raw.githubusercontent.com/kr302hs-code/elec21-web/main/";
 const b64of = buf => { let s = "", a = new Uint8Array(buf); for (let i = 0; i < a.length; i += 0x8000) s += String.fromCharCode.apply(null, a.subarray(i, i + 0x8000)); return btoa(s); };
 const OTA = {
@@ -1398,14 +1402,25 @@ var save = function(quiet){
 };
 const SRS_STEPS = [1, 3, 7, 14, 30];
 const dayAdd = n => { const d = new Date(); d.setDate(d.getDate() + n); return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`; };
+const isDayKey = k => /^(day:\d+|grade:\d+|concept:)/.test(k || "");
 function srsUpdate(id, pass){
   const cur = S.srs[id];
-  if (!pass){ S.srs[id] = { step:0, due: dayAdd(SRS_STEPS[0]), ts: Date.now() }; return; }
+  if (!pass){ S.srs[id] = { step:0, due: dayAdd(SRS_STEPS[0]), ts: Date.now(), src: "day" }; return; }
   if (!cur || cur.done) return;
   const step = cur.step + 1;
-  S.srs[id] = step >= SRS_STEPS.length ? { done:true, ts: Date.now() } : { step, due: dayAdd(SRS_STEPS[step]), ts: Date.now() };
+  S.srs[id] = step >= SRS_STEPS.length ? { done:true, ts: Date.now(), src: cur.src } : { step, due: dayAdd(SRS_STEPS[step]), ts: Date.now(), src: cur.src || "day" };
 }
-const srsDue = () => Object.entries(S.srs).filter(([id, v]) => Q[id] && !v.done && v.due <= todayStr()).map(([id]) => id);
+let DAYWRONG = null;
+function dayWrongSet(){
+  const key = Object.keys(S.hist).length + ":" + Object.keys(S.sessions).length + ":" + Object.keys(S.qstat).length;
+  if (DAYWRONG && DAYWRONG.key === key) return DAYWRONG.set;
+  const set = new Set(), bad = a => a && (a.res !== "O" || a.guess || a.unsure);
+  Object.values(S.hist).forEach(h => { if (!isDayKey(h.key)) return; if (h.ans) Object.entries(h.ans).forEach(([id, a]) => { if (bad(a)) set.add(id); }); (h.wrongIds || []).forEach(id => set.add(id)); });
+  Object.entries(S.sessions).forEach(([k, ss]) => { if (isDayKey(k)) Object.entries(ss.ans || {}).forEach(([id, a]) => { if (bad(a)) set.add(id); }); });
+  DAYWRONG = { key, set }; return set;
+}
+const srsFromDay = (id, v) => v.src === "day" || (!v.src && dayWrongSet().has(id));
+const srsDue = () => Object.entries(S.srs).filter(([id, v]) => Q[id] && !v.done && v.due <= todayStr() && srsFromDay(id, v)).map(([id]) => id);
 function finalIds(){
   const okd = id => S.qstat[id] && S.qstat[id].last === "O" && !S.qstat[id].guess;
   const order = [...D.questions.filter(q => q.dap).map(q => q.id), ...srsDue(), ...S.scraps.filter(id => Q[id]),
@@ -1534,7 +1549,7 @@ function newSession(key, ids, title){
   if (old && old.hid){
     const h = S.hist[old.hid], base = key.split(":")[0];
     if (h && h.status === "run" && Object.keys(old.ans || {}).length && DYN.includes(base) && !key.includes(":")){
-      const nk = base + ":" + old.hid; S.sessions[nk] = old; h.key = nk;   // keep it in 이어서 풀기
+      const nk = base + ":" + old.hid; S.sessions[nk] = Object.assign(old, { updated: Date.now() }); h.key = nk; h.updated = Date.now();   // keep it in 이어서 풀기
     } else closeHist(old.hid, "quit");
   }
   S.sessions[key] = { ans:{}, pos:0, ids, title, updated: Date.now() }; save();
@@ -1750,6 +1765,8 @@ function applyTheme(){
   document.documentElement.style.setProperty("--fsk", { s:.9, m:1, l:1.12, xl:1.25 }[S.prefs.font || "m"]);
 }
 function runList(){
+  const byHid = {}; for (const [k, v] of Object.entries(S.sessions)) if (v && v.hid) byHid[v.hid] = k;
+  Object.values(S.hist).forEach(h => { if (h.status === "run" && !(S.sessions[h.key] && S.sessions[h.key].hid === h.id) && byHid[h.id]) h.key = byHid[h.id]; });
   const runs = Object.values(S.hist).filter(h => h.status === "run" && S.sessions[h.key] && S.sessions[h.key].hid === h.id && setOf(h.key).ids.length)
     .map(h => { const a = Object.values(S.sessions[h.key].ans || {}), tot = setOf(h.key).ids.length;
       return { key: h.key, title: setOf(h.key).title, kind: h.kind, o: a.filter(x => x.res === "O").length, x: a.filter(x => x.res !== "O").length, left: tot - a.length, total: tot, t: S.sessions[h.key].updated || h.updated, go: "#/quiz/" + h.key }; });
@@ -2081,7 +2098,7 @@ async function submitMock(auto){
   });
   S.reviews["mock:" + m.id] = { key: "mock:" + m.id, title: m.title, ids: m.ids.slice(), ans, at: Date.now() };
   S.dayQ[todayStr()] = (S.dayQ[todayStr()] || 0) + Object.keys(m.ans).length;
-  m.ids.forEach(id => { if (m.ans[id] && ans[id].res === "X"){ autoScrap(id, "X"); srsUpdate(id, false); } else if (ans[id].res === "O"){ scrapStreak(id, "O"); srsUpdate(id, true); } });
+  m.ids.forEach(id => { if (m.ans[id] && ans[id].res === "X"){ autoScrap(id, "X"); } else if (ans[id].res === "O"){ scrapStreak(id, "O"); } });
   markStudy();
   const hid = "h" + Date.now().toString(36);
   S.hist[hid] = { id: hid, key: "mock:" + m.id, title: m.title, kind: "모의고사", start: m.created, updated: Date.now(), ids: m.ids.slice(), ans, status: "done", score: m.result.avg, sec: m.elapsed };
@@ -2335,7 +2352,7 @@ function record(q, res, sel){
   st.last = res; st.ts = Date.now(); if (guess) st.guess = true; else delete st.guess; S.qstat[q.id] = st;
   if (res !== "O") autoScrap(q.id, res); else if (guess) autoScrap(q.id, "G");
   if (!guess) scrapStreak(q.id, res);
-  srsUpdate(q.id, res === "O" && !guess && QZ.conf !== "unsure");
+  if (isDayKey(QZ.set.key) || (QZ.set.key || "").startsWith("review")) srsUpdate(q.id, res === "O" && !guess && QZ.conf !== "unsure");
   if (res === "O" && QZ.conf === "unsure") ss.ans[q.id].unsure = true;
   beep(res === "O"); setTimeout(checkGoal, 50);
   histAns(q.id, ss.ans[q.id]); markStudy();
@@ -2900,7 +2917,7 @@ async function viewPrint(arg){
   const pp = $("#pp"); if (pp) pp.innerHTML = html;
 }
 /* settings / backup / sync */
-const CHANGELOG = [{"v": "2026102225", "items": ["최종 점검: 설정 화면 위에 항목 바로가기", "폰에서 학습 기록 처방 카드·검색 결과 줄바꿈 정리, 홈 상단 칩 정리"]}, {"v": "2026102224", "items": ["자료실: 교재 기준 용어 사전 428개, 공식 유도 37개, KEC 요약 51개, 자주 하는 실수, 계산기 팁, 시험 전날 정리표, 시험 일정", "계산 도구: 단위 변환·전력 삼각형, RLC 회로 계산기, 페이저도", "워밍업 3문제, 약점 퀵 드릴, 모의고사 10분 전 알림, 답 바꾼 기록, 밀어서 문제 넘기기, 문제 이미지 선명하게", "설정 → 기능 켜고 끄기"]}, {"v": "2026102223", "items": ["학습 계획을 하루 공부 시간 기준으로 다시 계산 (시간이 많으면 1단계가 빨리 끝나고 모의고사가 늘어남, 적으면 DAY를 나눠서 배치)", "계획 화면에 하루 시간별 비교표 추가", "하루 2시간 30분 미만이면 하프 모의고사로 배치"]}, {"v": "2026102222", "items": ["계산기·설정·자율 학습 등 누를 때 화면이 깜빡이던 문제 수정", "팝업·카드·정답 효과가 처음 나타날 때만 움직이도록 정리"]}, {"v": "2026102221", "items": ["추천 기능 100가지 추가 (확신도 3단계·복습 난이도·개념 먼저 맞히기·계산기·하프 모의고사·검토 표시·페이스·풀이 순서 전략 등)", "노트: 회로·기호 스탬프, 도형 보정, 각도 스냅, 돋보기 필기, 책갈피·쪽 잠금·문제 배경, 펜 프리셋", "개념: 이론에 형광펜, 3줄 요약, 난이도 별점, 질문 메모, 비교·리딩 모드", "통계: 배지, 월간 리포트, 망각 곡선, 시간대·장소별 정답률, 약점 리포트, 진도 카드 공유", "내 문제(사진)·내 카드(OX·플래시), 단위·상수표, 앱 잠금, AI 해설 질문, 버그 신고"]}, {"v": "2026102220", "items": ["시험일 맞춤 학습 계획(개념→약점→실전→마무리, 오늘 할 일 자동 체크·재조정)", "보기 소거(길게 누르기)", "문제별 풀이 시간 · 오래 걸린 문제 모아 풀기", "해설에 형광펜", "풀이 다시보기", "내 태그", "모의고사 과목별 시간 분석", "하루 목표 링", "집중 모드(25+5분)", "과목별 틀린 이유 표", "회차별 출제 경향", "노트: 사진 붙이기·공유·검색·양식·쪽 복사/이동", "학습 기록 엑셀(CSV) 내보내기", "위젯·알림에서 바로 복습", "단축키 확장(?로 도움말)", "기기별 마지막 공부"]}, {"v": "2026102219", "items": ["태블릿 세로 모드: 폰처럼 보이는 화면 배치", "설정에 업데이트 내역 추가", "학습 기록이 많이 쌓여도 동기화가 무거워지지 않게 정리"]}, {"v": "2026102218", "items": ["동기화: 바뀐 노트·필기만 올리기", "드라이브 주간 백업본 · 되돌리기", "옛 개념 메모 정리", "모의고사 시간 '계속 흐름' 옵션", "노트 텍스트 입력 시 키보드 가림 방지", "노트 쪽 한눈에 보기 · 순서 바꾸기", "종이 종류(무지·줄노트·모눈)", "공부 시간 달력"]}, {"v": "2026102217", "items": ["노트 지우개가 잉크를 실제로 지우도록 수정", "노트 쪽 이동 버튼", "긴 노트 메모리 절약", "학습 기록의 중단된 세트 이어서 풀기"]}, {"v": "2026102216", "items": ["이어서 풀기 3개 유지", "꽉 찼을 때 정리할 세트 고르기"]}, {"v": "2026102215", "items": ["과목별 노트 6권(캡처·형광펜·직선·텍스트·올가미·목차·복습 가림·출력)", "문제 → 노트로 보내기", "자율 학습 제목에 과목 표시"]}, {"v": "2026102213", "items": ["설정 화면 정리", "긴 제목 한 줄로 정리"]}, {"v": "2026102212", "items": ["새로 푼 문제의 해설이 맨 위부터 보이게 수정", "약한 개념 선택/해제 표시", "이어서 풀기에 맞힘·틀림·남음", "좁은 화면 글자 잘림 수정"]}, {"v": "2026102211", "items": ["초기화가 드라이브·다른 기기에도 적용", "전체 초기화", "애니메이션", "PC 설치형"]}, {"v": "2026102210", "items": ["같은 개념 더 풀기", "공식 암기 카드", "계산형/암기형 구분", "CBT 시험장 화면", "주간 리포트", "화면 비율 조절", "검색", "화면 켜짐·매일 알림·홈 위젯"]}, {"v": "2026102209", "items": ["설정 화면이 저절로 위로 올라가던 문제 수정", "예상 점수·과락 경고", "틀린 이유 태그", "시험 직전 세트", "한 줄 메모", "공식 노트", "연습장 이어 쓰기"]}, {"v": "2026102208", "items": ["이전/다음 버튼 디자인 통일"]}, {"v": "2026102207", "items": ["오늘의 복습", "찍었어요 체크", "문제당 제한 시간", "글자 크기", "필기 기본값", "해설 바로보기 숨기기", "다크 모드"]}, {"v": "2026102206", "items": ["자율 학습 등급별 학습"]}, {"v": "2026102205", "items": ["문제별 A/B/C 등급"]}, {"v": "2026102204", "items": ["공부한 날 카드", "스크랩 자동 졸업", "약한 개념", "걸린 시간", "모의고사 점수 추이", "동기화 상태 표시"]}, {"v": "2026102203", "items": ["선택 삭제·전체 삭제", "폰 필기 확대 시 문제 고정"]}, {"v": "2026102202", "items": ["오답 → 스크랩 통합", "이어서 풀기 3개", "학습 기록", "해설 위치 초기화", "메뉴 정리", "태블릿 필기 영역 확대", "S펜·손가락 동작 수정"]}, {"v": "2026102201", "items": ["온라인 업데이트 시작"]}];
+const CHANGELOG = [{"v": "2026102226", "items": ["오늘의 복습: DAY 학습(A만 풀기·개념 공부 기출 포함)에서 틀리거나 찍음·애매·해설만 본 문제만 · 자율 학습·모의고사 오답은 제외", "이어서 풀기가 다른 기기로 안 넘어오던 문제 수정 (같은 이름의 세트끼리 덮어쓰던 것)", "태블릿 세로·폰 상단 아이콘 정렬"]}, {"v": "2026102225", "items": ["최종 점검: 설정 화면 위에 항목 바로가기", "폰에서 학습 기록 처방 카드·검색 결과 줄바꿈 정리, 홈 상단 칩 정리"]}, {"v": "2026102224", "items": ["자료실: 교재 기준 용어 사전 428개, 공식 유도 37개, KEC 요약 51개, 자주 하는 실수, 계산기 팁, 시험 전날 정리표, 시험 일정", "계산 도구: 단위 변환·전력 삼각형, RLC 회로 계산기, 페이저도", "워밍업 3문제, 약점 퀵 드릴, 모의고사 10분 전 알림, 답 바꾼 기록, 밀어서 문제 넘기기, 문제 이미지 선명하게", "설정 → 기능 켜고 끄기"]}, {"v": "2026102223", "items": ["학습 계획을 하루 공부 시간 기준으로 다시 계산 (시간이 많으면 1단계가 빨리 끝나고 모의고사가 늘어남, 적으면 DAY를 나눠서 배치)", "계획 화면에 하루 시간별 비교표 추가", "하루 2시간 30분 미만이면 하프 모의고사로 배치"]}, {"v": "2026102222", "items": ["계산기·설정·자율 학습 등 누를 때 화면이 깜빡이던 문제 수정", "팝업·카드·정답 효과가 처음 나타날 때만 움직이도록 정리"]}, {"v": "2026102221", "items": ["추천 기능 100가지 추가 (확신도 3단계·복습 난이도·개념 먼저 맞히기·계산기·하프 모의고사·검토 표시·페이스·풀이 순서 전략 등)", "노트: 회로·기호 스탬프, 도형 보정, 각도 스냅, 돋보기 필기, 책갈피·쪽 잠금·문제 배경, 펜 프리셋", "개념: 이론에 형광펜, 3줄 요약, 난이도 별점, 질문 메모, 비교·리딩 모드", "통계: 배지, 월간 리포트, 망각 곡선, 시간대·장소별 정답률, 약점 리포트, 진도 카드 공유", "내 문제(사진)·내 카드(OX·플래시), 단위·상수표, 앱 잠금, AI 해설 질문, 버그 신고"]}, {"v": "2026102220", "items": ["시험일 맞춤 학습 계획(개념→약점→실전→마무리, 오늘 할 일 자동 체크·재조정)", "보기 소거(길게 누르기)", "문제별 풀이 시간 · 오래 걸린 문제 모아 풀기", "해설에 형광펜", "풀이 다시보기", "내 태그", "모의고사 과목별 시간 분석", "하루 목표 링", "집중 모드(25+5분)", "과목별 틀린 이유 표", "회차별 출제 경향", "노트: 사진 붙이기·공유·검색·양식·쪽 복사/이동", "학습 기록 엑셀(CSV) 내보내기", "위젯·알림에서 바로 복습", "단축키 확장(?로 도움말)", "기기별 마지막 공부"]}, {"v": "2026102219", "items": ["태블릿 세로 모드: 폰처럼 보이는 화면 배치", "설정에 업데이트 내역 추가", "학습 기록이 많이 쌓여도 동기화가 무거워지지 않게 정리"]}, {"v": "2026102218", "items": ["동기화: 바뀐 노트·필기만 올리기", "드라이브 주간 백업본 · 되돌리기", "옛 개념 메모 정리", "모의고사 시간 '계속 흐름' 옵션", "노트 텍스트 입력 시 키보드 가림 방지", "노트 쪽 한눈에 보기 · 순서 바꾸기", "종이 종류(무지·줄노트·모눈)", "공부 시간 달력"]}, {"v": "2026102217", "items": ["노트 지우개가 잉크를 실제로 지우도록 수정", "노트 쪽 이동 버튼", "긴 노트 메모리 절약", "학습 기록의 중단된 세트 이어서 풀기"]}, {"v": "2026102216", "items": ["이어서 풀기 3개 유지", "꽉 찼을 때 정리할 세트 고르기"]}, {"v": "2026102215", "items": ["과목별 노트 6권(캡처·형광펜·직선·텍스트·올가미·목차·복습 가림·출력)", "문제 → 노트로 보내기", "자율 학습 제목에 과목 표시"]}, {"v": "2026102213", "items": ["설정 화면 정리", "긴 제목 한 줄로 정리"]}, {"v": "2026102212", "items": ["새로 푼 문제의 해설이 맨 위부터 보이게 수정", "약한 개념 선택/해제 표시", "이어서 풀기에 맞힘·틀림·남음", "좁은 화면 글자 잘림 수정"]}, {"v": "2026102211", "items": ["초기화가 드라이브·다른 기기에도 적용", "전체 초기화", "애니메이션", "PC 설치형"]}, {"v": "2026102210", "items": ["같은 개념 더 풀기", "공식 암기 카드", "계산형/암기형 구분", "CBT 시험장 화면", "주간 리포트", "화면 비율 조절", "검색", "화면 켜짐·매일 알림·홈 위젯"]}, {"v": "2026102209", "items": ["설정 화면이 저절로 위로 올라가던 문제 수정", "예상 점수·과락 경고", "틀린 이유 태그", "시험 직전 세트", "한 줄 메모", "공식 노트", "연습장 이어 쓰기"]}, {"v": "2026102208", "items": ["이전/다음 버튼 디자인 통일"]}, {"v": "2026102207", "items": ["오늘의 복습", "찍었어요 체크", "문제당 제한 시간", "글자 크기", "필기 기본값", "해설 바로보기 숨기기", "다크 모드"]}, {"v": "2026102206", "items": ["자율 학습 등급별 학습"]}, {"v": "2026102205", "items": ["문제별 A/B/C 등급"]}, {"v": "2026102204", "items": ["공부한 날 카드", "스크랩 자동 졸업", "약한 개념", "걸린 시간", "모의고사 점수 추이", "동기화 상태 표시"]}, {"v": "2026102203", "items": ["선택 삭제·전체 삭제", "폰 필기 확대 시 문제 고정"]}, {"v": "2026102202", "items": ["오답 → 스크랩 통합", "이어서 풀기 3개", "학습 기록", "해설 위치 초기화", "메뉴 정리", "태블릿 필기 영역 확대", "S펜·손가락 동작 수정"]}, {"v": "2026102201", "items": ["온라인 업데이트 시작"]}];
 let CH_ALL = false;
 function changelogHTML(){
   const fmt = v => `${+v.slice(4, 6)}월 ${+v.slice(6, 8)}일 · ${v.slice(8)}차`;
@@ -3072,7 +3089,18 @@ function mergeState(R){
   if ((R.resetAt || 0) < rA){ R.attend = (R.attend || []).filter(d => d >= todayStr()); R.daySec = {}; R.dayQ = {}; }
   const by = (L, Rm, f) => { for (const [k, v] of Object.entries(Rm || {})) if (!L[k] || (f(v) || 0) > (f(L[k]) || 0)) L[k] = v; };
   by(S.qstat, R.qstat, v => v.ts);
-  by(S.sessions, R.sessions, v => v.updated);
+  for (const [k, rv] of Object.entries(R.sessions || {})){
+    const lv = S.sessions[k];
+    if (!lv){ S.sessions[k] = rv; continue; }
+    if (lv.hid && rv.hid && lv.hid !== rv.hid && !k.startsWith("day:") && !k.includes(":")){
+      // two devices each ran their own set under the same key → keep both
+      const [keep, other] = (rv.updated || 0) > (lv.updated || 0) ? [rv, lv] : [lv, rv];
+      S.sessions[k] = keep;
+      if (Object.keys(other.ans || {}).length){ const nk = k + ":" + other.hid; if (!S.sessions[nk] || (S.sessions[nk].updated || 0) < (other.updated || 0)) S.sessions[nk] = other; }
+      continue;
+    }
+    if ((rv.updated || 0) > (lv.updated || 0)) S.sessions[k] = rv;
+  }
   by(S.reviews, R.reviews, v => v.at);
   by(S.rounds, R.rounds, v => v.ts);
   by(S.creads, R.creads, v => v.ts);
