@@ -1229,6 +1229,9 @@ body.lefty .qbody{flex-direction:row-reverse}
 body.rerender *,body.rerender *::before,body.rerender *::after{animation:none!important;transition:none!important}
 /* v28: 모바일 상단 아이콘 정렬 */
 .mhead .mgear{margin-left:4px}.mhead .mgear.mlib{margin-left:auto}
+/* v29: 나가기 잠금 버튼 */
+.qtop .lockb{flex:none;width:40px;height:40px;border-radius:12px;display:grid;place-items:center;font-size:18px;background:var(--gray-chip);margin-left:6px;opacity:.75}
+.qtop .lockb.on{background:var(--yellow);opacity:1;box-shadow:inset 0 0 0 2px #E9C23F}
 /* v28: 상단 아이콘 정렬 */
 .mhead .mgear:not(.mlib){margin-left:0}.mhead .mlib{margin-left:auto}.mhead{gap:2px}
 /* v27: 최종 UI 정리 */
@@ -1325,7 +1328,7 @@ const src = p => (window.__IMG && window.__IMG[p]) || p;
 const $ = (s, r = document) => r.querySelector(s);
 
 /* app version + online update (screen files from GitHub) */
-const APP_VERSION = "2026102226";
+const APP_VERSION = "2026102227";
 const OTA_BASE = "https://raw.githubusercontent.com/kr302hs-code/elec21-web/main/";
 const b64of = buf => { let s = "", a = new Uint8Array(buf); for (let i = 0; i < a.length; i += 0x8000) s += String.fromCharCode.apply(null, a.subarray(i, i + 0x8000)); return btoa(s); };
 const OTA = {
@@ -1937,7 +1940,7 @@ function viewConceptPage(cid){
   const qs = D.questions.filter(q => q.conceptId === cid);
   CP = { cid, tab: isMob() ? "q" : "canvas" };
   return `<div class="qwrap cpage">
-    <div class="qtop"><button class="lg" data-go="#/concepts/${c.day}">${I.left}${I.bolt}<span>개념 공부</span></button>
+    <div class="qtop"><button class="lg" data-go="#/concepts/${c.day}">${I.left}${I.bolt}<span>개념 공부</span></button>${lockBtn()}
       <div class="tt">필수개념 ${pad(c.num)} ${esc(c.name)}</div>
       <div class="qbtns"><button class="btn o sm" data-cmore="${cid}">⋯ 더보기</button><button class="btn o sm" data-act="clip">✂ 노트에 캡처</button>${readsHTML(cid)}${qs.length ? `<button class="btn g sm" data-cq="${cid}">기출 ${qs.length}문제 풀기</button>` : ""}</div></div>
     <div class="mprog mob-only">${readsHTML(cid)}<button class="btn o sm" data-act="clip" style="margin-left:6px">✂</button></div>
@@ -2105,7 +2108,7 @@ async function submitMock(auto){
   m.hid = hid;
   if (S.last === "exam:" + m.id) setLast(null);
   save(); QZ = null;
-  location.hash = "#/mockres/" + m.id;
+  navOK(); location.hash = "#/mockres/" + m.id;
 }
 function viewMockRes(id){
   const m = mockById(id); if (!m || !m.submitted){ location.hash = "#/mock"; return ""; }
@@ -2146,7 +2149,7 @@ function viewQuiz(key){
   if (exam){ exam.lastTick = null; QZ.qStart = Date.now(); QZ.timer = setInterval(() => { tick(false); if (!document.hidden) addSec(1); }, 1000); if (S.prefs.cbtUi && !isMob()) QZ.tab = "stat"; }
   const endBtn = exam ? `data-act="submit">답안 제출` : `data-act="result">결과 보기`;
   return `<div class="qwrap ${exam && S.prefs.cbtUi ? "cbtui" : ""}">
-    <div class="qtop"><button class="lg" data-go="${exam ? "#/mock" : "#/"}">${I.left}${I.bolt}<span>전기기사 21일</span></button>
+    <div class="qtop"><button class="lg" data-go="${exam ? "#/mock" : "#/"}">${I.left}${I.bolt}<span>전기기사 21일</span></button>${lockBtn()}
       <div class="tt">${esc(set.title)}</div>
       <div class="prog" id="prog"></div>
       <div class="qbtns"><span id="resb"></span><button class="btn o sm" data-nav="-1">${I.left}이전</button>
@@ -2394,7 +2397,7 @@ async function finishSet(){
   }
   if (key.startsWith("day:") && S.prefs.dayTest !== false && await ask(`DAY ${pad(+key.slice(4))} 마무리 테스트 10문제를 풀어볼까요?<br><small>방금 푼 DAY에서 무작위로 나와요</small>`, "풀기", "나중에")){
     newSession("self", shuffle((byDay[+key.slice(4)] || []).slice()).slice(0, 10), `DAY ${pad(+key.slice(4))} 마무리 테스트`); location.hash = "#/quiz/self"; return; }
-  location.hash = h ? "#/hist/" + h.id : "#/";
+  navOK(); location.hash = h ? "#/hist/" + h.id : "#/";
 }
 /* review after finishing (all questions, my answer, explanation) */
 function viewReview(r, ref, isHist){
@@ -2613,7 +2616,11 @@ const Ink = {
     const p = S.prefs;
     if (this.replaying){ this.replaying = false; this.redraw(); }
     if (e.pointerType === "touch"){
-      if (this.cur && this.cur.ptype !== "touch") return;               // palm while the S Pen is writing
+      if (e.isPrimary){ this.tp.clear(); this.g = null; }                // fresh gesture: drop fingers whose lift was lost
+      if (this.cur && this.cur.ptype !== "touch"){
+        if (Date.now() - (this.cur.lastMove || 0) > 1200) this.up({ pointerId: this.cur.id });   // pen lift was lost
+        else return;                                                       // palm while the S Pen is writing
+      }
       const fingerDraw = !p.penOnly && !this.tp.size && !this.cur;
       this.tp.set(e.pointerId, { x: e.clientX, y: e.clientY });
       try { this.el().setPointerCapture(e.pointerId); } catch(_){}
@@ -2630,7 +2637,7 @@ const Ink = {
     this.erasing = side;
     const er = this.eraseMode || side;
     try { this.el().setPointerCapture(e.pointerId); } catch(_){}
-    this.cur = { t: er ? "e" : "p", w: (er ? 24 : SIZES[p.size]), pts: [this.pos(e)], id: e.pointerId, ptype: e.pointerType };
+    this.cur = { t: er ? "e" : "p", w: (er ? 24 : SIZES[p.size]), pts: [this.pos(e)], id: e.pointerId, ptype: e.pointerType, lastMove: Date.now() };
     if (!er && (p.color || "k") !== "k") this.cur.c = p.color;
     this.badge();
     e.preventDefault();
@@ -2641,6 +2648,7 @@ const Ink = {
       if (this.g){ this.gMove(); e.preventDefault(); return; }
     }
     if (!this.cur || e.pointerId !== this.cur.id) return;
+    this.cur.lastMove = Date.now();
     if (this.cur.t === "p" && this.cur.pts.length < 10 && this.isSide(e)){ this.cur.t = "e"; this.cur.w = 24; this.erasing = true; this.badge(); this.redraw(); }
     const evs = e.getCoalescedEvents ? e.getCoalescedEvents() : [e];
     const before = this.cur.pts.length;
@@ -2656,7 +2664,7 @@ const Ink = {
     }
     if (!this.cur || e.pointerId !== this.cur.id) return;
     const s = this.cur; this.cur = null; this.erasing = false;
-    delete s.id; delete s.ptype;
+    delete s.id; delete s.ptype; delete s.lastMove;
     if (S.prefs.smooth && s.t === "p") s.pts = smoothPts(s.pts);
     s.pts = s.pts.map(p => [Math.round(p[0] * 10) / 10, Math.round(p[1] * 10) / 10, Math.round(p[2] * 100) / 100]);
     if (s.pts.length === 1) s.pts.push([s.pts[0][0] + .1, s.pts[0][1] + .1, s.pts[0][2]]);
@@ -2917,7 +2925,7 @@ async function viewPrint(arg){
   const pp = $("#pp"); if (pp) pp.innerHTML = html;
 }
 /* settings / backup / sync */
-const CHANGELOG = [{"v": "2026102226", "items": ["오늘의 복습: DAY 학습(A만 풀기·개념 공부 기출 포함)에서 틀리거나 찍음·애매·해설만 본 문제만 · 자율 학습·모의고사 오답은 제외", "이어서 풀기가 다른 기기로 안 넘어오던 문제 수정 (같은 이름의 세트끼리 덮어쓰던 것)", "태블릿 세로·폰 상단 아이콘 정렬"]}, {"v": "2026102225", "items": ["최종 점검: 설정 화면 위에 항목 바로가기", "폰에서 학습 기록 처방 카드·검색 결과 줄바꿈 정리, 홈 상단 칩 정리"]}, {"v": "2026102224", "items": ["자료실: 교재 기준 용어 사전 428개, 공식 유도 37개, KEC 요약 51개, 자주 하는 실수, 계산기 팁, 시험 전날 정리표, 시험 일정", "계산 도구: 단위 변환·전력 삼각형, RLC 회로 계산기, 페이저도", "워밍업 3문제, 약점 퀵 드릴, 모의고사 10분 전 알림, 답 바꾼 기록, 밀어서 문제 넘기기, 문제 이미지 선명하게", "설정 → 기능 켜고 끄기"]}, {"v": "2026102223", "items": ["학습 계획을 하루 공부 시간 기준으로 다시 계산 (시간이 많으면 1단계가 빨리 끝나고 모의고사가 늘어남, 적으면 DAY를 나눠서 배치)", "계획 화면에 하루 시간별 비교표 추가", "하루 2시간 30분 미만이면 하프 모의고사로 배치"]}, {"v": "2026102222", "items": ["계산기·설정·자율 학습 등 누를 때 화면이 깜빡이던 문제 수정", "팝업·카드·정답 효과가 처음 나타날 때만 움직이도록 정리"]}, {"v": "2026102221", "items": ["추천 기능 100가지 추가 (확신도 3단계·복습 난이도·개념 먼저 맞히기·계산기·하프 모의고사·검토 표시·페이스·풀이 순서 전략 등)", "노트: 회로·기호 스탬프, 도형 보정, 각도 스냅, 돋보기 필기, 책갈피·쪽 잠금·문제 배경, 펜 프리셋", "개념: 이론에 형광펜, 3줄 요약, 난이도 별점, 질문 메모, 비교·리딩 모드", "통계: 배지, 월간 리포트, 망각 곡선, 시간대·장소별 정답률, 약점 리포트, 진도 카드 공유", "내 문제(사진)·내 카드(OX·플래시), 단위·상수표, 앱 잠금, AI 해설 질문, 버그 신고"]}, {"v": "2026102220", "items": ["시험일 맞춤 학습 계획(개념→약점→실전→마무리, 오늘 할 일 자동 체크·재조정)", "보기 소거(길게 누르기)", "문제별 풀이 시간 · 오래 걸린 문제 모아 풀기", "해설에 형광펜", "풀이 다시보기", "내 태그", "모의고사 과목별 시간 분석", "하루 목표 링", "집중 모드(25+5분)", "과목별 틀린 이유 표", "회차별 출제 경향", "노트: 사진 붙이기·공유·검색·양식·쪽 복사/이동", "학습 기록 엑셀(CSV) 내보내기", "위젯·알림에서 바로 복습", "단축키 확장(?로 도움말)", "기기별 마지막 공부"]}, {"v": "2026102219", "items": ["태블릿 세로 모드: 폰처럼 보이는 화면 배치", "설정에 업데이트 내역 추가", "학습 기록이 많이 쌓여도 동기화가 무거워지지 않게 정리"]}, {"v": "2026102218", "items": ["동기화: 바뀐 노트·필기만 올리기", "드라이브 주간 백업본 · 되돌리기", "옛 개념 메모 정리", "모의고사 시간 '계속 흐름' 옵션", "노트 텍스트 입력 시 키보드 가림 방지", "노트 쪽 한눈에 보기 · 순서 바꾸기", "종이 종류(무지·줄노트·모눈)", "공부 시간 달력"]}, {"v": "2026102217", "items": ["노트 지우개가 잉크를 실제로 지우도록 수정", "노트 쪽 이동 버튼", "긴 노트 메모리 절약", "학습 기록의 중단된 세트 이어서 풀기"]}, {"v": "2026102216", "items": ["이어서 풀기 3개 유지", "꽉 찼을 때 정리할 세트 고르기"]}, {"v": "2026102215", "items": ["과목별 노트 6권(캡처·형광펜·직선·텍스트·올가미·목차·복습 가림·출력)", "문제 → 노트로 보내기", "자율 학습 제목에 과목 표시"]}, {"v": "2026102213", "items": ["설정 화면 정리", "긴 제목 한 줄로 정리"]}, {"v": "2026102212", "items": ["새로 푼 문제의 해설이 맨 위부터 보이게 수정", "약한 개념 선택/해제 표시", "이어서 풀기에 맞힘·틀림·남음", "좁은 화면 글자 잘림 수정"]}, {"v": "2026102211", "items": ["초기화가 드라이브·다른 기기에도 적용", "전체 초기화", "애니메이션", "PC 설치형"]}, {"v": "2026102210", "items": ["같은 개념 더 풀기", "공식 암기 카드", "계산형/암기형 구분", "CBT 시험장 화면", "주간 리포트", "화면 비율 조절", "검색", "화면 켜짐·매일 알림·홈 위젯"]}, {"v": "2026102209", "items": ["설정 화면이 저절로 위로 올라가던 문제 수정", "예상 점수·과락 경고", "틀린 이유 태그", "시험 직전 세트", "한 줄 메모", "공식 노트", "연습장 이어 쓰기"]}, {"v": "2026102208", "items": ["이전/다음 버튼 디자인 통일"]}, {"v": "2026102207", "items": ["오늘의 복습", "찍었어요 체크", "문제당 제한 시간", "글자 크기", "필기 기본값", "해설 바로보기 숨기기", "다크 모드"]}, {"v": "2026102206", "items": ["자율 학습 등급별 학습"]}, {"v": "2026102205", "items": ["문제별 A/B/C 등급"]}, {"v": "2026102204", "items": ["공부한 날 카드", "스크랩 자동 졸업", "약한 개념", "걸린 시간", "모의고사 점수 추이", "동기화 상태 표시"]}, {"v": "2026102203", "items": ["선택 삭제·전체 삭제", "폰 필기 확대 시 문제 고정"]}, {"v": "2026102202", "items": ["오답 → 스크랩 통합", "이어서 풀기 3개", "학습 기록", "해설 위치 초기화", "메뉴 정리", "태블릿 필기 영역 확대", "S펜·손가락 동작 수정"]}, {"v": "2026102201", "items": ["온라인 업데이트 시작"]}];
+const CHANGELOG = [{"v": "2026102227", "items": ["필기 후 노트·캔버스 터치가 이상해지던 문제 수정 (S펜 취소 신호를 처리하지 못해 손가락 입력이 막히던 것)", "손가락 필기(펜 전용 끔)가 저장되지 않던 문제 수정", "노트 글상자 편집 중 화면 오류 수정", "나가기 잠금: 문제 풀이·모의고사·개념 공부에서 홈·뒤로가기 막기 (화면 위 🔒, 설정)"]}, {"v": "2026102226", "items": ["오늘의 복습: DAY 학습(A만 풀기·개념 공부 기출 포함)에서 틀리거나 찍음·애매·해설만 본 문제만 · 자율 학습·모의고사 오답은 제외", "이어서 풀기가 다른 기기로 안 넘어오던 문제 수정 (같은 이름의 세트끼리 덮어쓰던 것)", "태블릿 세로·폰 상단 아이콘 정렬"]}, {"v": "2026102225", "items": ["최종 점검: 설정 화면 위에 항목 바로가기", "폰에서 학습 기록 처방 카드·검색 결과 줄바꿈 정리, 홈 상단 칩 정리"]}, {"v": "2026102224", "items": ["자료실: 교재 기준 용어 사전 428개, 공식 유도 37개, KEC 요약 51개, 자주 하는 실수, 계산기 팁, 시험 전날 정리표, 시험 일정", "계산 도구: 단위 변환·전력 삼각형, RLC 회로 계산기, 페이저도", "워밍업 3문제, 약점 퀵 드릴, 모의고사 10분 전 알림, 답 바꾼 기록, 밀어서 문제 넘기기, 문제 이미지 선명하게", "설정 → 기능 켜고 끄기"]}, {"v": "2026102223", "items": ["학습 계획을 하루 공부 시간 기준으로 다시 계산 (시간이 많으면 1단계가 빨리 끝나고 모의고사가 늘어남, 적으면 DAY를 나눠서 배치)", "계획 화면에 하루 시간별 비교표 추가", "하루 2시간 30분 미만이면 하프 모의고사로 배치"]}, {"v": "2026102222", "items": ["계산기·설정·자율 학습 등 누를 때 화면이 깜빡이던 문제 수정", "팝업·카드·정답 효과가 처음 나타날 때만 움직이도록 정리"]}, {"v": "2026102221", "items": ["추천 기능 100가지 추가 (확신도 3단계·복습 난이도·개념 먼저 맞히기·계산기·하프 모의고사·검토 표시·페이스·풀이 순서 전략 등)", "노트: 회로·기호 스탬프, 도형 보정, 각도 스냅, 돋보기 필기, 책갈피·쪽 잠금·문제 배경, 펜 프리셋", "개념: 이론에 형광펜, 3줄 요약, 난이도 별점, 질문 메모, 비교·리딩 모드", "통계: 배지, 월간 리포트, 망각 곡선, 시간대·장소별 정답률, 약점 리포트, 진도 카드 공유", "내 문제(사진)·내 카드(OX·플래시), 단위·상수표, 앱 잠금, AI 해설 질문, 버그 신고"]}, {"v": "2026102220", "items": ["시험일 맞춤 학습 계획(개념→약점→실전→마무리, 오늘 할 일 자동 체크·재조정)", "보기 소거(길게 누르기)", "문제별 풀이 시간 · 오래 걸린 문제 모아 풀기", "해설에 형광펜", "풀이 다시보기", "내 태그", "모의고사 과목별 시간 분석", "하루 목표 링", "집중 모드(25+5분)", "과목별 틀린 이유 표", "회차별 출제 경향", "노트: 사진 붙이기·공유·검색·양식·쪽 복사/이동", "학습 기록 엑셀(CSV) 내보내기", "위젯·알림에서 바로 복습", "단축키 확장(?로 도움말)", "기기별 마지막 공부"]}, {"v": "2026102219", "items": ["태블릿 세로 모드: 폰처럼 보이는 화면 배치", "설정에 업데이트 내역 추가", "학습 기록이 많이 쌓여도 동기화가 무거워지지 않게 정리"]}, {"v": "2026102218", "items": ["동기화: 바뀐 노트·필기만 올리기", "드라이브 주간 백업본 · 되돌리기", "옛 개념 메모 정리", "모의고사 시간 '계속 흐름' 옵션", "노트 텍스트 입력 시 키보드 가림 방지", "노트 쪽 한눈에 보기 · 순서 바꾸기", "종이 종류(무지·줄노트·모눈)", "공부 시간 달력"]}, {"v": "2026102217", "items": ["노트 지우개가 잉크를 실제로 지우도록 수정", "노트 쪽 이동 버튼", "긴 노트 메모리 절약", "학습 기록의 중단된 세트 이어서 풀기"]}, {"v": "2026102216", "items": ["이어서 풀기 3개 유지", "꽉 찼을 때 정리할 세트 고르기"]}, {"v": "2026102215", "items": ["과목별 노트 6권(캡처·형광펜·직선·텍스트·올가미·목차·복습 가림·출력)", "문제 → 노트로 보내기", "자율 학습 제목에 과목 표시"]}, {"v": "2026102213", "items": ["설정 화면 정리", "긴 제목 한 줄로 정리"]}, {"v": "2026102212", "items": ["새로 푼 문제의 해설이 맨 위부터 보이게 수정", "약한 개념 선택/해제 표시", "이어서 풀기에 맞힘·틀림·남음", "좁은 화면 글자 잘림 수정"]}, {"v": "2026102211", "items": ["초기화가 드라이브·다른 기기에도 적용", "전체 초기화", "애니메이션", "PC 설치형"]}, {"v": "2026102210", "items": ["같은 개념 더 풀기", "공식 암기 카드", "계산형/암기형 구분", "CBT 시험장 화면", "주간 리포트", "화면 비율 조절", "검색", "화면 켜짐·매일 알림·홈 위젯"]}, {"v": "2026102209", "items": ["설정 화면이 저절로 위로 올라가던 문제 수정", "예상 점수·과락 경고", "틀린 이유 태그", "시험 직전 세트", "한 줄 메모", "공식 노트", "연습장 이어 쓰기"]}, {"v": "2026102208", "items": ["이전/다음 버튼 디자인 통일"]}, {"v": "2026102207", "items": ["오늘의 복습", "찍었어요 체크", "문제당 제한 시간", "글자 크기", "필기 기본값", "해설 바로보기 숨기기", "다크 모드"]}, {"v": "2026102206", "items": ["자율 학습 등급별 학습"]}, {"v": "2026102205", "items": ["문제별 A/B/C 등급"]}, {"v": "2026102204", "items": ["공부한 날 카드", "스크랩 자동 졸업", "약한 개념", "걸린 시간", "모의고사 점수 추이", "동기화 상태 표시"]}, {"v": "2026102203", "items": ["선택 삭제·전체 삭제", "폰 필기 확대 시 문제 고정"]}, {"v": "2026102202", "items": ["오답 → 스크랩 통합", "이어서 풀기 3개", "학습 기록", "해설 위치 초기화", "메뉴 정리", "태블릿 필기 영역 확대", "S펜·손가락 동작 수정"]}, {"v": "2026102201", "items": ["온라인 업데이트 시작"]}];
 let CH_ALL = false;
 function changelogHTML(){
   const fmt = v => `${+v.slice(4, 6)}월 ${+v.slice(6, 8)}일 · ${v.slice(8)}차`;
@@ -2943,6 +2951,7 @@ function viewSettings(){
     row("화면 모드", "필기 영역은 항상 밝게 유지", segs("theme", [["light","라이트"],["dark","다크"],["sepia","세피아"],["auto","시스템"],["time","시간"]], P.theme || "light")) +
     row("애니메이션", "화면 전환·정답 효과", segs("anim", [[1,"켜기"],[0,"끄기"]], P.anim === false ? 0 : 1)))}
   ${card("문제 풀이",
+    row("나가기 잠금", "문제 풀이·모의고사·개념 공부 중 홈·뒤로가기 막기 (화면 위 🔒로도 켜고 꺼요)", segs("lockExit", [[1,"켜기"],[0,"끄기"]], P.lockExit ? 1 : 0)) +
     row("하루 목표", "홈 달력 옆에 오늘 달성률 표시", segs("goal", [["","끄기"],["q30","30문제"],["q50","50문제"],["t60","1시간"],["t120","2시간"]], P.goal || "")) +
     row("학습 계획", S.plan && S.plan.on ? `켜짐 · D-${ddayOf()} · ${PHASES[Math.max(0, phaseOf(todayStr()))][0]}` : "시험일에 맞춰 단계별 계획 만들기", `<button class="btn y sm" data-go="#/plan">${S.plan && S.plan.on ? "계획 보기" : "만들기"}</button>`, true) +
     row("집중 모드", "25분 집중 + 5분 휴식 타이머", `<button class="btn o sm" data-focus>시작</button>`, true) +
@@ -3433,6 +3442,14 @@ const NB = {
   pageEl(pid){ return this.host && this.host.querySelector(`.nbpage[data-pid="${pid}"]`); },
   k(pid){ const el = this.pageEl(pid); return el ? el.clientWidth / PW : 1; },
   drawPage(pid){
+    if (this._drawing){ (this._pendDraw = this._pendDraw || new Set()).add(pid); return; }   // e.g. a text box blurs while the page is being rebuilt
+    this._drawing = true;
+    try { this._drawPage(pid); } finally {
+      this._drawing = false; const p = this._pendDraw; this._pendDraw = null;
+      if (p) setTimeout(() => p.forEach(x => { if (this.pages[x]) this.drawPage(x); }), 0);
+    }
+  },
+  _drawPage(pid){
     const el = this.pageEl(pid), rec = this.pages[pid]; if (!el || !rec) return;
     const k = el.clientWidth / PW, items = $(".nbitems", el);
     items.innerHTML = (rec.bg && Q[rec.bg] ? `<div class="nbbg">${Q[rec.bg].q.map(i => `<img src="${src(i[0])}" alt="">`).join("")}</div>` : "") + rec.items.map(it => this.itemHTML(it, k)).join("");
@@ -3521,10 +3538,14 @@ const NB = {
     const pg = e.target.closest(".nbpage"), sc = $(".nbscroll", this.host);
     if (e.target.closest(".nbpmenu,.nbadd,.nbselbar,.nbtext.editing")) return;
     if (e.pointerType === "touch"){
-      if (this.cur && this.cur.ptype !== "touch") return;
+      if (e.isPrimary){ this.tp.clear(); this.g = null; }   // a new gesture: no other finger can still be down
+      if (this.cur && this.cur.ptype !== "touch"){
+        if (Date.now() - (this.cur.lastMove || 0) > 1200) this.p_up({ pointerId: this.cur.id });   // pen lift was lost → finish that stroke
+        else return;   // palm while the pen is writing
+      }
       const fingerDraw = !S.prefs.penOnly && !this.tp.size && !this.cur && pg && ["pen","hl","eraser"].includes(this.tool);
-      this.tp.set(e.pointerId, { x: e.clientX, y: e.clientY });
-      if (!fingerDraw){ if (this.cur && this.cur.ptype === "touch"){ this.cur = null; this.paint(this.cur && this.cur.pid); }
+      if (!fingerDraw){ if (this.cur && this.cur.ptype === "touch"){ const c0 = this.cur; this.cur = null; clearTimeout(this.holdT); this.tp.set(c0.id, { x: c0.cx, y: c0.cy }); this.paint(c0.pid); }
+        this.tp.set(e.pointerId, { x: e.clientX, y: e.clientY });
         const pts = [...this.tp.values()];
         this.g = { n: pts.length, sl: sc.scrollLeft, st: sc.scrollTop, x: pts[0].x, y: pts[0].y, z: this.zoom, d: pts.length > 1 ? Math.hypot(pts[0].x - pts[1].x, pts[0].y - pts[1].y) : 0 };
         try { sc.setPointerCapture(e.pointerId); } catch(_){} e.preventDefault(); return; }
@@ -3540,7 +3561,7 @@ const NB = {
     if (this.tool === "select") return this.selDown(pid, x, y, e);
     if (this.tool === "text"){ const it = this.hitItem(pid, x, y); if (it && it.type === "text") return this.editText(pid, it); return this.newText(pid, x, y); }
     const side = Ink.isSide(e), er = this.tool === "eraser" || side, p = S.prefs;
-    this.cur = { pid, id: e.pointerId, ptype: e.pointerType, t: er ? "e" : this.tool === "hl" ? "h" : "p", w: er ? 34 : this.tool === "hl" ? 22 : SIZES[p.size] * 1.6, pts: [[x, y, e.pressure || 0.5]], lastMove: Date.now() };
+    this.cur = { pid, id: e.pointerId, ptype: e.pointerType, t: er ? "e" : this.tool === "hl" ? "h" : "p", w: er ? 34 : this.tool === "hl" ? 22 : SIZES[p.size] * 1.6, pts: [[x, y, e.pressure || 0.5]], lastMove: Date.now(), cx: e.clientX, cy: e.clientY };
     if (this.cur.t === "p" && (p.color || "k") !== "k") this.cur.c = p.color;
     if (this.cur.t === "h") this.cur.c = this.hl;
     const b = $("#nbpb"); if (b){ b.classList.toggle("er", er); b.innerHTML = er ? I.eraser : I.stylus; }
@@ -3557,6 +3578,7 @@ const NB = {
     if (this.drag) return this.selMove(e);
     if (this.lasso) return this.lassoMove(e);
     const c = this.cur; if (!c || e.pointerId !== c.id) return;
+    c.lastMove = Date.now(); c.cx = e.clientX; c.cy = e.clientY;
     if (c.t === "p" && c.pts.length < 10 && Ink.isSide(e)){ c.t = "e"; c.w = 34; }
     const evs = e.getCoalescedEvents ? e.getCoalescedEvents() : [e];
     for (const ev of (evs.length ? evs : [e])) c.pts.push(this.local(ev, c.pid));
@@ -3565,6 +3587,14 @@ const NB = {
     if (this.straight && c.t !== "e") c.pts = [c.pts[0], L];
     else if (c.t !== "e"){ clearTimeout(this.holdT); this.holdT = setTimeout(() => { if (this.cur === c && c.pts.length > 4){ c.pts = [c.pts[0], c.pts[c.pts.length - 1]]; c.line = true; this.paint(c.pid, c); } }, 550); if (c.line) c.pts = [c.pts[0], L]; }
     this.paint(c.pid, c); e.preventDefault();
+  },
+  p_cancel(e){
+    if (this.tp.has(e.pointerId)) return this.p_up(e);
+    if (this.drag) return this.selUp(e);
+    if (this.lasso) return this.lassoUp(e);
+    const c = this.cur; if (!c || e.pointerId !== c.id) return;
+    if (c.ptype === "touch" || c.pts.length < 3){ this.cur = null; clearTimeout(this.holdT); this.paint(c.pid); const b = $("#nbpb"); if (b){ b.classList.remove("er"); b.innerHTML = I.stylus; } return; }
+    return this.p_up(e);   // pen: keep what was written
   },
   async p_up(e){
     if (this.tp.has(e.pointerId)){ this.tp.delete(e.pointerId); const sc = $(".nbscroll", this.host), pts = [...this.tp.values()];
@@ -4390,7 +4420,7 @@ function startFlip(ids, title){ FLIP = { ids, i: 0, title, show: false }; locati
 function viewFlip(){
   if (!FLIP || !FLIP.ids.length){ location.hash = "#/"; return ""; }
   const q = Q[FLIP.ids[FLIP.i]];
-  return `<div class="qwrap flipv"><div class="qtop"><button class="lg" data-go="#/">${I.left}${I.bolt}</button><div class="tt">빠른 회독 · ${esc(FLIP.title)}</div>
+  return `<div class="qwrap flipv"><div class="qtop"><button class="lg" data-go="#/">${I.left}${I.bolt}</button>${lockBtn()}<div class="tt">빠른 회독 · ${esc(FLIP.title)}</div>
     <div class="prog"><b>${FLIP.i + 1}</b> / ${FLIP.ids.length}</div></div><div class="flipbody">
     <div class="flipq">${q.q.map(i => `<img src="${src(i[0])}" alt="">`).join("")}</div>
     <div class="flipa ${FLIP.show ? "on" : ""}" data-flipshow><div class="flipans">정답 ${q.answer}번</div>${FLIP.show ? q.e.map(i => `<img src="${src(i[0])}" alt="">`).join("") || `<p class="cdesc">해설 없음</p>` : `<p class="cdesc">눌러서 정답·해설 보기</p>`}</div></div>
@@ -4802,7 +4832,7 @@ function magOpen(pid, x, y){
   const loc = e => { const r = cv.getBoundingClientRect(), k = r.width / MAG.w; return [MAG.x + (e.clientX - r.left) / k, MAG.y + (e.clientY - r.top) / k, e.pressure || .5]; };
   cv.onpointerdown = e => { if (e.pointerType === "touch" && S.prefs.penOnly) return; e.preventDefault(); cv.setPointerCapture(e.pointerId); MAG.cur = { t: "p", w: SIZES[S.prefs.size] * 1.6, c: S.prefs.color && S.prefs.color !== "k" ? S.prefs.color : undefined, pts: [loc(e)] }; };
   cv.onpointermove = e => { if (!MAG.cur) return; MAG.cur.pts.push(loc(e)); magPaint(MAG.cur); };
-  cv.onpointerup = () => { if (!MAG.cur) return; const s = MAG.cur; MAG.cur = null; if (s.pts.length < 2) return; NB.pushUndo(MAG.pid); NB.pages[MAG.pid].strokes.push(s); NB.touch(MAG.pid); NB.paint(MAG.pid); magPaint(); NB.showMagBox(); };
+  cv.onpointercancel = cv.onpointerup = () => { if (!MAG.cur) return; const s = MAG.cur; MAG.cur = null; if (s.pts.length < 2) return; NB.pushUndo(MAG.pid); NB.pages[MAG.pid].strokes.push(s); NB.touch(MAG.pid); NB.paint(MAG.pid); magPaint(); NB.showMagBox(); };
   NB.showMagBox();
 }
 function magPaint(extra){ const cv = $("#magcv"); if (!cv || !MAG.pid) return; const ctx = cv.getContext("2d"), k = cv.width / MAG.w;
@@ -5041,6 +5071,7 @@ document.addEventListener("touchend", e => { if (!SW) return; const t = e.change
 
 /* router */
 async function route(keepSel){
+  LASTHASH = location.hash;
   const h = location.hash.replace(/^#\/?/, ""), [r, arg0] = h.split("/"), arg = decodeURIComponent(arg0 || "");
   if (!keepSel){ SEL = { page:null, ids:new Set(), all:[] }; document.body.classList.add("navanim"); clearTimeout(window.__navT); window.__navT = setTimeout(() => document.body.classList.remove("navanim"), 700); }
   document.querySelectorAll(".modal").forEach(m => m.remove());
@@ -5100,6 +5131,8 @@ document.addEventListener("click", async e => {
     toast("백업본을 받는 중…"); try { const j = JSON.parse(await GD.download(sr2.dataset.snaprestore)); await restoreAll(j); toast("백업본으로 되돌렸어요"); route(); } catch(e){ toast("되돌리지 못했어요: " + String(e).slice(0, 40)); } return; }
   const lb = e.target.closest("[data-libtab],[data-libs],[data-ucat],[data-pqclr],[data-rlcm],[data-phpre],[data-phadd],[data-phdel]");
   if (lb && libClick(lb.dataset, lb)) return;
+  if (e.target.closest("[data-lockexit]")){ e.stopPropagation(); return toggleLock(); }
+  { const lg = e.target.closest(".qtop .lg"); if (lg && lockOn()){ e.stopPropagation(); e.preventDefault(); return lockToast(); } }
   const sjb = e.target.closest("[data-secjump]");
   if (sjb){ const el = document.getElementById(sjb.dataset.secjump), m = $(".main"); if (el && m) m.scrollTo({ top: el.offsetTop - 70, behavior: S.prefs.anim === false ? "auto" : "smooth" }); return; }
   const v26 = e.target.closest("[data-feat],[data-jumpun],[data-w10x],[data-warm],[data-drill],[data-derivgo],[data-glossgo]");
@@ -5281,7 +5314,7 @@ document.addEventListener("click", async e => {
   if (ps){ const sj = SUBJ5.find(x => x.n === +ps.dataset.psubj); let ids = shuffle(D.questions.filter(q => sj.from.includes(q.subject) && q.grade === "A").map(q => q.id));
     newSession("self", ids, `${sj.name} A등급`); location.hash = "#/quiz/self"; return; }
   const pf = e.target.closest("[data-pref]");
-  if (pf){ const [k, v] = pf.dataset.pref.split("|"); const num = ["qTimer","size"].includes(k), bool = ["hideReveal","grid","penOnly","keepOn","remind","anim","scrapGrad","examRealtime","conceptFirst","selfExplain","interleave","submitCheck","sound","shield","smooth","onehand","lefty","autoFile","reh","eve","sharpen"].includes(k);
+  if (pf){ const [k, v] = pf.dataset.pref.split("|"); const num = ["qTimer","size"].includes(k), bool = ["hideReveal","grid","penOnly","keepOn","remind","anim","scrapGrad","examRealtime","conceptFirst","selfExplain","interleave","submitCheck","sound","shield","smooth","onehand","lefty","autoFile","reh","eve","sharpen","lockExit"].includes(k);
     S.prefs[k] = bool ? v === "1" : num ? +v : v; save(true); applyTheme();
     if (k === "remind") setReminder();
     if (k === "reh" || k === "eve") setExtraAlarms();
@@ -5372,13 +5405,29 @@ document.addEventListener("keydown", e => {
 window.addEventListener("resize", () => { if ((QZ && QZ.tab === "canvas") || CP) Ink.resize(); });
 MQ.addEventListener("change", () => { if (QZ){ if (!isMob() && QZ.tab === "q") QZ.tab = "canvas"; if (isMob() && QZ.tab === "canvas") QZ.tab = (!QZ.exam && sess(QZ.set.key).ans[curQ().id]) ? "ans" : "q"; renderQuiz(); } else if (CP) cpTab(isMob() ? "q" : "canvas"); else keepScroll();
   setTimeout(() => { if (typeof NB !== "undefined" && NB.host && document.body.contains(NB.host)) NB.resize(); }, 120); });
-window.addEventListener("hashchange", () => { Ink.flush(); NB.flushAll(); route(); });
+window.addEventListener("hashchange", () => {
+  const h = location.hash;
+  if (!NAVOK && S.prefs.lockExit && isStudyHash(LASTHASH) && !isStudyHash(h) && document.querySelector(".qwrap:not(.nbpage-view)")){
+    history.replaceState(null, "", LASTHASH); lockToast(); return;   // stay on the study screen
+  }
+  LASTHASH = h; Ink.flush(); NB.flushAll(); route(); });
 document.addEventListener("visibilitychange", () => { if (document.hidden){ Ink.flush(); persist(); Sync.run(); } });
 window.addEventListener("pagehide", () => persist());
 setInterval(() => { if (!document.hidden) Sync.run(); }, 20 * 1000);
 let syncDeb; const _save = save; save = function(quiet){ _save(quiet); if (!quiet && Sync.linked()){ clearTimeout(syncDeb); syncDeb = setTimeout(() => Sync.run(), 10 * 1000); } };
+/* 나가기 잠금: 문제 풀이·모의고사·개념 공부 화면에서 홈·뒤로가기 막기 */
+const isStudyHash = h => /^#\/(quiz|exam|concept|flip)(\/|$)/.test(h || "");
+let LASTHASH = location.hash, NAVOK = false;
+function navOK(){ NAVOK = true; setTimeout(() => NAVOK = false, 2000); }
+const lockOn = () => !!S.prefs.lockExit && isStudyHash(LASTHASH) && !!document.querySelector(".qwrap:not(.nbpage-view)");
+function lockToast(){ toast("나가기 잠금 중이에요 · 위쪽 🔒을 누르면 풀려요"); if (navigator.vibrate) navigator.vibrate(40); }
+const lockBtn = () => `<button class="lockb ${S.prefs.lockExit ? "on" : ""}" data-lockexit title="나가기 잠금 (홈·뒤로가기 막기)">${S.prefs.lockExit ? "🔒" : "🔓"}</button>`;
+function toggleLock(){ S.prefs.lockExit = !S.prefs.lockExit; save(true);
+  document.querySelectorAll("[data-lockexit]").forEach(b => { b.classList.toggle("on", S.prefs.lockExit); b.textContent = S.prefs.lockExit ? "🔒" : "🔓"; });
+  toast(S.prefs.lockExit ? "나가기 잠금 켜짐 · 홈·뒤로가기가 막혀요" : "나가기 잠금 꺼짐"); }
 window.__androidBack = () => {
   const m = document.querySelector(".modal"); if (m){ m.remove(); return true; }
+  if (lockOn()){ lockToast(); return true; }
   if (CP){ location.hash = "#/concepts/" + C[CP.cid].day; return true; }
   if (location.hash.startsWith("#/nb/")){ location.hash = "#/notes"; return true; }
   if (QZ && QZ.exam){ location.hash = "#/mock"; return true; }
