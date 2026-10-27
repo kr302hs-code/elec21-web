@@ -1328,7 +1328,7 @@ const src = p => (window.__IMG && window.__IMG[p]) || p;
 const $ = (s, r = document) => r.querySelector(s);
 
 /* app version + online update (screen files from GitHub) */
-const APP_VERSION = "2026102227";
+const APP_VERSION = "2026102228";
 const OTA_BASE = "https://raw.githubusercontent.com/kr302hs-code/elec21-web/main/";
 const b64of = buf => { let s = "", a = new Uint8Array(buf); for (let i = 0; i < a.length; i += 0x8000) s += String.fromCharCode.apply(null, a.subarray(i, i + 0x8000)); return btoa(s); };
 const OTA = {
@@ -2925,7 +2925,7 @@ async function viewPrint(arg){
   const pp = $("#pp"); if (pp) pp.innerHTML = html;
 }
 /* settings / backup / sync */
-const CHANGELOG = [{"v": "2026102227", "items": ["필기 후 노트·캔버스 터치가 이상해지던 문제 수정 (S펜 취소 신호를 처리하지 못해 손가락 입력이 막히던 것)", "손가락 필기(펜 전용 끔)가 저장되지 않던 문제 수정", "노트 글상자 편집 중 화면 오류 수정", "나가기 잠금: 문제 풀이·모의고사·개념 공부에서 홈·뒤로가기 막기 (화면 위 🔒, 설정)"]}, {"v": "2026102226", "items": ["오늘의 복습: DAY 학습(A만 풀기·개념 공부 기출 포함)에서 틀리거나 찍음·애매·해설만 본 문제만 · 자율 학습·모의고사 오답은 제외", "이어서 풀기가 다른 기기로 안 넘어오던 문제 수정 (같은 이름의 세트끼리 덮어쓰던 것)", "태블릿 세로·폰 상단 아이콘 정렬"]}, {"v": "2026102225", "items": ["최종 점검: 설정 화면 위에 항목 바로가기", "폰에서 학습 기록 처방 카드·검색 결과 줄바꿈 정리, 홈 상단 칩 정리"]}, {"v": "2026102224", "items": ["자료실: 교재 기준 용어 사전 428개, 공식 유도 37개, KEC 요약 51개, 자주 하는 실수, 계산기 팁, 시험 전날 정리표, 시험 일정", "계산 도구: 단위 변환·전력 삼각형, RLC 회로 계산기, 페이저도", "워밍업 3문제, 약점 퀵 드릴, 모의고사 10분 전 알림, 답 바꾼 기록, 밀어서 문제 넘기기, 문제 이미지 선명하게", "설정 → 기능 켜고 끄기"]}, {"v": "2026102223", "items": ["학습 계획을 하루 공부 시간 기준으로 다시 계산 (시간이 많으면 1단계가 빨리 끝나고 모의고사가 늘어남, 적으면 DAY를 나눠서 배치)", "계획 화면에 하루 시간별 비교표 추가", "하루 2시간 30분 미만이면 하프 모의고사로 배치"]}, {"v": "2026102222", "items": ["계산기·설정·자율 학습 등 누를 때 화면이 깜빡이던 문제 수정", "팝업·카드·정답 효과가 처음 나타날 때만 움직이도록 정리"]}, {"v": "2026102221", "items": ["추천 기능 100가지 추가 (확신도 3단계·복습 난이도·개념 먼저 맞히기·계산기·하프 모의고사·검토 표시·페이스·풀이 순서 전략 등)", "노트: 회로·기호 스탬프, 도형 보정, 각도 스냅, 돋보기 필기, 책갈피·쪽 잠금·문제 배경, 펜 프리셋", "개념: 이론에 형광펜, 3줄 요약, 난이도 별점, 질문 메모, 비교·리딩 모드", "통계: 배지, 월간 리포트, 망각 곡선, 시간대·장소별 정답률, 약점 리포트, 진도 카드 공유", "내 문제(사진)·내 카드(OX·플래시), 단위·상수표, 앱 잠금, AI 해설 질문, 버그 신고"]}, {"v": "2026102220", "items": ["시험일 맞춤 학습 계획(개념→약점→실전→마무리, 오늘 할 일 자동 체크·재조정)", "보기 소거(길게 누르기)", "문제별 풀이 시간 · 오래 걸린 문제 모아 풀기", "해설에 형광펜", "풀이 다시보기", "내 태그", "모의고사 과목별 시간 분석", "하루 목표 링", "집중 모드(25+5분)", "과목별 틀린 이유 표", "회차별 출제 경향", "노트: 사진 붙이기·공유·검색·양식·쪽 복사/이동", "학습 기록 엑셀(CSV) 내보내기", "위젯·알림에서 바로 복습", "단축키 확장(?로 도움말)", "기기별 마지막 공부"]}, {"v": "2026102219", "items": ["태블릿 세로 모드: 폰처럼 보이는 화면 배치", "설정에 업데이트 내역 추가", "학습 기록이 많이 쌓여도 동기화가 무거워지지 않게 정리"]}, {"v": "2026102218", "items": ["동기화: 바뀐 노트·필기만 올리기", "드라이브 주간 백업본 · 되돌리기", "옛 개념 메모 정리", "모의고사 시간 '계속 흐름' 옵션", "노트 텍스트 입력 시 키보드 가림 방지", "노트 쪽 한눈에 보기 · 순서 바꾸기", "종이 종류(무지·줄노트·모눈)", "공부 시간 달력"]}, {"v": "2026102217", "items": ["노트 지우개가 잉크를 실제로 지우도록 수정", "노트 쪽 이동 버튼", "긴 노트 메모리 절약", "학습 기록의 중단된 세트 이어서 풀기"]}, {"v": "2026102216", "items": ["이어서 풀기 3개 유지", "꽉 찼을 때 정리할 세트 고르기"]}, {"v": "2026102215", "items": ["과목별 노트 6권(캡처·형광펜·직선·텍스트·올가미·목차·복습 가림·출력)", "문제 → 노트로 보내기", "자율 학습 제목에 과목 표시"]}, {"v": "2026102213", "items": ["설정 화면 정리", "긴 제목 한 줄로 정리"]}, {"v": "2026102212", "items": ["새로 푼 문제의 해설이 맨 위부터 보이게 수정", "약한 개념 선택/해제 표시", "이어서 풀기에 맞힘·틀림·남음", "좁은 화면 글자 잘림 수정"]}, {"v": "2026102211", "items": ["초기화가 드라이브·다른 기기에도 적용", "전체 초기화", "애니메이션", "PC 설치형"]}, {"v": "2026102210", "items": ["같은 개념 더 풀기", "공식 암기 카드", "계산형/암기형 구분", "CBT 시험장 화면", "주간 리포트", "화면 비율 조절", "검색", "화면 켜짐·매일 알림·홈 위젯"]}, {"v": "2026102209", "items": ["설정 화면이 저절로 위로 올라가던 문제 수정", "예상 점수·과락 경고", "틀린 이유 태그", "시험 직전 세트", "한 줄 메모", "공식 노트", "연습장 이어 쓰기"]}, {"v": "2026102208", "items": ["이전/다음 버튼 디자인 통일"]}, {"v": "2026102207", "items": ["오늘의 복습", "찍었어요 체크", "문제당 제한 시간", "글자 크기", "필기 기본값", "해설 바로보기 숨기기", "다크 모드"]}, {"v": "2026102206", "items": ["자율 학습 등급별 학습"]}, {"v": "2026102205", "items": ["문제별 A/B/C 등급"]}, {"v": "2026102204", "items": ["공부한 날 카드", "스크랩 자동 졸업", "약한 개념", "걸린 시간", "모의고사 점수 추이", "동기화 상태 표시"]}, {"v": "2026102203", "items": ["선택 삭제·전체 삭제", "폰 필기 확대 시 문제 고정"]}, {"v": "2026102202", "items": ["오답 → 스크랩 통합", "이어서 풀기 3개", "학습 기록", "해설 위치 초기화", "메뉴 정리", "태블릿 필기 영역 확대", "S펜·손가락 동작 수정"]}, {"v": "2026102201", "items": ["온라인 업데이트 시작"]}];
+const CHANGELOG = [{"v": "2026102228", "items": ["나가기 잠금: 기기 홈·최근 앱 버튼까지 막기 (안드로이드 앱 고정 · 새 APK 필요)"]}, {"v": "2026102227", "items": ["필기 후 노트·캔버스 터치가 이상해지던 문제 수정 (S펜 취소 신호를 처리하지 못해 손가락 입력이 막히던 것)", "손가락 필기(펜 전용 끔)가 저장되지 않던 문제 수정", "노트 글상자 편집 중 화면 오류 수정", "나가기 잠금: 문제 풀이·모의고사·개념 공부에서 홈·뒤로가기 막기 (화면 위 🔒, 설정)"]}, {"v": "2026102226", "items": ["오늘의 복습: DAY 학습(A만 풀기·개념 공부 기출 포함)에서 틀리거나 찍음·애매·해설만 본 문제만 · 자율 학습·모의고사 오답은 제외", "이어서 풀기가 다른 기기로 안 넘어오던 문제 수정 (같은 이름의 세트끼리 덮어쓰던 것)", "태블릿 세로·폰 상단 아이콘 정렬"]}, {"v": "2026102225", "items": ["최종 점검: 설정 화면 위에 항목 바로가기", "폰에서 학습 기록 처방 카드·검색 결과 줄바꿈 정리, 홈 상단 칩 정리"]}, {"v": "2026102224", "items": ["자료실: 교재 기준 용어 사전 428개, 공식 유도 37개, KEC 요약 51개, 자주 하는 실수, 계산기 팁, 시험 전날 정리표, 시험 일정", "계산 도구: 단위 변환·전력 삼각형, RLC 회로 계산기, 페이저도", "워밍업 3문제, 약점 퀵 드릴, 모의고사 10분 전 알림, 답 바꾼 기록, 밀어서 문제 넘기기, 문제 이미지 선명하게", "설정 → 기능 켜고 끄기"]}, {"v": "2026102223", "items": ["학습 계획을 하루 공부 시간 기준으로 다시 계산 (시간이 많으면 1단계가 빨리 끝나고 모의고사가 늘어남, 적으면 DAY를 나눠서 배치)", "계획 화면에 하루 시간별 비교표 추가", "하루 2시간 30분 미만이면 하프 모의고사로 배치"]}, {"v": "2026102222", "items": ["계산기·설정·자율 학습 등 누를 때 화면이 깜빡이던 문제 수정", "팝업·카드·정답 효과가 처음 나타날 때만 움직이도록 정리"]}, {"v": "2026102221", "items": ["추천 기능 100가지 추가 (확신도 3단계·복습 난이도·개념 먼저 맞히기·계산기·하프 모의고사·검토 표시·페이스·풀이 순서 전략 등)", "노트: 회로·기호 스탬프, 도형 보정, 각도 스냅, 돋보기 필기, 책갈피·쪽 잠금·문제 배경, 펜 프리셋", "개념: 이론에 형광펜, 3줄 요약, 난이도 별점, 질문 메모, 비교·리딩 모드", "통계: 배지, 월간 리포트, 망각 곡선, 시간대·장소별 정답률, 약점 리포트, 진도 카드 공유", "내 문제(사진)·내 카드(OX·플래시), 단위·상수표, 앱 잠금, AI 해설 질문, 버그 신고"]}, {"v": "2026102220", "items": ["시험일 맞춤 학습 계획(개념→약점→실전→마무리, 오늘 할 일 자동 체크·재조정)", "보기 소거(길게 누르기)", "문제별 풀이 시간 · 오래 걸린 문제 모아 풀기", "해설에 형광펜", "풀이 다시보기", "내 태그", "모의고사 과목별 시간 분석", "하루 목표 링", "집중 모드(25+5분)", "과목별 틀린 이유 표", "회차별 출제 경향", "노트: 사진 붙이기·공유·검색·양식·쪽 복사/이동", "학습 기록 엑셀(CSV) 내보내기", "위젯·알림에서 바로 복습", "단축키 확장(?로 도움말)", "기기별 마지막 공부"]}, {"v": "2026102219", "items": ["태블릿 세로 모드: 폰처럼 보이는 화면 배치", "설정에 업데이트 내역 추가", "학습 기록이 많이 쌓여도 동기화가 무거워지지 않게 정리"]}, {"v": "2026102218", "items": ["동기화: 바뀐 노트·필기만 올리기", "드라이브 주간 백업본 · 되돌리기", "옛 개념 메모 정리", "모의고사 시간 '계속 흐름' 옵션", "노트 텍스트 입력 시 키보드 가림 방지", "노트 쪽 한눈에 보기 · 순서 바꾸기", "종이 종류(무지·줄노트·모눈)", "공부 시간 달력"]}, {"v": "2026102217", "items": ["노트 지우개가 잉크를 실제로 지우도록 수정", "노트 쪽 이동 버튼", "긴 노트 메모리 절약", "학습 기록의 중단된 세트 이어서 풀기"]}, {"v": "2026102216", "items": ["이어서 풀기 3개 유지", "꽉 찼을 때 정리할 세트 고르기"]}, {"v": "2026102215", "items": ["과목별 노트 6권(캡처·형광펜·직선·텍스트·올가미·목차·복습 가림·출력)", "문제 → 노트로 보내기", "자율 학습 제목에 과목 표시"]}, {"v": "2026102213", "items": ["설정 화면 정리", "긴 제목 한 줄로 정리"]}, {"v": "2026102212", "items": ["새로 푼 문제의 해설이 맨 위부터 보이게 수정", "약한 개념 선택/해제 표시", "이어서 풀기에 맞힘·틀림·남음", "좁은 화면 글자 잘림 수정"]}, {"v": "2026102211", "items": ["초기화가 드라이브·다른 기기에도 적용", "전체 초기화", "애니메이션", "PC 설치형"]}, {"v": "2026102210", "items": ["같은 개념 더 풀기", "공식 암기 카드", "계산형/암기형 구분", "CBT 시험장 화면", "주간 리포트", "화면 비율 조절", "검색", "화면 켜짐·매일 알림·홈 위젯"]}, {"v": "2026102209", "items": ["설정 화면이 저절로 위로 올라가던 문제 수정", "예상 점수·과락 경고", "틀린 이유 태그", "시험 직전 세트", "한 줄 메모", "공식 노트", "연습장 이어 쓰기"]}, {"v": "2026102208", "items": ["이전/다음 버튼 디자인 통일"]}, {"v": "2026102207", "items": ["오늘의 복습", "찍었어요 체크", "문제당 제한 시간", "글자 크기", "필기 기본값", "해설 바로보기 숨기기", "다크 모드"]}, {"v": "2026102206", "items": ["자율 학습 등급별 학습"]}, {"v": "2026102205", "items": ["문제별 A/B/C 등급"]}, {"v": "2026102204", "items": ["공부한 날 카드", "스크랩 자동 졸업", "약한 개념", "걸린 시간", "모의고사 점수 추이", "동기화 상태 표시"]}, {"v": "2026102203", "items": ["선택 삭제·전체 삭제", "폰 필기 확대 시 문제 고정"]}, {"v": "2026102202", "items": ["오답 → 스크랩 통합", "이어서 풀기 3개", "학습 기록", "해설 위치 초기화", "메뉴 정리", "태블릿 필기 영역 확대", "S펜·손가락 동작 수정"]}, {"v": "2026102201", "items": ["온라인 업데이트 시작"]}];
 let CH_ALL = false;
 function changelogHTML(){
   const fmt = v => `${+v.slice(4, 6)}월 ${+v.slice(6, 8)}일 · ${v.slice(8)}차`;
@@ -5071,7 +5071,7 @@ document.addEventListener("touchend", e => { if (!SW) return; const t = e.change
 
 /* router */
 async function route(keepSel){
-  LASTHASH = location.hash;
+  LASTHASH = location.hash; try { syncPin(); } catch(e){}
   const h = location.hash.replace(/^#\/?/, ""), [r, arg0] = h.split("/"), arg = decodeURIComponent(arg0 || "");
   if (!keepSel){ SEL = { page:null, ids:new Set(), all:[] }; document.body.classList.add("navanim"); clearTimeout(window.__navT); window.__navT = setTimeout(() => document.body.classList.remove("navanim"), 700); }
   document.querySelectorAll(".modal").forEach(m => m.remove());
@@ -5318,6 +5318,7 @@ document.addEventListener("click", async e => {
     S.prefs[k] = bool ? v === "1" : num ? +v : v; save(true); applyTheme();
     if (k === "remind") setReminder();
     if (k === "reh" || k === "eve") setExtraAlarms();
+    if (k === "lockExit"){ PINTRIED = false; syncPin(); }
     if (k === "noise"){ noisePlay(v); }
     keepScroll(); return; }
   const gs = e.target.closest("[data-gstart]");
@@ -5422,9 +5423,31 @@ function navOK(){ NAVOK = true; setTimeout(() => NAVOK = false, 2000); }
 const lockOn = () => !!S.prefs.lockExit && isStudyHash(LASTHASH) && !!document.querySelector(".qwrap:not(.nbpage-view)");
 function lockToast(){ toast("나가기 잠금 중이에요 · 위쪽 🔒을 누르면 풀려요"); if (navigator.vibrate) navigator.vibrate(40); }
 const lockBtn = () => `<button class="lockb ${S.prefs.lockExit ? "on" : ""}" data-lockexit title="나가기 잠금 (홈·뒤로가기 막기)">${S.prefs.lockExit ? "🔒" : "🔓"}</button>`;
-function toggleLock(){ S.prefs.lockExit = !S.prefs.lockExit; save(true);
+/* 기기 홈·최근 앱 버튼까지 막기: 안드로이드 '앱 고정' (APK) */
+let PINNED = false, PINTRIED = false;
+function syncPin(){
+  if (!(window.Android && Android.pinApp)) return;
+  try { if (PINNED && Android.pinState && Android.pinState() === 0){ PINNED = false; PINTRIED = true; } } catch(e){}   // user unpinned it
+  const want = !!S.prefs.lockExit && isStudyHash(location.hash);
+  if (want && !PINNED && !PINTRIED){ PINNED = true; PINTRIED = true; Android.pinApp(true); setTimeout(checkPin, 3000); }
+  if (!S.prefs.lockExit && PINNED){ PINNED = false; Android.pinApp(false); }
+}
+function checkPin(){ try { if (S.prefs.lockExit && Android.pinState && Android.pinState() === 0){ PINNED = false; pinHelp(); } } catch(e){} }
+function pinHelp(){
+  if (document.querySelector(".pinhelp")) return;
+  const m = document.createElement("div"); m.className = "modal pinhelp";
+  m.innerHTML = `<div class="sheet" style="max-width:520px;height:auto"><div class="hd"><h3>기기 홈 버튼까지 막으려면</h3><button class="x" data-close>${I.x}</button></div><div class="bd">
+    <p class="cdesc" style="margin-top:0">앱 안의 홈·뒤로가기는 지금도 막혀 있어요. 기기 자체의 홈·최근 앱 버튼은 안드로이드 <b>앱 고정</b>을 켜야 막을 수 있어요.</p>
+    <ol class="flist"><li>기기 <b>설정 → 보안 및 개인정보 보호 → 기타 보안 설정 → 앱 고정</b>을 켜세요<br><small class="cdesc">(기종에 따라 설정 → 생체 인식 및 보안 → 기타 보안 설정)</small></li>
+      <li>앱으로 돌아와 🔒을 껐다가 다시 켜면, 고정 확인 창이 떠요 → <b>확인</b></li>
+      <li>풀 때는 🔒을 끄거나, <b>뒤로가기와 최근 앱 버튼을 함께 길게</b> 누르세요 (제스처 모드는 아래에서 위로 쓸어올려 유지)</li></ol>
+    <div class="acts" style="margin-top:12px"><button class="btn y" data-close>알겠어요</button></div></div></div>`;
+  m.addEventListener("click", e => { if (e.target === m || e.target.closest("[data-close]")) m.remove(); });
+  document.body.appendChild(m);
+}
+function toggleLock(){ S.prefs.lockExit = !S.prefs.lockExit; save(true); PINTRIED = false; syncPin();
   document.querySelectorAll("[data-lockexit]").forEach(b => { b.classList.toggle("on", S.prefs.lockExit); b.textContent = S.prefs.lockExit ? "🔒" : "🔓"; });
-  toast(S.prefs.lockExit ? "나가기 잠금 켜짐 · 홈·뒤로가기가 막혀요" : "나가기 잠금 꺼짐"); }
+  toast(S.prefs.lockExit ? (window.Android && Android.pinApp ? "나가기 잠금 켜짐 · 고정 확인 창이 뜨면 '확인'을 눌러주세요" : "나가기 잠금 켜짐 · 홈·뒤로가기가 막혀요") : "나가기 잠금 꺼짐"); }
 window.__androidBack = () => {
   const m = document.querySelector(".modal"); if (m){ m.remove(); return true; }
   if (lockOn()){ lockToast(); return true; }
