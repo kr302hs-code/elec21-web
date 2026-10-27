@@ -1328,7 +1328,7 @@ const src = p => (window.__IMG && window.__IMG[p]) || p;
 const $ = (s, r = document) => r.querySelector(s);
 
 /* app version + online update (screen files from GitHub) */
-const APP_VERSION = "2026102228";
+const APP_VERSION = "2026102229";
 const OTA_BASE = "https://raw.githubusercontent.com/kr302hs-code/elec21-web/main/";
 const b64of = buf => { let s = "", a = new Uint8Array(buf); for (let i = 0; i < a.length; i += 0x8000) s += String.fromCharCode.apply(null, a.subarray(i, i + 0x8000)); return btoa(s); };
 const OTA = {
@@ -1631,6 +1631,7 @@ function attachPinch(sc, content, max = 4){
       apply(p0.s * dist(e.touches[0], e.touches[1]) / p0.d, m.x - r.left, m.y - r.top); }
   }, { passive:false });
   sc.addEventListener("touchend", e => { if (e.touches.length < 2) p0 = null; });
+  sc.addEventListener("touchcancel", () => { p0 = null; });
   sc.addEventListener("dblclick", e => { const r = sc.getBoundingClientRect(); apply(scale > 1.2 ? 1 : 2.2, e.clientX - r.left, e.clientY - r.top); });
   sc.addEventListener("touchend", e => { if (e.changedTouches.length !== 1 || e.touches.length) return; const now = Date.now();
     if (now - lastTap < 280){ const t = e.changedTouches[0], r = sc.getBoundingClientRect(); apply(scale > 1.2 ? 1 : 2.2, t.clientX - r.left, t.clientY - r.top); lastTap = 0; } else lastTap = now; });
@@ -1662,6 +1663,7 @@ function openZoom(list){
   sc.addEventListener("touchmove", e => { if (e.touches.length === 2 && pinch){ e.preventDefault(); const r = sc.getBoundingClientRect(), mm = midp(e.touches[0], e.touches[1]);
     setScale(pinch.s * dist(e.touches[0], e.touches[1]) / pinch.d, mm.x - r.left, mm.y - r.top); } }, { passive:false });
   sc.addEventListener("touchend", e => { if (!e.touches.length) setTimeout(() => pinch = null, 60); });
+  sc.addEventListener("touchcancel", () => { pinch = null; d0 = null; });
   m.addEventListener("click", e => { if (e.target === m || e.target.closest("[data-close]")) m.remove(); });
 }
 function readsHTML(cid){
@@ -1963,6 +1965,7 @@ function startClip(){
   let p0 = null; const rect = $(".cliprect", ov);
   const loc = e => { const r = ov.getBoundingClientRect(); return { x: e.clientX - r.left, y: e.clientY - r.top }; };
   ov.addEventListener("pointerdown", e => { if (e.target.closest("[data-clipx]")) return; p0 = loc(e); ov.setPointerCapture(e.pointerId); e.preventDefault(); });
+  ov.addEventListener("pointercancel", () => { p0 = null; });
   ov.addEventListener("pointermove", e => { if (!p0) return; const p = loc(e);
     Object.assign(rect.style, { display:"block", left: Math.min(p.x, p0.x) + "px", top: Math.min(p.y, p0.y) + "px", width: Math.abs(p.x - p0.x) + "px", height: Math.abs(p.y - p0.y) + "px" }); });
   ov.addEventListener("pointerup", async e => { if (!p0) return; const p = loc(e), a = p0; p0 = null;
@@ -2316,7 +2319,8 @@ function applySplit(){
   sp.onpointerdown = e => { if (isMob()) return; e.preventDefault(); const body = $(".qbody").getBoundingClientRect(); try { sp.setPointerCapture(e.pointerId); } catch(_){}
     document.body.classList.add("splitting");
     sp.onpointermove = ev => { const p = Math.min(70, Math.max(25, (ev.clientX - body.left) / body.width * 100)); ql.style.flexBasis = p + "%"; Ink.resize(); };
-    sp.onpointerup = ev => { sp.onpointermove = null; document.body.classList.remove("splitting"); S.prefs[sp.dataset.split] = Math.round(parseFloat(ql.style.flexBasis)); save(true); Ink.resize(); };
+    sp.onpointerup = ev => { sp.onpointermove = null; document.body.classList.remove("splitting"); S.prefs[sp.dataset.split] = Math.round(parseFloat(ql.style.flexBasis)); save(true); Ink.resize(); sp.onpointercancel = sp.onlostpointercapture = null; };
+    sp.onpointercancel = sp.onlostpointercapture = sp.onpointerup;
   };
   sp.ondblclick = () => { delete S.prefs[sp.dataset.split]; ql.style.flexBasis = ""; save(true); Ink.resize(); };
 }
@@ -2868,7 +2872,7 @@ async function allNbImages(){
     for (const pid of m.pages){ const r = await IDB.get(pid, "pages"); if (r) r.items.forEach(it => { if (it.type === "img" && it.cid && it.review !== false) out.push({ id: it.id, img: it.src, cid: it.cid, subj }); }); } }
   return out;
 }
-async function viewNotes(){
+async function viewNotes(){ const __rt = ROUTE_TOK;
   const all = await IDB.all(); NOTES = all;
   const ids = Object.keys(all).filter(id => Q[id]).sort((a, b) => (all[b].ts || 0) - (all[a].ts || 0));
   const cards = await allNbImages(), due = cardDue(cards.map(c => c.id)).length;
@@ -2879,7 +2883,7 @@ async function viewNotes(){
   const body = ids.length ? `<div class="subjhead">문제 필기</div><div class="nlist">${ids.map(id => { const q = Q[id]; return `<div class="ncard ${selCls(id)}" data-selid="${id}" data-note="${id}">
       <div class="pv"><div><img src="${src(q.q[0][0])}"></div><div><canvas data-thumb="${id}"></canvas></div></div>
       <div class="ft"><b>${whereOf(q).replace(" ", " · ")}</b><span>${esc(q.conceptName)}<br>${ago(all[id].ts || Date.now())}</span></div></div>`; }).join("")}</div>` : "";
-  $("#app").innerHTML = shell("notes", `<div class="page"><h1 class="h1">필기노트</h1><span class="chip">과목 노트 6권 · 문제 필기 <span>${ids.length}개</span></span>
+  if (__rt !== ROUTE_TOK) return; $("#app").innerHTML = shell("notes", `<div class="page"><h1 class="h1">필기노트</h1><span class="chip">과목 노트 6권 · 문제 필기 <span>${ids.length}개</span></span>
     <div class="acts" style="margin:10px 0 0"><button class="btn o sm" data-go="#/mycards">🃏 내 카드 (OX·플래시)</button><button class="btn o sm" data-go="#/myq">📷 내 문제</button></div>
     ${grid}
     ${(() => { const L = Object.entries(S.cq2).filter(([, v]) => v.t); return L.length ? `<div class="subjhead">질문 메모 <small class="cdesc">개념 공부 중 남긴 의문</small></div><div class="hlist">${L.sort((a, b) => a[1].done - b[1].done || b[1].ts - a[1].ts).map(([id, v]) => `<div class="hrow ${v.done ? "qdone" : ""}"><button class="pchk" data-cqres="${id}">${v.done ? I.check : ""}</button><div class="hmain"><b>${esc(v.t)}</b><small>${C[v.cid] ? esc(C[v.cid].name) : ""}</small></div>${C[v.cid] ? `<button class="tlink" data-go="#/concept/${v.cid}">개념</button>` : ""}</div>`).join("")}</div>` : ""; })()}
@@ -2911,21 +2915,21 @@ function openAt(key, id){
 }
 
 /* print concept notes */
-async function viewPrint(arg){
+async function viewPrint(arg){ const __rt = ROUTE_TOK;
   const subj = decodeURIComponent(arg || "");
   if (!SUBJ6.includes(subj)){
     $("#app").innerHTML = shell("notes", `<div class="page"><h1 class="h1">노트 출력</h1><span class="chip">출력할 과목 노트를 고르세요</span>
       <div class="hlist">${SUBJ6.map(s2 => { const m = S.nb[s2]; return `<div class="hrow" data-go="#/print/${encodeURIComponent(s2)}"><div class="hmain"><b>${esc(s2)} 노트</b><small>${m ? m.pages.length + "쪽" : "비어 있음"}</small></div>${I.right}</div>`; }).join("")}</div></div>`);
     return;
   }
-  const pages = await nbLoad(subj), order = pageOrder(subj);
+  const pages = await nbLoad(subj), order = pageOrder(subj); if (__rt !== ROUTE_TOK) return;
   $("#app").innerHTML = `<div class="printwrap"><div class="pbar noprint"><button class="btn o sm" data-go="#/print/0">${I.left}과목 선택</button>
       <b>${esc(subj)} 노트 출력</b><span class="cdesc">${order.length}쪽 · A4</span><button class="btn y sm" data-act="doprint">인쇄 / PDF 저장</button></div><div id="pp"><p class="cdesc" style="padding:20px">페이지를 만드는 중…</p></div></div>`;
   let html = ""; for (const pid of order) html += `<section class="ppage nbp"><img src="${await nbPageImage(pages[pid], 1240)}" alt=""></section>`;
   const pp = $("#pp"); if (pp) pp.innerHTML = html;
 }
 /* settings / backup / sync */
-const CHANGELOG = [{"v": "2026102228", "items": ["나가기 잠금: 기기 홈·최근 앱 버튼까지 막기 (안드로이드 앱 고정 · 새 APK 필요)"]}, {"v": "2026102227", "items": ["필기 후 노트·캔버스 터치가 이상해지던 문제 수정 (S펜 취소 신호를 처리하지 못해 손가락 입력이 막히던 것)", "손가락 필기(펜 전용 끔)가 저장되지 않던 문제 수정", "노트 글상자 편집 중 화면 오류 수정", "나가기 잠금: 문제 풀이·모의고사·개념 공부에서 홈·뒤로가기 막기 (화면 위 🔒, 설정)"]}, {"v": "2026102226", "items": ["오늘의 복습: DAY 학습(A만 풀기·개념 공부 기출 포함)에서 틀리거나 찍음·애매·해설만 본 문제만 · 자율 학습·모의고사 오답은 제외", "이어서 풀기가 다른 기기로 안 넘어오던 문제 수정 (같은 이름의 세트끼리 덮어쓰던 것)", "태블릿 세로·폰 상단 아이콘 정렬"]}, {"v": "2026102225", "items": ["최종 점검: 설정 화면 위에 항목 바로가기", "폰에서 학습 기록 처방 카드·검색 결과 줄바꿈 정리, 홈 상단 칩 정리"]}, {"v": "2026102224", "items": ["자료실: 교재 기준 용어 사전 428개, 공식 유도 37개, KEC 요약 51개, 자주 하는 실수, 계산기 팁, 시험 전날 정리표, 시험 일정", "계산 도구: 단위 변환·전력 삼각형, RLC 회로 계산기, 페이저도", "워밍업 3문제, 약점 퀵 드릴, 모의고사 10분 전 알림, 답 바꾼 기록, 밀어서 문제 넘기기, 문제 이미지 선명하게", "설정 → 기능 켜고 끄기"]}, {"v": "2026102223", "items": ["학습 계획을 하루 공부 시간 기준으로 다시 계산 (시간이 많으면 1단계가 빨리 끝나고 모의고사가 늘어남, 적으면 DAY를 나눠서 배치)", "계획 화면에 하루 시간별 비교표 추가", "하루 2시간 30분 미만이면 하프 모의고사로 배치"]}, {"v": "2026102222", "items": ["계산기·설정·자율 학습 등 누를 때 화면이 깜빡이던 문제 수정", "팝업·카드·정답 효과가 처음 나타날 때만 움직이도록 정리"]}, {"v": "2026102221", "items": ["추천 기능 100가지 추가 (확신도 3단계·복습 난이도·개념 먼저 맞히기·계산기·하프 모의고사·검토 표시·페이스·풀이 순서 전략 등)", "노트: 회로·기호 스탬프, 도형 보정, 각도 스냅, 돋보기 필기, 책갈피·쪽 잠금·문제 배경, 펜 프리셋", "개념: 이론에 형광펜, 3줄 요약, 난이도 별점, 질문 메모, 비교·리딩 모드", "통계: 배지, 월간 리포트, 망각 곡선, 시간대·장소별 정답률, 약점 리포트, 진도 카드 공유", "내 문제(사진)·내 카드(OX·플래시), 단위·상수표, 앱 잠금, AI 해설 질문, 버그 신고"]}, {"v": "2026102220", "items": ["시험일 맞춤 학습 계획(개념→약점→실전→마무리, 오늘 할 일 자동 체크·재조정)", "보기 소거(길게 누르기)", "문제별 풀이 시간 · 오래 걸린 문제 모아 풀기", "해설에 형광펜", "풀이 다시보기", "내 태그", "모의고사 과목별 시간 분석", "하루 목표 링", "집중 모드(25+5분)", "과목별 틀린 이유 표", "회차별 출제 경향", "노트: 사진 붙이기·공유·검색·양식·쪽 복사/이동", "학습 기록 엑셀(CSV) 내보내기", "위젯·알림에서 바로 복습", "단축키 확장(?로 도움말)", "기기별 마지막 공부"]}, {"v": "2026102219", "items": ["태블릿 세로 모드: 폰처럼 보이는 화면 배치", "설정에 업데이트 내역 추가", "학습 기록이 많이 쌓여도 동기화가 무거워지지 않게 정리"]}, {"v": "2026102218", "items": ["동기화: 바뀐 노트·필기만 올리기", "드라이브 주간 백업본 · 되돌리기", "옛 개념 메모 정리", "모의고사 시간 '계속 흐름' 옵션", "노트 텍스트 입력 시 키보드 가림 방지", "노트 쪽 한눈에 보기 · 순서 바꾸기", "종이 종류(무지·줄노트·모눈)", "공부 시간 달력"]}, {"v": "2026102217", "items": ["노트 지우개가 잉크를 실제로 지우도록 수정", "노트 쪽 이동 버튼", "긴 노트 메모리 절약", "학습 기록의 중단된 세트 이어서 풀기"]}, {"v": "2026102216", "items": ["이어서 풀기 3개 유지", "꽉 찼을 때 정리할 세트 고르기"]}, {"v": "2026102215", "items": ["과목별 노트 6권(캡처·형광펜·직선·텍스트·올가미·목차·복습 가림·출력)", "문제 → 노트로 보내기", "자율 학습 제목에 과목 표시"]}, {"v": "2026102213", "items": ["설정 화면 정리", "긴 제목 한 줄로 정리"]}, {"v": "2026102212", "items": ["새로 푼 문제의 해설이 맨 위부터 보이게 수정", "약한 개념 선택/해제 표시", "이어서 풀기에 맞힘·틀림·남음", "좁은 화면 글자 잘림 수정"]}, {"v": "2026102211", "items": ["초기화가 드라이브·다른 기기에도 적용", "전체 초기화", "애니메이션", "PC 설치형"]}, {"v": "2026102210", "items": ["같은 개념 더 풀기", "공식 암기 카드", "계산형/암기형 구분", "CBT 시험장 화면", "주간 리포트", "화면 비율 조절", "검색", "화면 켜짐·매일 알림·홈 위젯"]}, {"v": "2026102209", "items": ["설정 화면이 저절로 위로 올라가던 문제 수정", "예상 점수·과락 경고", "틀린 이유 태그", "시험 직전 세트", "한 줄 메모", "공식 노트", "연습장 이어 쓰기"]}, {"v": "2026102208", "items": ["이전/다음 버튼 디자인 통일"]}, {"v": "2026102207", "items": ["오늘의 복습", "찍었어요 체크", "문제당 제한 시간", "글자 크기", "필기 기본값", "해설 바로보기 숨기기", "다크 모드"]}, {"v": "2026102206", "items": ["자율 학습 등급별 학습"]}, {"v": "2026102205", "items": ["문제별 A/B/C 등급"]}, {"v": "2026102204", "items": ["공부한 날 카드", "스크랩 자동 졸업", "약한 개념", "걸린 시간", "모의고사 점수 추이", "동기화 상태 표시"]}, {"v": "2026102203", "items": ["선택 삭제·전체 삭제", "폰 필기 확대 시 문제 고정"]}, {"v": "2026102202", "items": ["오답 → 스크랩 통합", "이어서 풀기 3개", "학습 기록", "해설 위치 초기화", "메뉴 정리", "태블릿 필기 영역 확대", "S펜·손가락 동작 수정"]}, {"v": "2026102201", "items": ["온라인 업데이트 시작"]}];
+const CHANGELOG = [{"v": "2026102229", "items": ["전체 재점검: 터치 취소 처리 누락 4곳 수정 (구분선 드래그·캡처·확대·따라 쓰기)", "개념 이론 형광펜 모드에서 손가락 스크롤 가능", "빠르게 화면을 옮길 때 이전 화면이 덮어쓰거나 노트가 섞이던 위험 수정", "앱을 내릴 때 노트 필기 즉시 저장", "두 기기에서 각각 추가한 노트 쪽이 동기화 후 사라지던 문제 수정"]}, {"v": "2026102228", "items": ["나가기 잠금: 기기 홈·최근 앱 버튼까지 막기 (안드로이드 앱 고정 · 새 APK 필요)"]}, {"v": "2026102227", "items": ["필기 후 노트·캔버스 터치가 이상해지던 문제 수정 (S펜 취소 신호를 처리하지 못해 손가락 입력이 막히던 것)", "손가락 필기(펜 전용 끔)가 저장되지 않던 문제 수정", "노트 글상자 편집 중 화면 오류 수정", "나가기 잠금: 문제 풀이·모의고사·개념 공부에서 홈·뒤로가기 막기 (화면 위 🔒, 설정)"]}, {"v": "2026102226", "items": ["오늘의 복습: DAY 학습(A만 풀기·개념 공부 기출 포함)에서 틀리거나 찍음·애매·해설만 본 문제만 · 자율 학습·모의고사 오답은 제외", "이어서 풀기가 다른 기기로 안 넘어오던 문제 수정 (같은 이름의 세트끼리 덮어쓰던 것)", "태블릿 세로·폰 상단 아이콘 정렬"]}, {"v": "2026102225", "items": ["최종 점검: 설정 화면 위에 항목 바로가기", "폰에서 학습 기록 처방 카드·검색 결과 줄바꿈 정리, 홈 상단 칩 정리"]}, {"v": "2026102224", "items": ["자료실: 교재 기준 용어 사전 428개, 공식 유도 37개, KEC 요약 51개, 자주 하는 실수, 계산기 팁, 시험 전날 정리표, 시험 일정", "계산 도구: 단위 변환·전력 삼각형, RLC 회로 계산기, 페이저도", "워밍업 3문제, 약점 퀵 드릴, 모의고사 10분 전 알림, 답 바꾼 기록, 밀어서 문제 넘기기, 문제 이미지 선명하게", "설정 → 기능 켜고 끄기"]}, {"v": "2026102223", "items": ["학습 계획을 하루 공부 시간 기준으로 다시 계산 (시간이 많으면 1단계가 빨리 끝나고 모의고사가 늘어남, 적으면 DAY를 나눠서 배치)", "계획 화면에 하루 시간별 비교표 추가", "하루 2시간 30분 미만이면 하프 모의고사로 배치"]}, {"v": "2026102222", "items": ["계산기·설정·자율 학습 등 누를 때 화면이 깜빡이던 문제 수정", "팝업·카드·정답 효과가 처음 나타날 때만 움직이도록 정리"]}, {"v": "2026102221", "items": ["추천 기능 100가지 추가 (확신도 3단계·복습 난이도·개념 먼저 맞히기·계산기·하프 모의고사·검토 표시·페이스·풀이 순서 전략 등)", "노트: 회로·기호 스탬프, 도형 보정, 각도 스냅, 돋보기 필기, 책갈피·쪽 잠금·문제 배경, 펜 프리셋", "개념: 이론에 형광펜, 3줄 요약, 난이도 별점, 질문 메모, 비교·리딩 모드", "통계: 배지, 월간 리포트, 망각 곡선, 시간대·장소별 정답률, 약점 리포트, 진도 카드 공유", "내 문제(사진)·내 카드(OX·플래시), 단위·상수표, 앱 잠금, AI 해설 질문, 버그 신고"]}, {"v": "2026102220", "items": ["시험일 맞춤 학습 계획(개념→약점→실전→마무리, 오늘 할 일 자동 체크·재조정)", "보기 소거(길게 누르기)", "문제별 풀이 시간 · 오래 걸린 문제 모아 풀기", "해설에 형광펜", "풀이 다시보기", "내 태그", "모의고사 과목별 시간 분석", "하루 목표 링", "집중 모드(25+5분)", "과목별 틀린 이유 표", "회차별 출제 경향", "노트: 사진 붙이기·공유·검색·양식·쪽 복사/이동", "학습 기록 엑셀(CSV) 내보내기", "위젯·알림에서 바로 복습", "단축키 확장(?로 도움말)", "기기별 마지막 공부"]}, {"v": "2026102219", "items": ["태블릿 세로 모드: 폰처럼 보이는 화면 배치", "설정에 업데이트 내역 추가", "학습 기록이 많이 쌓여도 동기화가 무거워지지 않게 정리"]}, {"v": "2026102218", "items": ["동기화: 바뀐 노트·필기만 올리기", "드라이브 주간 백업본 · 되돌리기", "옛 개념 메모 정리", "모의고사 시간 '계속 흐름' 옵션", "노트 텍스트 입력 시 키보드 가림 방지", "노트 쪽 한눈에 보기 · 순서 바꾸기", "종이 종류(무지·줄노트·모눈)", "공부 시간 달력"]}, {"v": "2026102217", "items": ["노트 지우개가 잉크를 실제로 지우도록 수정", "노트 쪽 이동 버튼", "긴 노트 메모리 절약", "학습 기록의 중단된 세트 이어서 풀기"]}, {"v": "2026102216", "items": ["이어서 풀기 3개 유지", "꽉 찼을 때 정리할 세트 고르기"]}, {"v": "2026102215", "items": ["과목별 노트 6권(캡처·형광펜·직선·텍스트·올가미·목차·복습 가림·출력)", "문제 → 노트로 보내기", "자율 학습 제목에 과목 표시"]}, {"v": "2026102213", "items": ["설정 화면 정리", "긴 제목 한 줄로 정리"]}, {"v": "2026102212", "items": ["새로 푼 문제의 해설이 맨 위부터 보이게 수정", "약한 개념 선택/해제 표시", "이어서 풀기에 맞힘·틀림·남음", "좁은 화면 글자 잘림 수정"]}, {"v": "2026102211", "items": ["초기화가 드라이브·다른 기기에도 적용", "전체 초기화", "애니메이션", "PC 설치형"]}, {"v": "2026102210", "items": ["같은 개념 더 풀기", "공식 암기 카드", "계산형/암기형 구분", "CBT 시험장 화면", "주간 리포트", "화면 비율 조절", "검색", "화면 켜짐·매일 알림·홈 위젯"]}, {"v": "2026102209", "items": ["설정 화면이 저절로 위로 올라가던 문제 수정", "예상 점수·과락 경고", "틀린 이유 태그", "시험 직전 세트", "한 줄 메모", "공식 노트", "연습장 이어 쓰기"]}, {"v": "2026102208", "items": ["이전/다음 버튼 디자인 통일"]}, {"v": "2026102207", "items": ["오늘의 복습", "찍었어요 체크", "문제당 제한 시간", "글자 크기", "필기 기본값", "해설 바로보기 숨기기", "다크 모드"]}, {"v": "2026102206", "items": ["자율 학습 등급별 학습"]}, {"v": "2026102205", "items": ["문제별 A/B/C 등급"]}, {"v": "2026102204", "items": ["공부한 날 카드", "스크랩 자동 졸업", "약한 개념", "걸린 시간", "모의고사 점수 추이", "동기화 상태 표시"]}, {"v": "2026102203", "items": ["선택 삭제·전체 삭제", "폰 필기 확대 시 문제 고정"]}, {"v": "2026102202", "items": ["오답 → 스크랩 통합", "이어서 풀기 3개", "학습 기록", "해설 위치 초기화", "메뉴 정리", "태블릿 필기 영역 확대", "S펜·손가락 동작 수정"]}, {"v": "2026102201", "items": ["온라인 업데이트 시작"]}];
 let CH_ALL = false;
 function changelogHTML(){
   const fmt = v => `${+v.slice(4, 6)}월 ${+v.slice(6, 8)}일 · ${v.slice(8)}차`;
@@ -3130,8 +3134,14 @@ function mergeState(R){
   by(S.memos, R.memos || {}, v => v.ts);
   by(S.why, R.why || {}, v => v.ts);
   by(S.clipSrs, R.clipSrs || {}, v => v.ts);
-  by(S.nb, R.nb || {}, v => v.ts);
   for (const [k, v] of Object.entries(R.pageDel || {})) S.pageDel[k] = Math.max(S.pageDel[k] || 0, v);
+  { const losers = {};
+    for (const [sj, rv] of Object.entries(R.nb || {})){ const lv = S.nb[sj]; if (!lv){ S.nb[sj] = rv; continue; }
+      const rNew = (rv.ts || 0) > (lv.ts || 0); S.nb[sj] = rNew ? rv : lv; losers[sj] = rNew ? lv : rv; }
+    const placed = new Set(); Object.values(S.nb).forEach(m => (m.pages || []).forEach(p => placed.add(p)));
+    for (const [sj, lo] of Object.entries(losers)){   // pages only the other device had (added offline) stay in the notebook
+      const extra = (lo.pages || []).filter(p => !placed.has(p) && !S.pageDel[p]);
+      if (extra.length){ S.nb[sj] = Object.assign({}, S.nb[sj], { pages: [...(S.nb[sj].pages || []), ...extra] }); extra.forEach(p => placed.add(p)); } } }
   for (const [k, v] of Object.entries(R.daySec || {})) S.daySec[k] = Math.max(S.daySec[k] || 0, v);
   for (const [k, v] of Object.entries(R.clipDel || {})) S.clipDel[k] = Math.max(S.clipDel[k] || 0, v);
   for (const [k, t] of Object.entries(S.histDel)) if (S.hist[k] && (S.hist[k].updated || 0) <= t) delete S.hist[k];
@@ -3379,7 +3389,9 @@ const NB = {
   subj:null, host:null, pages:{}, zoom:1, tool:"pen", hl:"y", straight:false, sel:null, pending:null,
   undo:[], redo:[], review:false, revealed:new Set(), cur:null, tp:new Map(), g:null, lasso:null, drag:null,
   async open(subj, host, opts = {}){
-    this.flushAll(); this.subj = subj; this.host = host; this.pages = await nbLoad(subj);
+    this.flushAll(); const tok = this.openTok = (this.openTok || 0) + 1;
+    const pages = await nbLoad(subj); if (tok !== this.openTok) return;   // a newer notebook was opened meanwhile
+    this.subj = subj; this.host = host; this.pages = pages;
     this.sel = null; this.undo = []; this.redo = []; this.pending = null; this.revealed = new Set();
     this.render();
     if (opts.cid){
@@ -4448,9 +4460,11 @@ function canPaint(extra){ const w = $(".cpage .cimgs"), cv = w && $("canvas.can"
   (CAN.rec ? CAN.rec.strokes : []).forEach(s => nbStroke(ctx, s)); if (extra) nbStroke(ctx, extra); }
 function canBind(){ const w = $(".cpage .cimgs"); if (!w) return; let cv = $("canvas.can", w); if (!cv){ cv = document.createElement("canvas"); cv.className = "can"; w.appendChild(cv); }
   const loc = e => { const r = w.getBoundingClientRect(), k = r.width / 1000; return [(e.clientX - r.left) / k, (e.clientY - r.top) / k]; };
-  cv.onpointerdown = e => { if (!CAN.on) return; if (e.pointerType === "touch" && S.prefs.penOnly) return; e.preventDefault(); cv.setPointerCapture(e.pointerId); CAN.cur = { t: "h", c: CAN.col || "y", w: 24, pts: [loc(e)] }; };
-  cv.onpointermove = e => { if (!CAN.cur) return; CAN.cur.pts.push(loc(e)); canPaint(CAN.cur); };
-  cv.onpointerup = cv.onpointercancel = () => { if (!CAN.cur) return; const s = CAN.cur; CAN.cur = null; if (s.pts.length < 2) return; CAN.rec.strokes.push(s); CAN.rec.ts = Date.now(); IDB.put("cexp:" + CAN.cid, CAN.rec); S.changedAt = Date.now(); save(); canPaint(); };
+  cv.onpointerdown = e => { if (!CAN.on) return; e.preventDefault(); try { cv.setPointerCapture(e.pointerId); } catch(_){}
+    if (e.pointerType === "touch" && S.prefs.penOnly){ const lp = $("#cleft"); CAN.scroll = { y: e.clientY, x: e.clientX, st: lp ? lp.scrollTop : 0, sl: lp ? lp.scrollLeft : 0 }; return; }
+    CAN.cur = { t: "h", c: CAN.col || "y", w: 24, pts: [loc(e)] }; };
+  cv.onpointermove = e => { if (CAN.scroll){ const lp = $("#cleft"); if (lp){ lp.scrollTop = CAN.scroll.st - (e.clientY - CAN.scroll.y); lp.scrollLeft = CAN.scroll.sl - (e.clientX - CAN.scroll.x); } return; } if (!CAN.cur) return; CAN.cur.pts.push(loc(e)); canPaint(CAN.cur); };
+  cv.onpointerup = cv.onpointercancel = () => { CAN.scroll = null; if (!CAN.cur) return; const s = CAN.cur; CAN.cur = null; if (s.pts.length < 2) return; CAN.rec.strokes.push(s); CAN.rec.ts = Date.now(); IDB.put("cexp:" + CAN.cid, CAN.rec); S.changedAt = Date.now(); save(); canPaint(); };
   w.querySelectorAll("img").forEach(im => { if (!im.complete) im.addEventListener("load", () => canPaint(), { once: true }); });
   setTimeout(canPaint, 60); }
 function canToggle(){ CAN.on = !CAN.on; const w = $(".cpage .cimgs"); if (w) w.classList.toggle("annot", CAN.on); toast(CAN.on ? "이론 위에 형광펜으로 칠하세요 · 다시 누르면 끝" : "표시를 마쳤어요"); }
@@ -5066,11 +5080,14 @@ function changeCardHTML(m){
 let SW = null;
 document.addEventListener("touchstart", e => { if (!QZ || !isMob() || !featOn("swipe") || QZ.tab === "canvas" || e.touches.length !== 1) return;
   if (!e.target.closest(".qleft,#ansp,.flipbody")) return; SW = { x: e.touches[0].clientX, y: e.touches[0].clientY, t: Date.now() }; }, { passive: true });
+document.addEventListener("touchcancel", () => { SW = null; }, { passive: true });
 document.addEventListener("touchend", e => { if (!SW) return; const t = e.changedTouches[0], dx = t.clientX - SW.x, dy = t.clientY - SW.y, dt = Date.now() - SW.t; SW = null;
   if (dt < 600 && Math.abs(dx) > 70 && Math.abs(dy) < 45 && QZ){ go(dx < 0 ? 1 : -1); } }, { passive: true });
 
 /* router */
+let ROUTE_TOK = 0;
 async function route(keepSel){
+  const RT = ++ROUTE_TOK, stale = () => RT !== ROUTE_TOK;
   LASTHASH = location.hash; try { syncPin(); } catch(e){}
   const h = location.hash.replace(/^#\/?/, ""), [r, arg0] = h.split("/"), arg = decodeURIComponent(arg0 || "");
   if (!keepSel){ SEL = { page:null, ids:new Set(), all:[] }; document.body.classList.add("navanim"); clearTimeout(window.__navT); window.__navT = setTimeout(() => document.body.classList.remove("navanim"), 700); }
@@ -5080,12 +5097,12 @@ async function route(keepSel){
   const app = $("#app");
   document.body.classList.toggle("homeb", !r);
   if (window.Android && Android.keepOn) Android.keepOn(S.prefs.keepOn !== false && ["quiz","exam","concept","cards","nb"].includes(r));
-  if (r === "concept"){ QZ = null; const html = viewConceptPage(arg); if (!html) return; app.innerHTML = html; attachPinch($(".qleft"), $(".cimgs")); applySplit(); cpTab(CP.tab); await NB.open(subjOfConcept(C[arg]), $("#nbhost"), { cid: arg }); canBind(); canLoad(arg); S.cview[arg] = Date.now(); clearInterval(window.__ctimer);
+  if (r === "concept"){ QZ = null; const html = viewConceptPage(arg); if (!html) return; app.innerHTML = html; attachPinch($(".qleft"), $(".cimgs")); applySplit(); cpTab(CP.tab); await NB.open(subjOfConcept(C[arg]), $("#nbhost"), { cid: arg }); if (stale()) return; canBind(); canLoad(arg); S.cview[arg] = Date.now(); clearInterval(window.__ctimer);
     window.__ctimer = setInterval(() => { if (!CP || document.hidden) return; S.ctime[CP.cid] = (S.ctime[CP.cid] || 0) + 1; addSec(1); const sj = subjOfConcept(C[CP.cid]); S.subjSec[sj] = (S.subjSec[sj] || 0) + 1; if (S.ctime[CP.cid] % 30 === 0) save(true); }, 1000); return; }
-  if (r === "nb"){ QZ = null; CP = null; app.innerHTML = viewNotebook(arg); await NB.open(arg, $("#nbhost")); if (NBJUMP){ const j = NBJUMP; NBJUMP = null; setTimeout(() => NB.scrollTo(j.pid, Math.max(0, j.y - 40)), 80); } return; }
+  if (r === "nb"){ QZ = null; CP = null; app.innerHTML = viewNotebook(arg); await NB.open(arg, $("#nbhost")); if (stale()) return; if (NBJUMP){ const j = NBJUMP; NBJUMP = null; setTimeout(() => NB.scrollTo(j.pid, Math.max(0, j.y - 40)), 80); } return; }
   CP = null;
   if (r === "exam"){ const html = viewQuiz("exam:" + arg); if (!html) return; app.innerHTML = html; bindInk(); bindSheets(); applySplit(); renderQuiz(); return; }
-  if (r === "quiz"){ if (!(await slotGate(arg))){ if (history.length > 1) history.back(); else location.hash = "#/"; return; } const html = viewQuiz(arg); if (!html) return; app.innerHTML = html; bindInk(); bindSheets(); applySplit(); renderQuiz(); return; }
+  if (r === "quiz"){ if (!(await slotGate(arg))){ if (stale()) return; if (history.length > 1) history.back(); else location.hash = "#/"; return; } if (stale()) return; const html = viewQuiz(arg); if (!html) return; app.innerHTML = html; bindInk(); bindSheets(); applySplit(); renderQuiz(); return; }
   QZ = null;
   if (r === "days") app.innerHTML = viewDays();
   else if (r === "concepts") app.innerHTML = viewConcepts(arg);
@@ -5107,10 +5124,10 @@ async function route(keepSel){
   else if (r === "badges") app.innerHTML = viewBadges();
   else if (r === "ref") app.innerHTML = viewRef();
   else if (r === "report") app.innerHTML = viewReport();
-  else if (r === "myq"){ await loadMyQ(); app.innerHTML = viewMyQ(); }
+  else if (r === "myq"){ await loadMyQ(); if (stale()) return; app.innerHTML = viewMyQ(); }
   else if (r === "mycards") app.innerHTML = viewMyCards();
   else if (r === "plan"){ app.innerHTML = viewPlan(); const pe = $("#plexam"); if (pe) pe.onchange = () => { S.examDate = pe.value; S.examTs = Date.now(); Object.keys(S.planDay).forEach(k => { if (k >= todayStr()) delete S.planDay[k]; }); save(); keepScroll(); }; }
-  else if (r === "search"){ await buildNbIndex(); app.innerHTML = viewSearch(); const i = $("#sq"); i.value = SEARCHQ || ""; runSearch(i.value); i.oninput = () => { SEARCHQ = i.value; runSearch(i.value); }; if (!isMob()) i.focus(); }
+  else if (r === "search"){ await buildNbIndex(); if (stale()) return; app.innerHTML = viewSearch(); const i = $("#sq"); i.value = SEARCHQ || ""; runSearch(i.value); i.oninput = () => { SEARCHQ = i.value; runSearch(i.value); }; if (!isMob()) i.focus(); }
   else if (r === "cards"){ await viewCards(); }
   else if (r === "mockres"){ const h2 = viewMockRes(arg); if (!h2) return; app.innerHTML = h2; }
   else app.innerHTML = viewHome();
@@ -5201,7 +5218,7 @@ document.addEventListener("click", async e => {
     if (d.cardmode){ if (d.cardmode === "blank"){ CARD.blank = !CARD.blank; renderCard(); }
       else { const w = $("#fimg"), cv = $("#trcv"); if (!w || !cv) return; w.classList.toggle("trace"); const r = w.getBoundingClientRect(); cv.width = r.width; cv.height = r.height; const x = cv.getContext("2d"); x.strokeStyle = "#E4553F"; x.lineWidth = 3; x.lineCap = "round"; let dn = false;
         cv.onpointerdown = ev => { dn = true; x.beginPath(); const b2 = cv.getBoundingClientRect(); x.moveTo(ev.clientX - b2.left, ev.clientY - b2.top); cv.setPointerCapture(ev.pointerId); };
-        cv.onpointermove = ev => { if (!dn) return; const b2 = cv.getBoundingClientRect(); x.lineTo(ev.clientX - b2.left, ev.clientY - b2.top); x.stroke(); }; cv.onpointerup = () => dn = false; } return; }
+        cv.onpointermove = ev => { if (!dn) return; const b2 = cv.getBoundingClientRect(); x.lineTo(ev.clientX - b2.left, ev.clientY - b2.top); x.stroke(); }; cv.onpointerup = cv.onpointercancel = () => dn = false; } return; }
     if (d.rehdow !== undefined){ S.prefs.rehDow = +d.rehdow; save(true); setExtraAlarms(); keepScroll(); return; }
     if (d.aikeysave !== undefined){ const v = ($("#aikey").value || "").trim(); if (v && !v.startsWith("•")){ S.prefs.aiKey = v; save(true); toast("API 키를 이 기기에 저장했어요"); keepScroll(); } else if (!v){ delete S.prefs.aiKey; save(true); toast("API 키를 지웠어요"); keepScroll(); } return; }
   }
@@ -5412,8 +5429,8 @@ window.addEventListener("hashchange", () => {
     history.replaceState(null, "", LASTHASH); lockToast(); return;   // stay on the study screen
   }
   LASTHASH = h; Ink.flush(); NB.flushAll(); route(); });
-document.addEventListener("visibilitychange", () => { if (document.hidden){ Ink.flush(); persist(); Sync.run(); } });
-window.addEventListener("pagehide", () => persist());
+document.addEventListener("visibilitychange", () => { if (document.hidden){ Ink.flush(); try { NB.flushAll(); } catch(e){} persist(); Sync.run(); } });
+window.addEventListener("pagehide", () => { Ink.flush(); try { NB.flushAll(); } catch(e){} persist(); });
 setInterval(() => { if (!document.hidden) Sync.run(); }, 20 * 1000);
 let syncDeb; const _save = save; save = function(quiet){ _save(quiet); if (!quiet && Sync.linked()){ clearTimeout(syncDeb); syncDeb = setTimeout(() => Sync.run(), 10 * 1000); } };
 /* 나가기 잠금: 문제 풀이·모의고사·개념 공부 화면에서 홈·뒤로가기 막기 */
