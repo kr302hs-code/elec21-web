@@ -539,8 +539,8 @@ svg.i{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.9;stro
 .bkrow .btn{height:34px;font-size:calc(var(--fs) * 13)}
 .setrow{flex-wrap:wrap}
 .printwrap{height:100%;width:100%;overflow:auto;background:#fff}
-.pbar{position:sticky;top:0;display:flex;align-items:center;gap:14px;padding:12px 20px;background:var(--bg);border-bottom:1px solid var(--line);z-index:2}
-.pbar select{height:40px;border-radius:10px;border:1px solid var(--line2);padding:0 10px;font:inherit}
+.printwrap > .pbar{position:sticky;top:0;display:flex;align-items:center;gap:14px;padding:12px 20px;background:var(--bg);border-bottom:1px solid var(--line);z-index:2}
+.printwrap > .pbar select{height:40px;border-radius:10px;border:1px solid var(--line2);padding:0 10px;font:inherit}
 .ppage{padding:18px 24px;page-break-after:always;break-after:page}
 .ppage h2{font-size:calc(var(--fs) * 18);margin:0 0 10px}
 .pcols{display:grid;grid-template-columns:58% 42%;gap:14px;align-items:start}
@@ -1229,6 +1229,89 @@ body.lefty .qbody{flex-direction:row-reverse}
 body.rerender *,body.rerender *::before,body.rerender *::after{animation:none!important;transition:none!important}
 /* v28: 모바일 상단 아이콘 정렬 */
 .mhead .mgear{margin-left:4px}.mhead .mgear.mlib{margin-left:auto}
+/* v30: 높이가 낮은 가로 화면(폰 가로·폴드 가로) 압축 배치 */
+@media (max-height: 500px) and (orientation: landscape){
+  .qtop{height:46px!important;min-height:46px!important;padding-top:0!important;padding-bottom:0!important}
+  .qtop .lg{height:46px!important;min-height:46px!important}.qtop .tt{font-size:15px!important}
+  .qtop .lockb{width:34px;height:34px}
+  .mprog{padding-top:4px!important;padding-bottom:4px!important;min-height:0!important}
+  .mprog .btn,.mprog button{height:28px!important;min-height:28px!important;padding-top:0!important;padding-bottom:0!important}
+  .tabs{height:40px!important;min-height:40px!important}.tabs button{height:40px!important;min-height:40px!important;font-size:13px!important}
+  .mbar,.navbar3{height:50px!important;min-height:50px!important;padding-top:4px!important;padding-bottom:4px!important}
+  .mbar .btn,.navbar3 .btn{height:40px!important;min-height:40px!important}
+  .nav{height:46px!important;min-height:46px!important}.nav a{padding-top:2px!important;padding-bottom:2px!important}.nav a span,.nav a em,.nav a small{display:none!important}
+  .mhead{height:46px!important;min-height:46px!important;padding-top:0!important;padding-bottom:0!important}
+  .mhwrap{padding-top:0!important}
+  .qhead{min-height:0}
+  .home .hello{display:none}.home .h1{font-size:20px}
+}
+/* v30: 아주 넓은 화면(S9 울트라·큰 PC)에서 문제·해설 글자가 너무 커지지 않게 */
+@media (min-width: 1500px){
+  .qleft .qimg{max-width:760px}
+  #ansp .ehl,#ansp .ehlbar{max-width:760px;margin-left:auto;margin-right:auto}
+  .rq,.rcard .eimg{max-width:760px}
+}
+/* v30: 보기 4칸이 좁은 영역에서 넘치지 않게 (칸이 줄면 글자·여백도 같이 줄어듦) */
+.choices{grid-template-columns:repeat(4,minmax(0,1fr))!important}
+.choices .ch{min-width:0;overflow:hidden;white-space:nowrap}
+.qleft{container-type:inline-size}
+@container (max-width: 560px){ .choices .ch{gap:8px;padding:0 10px;font-size:calc(var(--fs) * 16)} .choices .ch .k{flex:none} }
+@container (max-width: 420px){ .choices .ch{gap:6px;padding:0 8px;font-size:calc(var(--fs) * 15)} }
+/* v30: 폴드 가로·작은 PC 창(821~1000px)에서는 왼쪽 메뉴를 아이콘 막대로 */
+@media (min-width: 821px) and (max-width: 1000px) and (orientation: landscape){
+  .side{width:72px}
+  .side .logo{font-size:0;justify-content:center;padding-left:0;padding-right:0;gap:0}
+  .side .nav a{justify-content:center;padding-left:0;padding-right:0;gap:0}
+  .side .nav a span{display:none}
+}
+/* v30: 폰처럼 아주 좁은 보기 칸은 동그라미 번호만 */
+@container (max-width: 380px){ .choices .ch{justify-content:center;gap:0;padding:0 4px} .choices .ch .k{display:none} }
+/* v30: 캔버스 도구 막대가 태블릿에서 넘치지 않게 */
+.qright #tb .t{flex:1 1 0;min-width:0;max-width:66px;padding:0 1px;overflow:hidden}
+.qright #tb .t em{max-width:100%;overflow:hidden;text-overflow:clip;white-space:nowrap;font-size:calc(var(--fs) * 10.5);letter-spacing:-.02em}
+/* v30: 개념 목록 오른쪽 정보(별점·요약·기출 수)가 좁은 화면에서 넘치지 않게 */
+@media (min-width: 821px) and (orientation: landscape), (min-width: 1101px){ .clist{grid-template-columns:minmax(190px,280px) minmax(0,1fr)} }
+.citems,.citem{min-width:0}.citem .nm{min-width:0}.citem .qq{min-width:0;flex-shrink:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+/* v31 */
+.wsubj{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 10px}.wlist{display:flex;flex-direction:column;gap:8px}
+.witem{display:flex;align-items:center;gap:12px;background:#fff;border-radius:16px;padding:12px 14px;border:1px solid #F3EFE2}body.dark .witem{background:#24211B;border-color:#3A352B}
+.wrank{width:28px;height:28px;border-radius:50%;background:var(--yellow-pale);display:grid;place-items:center;font-weight:800;flex:none}
+.wmain{flex:1;min-width:0}.wt{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}.wt small{color:var(--sub)}.wbar{height:6px;margin:6px 0}.wbar i{background:var(--red)}
+.wwhy{display:flex;flex-wrap:wrap;gap:4px}.wwhy span{font-size:12px;background:var(--gray-chip);border-radius:6px;padding:1px 6px;color:var(--sub)}.wacts{display:flex;flex-direction:column;gap:4px;flex:none}
+.wbanner{display:flex;flex-wrap:wrap;align-items:center;gap:6px;background:var(--red-soft);border-radius:14px;padding:10px 12px;margin-bottom:10px}.wbanner span{font-size:12px;color:var(--sub);flex:1 1 160px}
+.qlog{margin-top:12px;font-size:13px}.qlog summary{cursor:pointer;color:var(--sub)}.qlog div{display:grid;grid-template-columns:60px 70px 50px 40px 1fr;gap:6px;padding:4px 0;border-bottom:1px solid var(--line)}
+.utag.focusq{background:var(--red-soft);color:var(--red)}
+.pqpick{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin:10px 0 14px}.pqpick .card{padding:18px;text-align:center;cursor:pointer}
+.pqcard{padding:18px}.pqtop{display:flex;align-items:center;gap:10px}.pqtop span{color:var(--sub);font-size:13px;margin-left:auto}.pqq{font-size:calc(var(--fs) * 17);line-height:1.6;margin:12px 0}
+.pqopts{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}.pqopts .btn{height:auto;min-height:44px;white-space:normal;padding:8px 10px}.pqopts .btn.ok{background:var(--green-soft);border-color:var(--green)}.pqopts .btn.bad{background:var(--red-soft);border-color:var(--red)}
+.pqsteps{display:flex;flex-direction:column;gap:6px}.pqsteps .btn{height:auto;min-height:40px;text-align:left;justify-content:flex-start;white-space:normal;padding:8px 12px}.pqsteps .btn.on{background:var(--yellow-pale)}
+.pqfig{width:220px;display:block;margin:6px auto}.keyf code{background:var(--yellow-pale);border-radius:6px;padding:1px 6px;font-family:inherit;font-size:12px}
+.cutsim .csrow{display:flex;align-items:center;gap:10px;margin:6px 0}.cutsim .csrow span{width:52px}.cutsim input{flex:1}.cutsim .csrow b{width:110px;text-align:right;font-size:13px}
+.wgrid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-top:8px}.wg{border-radius:12px;background:#fff;border:1px solid var(--line2);padding:6px 0;display:flex;flex-direction:column;align-items:center}
+.wg small{color:var(--sub);font-size:11px}.wg i{font-size:11px;color:var(--red);font-style:normal;min-height:14px}.wg.off{background:var(--gray-chip);opacity:.7}.wg.td{border-color:var(--ink)}
+.briefwrap{position:fixed;left:50%;top:10px;transform:translateX(-50%);z-index:80;width:min(520px,94vw);display:flex;flex-direction:column;gap:8px;pointer-events:none}
+.briefwrap .brief{pointer-events:auto;margin:0;padding:12px 16px;box-shadow:0 8px 24px rgba(0,0,0,.18)}.btnwrap{display:flex;flex-wrap:wrap;gap:6px;justify-content:flex-end}.brief .x{width:28px;height:28px}
+#swpill{position:fixed;right:16px;bottom:16px;z-index:60;display:flex;align-items:center;gap:8px;background:#2D5BD8;color:#fff;border-radius:99px;padding:6px 6px 6px 14px;font-size:14px}#swpill button{width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,.2);color:#fff;display:grid;place-items:center}#swpill svg{width:13px;height:13px}
+@media (max-width: 820px), (orientation: portrait) and (max-width: 1100px){ #swpill{bottom:76px} }
+#nbguide{position:fixed;height:2px;background:rgba(45,91,216,.35);pointer-events:none;z-index:50;display:none}
+.nbpage.nbhide{display:none}.ptoc ol{line-height:1.9}.ptoc li{display:flex;justify-content:space-between;border-bottom:1px dotted #ccc}
+.ewclock{font-size:48px;font-weight:800;font-variant-numeric:tabular-nums;margin:8px 0}
+#bigclock{position:fixed;right:18px;top:80px;z-index:65;font-size:44px;font-weight:800;font-variant-numeric:tabular-nums;background:rgba(29,29,27,.85);color:#fff;border-radius:16px;padding:4px 16px;pointer-events:none}#bigclock.hurry{background:#E4553F}
+.ch.draft{border-style:dashed;border-color:#2D5BD8;background:#EEF3FF}
+.heat243{display:grid;grid-template-columns:repeat(auto-fill,minmax(16px,1fr));gap:3px;margin-top:8px}.heat243 .hc{aspect-ratio:1;border-radius:3px;cursor:pointer}
+.rdy{display:flex;align-items:baseline;gap:6px}.rdy b{font-size:44px}.rdy span{color:var(--sub)}
+#totop{position:fixed;right:18px;bottom:90px;z-index:55;width:46px;height:46px;border-radius:50%;background:var(--ink);color:#fff;font-size:22px;place-items:center;box-shadow:0 6px 16px rgba(0,0,0,.2);display:none}
+body.hidehead .mhwrap{transform:translateY(-100%);transition:transform .2s}.mhwrap{transition:transform .2s}
+.jumpbar{display:flex;gap:4px;overflow-x:auto;padding:6px 0 10px;scrollbar-width:none;position:sticky;top:0;z-index:4;background:var(--bg)}.jumpbar::-webkit-scrollbar{display:none}
+.jumpbar button{flex:none;min-width:34px;height:30px;border-radius:9px;background:#fff;border:1px solid var(--line2);font-size:12px;font-weight:700}
+.tdots{display:flex;justify-content:center;gap:6px;margin:12px 0}.tdots i{width:7px;height:7px;border-radius:50%;background:var(--line2)}.tdots i.on{background:var(--ink)}
+body.dark.darkink .nbpage canvas,body.dark.darkink #ink{filter:invert(.92) hue-rotate(180deg)}
+body.colorblind .ch.ok::after{content:" ✓";font-weight:900}body.colorblind .ch.bad::after{content:" ✕";font-weight:900}body.colorblind .ch.bad{background-image:repeating-linear-gradient(45deg,transparent,transparent 6px,rgba(0,0,0,.06) 6px,rgba(0,0,0,.06) 12px)}
+body.contrast{--sub:#3A362D;--mute:#4D4A42;--line:#BDB6A2;--line2:#9F977F}body.contrast .btn,body.contrast .card{border-color:#9F977F}
+body[data-space="1"]{letter-spacing:.02em;line-height:1.75}body[data-space="2"]{letter-spacing:.05em;line-height:1.95}
+/* v30: 스크롤 */
+.main,.nbscroll,#ansp,#qleft,#cleft,.sellist,.statp,#statp,.readimg,.cmpcols,.libtabs,.secjump{overscroll-behavior:contain}
+.nbscroll,#ansp,#qleft,#cleft,.sellist{-webkit-overflow-scrolling:touch}
 /* v29: 나가기 잠금 버튼 */
 .qtop .lockb{flex:none;width:40px;height:40px;border-radius:12px;display:grid;place-items:center;font-size:18px;background:var(--gray-chip);margin-left:6px;opacity:.75}
 .qtop .lockb.on{background:var(--yellow);opacity:1;box-shadow:inset 0 0 0 2px #E9C23F}
@@ -1328,7 +1411,7 @@ const src = p => (window.__IMG && window.__IMG[p]) || p;
 const $ = (s, r = document) => r.querySelector(s);
 
 /* app version + online update (screen files from GitHub) */
-const APP_VERSION = "2026102229";
+const APP_VERSION = "2026111303";
 const OTA_BASE = "https://raw.githubusercontent.com/kr302hs-code/elec21-web/main/";
 const b64of = buf => { let s = "", a = new Uint8Array(buf); for (let i = 0; i < a.length; i += 0x8000) s += String.fromCharCode.apply(null, a.subarray(i, i + 0x8000)); return btoa(s); };
 const OTA = {
@@ -1374,9 +1457,9 @@ async function loadState(){
   try { st = await IDB.get("S", "state"); } catch(e){}
   if (!st){ try { st = JSON.parse(localStorage.getItem(KEY) || "null"); } catch(e){ st = null; } }
   S = Object.assign({ sessions:{}, last:null, lastTs:0, scraps:[], scrapMap:{}, attend:[], qstat:{}, notes:{}, noteDel:{}, mocks:[],
-    reviews:{}, rounds:{}, creads:{}, hist:{}, histDel:{}, srs:{}, memos:{}, why:{}, clipDel:{}, clipSrs:{}, daySec:{}, nb:{}, pageDel:{}, qtime:{}, tags:{}, dayQ:{}, devices:{}, plan:{}, planDay:{}, cqStat:{}, retry:{}, reports:{}, cdiff:{}, csum:{}, cq2:{}, ctime:{}, cview:{}, nbColor:{}, predHist:{}, subjSec:{}, hourStat:{}, placeStat:{}, diary:{}, checklist:{}, realExams:{}, myq:{}, mycards:{}, dayFirst:{}, recent:[], prefs:{ size:1, grid:true, penOnly:true } }, st || {});
+    reviews:{}, rounds:{}, creads:{}, hist:{}, histDel:{}, srs:{}, memos:{}, why:{}, clipDel:{}, clipSrs:{}, daySec:{}, nb:{}, pageDel:{}, qtime:{}, tags:{}, dayQ:{}, devices:{}, plan:{}, planDay:{}, qlog:{}, dsrs:{}, planBoost:{}, devStats:{}, trash:{}, cqStat:{}, retry:{}, reports:{}, cdiff:{}, csum:{}, cq2:{}, ctime:{}, cview:{}, nbColor:{}, predHist:{}, subjSec:{}, hourStat:{}, placeStat:{}, diary:{}, checklist:{}, realExams:{}, myq:{}, mycards:{}, dayFirst:{}, recent:[], prefs:{ size:1, grid:true, penOnly:true } }, st || {});
   ["mocks","attend","recent"].forEach(k => { if (!Array.isArray(S[k])) S[k] = []; });
-  ["reviews","rounds","creads","scrapMap","noteDel","notes","qstat","sessions","hist","histDel","srs","memos","why","clipDel","clipSrs","daySec","nb","pageDel","qtime","tags","dayQ","devices","plan","planDay","cqStat","retry","reports","cdiff","csum","cq2","ctime","cview","nbColor","predHist","subjSec","hourStat","placeStat","diary","checklist","realExams","myq","mycards","dayFirst"].forEach(k => { if (!S[k] || typeof S[k] !== "object") S[k] = {}; });
+  ["reviews","rounds","creads","scrapMap","noteDel","notes","qstat","sessions","hist","histDel","srs","memos","why","clipDel","clipSrs","daySec","nb","pageDel","qtime","tags","dayQ","devices","plan","planDay","qlog","dsrs","planBoost","devStats","trash","cqStat","retry","reports","cdiff","csum","cq2","ctime","cview","nbColor","predHist","subjSec","hourStat","placeStat","diary","checklist","realExams","myq","mycards","dayFirst"].forEach(k => { if (!S[k] || typeof S[k] !== "object") S[k] = {}; });
   S.scraps.forEach(id => { if (!S.scrapMap[id]) S.scrapMap[id] = { on:true, ts:1 }; });
   if (!S.migrIDB){ S.migrIDB = true; await IDB.put("S", JSON.parse(JSON.stringify(S)), "state"); try { localStorage.removeItem(KEY); } catch(e){} }
 }
@@ -1648,8 +1731,9 @@ function openZoom(list){
   const setScale = (s2, mx, my) => { const r = scale; s2 = Math.min(4, Math.max(1, s2));
     const cx = sc.scrollLeft + mx, cy = sc.scrollTop + my; zin.style.width = (s2 * 100) + "%"; scale = s2;
     sc.scrollLeft = cx * s2 / r - mx; sc.scrollTop = cy * s2 / r - my; zoomed = s2 > 1.01; };
-  sc.addEventListener("pointerdown", e => { d0 = { x: e.clientX, y: e.clientY, t: Date.now(), sl: sc.scrollLeft, st: sc.scrollTop, mouse: e.pointerType === "mouse" }; });
-  sc.addEventListener("pointermove", e => { if (d0 && d0.mouse && e.buttons){ sc.scrollLeft = d0.sl - (e.clientX - d0.x); sc.scrollTop = d0.st - (e.clientY - d0.y); } });
+  const fl = scrollFling(() => sc);
+  sc.addEventListener("pointerdown", e => { fl.stop(); d0 = { x: e.clientX, y: e.clientY, t: Date.now(), sl: sc.scrollLeft, st: sc.scrollTop, mouse: e.pointerType === "mouse" }; });
+  sc.addEventListener("pointermove", e => { if (d0 && d0.mouse && e.buttons){ sc.scrollLeft = d0.sl - (e.clientX - d0.x); sc.scrollTop = d0.st - (e.clientY - d0.y); fl.sample(e.clientX, e.clientY); } });
   const finish = (x, y) => {
     if (!d0) return;
     const tap = !pinch && Math.hypot(x - d0.x, y - d0.y) < 10 && Date.now() - d0.t < 400; d0 = null;
@@ -1657,7 +1741,7 @@ function openZoom(list){
     if (!zoomed){ const r = sc.getBoundingClientRect(); setScale(1.5, x - r.left, y - r.top); hint.textContent = "손가락으로 이동 · 한 번 더 누르면 닫기"; }
     else m.remove();
   };
-  sc.addEventListener("pointerup", e => finish(e.clientX, e.clientY));
+  sc.addEventListener("pointerup", e => { if (d0 && d0.mouse) fl.release(); finish(e.clientX, e.clientY); });
   sc.addEventListener("pointercancel", () => { d0 = null; });
   sc.addEventListener("touchstart", e => { if (e.touches.length === 2){ pinch = { d: dist(e.touches[0], e.touches[1]), s: scale }; d0 = null; } }, { passive:true });
   sc.addEventListener("touchmove", e => { if (e.touches.length === 2 && pinch){ e.preventDefault(); const r = sc.getBoundingClientRect(), mm = midp(e.touches[0], e.touches[1]);
@@ -1680,10 +1764,38 @@ function toggleRead(cid, i){
 const whereOf = (q, withNo = true) => q.my ? `내 문제${withNo ? ` ${q.no}` : ""}` : q.cbt ? `${esc(q.roundTitle)}${withNo ? ` ${q.no}번` : ""}` : `DAY ${pad(q.day)}${withNo ? ` ${q.no}번` : ""}`;
 const conceptLink = (q, cls, suffix = "") => q.conceptId ? `<button class="${cls}" data-concept="${q.conceptId}">필수개념 ${pad(q.concept)} ${esc(q.conceptName)}${suffix}</button>` : "";
 const ILIB = `<svg class="i" viewBox="0 0 24 24"><path d="M4 4h4v16H4zM10 4h4v16h-4zM16 5l3.5-1 3 15.5-3.5 1z"/></svg>`;
+/* 관성 스크롤: 손가락을 뗄 때의 속도로 계속 미끄러지다가 서서히 멈춤 */
+function makeFling(apply){
+  let smp = [], raf = 0;
+  const f = {
+    stop(){ if (raf) cancelAnimationFrame(raf); raf = 0; smp = []; },
+    sample(x, y){ const t = performance.now(); smp.push([x, y, t]); while (smp.length > 2 && t - smp[0][2] > 90) smp.shift(); },
+    reset(){ smp = []; },
+    release(){
+      const a = smp[0], b = smp[smp.length - 1]; smp = [];
+      if (!a || a === b || S.prefs.fling === false) return;
+      const dt = b[2] - a[2]; if (dt <= 0 || performance.now() - b[2] > 70) return;   // finger rested before lifting
+      let vx = (b[0] - a[0]) / dt, vy = (b[1] - a[1]) / dt;
+      if (Math.hypot(vx, vy) < 0.12) return;
+      const cap = 5; vx = Math.max(-cap, Math.min(cap, vx)); vy = Math.max(-cap, Math.min(cap, vy));
+      let last = performance.now();
+      const step = now => { const d = Math.min(34, now - last); last = now; const k = Math.pow(0.945, d / 16.7); vx *= k; vy *= k;
+        const moved = apply(vx * d, vy * d);
+        if (moved === false || Math.hypot(vx, vy) < 0.02){ raf = 0; return; } raf = requestAnimationFrame(step); };
+      raf = requestAnimationFrame(step);
+    }
+  };
+  return f;
+}
+const scrollFling = getEl => makeFling((dx, dy) => { const el = getEl(); if (!el) return false;
+  const t0 = el.scrollTop, l0 = el.scrollLeft; el.scrollTop = t0 - dy; el.scrollLeft = l0 - dx;
+  return Math.abs(el.scrollTop - t0) + Math.abs(el.scrollLeft - l0) > 0.1; });
+const FL = { nb: scrollFling(() => NB.host && $(".nbscroll", NB.host)), ehl: scrollFling(() => $("#ansp")), can: scrollFling(() => $("#cleft")),
+  ink: makeFling((dx, dy) => { if (!Ink.v) return false; Ink.v = Object.assign({}, Ink.v, { tx: Ink.v.tx + dx, ty: Ink.v.ty + dy }); Ink.redraw(); Ink.applyView(); return true; }) };
 function shell(active, inner){
   const nav = [["home","학습하기",I.home,"#/"],["days","21일 플랜",I.cal,"#/days"],["concepts","개념 공부",I.book,"#/concepts"],["scrap","스크랩",I.star,"#/scrap"],["hist","학습 기록",I.cal2,"#/history"],["notes","필기노트",I.note,"#/notes"],["settings","설정",I.gear,"#/settings"],["lib","자료실",ILIB,"#/lib"]];
   return `<aside class="side"><div class="logo">${I.bolt}전기기사 21일</div><nav class="nav">${
-    nav.map(([k,l,ic,h]) => `<a href="${h}" class="${k===active?"on":""}">${ic}<span>${l}</span></a>`).join("")}</nav></aside>
+    nav.map(([k,l,ic,h]) => `<a href="${h}" class="${k===active?"on":""}" title="${l}">${ic}<span>${l}</span></a>`).join("")}</nav></aside>
     <main class="main"><div class="mhwrap"><div class="mhead"><span>${I.bolt}</span>전기기사 21일<a class="mgear mlib" href="#/lib" style="margin-left:auto" title="자료실">${ILIB}</a><a class="mgear" href="#/search">${I.search}</a><a class="mgear" href="#/settings" style="margin-left:0">${I.gear}</a></div></div>${inner}</main>`;
 }
 
@@ -1754,7 +1866,7 @@ function studyCard(){
   return `<div class="card studycard"><div class="rhead2"><p class="eyebrow" style="margin:0">공부한 날 · ${mo + 1}월</p>${goalRing()}${dd ? `<span class="ddpill">${dd}</span>` : `<button class="tlink" data-go="#/settings">시험일 설정</button>`}</div>
     <div class="cal"><b>월</b><b>화</b><b>수</b><b>목</b><b>금</b><b>토</b><b>일</b>${cells}</div>
     <div class="calleg"><span>공부 시간</span><i class="lv1"></i><i class="lv2"></i><i class="lv3"></i><i class="lv4"></i><span>2시간+</span></div>
-    <div class="sstat"><span>연속 <b>${streak}</b>일${sinfo.shields ? " 🛡" : ""}</span><span>이번 달 <b>${month}</b>일</span><span>누적 <b>${S.attend.length}</b>일</span><span>플랜 <b>${doneDays}</b>/21</span><button class="tlink" data-focus>⏱ 집중 25분</button><button class="tlink" data-dy="${todayStr()}">✎ 오늘 기록</button></div></div>`;
+    <div class="sstat"><span>연속 <b>${streak}</b>일${sinfo.shields ? " 🛡" : ""}</span><span>이번 달 <b>${month}</b>일</span><span>누적 <b>${S.attend.length}</b>일</span><span>플랜 <b>${doneDays}</b>/21</span><button class="tlink" data-focus>⏱ 집중 25분</button><button class="tlink" data-dy="${todayStr()}">✎ 오늘 기록</button><button class="tlink" data-swstart>⏱ 스톱워치</button><button class="tlink" data-manualmin>📗 교재 시간</button></div></div>`;
 }
 function syncBadge(){
   if (!GD.app()) return "";
@@ -1764,7 +1876,8 @@ function syncBadge(){
 function applyTheme(){
   document.body.classList.toggle("noanim", S.prefs.anim === false);
   const m = S.prefs.theme || "light", hr = new Date().getHours(), dark = m === "dark" || (m === "auto" && window.matchMedia("(prefers-color-scheme: dark)").matches) || (m === "time" && (hr >= 22 || hr < 7));
-  document.body.classList.toggle("sepia", m === "sepia"); document.body.classList.toggle("onehand", !!S.prefs.onehand); document.body.classList.toggle("lefty", !!S.prefs.lefty);
+  document.body.classList.toggle("sepia", m === "sepia" || (m === "sepiaT" && (hr >= 21 || hr < 7)));
+  ["darkink","colorblind","contrast"].forEach(k => document.body.classList.toggle(k, !!S.prefs[k])); document.body.dataset.space = S.prefs.spacing || "0"; document.body.classList.toggle("onehand", !!S.prefs.onehand); document.body.classList.toggle("lefty", !!S.prefs.lefty);
   document.body.dataset.font = S.prefs.font2 || ""; if (typeof applyFeats === "function") applyFeats();
   document.body.classList.toggle("dark", dark);
   document.documentElement.style.setProperty("--fsk", { s:.9, m:1, l:1.12, xl:1.25 }[S.prefs.font || "m"]);
@@ -1835,7 +1948,7 @@ function viewHome(){
   const hs = Object.values(S.hist).filter(h => histCounts(h).n).sort((a, b) => b.updated - a.updated);
   const scrapN = S.scraps.filter(id => Q[id]).length;
   recordPred();
-  return shell("home", `<div class="page home ${(S.prefs.homeHide || []).map(k => "hh-" + k).join(" ")}">
+  return shell("home", `<div class="page home ${(S.prefs.homeHide || []).map(k => "hh-" + k).join(" ")}${S.prefs.homeSimple ? " hh-cards hh-pred hh-hist" : ""}">
     <div class="hhead"><div><p class="hello">안녕하세요</p><h1 class="h1">${ddayMsg()}</h1></div>
       <div class="hchips">${homeAlerts()}<a class="sbtn2" href="#/search">${I.search}검색</a>${syncBadge()}<span class="chip">전기기사 · 필기 <span>시하끝하 ${D.questions.length}문제</span></span></div></div>
     <div class="grid2 hgrid"><div class="col">
@@ -1894,7 +2007,7 @@ function viewConcepts(day){
   day = +day || 1;
   const list = D.concepts.filter(c => c.day === day);
   const qn = {}; D.questions.forEach(q => { qn[q.conceptId] = (qn[q.conceptId] || 0) + 1; });
-  return shell("concepts", `<div class="page"><h1 class="h1">개념 공부</h1><span class="chip">필수개념을 누르면 왼쪽에 이론, 오른쪽에 메모장이 열려요</span>
+  return shell("concepts", `<div class="page"><h1 class="h1">개념 공부</h1><div class="acts" style="margin:8px 0 0"><button class="btn y sm" data-go="#/weak">🎯 약점 개념 분석 · 약한 개념만 공부</button></div><span class="chip">필수개념을 누르면 왼쪽에 이론, 오른쪽에 메모장이 열려요</span>
     <div class="clist"><div class="dsel">${D.days.map(d => `<button class="${d.day===day?"on":""}" data-go="#/concepts/${d.day}">DAY ${pad(d.day)}<span>${esc(d.subject)}</span></button>`).join("")}</div>
     <div class="citems">${list.map(c => `<div class="citem" data-go="#/concept/${c.id}"><span class="num">필수개념 ${pad(c.num)}</span>${c.grade ? `<span class="gb g${c.grade}">${c.grade}</span>` : ""}<span class="nm">${esc(c.name)}</span>
       <span class="qq">${(S.cdiff[c.id] || {}).v ? `<span class="cstar">${"★".repeat(S.cdiff[c.id].v)}</span>` : ""}${(S.csum[c.id] || {}).t ? `<span class="csumchip">요약</span>` : ""}${!S.cview[c.id] && D.questions.some(q => q.conceptId === c.id && S.qstat[q.id]) ? `<span class="unseen">이론 안 봄</span>` : ""}${readDots(c.id)} · 기출 ${D.questions.filter(q => q.conceptId === c.id && S.qstat[q.id]).length}/${qn[c.id] || 0}${S.ctime[c.id] ? ` · ${fmtDur(S.ctime[c.id])}` : ""}</span></div>`).join("") || '<div class="empty">이 DAY에는 필수개념이 없어요</div>'}</div></div></div>`);
@@ -1947,7 +2060,7 @@ function viewConceptPage(cid){
       <div class="qbtns"><button class="btn o sm" data-cmore="${cid}">⋯ 더보기</button><button class="btn o sm" data-act="clip">✂ 노트에 캡처</button>${readsHTML(cid)}${qs.length ? `<button class="btn g sm" data-cq="${cid}">기출 ${qs.length}문제 풀기</button>` : ""}</div></div>
     <div class="mprog mob-only">${readsHTML(cid)}<button class="btn o sm" data-act="clip" style="margin-left:6px">✂</button></div>
     <div class="qbody">
-      <section class="qleft zsc" id="cleft">${cinfoHTML(cid)}<div class="cimgs qin">${c.imgs.map(i => `<img src="${src(i[0])}" width="${i[1]}" height="${i[2]}" alt="" draggable="false">`).join("")}</div></section>
+      <section class="qleft zsc" id="cleft">${weakBanner(cid)}${cinfoHTML(cid)}${keyFactsHTML(cid)}<div class="cimgs qin">${c.imgs.map(i => `<img src="${src(i[0])}" width="${i[1]}" height="${i[2]}" alt="" draggable="false">`).join("")}</div></section>
       <div class="splitter" data-split="splitC"></div>
       <section class="qright">
         <div class="tabs"><button data-ctab="canvas">${I.note}${esc(subjOfConcept(c))} 노트</button>${qs.length ? `<button class="mob-only" data-cq="${cid}">${I.answer}기출 ${qs.length}문제</button>` : ""}</div>
@@ -2076,7 +2189,7 @@ function tick(only){
   if (!only){ const now = Date.now(), gap = m.lastTick ? Math.round((now - m.lastTick) / 1000) : 1; m.lastTick = now;
     if (S.prefs.examRealtime) m.elapsed = Math.min(m.limit, m.elapsed + Math.max(1, gap)); else if (!document.hidden) m.elapsed++;
     if (!document.hidden){ const qid = m.ids[QZ.i]; m.qsec = m.qsec || {}; m.qsec[qid] = (m.qsec[qid] || 0) + 1; }
-    check10(m);
+    check10(m); pressureTick(m);
     m.updated = m.updated || now; if (m.elapsed % 10 === 0) save(); }
   const rem = Math.max(0, m.limit - m.elapsed);
   const r = $("#resb"); if (r) r.innerHTML = `<span class="timer ${rem < 600 ? "low" : ""}">${I.clock}${fmtClock(rem)}</span>`;
@@ -2084,6 +2197,8 @@ function tick(only){
 }
 async function submitMock(auto){
   const m = QZ.exam, un = m.ids.filter(id => !m.ans[id]).length;
+  if (!auto && S.prefs.omrPractice && QZ.exam && Object.entries(QZ.exam.draft || {}).some(([id, k]) => QZ.exam.ans[id] !== k)){ if (await ask("답안지에 옮기지 않은 답이 있어요. 모두 마킹하고 제출할까요?", "마킹하고 계속", "돌아가기")) omrMarkAll(); else return; }
+  if (!auto) await giveFill();
   if (!auto && !(await preSubmitCheck())) return;
   if (!auto && !(await ask(un ? `안 푼 문제 <b>${un}개</b>는 전부 오답 처리됩니다.<br>답안을 제출할까요?` : "답안을 제출할까요?"))) return;
   clearInterval(QZ.timer); Ink.flush();
@@ -2104,7 +2219,7 @@ async function submitMock(auto){
   });
   S.reviews["mock:" + m.id] = { key: "mock:" + m.id, title: m.title, ids: m.ids.slice(), ans, at: Date.now() };
   S.dayQ[todayStr()] = (S.dayQ[todayStr()] || 0) + Object.keys(m.ans).length;
-  m.ids.forEach(id => { if (m.ans[id] && ans[id].res === "X"){ autoScrap(id, "X"); } else if (ans[id].res === "O"){ scrapStreak(id, "O"); } });
+  m.ids.forEach(id => { if (m.ans[id]) logAnswer(id, m.ans[id], ans[id].res, "exam"); if (m.ans[id] && ans[id].res === "X"){ autoScrap(id, "X"); } else if (ans[id].res === "O"){ scrapStreak(id, "O"); } });
   markStudy();
   const hid = "h" + Date.now().toString(36);
   S.hist[hid] = { id: hid, key: "mock:" + m.id, title: m.title, kind: "모의고사", start: m.created, updated: Date.now(), ids: m.ids.slice(), ans, status: "done", score: m.result.avg, sec: m.elapsed };
@@ -2193,10 +2308,10 @@ function renderExamLeft(){
   const scr = S.scraps.includes(q.id);
   $("#qleft").innerHTML = `<div class="qin ${QZ.anim ? "an-" + QZ.anim : ""}">
     <div class="qhead"><span class="grade">${sj.n}과목</span><span class="qno">${n}</span>
-      <div class="qtools">${paceHTML(m)}<button data-act="flag" class="${(m.flag || {})[q.id] ? "on" : ""}">⚑ 다시 보기</button><button data-act="calc">🧮</button><button>${I.search}안 푼 문제 ${left}</button><button data-act="scrap" class="${scr ? "on" : ""}">${I.star}스크랩</button></div></div>
+      <div class="qtools">${paceHTML(m)}<button data-act="flag" class="${(m.flag || {})[q.id] ? "on" : ""}">⚑ 다시 보기</button><button data-give class="${(m.give || {})[q.id] ? "on" : ""}">포기</button>${S.prefs.omrPractice ? `<button data-omrall>답안 마킹 ${Object.entries(m.draft || {}).filter(([id, k]) => m.ans[id] !== k).length}</button>` : ""}<button data-act="calc">🧮</button><button>${I.search}안 푼 문제 ${left}</button><button data-act="scrap" class="${scr ? "on" : ""}">${I.star}스크랩</button></div></div>
     <div class="tags"><span class="tag"><b>제${sj.n}과목</b> <span>${esc(sj.name)}</span></span></div>
     ${qimgHTML(q, "문제 " + n)}
-    <div class="choices">${[1,2,3,4].map(k => `<button class="ch ${sel === k ? "pick" : ""}${isElim(q.id, k) ? " elim" : ""}" data-pick="${k}"><span class="k">${k}</span>${"①②③④"[k-1]}번</button>`).join("")}</div></div>`;
+    <div class="choices">${[1,2,3,4].map(k => `<button class="ch ${sel === k ? "pick" : ""}${isElim(q.id, k) ? " elim" : ""}${(QZ.exam && (QZ.exam.draft || {})[q.id] === k && sel !== k) ? " draft" : ""}" data-pick="${k}"><span class="k">${k}</span>${"①②③④"[k-1]}번</button>`).join("")}</div></div>`;
 }
 function renderLeft(){
   const q = curQ(), set = QZ.set, ss = sess(set.key), a = ss.ans[q.id], c = counts(set), n = QZ.i + 1;
@@ -2211,7 +2326,7 @@ function renderLeft(){
       <div class="qtools">${comboOf() >= 2 ? `<span class="combo">🔥${comboOf()}</span>` : ""}<button title="남은 문제 비율">${I.search}${remainPct}%</button><button data-act="tagq" title="내 태그">#태그</button><button data-act="calc" title="계산기">🧮</button><button data-act="report" title="문제 신고" class="${(S.reports[q.id] || {}).k ? "on" : ""}">⚑</button>
       ${q.conceptId ? `<button data-concept="${q.conceptId}">${I.book}개념</button>` : ""}
       <button data-act="scrap" class="${scr ? "on" : ""}">${I.star}스크랩</button></div></div>
-    <div class="tags">${kindChip(q)}${tagsOf(q.id).map(t => `<span class="utag">#${esc(t)}</span>`).join("")}<span class="tag"><b>${esc(q.subject)}</b> <span>· ${whereOf(q, !set.key.startsWith("day:") && !set.key.startsWith("cbt:"))}</span></span>${conceptLink(q, "tlink")}</div>
+    <div class="tags">${kindChip(q)}${(S.qstat[q.id] || {}).cw >= 3 ? `<span class="utag focusq">집중 관리</span>` : ""}${tagsOf(q.id).map(t => `<span class="utag">#${esc(t)}</span>`).join("")}<span class="tag"><b>${esc(q.subject)}</b> <span>· ${whereOf(q, !set.key.startsWith("day:") && !set.key.startsWith("cbt:"))}</span></span>${conceptLink(q, "tlink")}</div>
     ${qimgHTML(q, "문제 " + q.no)}
     ${!a ? conceptQuizHTML(q) : ""}
     <div class="choices ${QZ.fresh ? "fresh" : ""}">${choices}</div>
@@ -2248,6 +2363,7 @@ function renderAns(){
       ${q.conceptId ? `<button class="clink" data-concept="${q.conceptId}">${I.book}<span>필수개념 ${pad(q.concept)} ${esc(q.conceptName)}<small>이론 다시 보기</small></span>${I.open}</button>` : ""}</div>
       ${a.res !== "O" || a.guess ? `${sameIds(q).length ? `<button class="btn y sm samec" data-same="${q.id}">${I.book}같은 개념 문제 ${sameIds(q).length}개 더 풀기</button>` : ""}<div class="whybox"><b>왜 틀렸나요?</b>${WHY.map(([k, l]) => `<button class="chipb ${(S.why[q.id] || {}).r === k ? "on" : ""}" data-why="${q.id}|${k}">${l}</button>`).join("")}</div>` : ""}
       ${(QZ.set.key || "").startsWith("review") ? `<div class="srsrate"><span>이 문제 다시 보기</span>${[["hard","어려움 · 내일"],["ok","보통"],["easy","쉬움 · 나중에"]].map(([k, l]) => `<button class="chipb" data-srsrate="${q.id}|${k}">${l}</button>`).join("")}</div>` : ""}
+      ${qlogHTML(q.id)}
       <button class="btn o sm" data-ai="${q.id}">🤖 AI에게 질문</button>
       <button class="btn o sm sendnote" data-sendnote="${q.id}">${I.note}${esc(nbSubj(q.subject))} 노트로 보내기</button>
       <div class="memobox"><b>${I.note}한 줄 메모</b><textarea id="memo" data-qid="${q.id}" rows="2" placeholder="예: √3 빼먹지 말 것">${esc((S.memos[q.id] || {}).t || "")}</textarea></div>
@@ -2363,11 +2479,13 @@ function record(q, res, sel){
   if (res === "O" && QZ.conf === "unsure") ss.ans[q.id].unsure = true;
   beep(res === "O"); setTimeout(checkGoal, 50);
   histAns(q.id, ss.ans[q.id]); markStudy();
+  { const st = S.qstat[q.id]; if (st) st.cw = (res === "O" && !guess) ? 0 : (st.cw || 0) + 1; logAnswer(q.id, sel, res, QZ.set.key); }
   QZ.guess = false; QZ.conf = "sure";
   save(); QZ.tab = "ans"; QZ.fresh = true; renderQuiz(); QZ.fresh = false;
 }
 function answer(k){
   const q = curQ();
+  if (QZ.exam && S.prefs.omrPractice){ const m = QZ.exam; m.draft = m.draft || {}; if (m.draft[q.id] === k) delete m.draft[q.id]; else m.draft[q.id] = k; m.updated = Date.now(); save(); renderExamLeft(); renderStat(); return; }
   if (QZ.exam){ const m = QZ.exam; if (m.ans[q.id] === k) delete m.ans[q.id]; else { trackChange(m, q.id, k); m.ans[q.id] = k; } m.updated = Date.now(); save(); renderExamLeft(); renderStat(); return; }
   if (sess(QZ.set.key).ans[q.id]) return; record(q, k === q.answer ? "O" : "X", k);
 }
@@ -2506,7 +2624,7 @@ function viewSelf(){
       : `<div class="empty"><b>CBT 기출 회차가 아직 없어요</b>CBT 자료를 추가하면 여기에 2024년 1회, 2회처럼 회차 목록이 생기고, 모의고사에서도 회차를 고를 수 있어요.</div>`;
   }
   return shell("self", `<div class="page"><h1 class="h1">자율 학습</h1>
-    <div class="selfx"><button class="btn o sm" data-diag>🩺 실력 진단 30문제</button><button class="btn o sm" data-mixa>🔀 전 과목 섞어 A 30문제</button><button class="btn o sm" data-hardc>⭐ 어려운 개념만</button><button class="btn o sm" data-go="#/myq">📷 내 문제</button><button class="btn o sm" data-flipsel>⚡ 선택 개념 빠른 회독</button><button class="btn o sm" data-drill>🎯 약점 퀵 드릴</button><button class="btn o sm" data-go="#/lib">📚 자료실</button></div>
+    <div class="selfx"><button class="btn o sm" data-diag>🩺 실력 진단 30문제</button><button class="btn o sm" data-mixa>🔀 전 과목 섞어 A 30문제</button><button class="btn o sm" data-hardc>⭐ 어려운 개념만</button><button class="btn o sm" data-go="#/myq">📷 내 문제</button><button class="btn o sm" data-flipsel>⚡ 선택 개념 빠른 회독</button><button class="btn o sm" data-drill>🎯 약점 퀵 드릴</button><button class="btn o sm" data-go="#/weak">📊 약점 개념 분석</button><button class="btn o sm" data-focusset>🔥 집중 관리 ${focusIds().length}</button><button class="btn o sm" data-setimp>📥 세트 가져오기</button><button class="btn o sm" data-go="#/lib">📚 자료실</button></div>
     <div class="seg big"><button class="${tab === "type" ? "on" : ""}" data-stab="type">유형별 학습</button><button class="${tab === "round" ? "on" : ""}" data-stab="round">회차별 학습</button><button class="${tab === "grade" ? "on" : ""}" data-stab="grade">등급별 학습</button></div>
     ${body}</div>`);
 }
@@ -2597,7 +2715,7 @@ const Ink = {
     this.setCtx(ctx);
     this.strokes.forEach(s => drawStroke(ctx, s));
   },
-  pos(e){ const r = this.el().getBoundingClientRect(), k = this.scale() * this.v.s; return [(e.clientX - r.left - this.v.tx) / k, (e.clientY - r.top - this.v.ty) / k, e.pressure || 0.5]; },
+  pos(e){ const r = this.el().getBoundingClientRect(), k = this.scale() * this.v.s; return [(e.clientX - r.left - this.v.tx) / k, (e.clientY - r.top - this.v.ty) / k, pressAdj(e.pressure)]; },
   isSide(e){ return e.pointerType === "pen" && (((e.buttons & 2) !== 0) || ((e.buttons & 32) !== 0) || e.button === 2 || e.button === 5 || window.__spen === true || !!(window.Android && Android.penButton && Android.penButton())); },
   gStart(){
     const pts = [...this.tp.values()];
@@ -2613,6 +2731,7 @@ const Ink = {
     const s = pts.length >= 2 && this.g.d ? Math.min(4, Math.max(0.5, v0.s * Math.hypot(pts[0].x - pts[1].x, pts[0].y - pts[1].y) / this.g.d)) : v0.s;
     const wx = (this.g.m.x - r.left - v0.tx) / v0.s, wy = (this.g.m.y - r.top - v0.ty) / v0.s;
     this.v = { s, tx: (m.x - r.left) - wx * s, ty: (m.y - r.top) - wy * s };
+    if (pts.length === 1) FL.ink.sample(m.x, m.y); else FL.ink.reset();
     this.redraw(); this.applyView();
     const zb = $("#tb [data-ink=zoom] b"); if (zb) zb.textContent = Math.round(s * 100) + "%";
   },
@@ -2620,6 +2739,7 @@ const Ink = {
     const p = S.prefs;
     if (this.replaying){ this.replaying = false; this.redraw(); }
     if (e.pointerType === "touch"){
+      FL.ink.stop(); if (palmBlocked(e)) return;
       if (e.isPrimary){ this.tp.clear(); this.g = null; }                // fresh gesture: drop fingers whose lift was lost
       if (this.cur && this.cur.ptype !== "touch"){
         if (Date.now() - (this.cur.lastMove || 0) > 1200) this.up({ pointerId: this.cur.id });   // pen lift was lost
@@ -2664,7 +2784,7 @@ const Ink = {
   up(e){
     if (this.tp.has(e.pointerId)){
       this.tp.delete(e.pointerId);
-      if (this.g){ this.gStart(); if (!this.tp.size) this.tb(); }
+      if (this.g){ const wasPan = this.g.n === 1; this.gStart(); if (!this.tp.size){ this.tb(); if (wasPan && e.type !== "pointercancel") FL.ink.release(); } else FL.ink.reset(); }
     }
     if (!this.cur || e.pointerId !== this.cur.id) return;
     const s = this.cur; this.cur = null; this.erasing = false;
@@ -2846,7 +2966,7 @@ function viewHistory(){
   const whyTable = Object.keys(wsub).length ? `<div class="card whycard"><p class="eyebrow">과목별 틀린 이유</p><div class="wtable"><table><tr><th></th>${wkeys.map(([, l]) => `<th>${l}</th>`).join("")}</tr>
     ${SUBJ6.filter(sj => wsub[sj]).map(sj => { const mx = Math.max(...Object.values(wsub[sj])); return `<tr><td>${esc(sj)}</td>${wkeys.map(([k]) => `<td class="${wsub[sj][k] && wsub[sj][k] === mx ? "hot" : ""}">${wsub[sj][k] || ""}</td>`).join("")}</tr>`; }).join("")}</table></div></div>` : "";
   return shell("hist", `<div class="page"><h1 class="h1">학습 기록</h1><span class="chip">문제를 푼 묶음마다 기록이 남아요 <span>${hs.length}개</span></span>
-    <div class="acts" style="margin:12px 0 4px"><button class="btn o sm" data-shareprog>📤 진도 카드 공유</button><button class="btn o sm" data-go="#/report">📄 약점 리포트</button><button class="btn o sm" data-notion>Notion용 복사</button><button class="btn o sm" data-go="#/badges">🏅 배지</button></div>
+    <div class="acts" style="margin:12px 0 4px"><button class="btn o sm" data-shareprog>📤 진도 카드 공유</button><button class="btn o sm" data-go="#/report">📄 약점 리포트</button><button class="btn o sm" data-notion>Notion용 복사</button><button class="btn o sm" data-go="#/badges">🏅 배지</button><button class="btn o sm" data-go="#/stats">📈 학습 분석</button><button class="btn o sm" data-go="#/weak">🎯 약점 개념</button></div>
     ${(() => { const pr = prescription(); return pr && pr.ids.length ? `<div class="card whycard"><div class="rhead2"><p class="eyebrow" style="margin:0">맞춤 처방 · 가장 많은 이유 "${pr.why}"</p><button class="btn y sm" data-presc>${esc(pr.title)} ${pr.ids.length}문제</button></div></div>` : ""; })()}
     ${wkCard}<div class="histx">${monthCard()}${statsCards()}${forgetCard()}${condCard()}</div>${whyCard}${whyTable}${slowCard}
     ${selBar("hist", hs.map(h => h.id))}
@@ -2929,7 +3049,7 @@ async function viewPrint(arg){ const __rt = ROUTE_TOK;
   const pp = $("#pp"); if (pp) pp.innerHTML = html;
 }
 /* settings / backup / sync */
-const CHANGELOG = [{"v": "2026102229", "items": ["전체 재점검: 터치 취소 처리 누락 4곳 수정 (구분선 드래그·캡처·확대·따라 쓰기)", "개념 이론 형광펜 모드에서 손가락 스크롤 가능", "빠르게 화면을 옮길 때 이전 화면이 덮어쓰거나 노트가 섞이던 위험 수정", "앱을 내릴 때 노트 필기 즉시 저장", "두 기기에서 각각 추가한 노트 쪽이 동기화 후 사라지던 문제 수정"]}, {"v": "2026102228", "items": ["나가기 잠금: 기기 홈·최근 앱 버튼까지 막기 (안드로이드 앱 고정 · 새 APK 필요)"]}, {"v": "2026102227", "items": ["필기 후 노트·캔버스 터치가 이상해지던 문제 수정 (S펜 취소 신호를 처리하지 못해 손가락 입력이 막히던 것)", "손가락 필기(펜 전용 끔)가 저장되지 않던 문제 수정", "노트 글상자 편집 중 화면 오류 수정", "나가기 잠금: 문제 풀이·모의고사·개념 공부에서 홈·뒤로가기 막기 (화면 위 🔒, 설정)"]}, {"v": "2026102226", "items": ["오늘의 복습: DAY 학습(A만 풀기·개념 공부 기출 포함)에서 틀리거나 찍음·애매·해설만 본 문제만 · 자율 학습·모의고사 오답은 제외", "이어서 풀기가 다른 기기로 안 넘어오던 문제 수정 (같은 이름의 세트끼리 덮어쓰던 것)", "태블릿 세로·폰 상단 아이콘 정렬"]}, {"v": "2026102225", "items": ["최종 점검: 설정 화면 위에 항목 바로가기", "폰에서 학습 기록 처방 카드·검색 결과 줄바꿈 정리, 홈 상단 칩 정리"]}, {"v": "2026102224", "items": ["자료실: 교재 기준 용어 사전 428개, 공식 유도 37개, KEC 요약 51개, 자주 하는 실수, 계산기 팁, 시험 전날 정리표, 시험 일정", "계산 도구: 단위 변환·전력 삼각형, RLC 회로 계산기, 페이저도", "워밍업 3문제, 약점 퀵 드릴, 모의고사 10분 전 알림, 답 바꾼 기록, 밀어서 문제 넘기기, 문제 이미지 선명하게", "설정 → 기능 켜고 끄기"]}, {"v": "2026102223", "items": ["학습 계획을 하루 공부 시간 기준으로 다시 계산 (시간이 많으면 1단계가 빨리 끝나고 모의고사가 늘어남, 적으면 DAY를 나눠서 배치)", "계획 화면에 하루 시간별 비교표 추가", "하루 2시간 30분 미만이면 하프 모의고사로 배치"]}, {"v": "2026102222", "items": ["계산기·설정·자율 학습 등 누를 때 화면이 깜빡이던 문제 수정", "팝업·카드·정답 효과가 처음 나타날 때만 움직이도록 정리"]}, {"v": "2026102221", "items": ["추천 기능 100가지 추가 (확신도 3단계·복습 난이도·개념 먼저 맞히기·계산기·하프 모의고사·검토 표시·페이스·풀이 순서 전략 등)", "노트: 회로·기호 스탬프, 도형 보정, 각도 스냅, 돋보기 필기, 책갈피·쪽 잠금·문제 배경, 펜 프리셋", "개념: 이론에 형광펜, 3줄 요약, 난이도 별점, 질문 메모, 비교·리딩 모드", "통계: 배지, 월간 리포트, 망각 곡선, 시간대·장소별 정답률, 약점 리포트, 진도 카드 공유", "내 문제(사진)·내 카드(OX·플래시), 단위·상수표, 앱 잠금, AI 해설 질문, 버그 신고"]}, {"v": "2026102220", "items": ["시험일 맞춤 학습 계획(개념→약점→실전→마무리, 오늘 할 일 자동 체크·재조정)", "보기 소거(길게 누르기)", "문제별 풀이 시간 · 오래 걸린 문제 모아 풀기", "해설에 형광펜", "풀이 다시보기", "내 태그", "모의고사 과목별 시간 분석", "하루 목표 링", "집중 모드(25+5분)", "과목별 틀린 이유 표", "회차별 출제 경향", "노트: 사진 붙이기·공유·검색·양식·쪽 복사/이동", "학습 기록 엑셀(CSV) 내보내기", "위젯·알림에서 바로 복습", "단축키 확장(?로 도움말)", "기기별 마지막 공부"]}, {"v": "2026102219", "items": ["태블릿 세로 모드: 폰처럼 보이는 화면 배치", "설정에 업데이트 내역 추가", "학습 기록이 많이 쌓여도 동기화가 무거워지지 않게 정리"]}, {"v": "2026102218", "items": ["동기화: 바뀐 노트·필기만 올리기", "드라이브 주간 백업본 · 되돌리기", "옛 개념 메모 정리", "모의고사 시간 '계속 흐름' 옵션", "노트 텍스트 입력 시 키보드 가림 방지", "노트 쪽 한눈에 보기 · 순서 바꾸기", "종이 종류(무지·줄노트·모눈)", "공부 시간 달력"]}, {"v": "2026102217", "items": ["노트 지우개가 잉크를 실제로 지우도록 수정", "노트 쪽 이동 버튼", "긴 노트 메모리 절약", "학습 기록의 중단된 세트 이어서 풀기"]}, {"v": "2026102216", "items": ["이어서 풀기 3개 유지", "꽉 찼을 때 정리할 세트 고르기"]}, {"v": "2026102215", "items": ["과목별 노트 6권(캡처·형광펜·직선·텍스트·올가미·목차·복습 가림·출력)", "문제 → 노트로 보내기", "자율 학습 제목에 과목 표시"]}, {"v": "2026102213", "items": ["설정 화면 정리", "긴 제목 한 줄로 정리"]}, {"v": "2026102212", "items": ["새로 푼 문제의 해설이 맨 위부터 보이게 수정", "약한 개념 선택/해제 표시", "이어서 풀기에 맞힘·틀림·남음", "좁은 화면 글자 잘림 수정"]}, {"v": "2026102211", "items": ["초기화가 드라이브·다른 기기에도 적용", "전체 초기화", "애니메이션", "PC 설치형"]}, {"v": "2026102210", "items": ["같은 개념 더 풀기", "공식 암기 카드", "계산형/암기형 구분", "CBT 시험장 화면", "주간 리포트", "화면 비율 조절", "검색", "화면 켜짐·매일 알림·홈 위젯"]}, {"v": "2026102209", "items": ["설정 화면이 저절로 위로 올라가던 문제 수정", "예상 점수·과락 경고", "틀린 이유 태그", "시험 직전 세트", "한 줄 메모", "공식 노트", "연습장 이어 쓰기"]}, {"v": "2026102208", "items": ["이전/다음 버튼 디자인 통일"]}, {"v": "2026102207", "items": ["오늘의 복습", "찍었어요 체크", "문제당 제한 시간", "글자 크기", "필기 기본값", "해설 바로보기 숨기기", "다크 모드"]}, {"v": "2026102206", "items": ["자율 학습 등급별 학습"]}, {"v": "2026102205", "items": ["문제별 A/B/C 등급"]}, {"v": "2026102204", "items": ["공부한 날 카드", "스크랩 자동 졸업", "약한 개념", "걸린 시간", "모의고사 점수 추이", "동기화 상태 표시"]}, {"v": "2026102203", "items": ["선택 삭제·전체 삭제", "폰 필기 확대 시 문제 고정"]}, {"v": "2026102202", "items": ["오답 → 스크랩 통합", "이어서 풀기 3개", "학습 기록", "해설 위치 초기화", "메뉴 정리", "태블릿 필기 영역 확대", "S펜·손가락 동작 수정"]}, {"v": "2026102201", "items": ["온라인 업데이트 시작"]}];
+const CHANGELOG = [{"v": "2026111303", "items": ["홈 예상 점수 막대에 출력 화면 스타일이 섞여 들어가던 문제 수정 (이름 충돌)", "아침 브리핑을 화면을 밀지 않는 알림으로, 폰 설정 버튼 줄바꿈"]}, {"v": "2026111302", "items": ["약점 개념 분석: 오답·찍음·느림·최근 오답으로 약한 개념 순위 + 약점 개념 차례로 공부하는 창", "집중 관리(3연속 오답)·문제별 풀이 이력", "자료실 연습 퀴즈: 용어·KEC 수치·공식 유도 순서·단위 변환·RLC·위상차, KEC 수치 비교표", "노트: 회로 해석 양식, 줄 맞춤 안내선, 색별 보기, 쪽 태그, 쪽 링크, 링크 문제 풀어보기, 이미지 배경, 출력 목차, 펜 압력 감도, 펜 두 번 톡, 최근 도구, 확대 기억", "실전: 컷 시뮬레이터, 포기 문제, OMR 일괄 마킹, 3분 워밍업, 압박 모드, 7일 처방, 약한 과목 순위, 가채점, 재응시 계획", "계획: 2주 캘린더 쉬는 날, 휴가 기간, 루틴 템플릿, 주말 몰아보기, 아침 브리핑·하루 마감, 스톱워치, 교재 시간 입력", "학습 분석 화면, 맨 위로, 빠른 점프, 기능 안내, 동기화 주기·와이파이만·기록, 휴지통, 데이터 점검, 세트 공유, 건강 알림, 색약·고대비·간격, CBT 도구(자료 들어오면)"]}, {"v": "2026111301", "items": ["관성 스크롤: 노트·문제 캔버스·형광펜 모드에서 손가락으로 밀면 쭉 미끄러지다 서서히 멈춤 (설정에서 끄기 가능)", "폰 가로·폴드 가로처럼 높이가 낮은 화면에서 상단·하단 바를 납작하게 줄여 문제가 더 보이게", "S9 울트라·큰 PC 화면에서 문제·해설 글자가 지나치게 커지지 않게", "스크롤이 바깥 화면으로 튀지 않게 정리"]}, {"v": "2026102229", "items": ["전체 재점검: 터치 취소 처리 누락 4곳 수정 (구분선 드래그·캡처·확대·따라 쓰기)", "개념 이론 형광펜 모드에서 손가락 스크롤 가능", "빠르게 화면을 옮길 때 이전 화면이 덮어쓰거나 노트가 섞이던 위험 수정", "앱을 내릴 때 노트 필기 즉시 저장", "두 기기에서 각각 추가한 노트 쪽이 동기화 후 사라지던 문제 수정"]}, {"v": "2026102228", "items": ["나가기 잠금: 기기 홈·최근 앱 버튼까지 막기 (안드로이드 앱 고정 · 새 APK 필요)"]}, {"v": "2026102227", "items": ["필기 후 노트·캔버스 터치가 이상해지던 문제 수정 (S펜 취소 신호를 처리하지 못해 손가락 입력이 막히던 것)", "손가락 필기(펜 전용 끔)가 저장되지 않던 문제 수정", "노트 글상자 편집 중 화면 오류 수정", "나가기 잠금: 문제 풀이·모의고사·개념 공부에서 홈·뒤로가기 막기 (화면 위 🔒, 설정)"]}, {"v": "2026102226", "items": ["오늘의 복습: DAY 학습(A만 풀기·개념 공부 기출 포함)에서 틀리거나 찍음·애매·해설만 본 문제만 · 자율 학습·모의고사 오답은 제외", "이어서 풀기가 다른 기기로 안 넘어오던 문제 수정 (같은 이름의 세트끼리 덮어쓰던 것)", "태블릿 세로·폰 상단 아이콘 정렬"]}, {"v": "2026102225", "items": ["최종 점검: 설정 화면 위에 항목 바로가기", "폰에서 학습 기록 처방 카드·검색 결과 줄바꿈 정리, 홈 상단 칩 정리"]}, {"v": "2026102224", "items": ["자료실: 교재 기준 용어 사전 428개, 공식 유도 37개, KEC 요약 51개, 자주 하는 실수, 계산기 팁, 시험 전날 정리표, 시험 일정", "계산 도구: 단위 변환·전력 삼각형, RLC 회로 계산기, 페이저도", "워밍업 3문제, 약점 퀵 드릴, 모의고사 10분 전 알림, 답 바꾼 기록, 밀어서 문제 넘기기, 문제 이미지 선명하게", "설정 → 기능 켜고 끄기"]}, {"v": "2026102223", "items": ["학습 계획을 하루 공부 시간 기준으로 다시 계산 (시간이 많으면 1단계가 빨리 끝나고 모의고사가 늘어남, 적으면 DAY를 나눠서 배치)", "계획 화면에 하루 시간별 비교표 추가", "하루 2시간 30분 미만이면 하프 모의고사로 배치"]}, {"v": "2026102222", "items": ["계산기·설정·자율 학습 등 누를 때 화면이 깜빡이던 문제 수정", "팝업·카드·정답 효과가 처음 나타날 때만 움직이도록 정리"]}, {"v": "2026102221", "items": ["추천 기능 100가지 추가 (확신도 3단계·복습 난이도·개념 먼저 맞히기·계산기·하프 모의고사·검토 표시·페이스·풀이 순서 전략 등)", "노트: 회로·기호 스탬프, 도형 보정, 각도 스냅, 돋보기 필기, 책갈피·쪽 잠금·문제 배경, 펜 프리셋", "개념: 이론에 형광펜, 3줄 요약, 난이도 별점, 질문 메모, 비교·리딩 모드", "통계: 배지, 월간 리포트, 망각 곡선, 시간대·장소별 정답률, 약점 리포트, 진도 카드 공유", "내 문제(사진)·내 카드(OX·플래시), 단위·상수표, 앱 잠금, AI 해설 질문, 버그 신고"]}, {"v": "2026102220", "items": ["시험일 맞춤 학습 계획(개념→약점→실전→마무리, 오늘 할 일 자동 체크·재조정)", "보기 소거(길게 누르기)", "문제별 풀이 시간 · 오래 걸린 문제 모아 풀기", "해설에 형광펜", "풀이 다시보기", "내 태그", "모의고사 과목별 시간 분석", "하루 목표 링", "집중 모드(25+5분)", "과목별 틀린 이유 표", "회차별 출제 경향", "노트: 사진 붙이기·공유·검색·양식·쪽 복사/이동", "학습 기록 엑셀(CSV) 내보내기", "위젯·알림에서 바로 복습", "단축키 확장(?로 도움말)", "기기별 마지막 공부"]}, {"v": "2026102219", "items": ["태블릿 세로 모드: 폰처럼 보이는 화면 배치", "설정에 업데이트 내역 추가", "학습 기록이 많이 쌓여도 동기화가 무거워지지 않게 정리"]}, {"v": "2026102218", "items": ["동기화: 바뀐 노트·필기만 올리기", "드라이브 주간 백업본 · 되돌리기", "옛 개념 메모 정리", "모의고사 시간 '계속 흐름' 옵션", "노트 텍스트 입력 시 키보드 가림 방지", "노트 쪽 한눈에 보기 · 순서 바꾸기", "종이 종류(무지·줄노트·모눈)", "공부 시간 달력"]}, {"v": "2026102217", "items": ["노트 지우개가 잉크를 실제로 지우도록 수정", "노트 쪽 이동 버튼", "긴 노트 메모리 절약", "학습 기록의 중단된 세트 이어서 풀기"]}, {"v": "2026102216", "items": ["이어서 풀기 3개 유지", "꽉 찼을 때 정리할 세트 고르기"]}, {"v": "2026102215", "items": ["과목별 노트 6권(캡처·형광펜·직선·텍스트·올가미·목차·복습 가림·출력)", "문제 → 노트로 보내기", "자율 학습 제목에 과목 표시"]}, {"v": "2026102213", "items": ["설정 화면 정리", "긴 제목 한 줄로 정리"]}, {"v": "2026102212", "items": ["새로 푼 문제의 해설이 맨 위부터 보이게 수정", "약한 개념 선택/해제 표시", "이어서 풀기에 맞힘·틀림·남음", "좁은 화면 글자 잘림 수정"]}, {"v": "2026102211", "items": ["초기화가 드라이브·다른 기기에도 적용", "전체 초기화", "애니메이션", "PC 설치형"]}, {"v": "2026102210", "items": ["같은 개념 더 풀기", "공식 암기 카드", "계산형/암기형 구분", "CBT 시험장 화면", "주간 리포트", "화면 비율 조절", "검색", "화면 켜짐·매일 알림·홈 위젯"]}, {"v": "2026102209", "items": ["설정 화면이 저절로 위로 올라가던 문제 수정", "예상 점수·과락 경고", "틀린 이유 태그", "시험 직전 세트", "한 줄 메모", "공식 노트", "연습장 이어 쓰기"]}, {"v": "2026102208", "items": ["이전/다음 버튼 디자인 통일"]}, {"v": "2026102207", "items": ["오늘의 복습", "찍었어요 체크", "문제당 제한 시간", "글자 크기", "필기 기본값", "해설 바로보기 숨기기", "다크 모드"]}, {"v": "2026102206", "items": ["자율 학습 등급별 학습"]}, {"v": "2026102205", "items": ["문제별 A/B/C 등급"]}, {"v": "2026102204", "items": ["공부한 날 카드", "스크랩 자동 졸업", "약한 개념", "걸린 시간", "모의고사 점수 추이", "동기화 상태 표시"]}, {"v": "2026102203", "items": ["선택 삭제·전체 삭제", "폰 필기 확대 시 문제 고정"]}, {"v": "2026102202", "items": ["오답 → 스크랩 통합", "이어서 풀기 3개", "학습 기록", "해설 위치 초기화", "메뉴 정리", "태블릿 필기 영역 확대", "S펜·손가락 동작 수정"]}, {"v": "2026102201", "items": ["온라인 업데이트 시작"]}];
 let CH_ALL = false;
 function changelogHTML(){
   const fmt = v => `${+v.slice(4, 6)}월 ${+v.slice(6, 8)}일 · ${v.slice(8)}차`;
@@ -2952,7 +3072,7 @@ function viewSettings(){
   return shell("settings", `<div class="page setpage"><h1 class="h1">설정</h1><div class="secjump" id="secjump"></div>
   ${card("화면",
     row("글자 크기", "이 기기에만 적용", segs("font", [["s","작게"],["m","보통"],["l","크게"],["xl","최대"]], P.font || "m")) +
-    row("화면 모드", "필기 영역은 항상 밝게 유지", segs("theme", [["light","라이트"],["dark","다크"],["sepia","세피아"],["auto","시스템"],["time","시간"]], P.theme || "light")) +
+    row("화면 모드", "필기 영역은 항상 밝게 유지", segs("theme", [["light","라이트"],["dark","다크"],["sepia","세피아"],["sepiaT","세피아 예약"],["auto","시스템"],["time","시간"]], P.theme || "light")) +
     row("애니메이션", "화면 전환·정답 효과", segs("anim", [[1,"켜기"],[0,"끄기"]], P.anim === false ? 0 : 1)))}
   ${card("문제 풀이",
     row("나가기 잠금", "문제 풀이·모의고사·개념 공부 중 홈·뒤로가기 막기 (화면 위 🔒로도 켜고 꺼요)", segs("lockExit", [[1,"켜기"],[0,"끄기"]], P.lockExit ? 1 : 0)) +
@@ -2966,6 +3086,21 @@ function viewSettings(){
     row("시험일", "홈에 D-day 표시", `<input type="date" id="examdate" value="${S.examDate || ""}" class="dinput">`, true))}
   ${card("기능 켜고 끄기", `<p class="cdesc" style="margin:4px 0 10px">안 쓰는 기능은 꺼두면 화면이 깔끔해져요. 끈 기능의 기록은 그대로 남아요.</p>${featCard()}` +
     row("문제 이미지 선명하게", "흐린 스캔 문제의 대비를 높여요", segs("sharpen", [[1,"켜기"],[0,"끄기"]], P.sharpen ? 1 : 0)))}
+  ${card("추가 기능 설정",
+    row("필기", "", `<div class="seg wrap">${[["lineGuide","줄 맞춤 안내선"],["penTap","펜 두 번 톡 = 지우개 전환"],["darkInk","다크 모드에서 필기도 어둡게"]].map(([k, l]) => `<button class="${P[k] ? "on" : ""}" data-pref="${k}|${P[k] ? 0 : 1}">${l}</button>`).join("")}</div>`) +
+    row("펜 압력 감도", "", segs("penPress", [["0.7","약하게"],["1","보통"],["1.4","강하게"]], String(P.penPress || 1))) +
+    row("손바닥 보호 영역", "펜을 쓴 직후 2.5초간 한쪽 가장자리 터치 무시", segs("palmZone", [["","끄기"],["right","오른손잡이"],["left","왼손잡이"]], P.palmZone || "")) +
+    row("모의고사", "", `<div class="seg wrap">${[["omrPractice","OMR 일괄 마킹 연습"],["examWarm","시작 전 3분 워밍업"],["examPressure","실전 압박 모드"]].map(([k, l]) => `<button class="${P[k] ? "on" : ""}" data-pref="${k}|${P[k] ? 0 : 1}">${l}</button>`).join("")}</div>`) +
+    row("건강 알림", "학습 화면에 있을 때만 · 밤 11시~아침 7시는 알림 금지 가능", `<div class="seg wrap">${[["eyeRest","눈 휴식 20분"],["posture","자세 40분"],["stretch","스트레칭 50분"],["quietOn","밤 알림 금지"]].map(([k, l]) => `<button class="${P[k] ? "on" : ""}" data-pref="${k}|${P[k] ? 0 : 1}">${l}</button>`).join("")}</div>`) +
+    row("보기 편하게", "", `<div class="seg wrap">${[["colorblind","색약 모드"],["contrast","고대비"],["autoHide","스크롤 시 상단 바 숨김"],["homeSimple","홈 간단히"]].map(([k, l]) => `<button class="${P[k] ? "on" : ""}" data-pref="${k}|${P[k] ? 0 : 1}">${l}</button>`).join("")}</div>`) +
+    row("글자·줄 간격", "", segs("spacing", [["0","기본"],["1","넓게"],["2","아주 넓게"]], String(P.spacing || 0))) +
+    row("진동 세기", "", segs("vibK", [["0","끄기"],["0.5","약하게"],["1","보통"],["1.6","강하게"]], String(P.vibK ?? 1))) +
+    row("동기화 주기", "자동 동기화 빈도", segs("syncEvery", [["now","즉시"],["5m","5분마다"],["manual","직접 할 때만"]], P.syncEvery || "now")) +
+    row("와이파이에서만 동기화", "모바일 데이터에선 자동 동기화 안 함", segs("wifiOnly", [[1,"켜기"],[0,"끄기"]], P.wifiOnly ? 1 : 0)) +
+    row("데이터 도구", "", `<div class="btnwrap"><button class="btn o sm" data-dcheck>점검·수리</button><button class="btn o sm" data-slogx>동기화 기록</button><button class="btn o sm" data-setexp>스크랩 세트 내보내기</button><button class="btn o sm" data-setimp>세트 가져오기</button><button class="btn o sm" data-tour="again">기능 안내</button></div>`) +
+    row("기기 옮기기", "QR에는 데이터가 다 담기지 않아요 → 위 '백업 내보내기' 파일을 새 기기에서 '불러오기' 하세요", "", true) +
+    (Object.keys(S.trash).length ? row("휴지통", "지운 노트 쪽 30일 보관 · 누르면 새 쪽으로 되살려요", Object.entries(S.trash).sort((a, b) => b[1].at - a[1].at).slice(0, 6).map(([id, v]) => `<button class="btn o sm" data-trrestore="${id}">${esc(v.subj)} ${esc((v.head || "쪽").slice(0, 10))}</button>`).join("")) : "") +
+    (Object.keys(S.devStats).length > 1 ? row("기기별 데이터", "", `<div class="wtable"><table><tr><th>기기</th><th>푼 문제</th><th>노트 쪽</th><th>기록</th></tr>${Object.values(S.devStats).map(v => `<tr><td>${esc(v.name)}</td><td>${v.q}</td><td>${v.pages}</td><td>${v.hist}</td></tr>`).join("")}</table></div>`) : ""))}
   ${card("공부 도우미",
     row("개념 먼저 맞히기", "풀기 전에 어떤 개념 문제인지 고르기", segs("conceptFirst", [[1,"켜기"],[0,"끄기"]], P.conceptFirst ? 1 : 0)) +
     row("자기설명 한 줄", "답을 고른 이유를 적으면 메모로 저장", segs("selfExplain", [[1,"켜기"],[0,"끄기"]], P.selfExplain ? 1 : 0)) +
@@ -2982,6 +3117,7 @@ function viewSettings(){
     row("격자", "", segs("grid", [[1,"켜기"],[0,"끄기"]], P.grid ? 1 : 0)) +
     row("펜 전용", "손가락은 이동·확대만", segs("penOnly", [[1,"켜기"],[0,"끄기"]], P.penOnly ? 1 : 0)) +
     row("연습장", "이어 쓰기는 저장되지 않아요", segs("pad", [["each","문제마다"],["cont","이어 쓰기"]], P.pad || "each")) +
+    row("관성 스크롤", "노트·캔버스를 손가락으로 밀면 쭉 미끄러지다 멈춰요", segs("fling", [[1,"켜기"],[0,"끄기"]], P.fling === false ? 0 : 1)) +
     row("필기 보정", "떨린 선을 부드럽게", segs("smooth", [[1,"켜기"],[0,"끄기"]], P.smooth ? 1 : 0)) +
     row("형광펜 의미", "노랑 · 초록 · 분홍에 붙일 이름", `<input class="dinput hlg" data-hlg="y" value="${esc((P.hlLegend || {}).y || "공식")}"><input class="dinput hlg" data-hlg="g" value="${esc((P.hlLegend || {}).g || "암기")}"><input class="dinput hlg" data-hlg="p" value="${esc((P.hlLegend || {}).p || "실수")}">`) +
     row("S펜 지우개", "옆 버튼을 누른 채 쓰면 지워져요", "", true))}
@@ -3090,6 +3226,10 @@ async function doReset(all){
 }
 function tsOf(k, v){ return k === "sessions" ? v.updated : k === "reviews" ? v.at : k === "hist" ? v.updated : v.ts; }
 function mergeState(R){
+  try { syncLog(`합치기 · 풀이 ${Object.keys(R.qstat || {}).length} · 세션 ${Object.keys(R.sessions || {}).length} · 노트 ${Object.keys(R.nb || {}).length}과목`); } catch(e){}
+  ["dsrs","devStats","trash"].forEach(k => { S[k] = S[k] || {}; for (const [kk, v] of Object.entries(R[k] || {})) if (!S[k][kk] || (v.ts || 0) > (S[k][kk].ts || 0)) S[k][kk] = v; });
+  if (R.planBoost && (R.planBoost.ts || 0) > ((S.planBoost || {}).ts || 0)) S.planBoost = R.planBoost;
+  for (const [id, L] of Object.entries(R.qlog || {})){ const cur = S.qlog[id] || [], seen = new Set(cur.map(x => x[0])); const m = cur.concat(L.filter(x => !seen.has(x[0]))).sort((a, b) => a[0] - b[0]); S.qlog[id] = m.slice(-20); }
   if (!R) return;
   // the other device reset later than us → apply its reset here first
   if ((R.resetAllAt || 0) > (S.resetAllAt || 0)){ clearAll(); S.resetAllAt = R.resetAllAt; S._wipe = true; }
@@ -3245,6 +3385,8 @@ const Sync = {
   disconnect(){ S.gd = { on:false }; GD.token = null; save(true); },
   async run(manual, force){
     if (!this.linked()) return;
+    if (!force && !syncAllowed(manual)) return;
+    try { devStatsUpdate(); } catch(e){}
     if (this.busy){ this.again = true; return; }
     this.busy = true;
     try {
@@ -3391,7 +3533,7 @@ const NB = {
   async open(subj, host, opts = {}){
     this.flushAll(); const tok = this.openTok = (this.openTok || 0) + 1;
     const pages = await nbLoad(subj); if (tok !== this.openTok) return;   // a newer notebook was opened meanwhile
-    this.subj = subj; this.host = host; this.pages = pages;
+    this.subj = subj; this.host = host; this.pages = pages; this.colorFilter = "all"; this.tagFilter = "";
     this.sel = null; this.undo = []; this.redo = []; this.pending = null; this.revealed = new Set();
     this.render();
     if (opts.cid){
@@ -3424,6 +3566,9 @@ const NB = {
       <button class="t ${this.ruler ? "on" : ""}" data-nbact="ruler"><svg class="i" viewBox="0 0 24 24"><path d="M3 21 21 3M3 21h18M7 21a4 4 0 0 0-4-4"/></svg><em>각도</em></button>
       <button class="t ${this.magPick || MAG.on ? "on" : ""}" data-nbact="mag"><svg class="i" viewBox="0 0 24 24"><circle cx="10" cy="10" r="6"/><path d="m15 15 6 6"/></svg><em>돋보기</em></button>
       <button class="t ${this.hideHl ? "on" : ""}" data-nbact="hidehl"><svg class="i" viewBox="0 0 24 24"><path d="M4 20h8M14.5 4.5l5 5L10 19H5v-5z"/><path d="M3 3l18 18"/></svg><em>형광 숨김</em></button>
+      <button class="t ${this.colorFilter !== "all" ? "on" : ""}" data-nbcolorf="${{ all: "k", k: "b", b: "r", r: "all" }[this.colorFilter]}"><b style="color:${{ all: "inherit", k: "#1D1D1B", b: "#2D5BD8", r: "#E4553F" }[this.colorFilter]}">●</b><em>${{ all: "색 전체", k: "검정만", b: "파랑만", r: "빨강만" }[this.colorFilter]}</em></button>
+      ${this.allTags().length ? `<button class="t ${this.tagFilter ? "on" : ""}" data-nbtagf="${esc((() => { const T = this.allTags(), i = T.indexOf(this.tagFilter); return i < T.length - 1 ? T[i + 1] : ""; })())}"><b>#</b><em>${esc(this.tagFilter || "태그 전체")}</em></button>` : ""}
+      ${(S.prefs.recentTools || []).slice(1, 3).map(k => { const [t2, c2] = k.split("|"); return `<button class="t" data-nbrecent="${k}"><b style="color:${PEN_COLORS[c2] || "#1D1D1B"}">↺</b><em>${{ pen: "펜", hl: "형광", eraser: "지우개", text: "글자", select: "선택" }[t2] || t2}</em></button>`; }).join("")}
       ${this.tool === "eraser" ? `<button class="t on" data-nbact="ertarget"><b>${{ all: "전부", pen: "필기만", hl: "형광만" }[this.erTarget]}</b><em>지울 대상</em></button>` : ""}
       ${[0,1,2].map(i => { const pr = (S.prefs.nbPresets || [])[i]; return `<button class="t preset" data-nbpreset="${i}" title="탭: 적용 · 길게: 지금 펜 저장">${pr ? `<i style="background:${pr.tool === "hl" ? HL[pr.hl] : PEN_COLORS[pr.color || "k"]}"></i>` : "+"}<em>P${i + 1}</em></button>`; }).join("")}
       ${!isMob() ? `<button class="t ${this.two ? "on" : ""}" data-nbact="two"><svg class="i" viewBox="0 0 24 24"><rect x="3" y="4" width="8" height="16" rx="1"/><rect x="13" y="4" width="8" height="16" rx="1"/></svg><em>두 쪽</em></button><button class="t ${this.side ? "on" : ""}" data-nbact="side"><svg class="i" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="1"/><path d="M8 4v16"/></svg><em>쪽 목록</em></button>` : ""}
@@ -3464,8 +3609,8 @@ const NB = {
   _drawPage(pid){
     const el = this.pageEl(pid), rec = this.pages[pid]; if (!el || !rec) return;
     const k = el.clientWidth / PW, items = $(".nbitems", el);
-    items.innerHTML = (rec.bg && Q[rec.bg] ? `<div class="nbbg">${Q[rec.bg].q.map(i => `<img src="${src(i[0])}" alt="">`).join("")}</div>` : "") + rec.items.map(it => this.itemHTML(it, k)).join("");
-    el.classList.toggle("locked", !!rec.lock); el.classList.toggle("marked", !!rec.mark);
+    items.innerHTML = (rec.bgimg ? `<div class="nbbg nbbgi"><img src="${rec.bgimg}" alt=""></div>` : "") + (rec.bg && Q[rec.bg] ? `<div class="nbbg">${Q[rec.bg].q.map(i => `<img src="${src(i[0])}" alt="">`).join("")}</div>` : "") + rec.items.map(it => this.itemHTML(it, k)).join("");
+    el.classList.toggle("locked", !!rec.lock); el.classList.toggle("marked", !!rec.mark); el.classList.toggle("nbhide", !!this.tagFilter && !(rec.tags || []).includes(this.tagFilter));
     const cv = $("canvas", el), dpr = Math.min(2, window.devicePixelRatio || 1);
     if (!this.near(pid)){ cv.width = 1; cv.height = 1; cv.dataset.live = ""; }
     else { cv.width = Math.round(el.clientWidth * dpr); cv.height = Math.round(el.clientWidth * PH / PW * dpr); cv.dataset.live = "1"; this.paint(pid); }
@@ -3489,7 +3634,7 @@ const NB = {
     const cv = $("canvas", el); if (cv.dataset.live !== "1") return;
     const ctx = cv.getContext("2d"), dpr = Math.min(2, window.devicePixelRatio || 1), k = el.clientWidth / PW;
     ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.clearRect(0, 0, cv.width, cv.height); ctx.setTransform(dpr * k, 0, 0, dpr * k, 0, 0);
-    rec.strokes.forEach(s => { if (!(this.hideHl && s.t === "h")) nbStroke(ctx, s); });
+    rec.strokes.forEach(s => { if (this.strokeVisible(s)) nbStroke(ctx, s); });
     if (extra) nbStroke(ctx, extra);
   },
   itemHTML(it, k){
@@ -3542,7 +3687,7 @@ const NB = {
     pg.style.width = z * 100 + "%"; sc.scrollLeft = cx * f - mx; sc.scrollTop = cy * f - my;
     clearTimeout(this.zt); this.zt = setTimeout(() => { this.order().forEach(pid => this.drawPage(pid)); this.refreshTb(); }, 160);
   },
-  local(e, pid){ const el = this.pageEl(pid), r = el.getBoundingClientRect(), k = r.width / PW; return [(e.clientX - r.left) / k, (e.clientY - r.top) / k, e.pressure || 0.5]; },
+  local(e, pid){ const el = this.pageEl(pid), r = el.getBoundingClientRect(), k = r.width / PW; return [(e.clientX - r.left) / k, (e.clientY - r.top) / k, pressAdj(e.pressure)]; },
   hitItem(pid, x, y){ const rec = this.pages[pid]; for (let i = rec.items.length - 1; i >= 0; i--){ const it = rec.items[i], el = this.host.querySelector(`[data-it="${it.id}"]`);
     const h = it.h || (el ? el.offsetHeight / this.k(pid) : 60); if (x >= it.x && x <= it.x + it.w && y >= it.y && y <= it.y + h) return it; } return null; },
   // ---------- pointer input: pen draws, fingers scroll/zoom ----------
@@ -3550,6 +3695,7 @@ const NB = {
     const pg = e.target.closest(".nbpage"), sc = $(".nbscroll", this.host);
     if (e.target.closest(".nbpmenu,.nbadd,.nbselbar,.nbtext.editing")) return;
     if (e.pointerType === "touch"){
+      FL.nb.stop(); if (palmBlocked(e)) return;
       if (e.isPrimary){ this.tp.clear(); this.g = null; }   // a new gesture: no other finger can still be down
       if (this.cur && this.cur.ptype !== "touch"){
         if (Date.now() - (this.cur.lastMove || 0) > 1200) this.p_up({ pointerId: this.cur.id });   // pen lift was lost → finish that stroke
@@ -3573,7 +3719,7 @@ const NB = {
     if (this.tool === "select") return this.selDown(pid, x, y, e);
     if (this.tool === "text"){ const it = this.hitItem(pid, x, y); if (it && it.type === "text") return this.editText(pid, it); return this.newText(pid, x, y); }
     const side = Ink.isSide(e), er = this.tool === "eraser" || side, p = S.prefs;
-    this.cur = { pid, id: e.pointerId, ptype: e.pointerType, t: er ? "e" : this.tool === "hl" ? "h" : "p", w: er ? 34 : this.tool === "hl" ? 22 : SIZES[p.size] * 1.6, pts: [[x, y, e.pressure || 0.5]], lastMove: Date.now(), cx: e.clientX, cy: e.clientY };
+    this.cur = { pid, id: e.pointerId, ptype: e.pointerType, t: er ? "e" : this.tool === "hl" ? "h" : "p", w: er ? 34 : this.tool === "hl" ? 22 : SIZES[p.size] * 1.6, pts: [[x, y, pressAdj(e.pressure)]], lastMove: Date.now(), cx: e.clientX, cy: e.clientY };
     if (this.cur.t === "p" && (p.color || "k") !== "k") this.cur.c = p.color;
     if (this.cur.t === "h") this.cur.c = this.hl;
     const b = $("#nbpb"); if (b){ b.classList.toggle("er", er); b.innerHTML = er ? I.eraser : I.stylus; }
@@ -3582,9 +3728,10 @@ const NB = {
     if (this.tp.has(e.pointerId)){
       this.tp.set(e.pointerId, { x: e.clientX, y: e.clientY });
       if (this.g){ const sc = $(".nbscroll", this.host), pts = [...this.tp.values()];
-        if (pts.length !== this.g.n){ this.g = { n: pts.length, sl: sc.scrollLeft, st: sc.scrollTop, x: pts[0].x, y: pts[0].y, z: this.zoom, d: pts.length > 1 ? Math.hypot(pts[0].x - pts[1].x, pts[0].y - pts[1].y) : 0 }; return; }
+        if (pts.length !== this.g.n){ FL.nb.reset(); this.g = { n: pts.length, sl: sc.scrollLeft, st: sc.scrollTop, x: pts[0].x, y: pts[0].y, z: this.zoom, d: pts.length > 1 ? Math.hypot(pts[0].x - pts[1].x, pts[0].y - pts[1].y) : 0 }; return; }
         if (pts.length >= 2 && this.g.d){ const d = Math.hypot(pts[0].x - pts[1].x, pts[0].y - pts[1].y); this.setZoom(this.g.z * d / this.g.d, { clientX: (pts[0].x + pts[1].x) / 2, clientY: (pts[0].y + pts[1].y) / 2 }); this.g.z = this.zoom; this.g.d = d; }
-        else { sc.scrollLeft = this.g.sl - (pts[0].x - this.g.x); sc.scrollTop = this.g.st - (pts[0].y - this.g.y); }
+        else { sc.scrollLeft = this.g.sl - (pts[0].x - this.g.x); sc.scrollTop = this.g.st - (pts[0].y - this.g.y); FL.nb.sample(pts[0].x, pts[0].y); }
+        if (pts.length >= 2) FL.nb.reset();
         e.preventDefault(); return; }
     }
     if (this.drag) return this.selMove(e);
@@ -3610,6 +3757,7 @@ const NB = {
   },
   async p_up(e){
     if (this.tp.has(e.pointerId)){ this.tp.delete(e.pointerId); const sc = $(".nbscroll", this.host), pts = [...this.tp.values()];
+      if (!pts.length && e.type !== "pointercancel") FL.nb.release(); else FL.nb.reset();
       this.g = pts.length ? { n: pts.length, sl: sc.scrollLeft, st: sc.scrollTop, x: pts[0].x, y: pts[0].y, z: this.zoom, d: 0 } : null; return; }
     if (this.drag) return this.selUp(e);
     if (this.lasso) return this.lassoUp(e);
@@ -3618,6 +3766,8 @@ const NB = {
     if (c.pts.length === 1) c.pts.push([c.pts[0][0] + .1, c.pts[0][1] + .1, c.pts[0][2]]);
     const s = { t: c.t, w: c.w, pts: c.pts.map(p => [Math.round(p[0] * 10) / 10, Math.round(p[1] * 10) / 10, Math.round((p[2] || .5) * 100) / 100]) }; if (c.c) s.c = c.c;
     if (s.t === "p" && !c.line && !this.straight && !this.ruler){ if (this.shape){ const f = fitShape(s.pts); if (f) s.pts = f; } else if (S.prefs.smooth) s.pts = smoothPts(s.pts); }
+    if (penDoubleTap(s) === "toggle"){ const r0 = this.pages[c.pid], lst = r0.strokes[r0.strokes.length - 1]; if (lst && lst.pts.length <= 4) r0.strokes.pop(); this.touch(c.pid); this.paint(c.pid); return; }
+    rememberTool();
     if (s.t !== "e") await this.commitPending();
     this.pushUndo(c.pid);
     const rec = this.pages[c.pid];
@@ -3690,7 +3840,7 @@ const NB = {
     const box = document.createElement("div"); box.className = "nbselbox";
     box.style.cssText = `left:${b.x / PW * 100}%;top:${b.y / PH * 100}%;width:${b.w / PW * 100}%;height:${b.h / PH * 100}%`;
     box.innerHTML = `<span class="nbh"></span><div class="nbselbar">
-      ${it && (it.cid || it.qid) ? `<button data-nbsel="goto">${I.open}원래 위치</button>` : ""}
+      ${it && (it.cid || it.qid) ? `<button data-nbsel="goto">${I.open}원래 위치</button>` : ""}${it && it.qid ? `<button data-minisolve="${it.qid}">풀어보기</button>` : ""}${it && it.pg ? `<button data-nbsel="pgjump">그 쪽으로</button>` : ""}
       ${it && it.type === "img" ? `<button data-nbsel="review">${it.review === false ? "복습 가림 켜기" : "복습 가림 끄기"}</button>` : ""}
       ${it && it.type === "text" ? `<button data-nbsel="edit">수정</button>` : ""}
       ${it ? `<button data-nbsel="front">앞으로</button><button data-nbsel="back">뒤로</button>` : ""}
@@ -3702,6 +3852,7 @@ const NB = {
     if (a === "goto" && it){ if (it.cid) location.hash = "#/concept/" + it.cid; else if (it.qid){ newSession("search", [it.qid], `노트에서 · ${whereOf(Q[it.qid])}`); location.hash = "#/quiz/search"; } return; }
     if (a === "edit" && it){ this.editText(s.pid, it); return; }
     this.pushUndo(s.pid);
+    if (a === "pgjump" && it && it.pg){ this.sel = null; this.render(); this.scrollTo(it.pg, 0); return; }
     if (a === "del"){ if (it) rec.items = rec.items.filter(x => x !== it); else rec.strokes = rec.strokes.filter((_, i) => !s.idx.includes(i)); this.sel = null; }
     if (a === "review" && it){ it.review = it.review === false ? true : false; }
     if (a === "front" && it){ rec.items = rec.items.filter(x => x !== it).concat(it); }
@@ -3714,6 +3865,8 @@ const NB = {
     m.innerHTML = `<div class="sheet askbox"><div class="bd"><p class="askmsg"><b>${i + 1}쪽</b></p><div class="acts" style="flex-direction:column">
       <div class="seg" style="justify-content:center">${[["blank","무지"],["lined","줄노트"],["grid","모눈"]].map(([k, l]) => `<button class="${(this.pages[pid].paper || "blank") === k ? "on" : ""}" data-pm="paper:${k}">${l}</button>`).join("")}</div>
       <div class="pmrow"><button class="btn o sm" data-pm="tpl:formula">양식: 공식 정리표</button><button class="btn o sm" data-pm="tpl:wrong">양식: 오답 분석</button></div>
+      <div class="pmrow"><button class="btn o sm" data-pm="tpl:circuit">양식: 회로 해석</button><button class="btn o sm" data-pm="ptag">쪽 태그${(this.pages[pid].tags || []).length ? " · " + this.pages[pid].tags.map(t => "#" + t).join(" ") : ""}</button></div>
+      <div class="pmrow"><button class="btn o sm" data-pm="plink">쪽 링크 넣기</button><button class="btn o sm" data-pm="${this.pages[pid].bgimg ? "bgiclr" : "bgimg"}">${this.pages[pid].bgimg ? "배경 이미지 빼기" : "이미지를 배경으로"}</button></div>
       <div class="pmrow"><button class="btn o sm" data-pm="mark">${this.pages[pid].mark ? "★ 책갈피 해제" : "☆ 책갈피"}</button><button class="btn o sm" data-pm="lock">${this.pages[pid].lock ? "🔓 잠금 풀기" : "🔒 쪽 잠금"}</button></div>
       <div class="pmrow"><button class="btn o sm" data-pm="qlink">문제 링크 넣기</button><button class="btn o sm" data-pm="${this.pages[pid].bg ? "bgclr" : "bg"}">${this.pages[pid].bg ? "배경 문제 빼기" : "문제를 배경에 깔기"}</button></div>
       <div class="pmrow"><button class="btn o sm" data-pm="copy">이 쪽 복사</button><button class="btn o sm" data-pm="move">다른 과목으로 옮기기</button></div>
@@ -3722,6 +3875,10 @@ const NB = {
     document.body.appendChild(m);
     m.addEventListener("click", async ev => { const b = ev.target.closest("[data-pm]"); if (!b && ev.target !== m) return; m.remove(); const a = b ? b.dataset.pm : "x";
       const meta = S.nb[this.subj];
+      if (a === "ptag"){ const t = await askText("쪽 태그 (쉼표·띄어쓰기로 여러 개)", "예: 공식, 오답"); if (t == null) return; const r = this.pages[pid]; r.tags = t.split(/[,\s]+/).map(x => x.replace(/^#/, "")).filter(Boolean); this.touch(pid); this.drawPage(pid); this.refreshTb(); return; }
+      if (a === "plink"){ const t = await askText("몇 쪽으로 연결할까요?", "쪽 번호"); const n = parseInt(t), o = this.order(); if (!n || n < 1 || n > o.length) return toast("쪽 번호를 확인해 주세요"); const r = this.pages[pid]; this.pushUndo(pid); r.items.push(headItem(`📄 ${n}쪽으로`, { pg: o[n - 1], y: Math.min(PH - 90, pageBottom(r) + 20) })); this.touch(pid); this.drawPage(pid); toast("선택 도구로 링크를 누르면 그 쪽으로 가요"); return; }
+      if (a === "bgimg"){ pickBgImage(pid); return; }
+      if (a === "bgiclr"){ this.pushUndo(pid); delete this.pages[pid].bgimg; this.touch(pid); this.drawPage(pid); return; }
       if (a === "mark" || a === "lock"){ const r = this.pages[pid]; r[a] = !r[a]; this.touch(pid); this.drawPage(pid); this.renderSide(); toast(a === "mark" ? (r.mark ? "책갈피를 달았어요" : "책갈피를 뺐어요") : (r.lock ? "쪽을 잠갔어요" : "잠금을 풀었어요")); return; }
       if (a === "qlink" || a === "bg"){ const t = await askText(a === "qlink" ? "어느 문제를 연결할까요?" : "배경에 깔 문제", "예: DAY 3 12"); const qid = parseQRef(t); if (!qid){ if (t) toast("문제를 찾지 못했어요 (예: DAY 3 12)"); return; }
         const r = this.pages[pid]; this.pushUndo(pid);
@@ -3745,7 +3902,8 @@ const NB = {
       if (a === "above"){ this.addPage(true, meta.pages[i - 1] || null); if (i === 0){ const np = meta.pages.pop(); meta.pages.unshift(np); this.render(); } }
       if (a === "below") this.addPage(true, pid);
       if (a === "del"){ if (!(await ask(`${i + 1}쪽을 삭제할까요?<br><small>되돌릴 수 없어요</small>`, "삭제", "취소"))) return;
-        meta.pages = meta.pages.filter(x => x !== pid); meta.ts = Date.now(); delete this.pages[pid]; S.pageDel[pid] = Date.now(); await IDB.del(pid, "pages");
+         try { await trashPage(this.subj, pid, JSON.parse(JSON.stringify(this.pages[pid] || {}))); } catch(e){}
+         meta.pages = meta.pages.filter(x => x !== pid); meta.ts = Date.now(); delete this.pages[pid]; S.pageDel[pid] = Date.now(); await IDB.del(pid, "pages");
         if (!meta.pages.length){ this.pages = await nbLoad(this.subj); } save(); this.render(); }
     });
   },
@@ -3866,6 +4024,7 @@ async function nbPageImage(rec, width = 1240){
   const k = width / PW, cv = document.createElement("canvas"); cv.width = width; cv.height = Math.round(PH * k);
   const ctx = cv.getContext("2d"); ctx.fillStyle = "#fff"; ctx.fillRect(0, 0, cv.width, cv.height);
   if (rec.bg && Q[rec.bg]){ ctx.globalAlpha = .22; let yy = 30; for (const i of Q[rec.bg].q){ const im = await new Promise(r2 => { const x2 = new Image(); x2.onload = () => r2(x2); x2.onerror = () => r2(null); x2.src = src(i[0]); }); if (im){ const w2 = 920 * k, h2 = im.height * w2 / im.width; ctx.drawImage(im, 40 * k, yy * k, w2, h2); yy += h2 / k + 10; } } ctx.globalAlpha = 1; }
+  if (rec.bgimg){ ctx.globalAlpha = .25; const im = await new Promise(r2 => { const x2 = new Image(); x2.onload = () => r2(x2); x2.onerror = () => r2(null); x2.src = rec.bgimg; }); if (im){ const w2 = 920 * k; ctx.drawImage(im, 40 * k, 30 * k, w2, im.height * w2 / im.width); } ctx.globalAlpha = 1; }
   if (rec.paper === "lined" || rec.paper === "grid"){ ctx.strokeStyle = "#E3DED0"; ctx.lineWidth = Math.max(1, k); ctx.beginPath();
     for (let y = 80; y < PH; y += 40){ ctx.moveTo(0, y * k); ctx.lineTo(cv.width, y * k); }
     if (rec.paper === "grid") for (let x = 40; x < PW; x += 40){ ctx.moveTo(x * k, 0); ctx.lineTo(x * k, cv.height); }
@@ -3978,10 +4137,10 @@ function ehlBind(){
   const w = $("#ehl"); if (!w) return; const cv = $("canvas", w);
   const loc = e => { const r = w.getBoundingClientRect(), k = r.width / 1000; return [(e.clientX - r.left) / k, (e.clientY - r.top) / k]; };
   cv.onpointerdown = e => { if (!EH.on) return; e.preventDefault(); cv.setPointerCapture(e.pointerId);
-    if (e.pointerType === "touch" && S.prefs.penOnly){ const ap = $("#ansp"); EH.scroll = { y: e.clientY, st: ap ? ap.scrollTop : 0 }; return; }
+    if (e.pointerType === "touch" && S.prefs.penOnly){ FL.ehl.stop(); const ap = $("#ansp"); EH.scroll = { y: e.clientY, st: ap ? ap.scrollTop : 0 }; return; }
     EH.cur = { t: "h", c: "y", w: 26, pts: [loc(e)] }; };
-  cv.onpointermove = e => { if (EH.scroll){ const ap = $("#ansp"); if (ap) ap.scrollTop = EH.scroll.st - (e.clientY - EH.scroll.y); return; } if (!EH.cur) return; EH.cur.pts.push(loc(e)); ehlPaint(EH.cur); };
-  cv.onpointerup = cv.onpointercancel = () => { EH.scroll = null; if (!EH.cur) return; const s = EH.cur; EH.cur = null; if (s.pts.length < 2) return;
+  cv.onpointermove = e => { if (EH.scroll){ const ap = $("#ansp"); if (ap) ap.scrollTop = EH.scroll.st - (e.clientY - EH.scroll.y); FL.ehl.sample(0, e.clientY); return; } if (!EH.cur) return; EH.cur.pts.push(loc(e)); ehlPaint(EH.cur); };
+  cv.onpointerup = cv.onpointercancel = e => { if (EH.scroll && e && e.type === "pointerup") FL.ehl.release(); EH.scroll = null; if (!EH.cur) return; const s = EH.cur; EH.cur = null; if (s.pts.length < 2) return;
     EH.rec.strokes.push(s); EH.rec.ts = Date.now(); IDB.put("exp:" + EH.qid, EH.rec); S.changedAt = Date.now(); save(); ehlPaint(); };
 }
 function ehlToggle(){ EH.on = !EH.on; const w = $("#ehl"); if (w) w.classList.toggle("drawing", EH.on); const b = $("[data-ehltog]"); if (b){ b.classList.toggle("on", EH.on); b.innerHTML = EH.on ? `${I.check}표시 끝내기` : "✎ 해설에 형광펜"; } }
@@ -4128,7 +4287,7 @@ const dstr = d => ymd(d), dparse = s => new Date(s + "T00:00:00");
 function planDates(){
   const P = S.plan; if (!P || !P.on || !S.examDate) return [];
   const out = [], end = dparse(S.examDate), d = dparse(P.start);
-  while (d < end){ if (!(P.rest || []).includes(d.getDay())) out.push(dstr(d)); d.setDate(d.getDate() + 1); }
+    while (d < end){ if (!(P.rest || []).includes(d.getDay()) && !planOff(dstr(d))) out.push(dstr(d)); d.setDate(d.getDate() + 1); }
   return out;
 }
 /* ===================== 학습 계획 v2: 하루 공부 시간 기반 ===================== */
@@ -4180,7 +4339,7 @@ function makeTasks(date){
   const budget = P.mins || 60, tasks = [];
   const due = srsDue().length; if (due) tasks.push({ type: "review", n: due });
   if (S.examDate && date === ymd(new Date(dparse(S.examDate).getTime() - 86400000))){ tasks.push({ type: "cards" }, { type: "set", title: "답정너", ids: D.questions.filter(q => q.dap).map(q => q.id) }); return tasks; }
-  let cap = L.cap;
+  let cap = Math.round(L.cap * dayFactor(date));
   if (ph === 0){
     const queue = p1Queue(L.aOnly);
     if (queue.length && queue[0].day > 1 && cap >= 40){ const cu = cumulIds(queue[0].day, Math.min(10, Math.round(cap / 12))); if (cu.length){ tasks.push({ type: "set", title: "누적 복습", ids: cu }); cap -= cu.length * 1.5; } }
@@ -4196,7 +4355,7 @@ function makeTasks(date){
 }
 function weakTask(mins){
   const n = Math.max(8, Math.round((mins || 30) / 1.5)), okd = id => S.qstat[id] && S.qstat[id].last === "O" && !S.qstat[id].guess;
-  const risk = predict().rows.filter(r => r.score < 50).flatMap(r => r.sj.from);
+  const risk = [...predict().rows.filter(r => r.score < 50).flatMap(r => r.sj.from), ...((S.planBoost && S.planBoost.until >= todayStr()) ? (S.planBoost.from || []) : [])];
   const pool = [...new Set([...weakConcepts().flatMap(o => D.questions.filter(q => q.conceptId === o.cid).map(q => q.id)), ...S.scraps.filter(id => Q[id]),
     ...D.questions.filter(q => risk.includes(q.subject) && q.grade === "A").map(q => q.id), ...D.questions.filter(q => q.grade === "A").map(q => q.id)])].filter(id => !okd(id));
   return { type: "set", title: "약점 보강", ids: pool.slice(0, n) };
@@ -4282,12 +4441,13 @@ function viewPlan(){
       <div class="pstat"><span>1단계 진도 <b>${p1done}/21</b> DAY</span><span>남은 1단계 분량 약 <b>${fmtDur(L.workload * 60) || "0분"}</b></span><span>예상 점수 <b>${predict().avg}</b>점 / 목표 ${P.goal || 60}점</span></div></div>
       <div class="card scard"><p class="eyebrow">하루 공부 시간에 따라 이렇게 달라져요</p><div class="wtable"><table><tr><th>하루</th><th>범위</th><th>1단계 끝</th><th>약점 보강</th><th>모의고사</th></tr>
         ${cmp.map(({ m, x }) => `<tr class="${m === L.mins ? "hot" : ""}"><td><b>${m >= 60 ? m / 60 + "시간" : m + "분"}</b></td><td>${x.L.aOnly ? "A등급만" : "전체"}</td><td>${x.p1End ? fmt(x.p1End) : "—"} (${x.L.p1}일)</td><td>${x.L.p2}일</td><td>${x.L.mockKind === "half" ? "하프 " : ""}${x.L.mocks}회</td></tr>`).join("")}</table></div></div>
+      ${weekGridHTML()}
       <div class="card scard"><p class="eyebrow">앞으로 7일</p>${sim.rows.map(r => `<div class="prow ${r.d === todayStr() ? "today" : ""}"><span class="pd">${fmt(r.d)} (${DOW[dparse(r.d).getDay()]})</span><span class="pp">${r.ph + 1}단계</span><span class="pt">${esc(r.d === todayStr() && S.planDay[r.d] ? S.planDay[r.d].tasks.map(tk => taskState(tk).label).join(" · ") : r.txt)}</span></div>`).join("") || `<p class="cdesc">남은 공부일이 없어요</p>`}</div>
       <div class="card scard"><p class="eyebrow">목표 ${P.goal || 60}점을 위한 과목별 목표</p>${(() => { const d = diagResult(); return d ? `<p class="cdesc">진단(${new Date(d.at).toLocaleDateString("ko-KR")}): ${SUBJ6.filter(s2 => d.r[s2] != null).map(s2 => `${s2} ${d.r[s2]}%`).join(" · ")}</p>` : `<p class="cdesc">처음이라면 <button class="tlink" data-diag>실력 진단 30문제</button>로 시작하면 계획이 더 정확해져요</p>`; })()}
         <div class="wtable"><table><tr><th>과목</th><th>지금 예상</th><th>목표</th><th>과락 피할 확률</th></tr>${targetCombo(P.goal || 60).map(r => `<tr><td>${r.sj.n}과목 ${esc(r.sj.name)}</td><td>${r.cur}점</td><td><b>${r.t}점</b></td><td>${passProb(r.cur / 100)}%</td></tr>`).join("")}</table></div></div>
       ${(() => { const ph = Object.entries(S.predHist).sort().slice(-14).map(([d, v]) => [d.slice(5).replace("-", "/"), v.v]); return ph.length >= 2 ? `<div class="card scard"><p class="eyebrow">예상 점수 추이</p>${lineSVG(ph, { max: 100, line: P.goal || 60 })}</div>` : ""; })()}
       ${checklistHTML()}
-      <div class="card scard"><div class="rhead2"><p class="eyebrow" style="margin:0">실제 시험 기록</p><button class="btn o sm" data-rxadd>추가</button></div>${Object.entries(S.realExams).filter(([, v]) => v.d).sort((a, b) => b[1].d.localeCompare(a[1].d)).map(([, v]) => { const avg = Math.round(v.sc.reduce((a, b) => a + b, 0) / 5); return `<div class="prow"><span class="pd">${v.d}</span><span class="pp ${avg >= 60 && v.sc.every(x => x >= 40) ? "gr" : "rd"}">${avg}점</span><span class="pt">${v.sc.map((x, i) => `${i + 1}과목 ${x}`).join(" · ")}</span></div>`; }).join("") || `<p class="cdesc">응시한 시험 점수를 남겨두면 다음 계획에 참고할 수 있어요</p>`}</div>`;
+      <div class="card scard"><div class="rhead2"><p class="eyebrow" style="margin:0">실제 시험 기록</p><button class="btn o sm" data-gradeq>가채점</button><button class="btn o sm" data-rxadd>추가</button></div>${Object.entries(S.realExams).filter(([, v]) => v.d).sort((a, b) => b[1].d.localeCompare(a[1].d)).map(([, v]) => { const avg = Math.round(v.sc.reduce((a, b) => a + b, 0) / 5); return `<div class="prow"><span class="pd">${v.d}</span><span class="pp ${avg >= 60 && v.sc.every(x => x >= 40) ? "gr" : "rd"}">${avg}점</span><span class="pt">${v.sc.map((x, i) => `${i + 1}과목 ${x}`).join(" · ")}</span>${avg >= 60 && v.sc.every(x => x >= 40) ? "" : `<button class="btn o sm" data-retake="${v.sc.join(",")}">재응시 계획</button>`}</div>`; }).join("") || `<p class="cdesc">응시한 시험 점수를 남겨두면 다음 계획에 참고할 수 있어요</p>`}</div>`;
   }
   return shell("home", `<div class="page setpage"><h1 class="h1">학습 계획</h1><span class="chip">시험일에 맞춰 개념 → 약점 → 실전 → 마무리로 짜드려요 <span>밀리면 자동으로 다시 배치돼요</span></span>${setup}${body}</div>`);
 }
@@ -4461,10 +4621,10 @@ function canPaint(extra){ const w = $(".cpage .cimgs"), cv = w && $("canvas.can"
 function canBind(){ const w = $(".cpage .cimgs"); if (!w) return; let cv = $("canvas.can", w); if (!cv){ cv = document.createElement("canvas"); cv.className = "can"; w.appendChild(cv); }
   const loc = e => { const r = w.getBoundingClientRect(), k = r.width / 1000; return [(e.clientX - r.left) / k, (e.clientY - r.top) / k]; };
   cv.onpointerdown = e => { if (!CAN.on) return; e.preventDefault(); try { cv.setPointerCapture(e.pointerId); } catch(_){}
-    if (e.pointerType === "touch" && S.prefs.penOnly){ const lp = $("#cleft"); CAN.scroll = { y: e.clientY, x: e.clientX, st: lp ? lp.scrollTop : 0, sl: lp ? lp.scrollLeft : 0 }; return; }
+    if (e.pointerType === "touch" && S.prefs.penOnly){ FL.can.stop(); const lp = $("#cleft"); CAN.scroll = { y: e.clientY, x: e.clientX, st: lp ? lp.scrollTop : 0, sl: lp ? lp.scrollLeft : 0 }; return; }
     CAN.cur = { t: "h", c: CAN.col || "y", w: 24, pts: [loc(e)] }; };
-  cv.onpointermove = e => { if (CAN.scroll){ const lp = $("#cleft"); if (lp){ lp.scrollTop = CAN.scroll.st - (e.clientY - CAN.scroll.y); lp.scrollLeft = CAN.scroll.sl - (e.clientX - CAN.scroll.x); } return; } if (!CAN.cur) return; CAN.cur.pts.push(loc(e)); canPaint(CAN.cur); };
-  cv.onpointerup = cv.onpointercancel = () => { CAN.scroll = null; if (!CAN.cur) return; const s = CAN.cur; CAN.cur = null; if (s.pts.length < 2) return; CAN.rec.strokes.push(s); CAN.rec.ts = Date.now(); IDB.put("cexp:" + CAN.cid, CAN.rec); S.changedAt = Date.now(); save(); canPaint(); };
+  cv.onpointermove = e => { if (CAN.scroll){ const lp = $("#cleft"); if (lp){ lp.scrollTop = CAN.scroll.st - (e.clientY - CAN.scroll.y); lp.scrollLeft = CAN.scroll.sl - (e.clientX - CAN.scroll.x); } FL.can.sample(e.clientX, e.clientY); return; } if (!CAN.cur) return; CAN.cur.pts.push(loc(e)); canPaint(CAN.cur); };
+  cv.onpointerup = cv.onpointercancel = e => { if (CAN.scroll && e && e.type === "pointerup") FL.can.release(); CAN.scroll = null; if (!CAN.cur) return; const s = CAN.cur; CAN.cur = null; if (s.pts.length < 2) return; CAN.rec.strokes.push(s); CAN.rec.ts = Date.now(); IDB.put("cexp:" + CAN.cid, CAN.rec); S.changedAt = Date.now(); save(); canPaint(); };
   w.querySelectorAll("img").forEach(im => { if (!im.complete) im.addEventListener("load", () => canPaint(), { once: true }); });
   setTimeout(canPaint, 60); }
 function canToggle(){ CAN.on = !CAN.on; const w = $(".cpage .cimgs"); if (w) w.classList.toggle("annot", CAN.on); toast(CAN.on ? "이론 위에 형광펜으로 칠하세요 · 다시 누르면 끝" : "표시를 마쳤어요"); }
@@ -4843,7 +5003,7 @@ function magOpen(pid, x, y){
   p.innerHTML = `<div class="maghd"><b>돋보기 필기</b><span class="cdesc">크게 쓰면 노트에는 작게 들어가요</span><button class="btn o sm" data-mag="next">다음 칸 →</button><button class="btn g sm" data-mag="close">닫기</button></div><canvas id="magcv"></canvas>`;
   const cv = $("#magcv"); const fit = () => { const r = cv.getBoundingClientRect(), d = Math.min(2, devicePixelRatio || 1); cv.width = r.width * d; cv.height = r.height * d; magPaint(); };
   setTimeout(fit, 20);
-  const loc = e => { const r = cv.getBoundingClientRect(), k = r.width / MAG.w; return [MAG.x + (e.clientX - r.left) / k, MAG.y + (e.clientY - r.top) / k, e.pressure || .5]; };
+  const loc = e => { const r = cv.getBoundingClientRect(), k = r.width / MAG.w; return [MAG.x + (e.clientX - r.left) / k, MAG.y + (e.clientY - r.top) / k, pressAdj(e.pressure)]; };
   cv.onpointerdown = e => { if (e.pointerType === "touch" && S.prefs.penOnly) return; e.preventDefault(); cv.setPointerCapture(e.pointerId); MAG.cur = { t: "p", w: SIZES[S.prefs.size] * 1.6, c: S.prefs.color && S.prefs.color !== "k" ? S.prefs.color : undefined, pts: [loc(e)] }; };
   cv.onpointermove = e => { if (!MAG.cur) return; MAG.cur.pts.push(loc(e)); magPaint(MAG.cur); };
   cv.onpointercancel = cv.onpointerup = () => { if (!MAG.cur) return; const s = MAG.cur; MAG.cur = null; if (s.pts.length < 2) return; NB.pushUndo(MAG.pid); NB.pages[MAG.pid].strokes.push(s); NB.touch(MAG.pid); NB.paint(MAG.pid); magPaint(); NB.showMagBox(); };
@@ -4881,7 +5041,7 @@ function parseQRef(t){ const m = (t || "").match(/(\d{1,2})\D+(\d{1,3})/); if (!
 
 const LIB = {"gloss":[{"s":"회로이론","t":"전류","d":"단위 시간에 도체 단면을 지나는 전하량. I = Q/t [A]"},{"s":"회로이론","t":"전압","d":"단위 전하가 이동하며 하는 일, 즉 두 점 사이의 전위차. V = W/Q [V]"},{"s":"회로이론","t":"저항","d":"전류의 흐름을 방해하는 정도. R = ρl/A [Ω]"},{"s":"회로이론","t":"컨덕턴스","d":"저항의 역수로 전류가 흐르기 쉬운 정도. G = 1/R [S]"},{"s":"회로이론","t":"고유저항","d":"재료 자체의 저항 성질(저항률). 단위 [Ω·m]"},{"s":"회로이론","t":"옴의 법칙","d":"전류는 전압에 비례하고 저항에 반비례한다. V = IR"},{"s":"회로이론","t":"키르히호프의 법칙","d":"접속점에서 들어온 전류의 합=나간 전류의 합(KCL), 폐회로의 전압강하 합=기전력 합(KVL)"},{"s":"회로이론","t":"직렬접속","d":"소자를 한 줄로 연결. 전류가 같고 합성저항은 각 저항의 합"},{"s":"회로이론","t":"병렬접속","d":"소자의 양 끝을 공통으로 연결. 전압이 같고 합성 컨덕턴스는 각 컨덕턴스의 합"},{"s":"회로이론","t":"분류","d":"병렬 저항에 전류가 저항에 반비례(컨덕턴스 비례)로 나뉘는 것"},{"s":"회로이론","t":"휘스톤 브리지","d":"마주 보는 저항의 곱이 같으면(R1R4=R2R3) 검류계 전류가 0이 되는 평형 회로"},{"s":"회로이론","t":"전력","d":"단위 시간당 전기에너지. P = VI = I²R = V²/R [W]"},{"s":"회로이론","t":"전력량","d":"일정 시간 동안 소비한 전기에너지. W = Pt [J, Wh]"},{"s":"회로이론","t":"정현파","d":"시간에 따라 사인 함수로 변하는 교류 파형"},{"s":"회로이론","t":"주파수","d":"1초 동안 반복되는 주기의 수. f = 1/T [Hz]"},{"s":"회로이론","t":"위상","d":"교류 파형의 시간적 위치(각도). 두 파형의 위상차로 앞섬·뒤짐을 나타냄"},{"s":"회로이론","t":"최댓값","d":"교류 파형의 가장 큰 값 Vm"},{"s":"회로이론","t":"평균값","d":"반주기 평균. 정현파는 2Vm/π ≈ 0.637Vm"},{"s":"회로이론","t":"파형률","d":"실효값/평균값. 정현파 1.11"},{"s":"회로이론","t":"파고율","d":"최댓값/실효값. 정현파 1.414"},{"s":"회로이론","t":"페이저","d":"정현파를 크기와 위상을 가진 복소수(벡터)로 나타낸 것"},{"s":"회로이론","t":"임피던스","d":"교류에서 전류를 방해하는 정도. Z = R + jX [Ω]"},{"s":"회로이론","t":"어드미턴스","d":"임피던스의 역수. Y = 1/Z = G + jB [S]"},{"s":"회로이론","t":"리액턴스","d":"코일·콘덴서가 교류를 방해하는 성분. XL = ωL, XC = 1/ωC"},{"s":"회로이론","t":"유도성 리액턴스","d":"코일의 리액턴스 XL = ωL. 전류가 전압보다 90° 뒤짐"},{"s":"회로이론","t":"용량성 리액턴스","d":"콘덴서의 리액턴스 XC = 1/(ωC). 전류가 전압보다 90° 앞섬"},{"s":"회로이론","t":"직렬공진","d":"RLC 직렬에서 XL = XC가 되어 임피던스가 최소(R), 전류가 최대가 되는 상태"},{"s":"회로이론","t":"병렬공진","d":"RLC 병렬에서 서셉턴스가 0이 되어 어드미턴스 최소, 전류 최소가 되는 상태"},{"s":"회로이론","t":"공진주파수","d":"공진이 일어나는 주파수 f0 = 1/(2π√(LC))"},{"s":"회로이론","t":"선택도","d":"공진의 날카로운 정도 Q. 직렬공진 Q = (1/R)√(L/C)"},{"s":"회로이론","t":"유효전력","d":"실제로 소비되는 전력 P = VI cosθ [W]"},{"s":"회로이론","t":"무효전력","d":"부하와 전원 사이를 오가며 소비되지 않는 전력 Q = VI sinθ [var]"},{"s":"회로이론","t":"피상전력","d":"전압과 전류 실효값의 곱 S = VI [VA]"},{"s":"회로이론","t":"역률","d":"피상전력 중 유효전력의 비율 cosθ = P/S"},{"s":"회로이론","t":"무효율","d":"sinθ = Q/S"},{"s":"회로이론","t":"최대 전력 전달","d":"부하 저항이 전원 내부저항과 같을 때(RL = r) 최대 전력 Pmax = E²/4r 전달"},{"s":"회로이론","t":"중첩의 정리","d":"여러 전원이 있는 선형 회로의 응답은 각 전원이 단독일 때 응답의 합. 전압원은 단락, 전류원은 개방"},{"s":"회로이론","t":"테브난의 정리","d":"임의의 2단자 회로를 등가 전압원 Vth와 직렬 저항 Rth로 바꾸는 정리"},{"s":"회로이론","t":"밀만의 정리","d":"병렬 전압원들의 공통 단자 전압 V = Σ(E/Z)/Σ(1/Z)"},{"s":"회로이론","t":"Y결선","d":"세 상의 한쪽 끝을 공통(중성점)으로 묶는 결선. 선간전압 = √3 × 상전압"},{"s":"회로이론","t":"V결선","d":"단상 변압기 2대로 3상을 공급. 출력 √3P, 이용률 86.6%, 출력비 57.7%"},{"s":"회로이론","t":"상전압","d":"각 상의 양 끝 전압"},{"s":"회로이론","t":"선간전압","d":"두 선 사이의 전압"},{"s":"회로이론","t":"대칭 3상","d":"크기가 같고 120°씩 위상차를 가진 3상"},{"s":"회로이론","t":"비정현파","d":"정현파가 아닌 주기파. 직류분 + 기본파 + 고조파로 분해(푸리에 급수)"},{"s":"회로이론","t":"고조파","d":"기본파 주파수의 정수배 주파수 성분"},{"s":"회로이론","t":"푸리에 급수","d":"주기 함수를 여러 정현파의 합으로 표현하는 급수"},{"s":"회로이론","t":"왜형률","d":"고조파 실효값의 합 / 기본파 실효값"},{"s":"회로이론","t":"대칭좌표법","d":"불평형 3상을 영상·정상·역상분으로 나누어 해석하는 방법"},{"s":"회로이론","t":"영상분","d":"세 상에 같은 크기·같은 위상으로 들어 있는 성분 V0"},{"s":"회로이론","t":"정상분","d":"정상 상회전 방향의 평형 3상 성분 V1"},{"s":"회로이론","t":"역상분","d":"역 상회전 방향의 평형 3상 성분 V2"},{"s":"회로이론","t":"4단자망","d":"입력 2단자, 출력 2단자로 된 회로망. ABCD 정수로 표현"},{"s":"회로이론","t":"영상 임피던스","d":"4단자망에서 입출력 양쪽이 정합되는 임피던스 Z01, Z02"},{"s":"회로이론","t":"분포정수회로","d":"선로 정수가 선로 길이 방향으로 분포된 회로(장거리 선로)"},{"s":"회로이론","t":"특성 임피던스","d":"무한장 선로의 전압과 전류 비 Z0 = √(Z/Y)"},{"s":"회로이론","t":"전파정수","d":"선로를 따라 신호가 감쇠·위상 변하는 정도 γ = √(ZY) = α + jβ"},{"s":"회로이론","t":"무손실 선로","d":"R = G = 0인 선로. Z0 = √(L/C), 감쇠 없음"},{"s":"회로이론","t":"무왜형 선로","d":"R/L = G/C 조건을 만족해 파형이 찌그러지지 않는 선로"},{"s":"회로이론","t":"과도현상","d":"회로 상태가 바뀔 때 정상상태로 가기까지의 변화"},{"s":"회로이론","t":"시정수","d":"과도 응답이 최종값의 63.2%에 도달하는 시간. RL 회로 τ = L/R, RC 회로 τ = RC"},{"s":"회로이론","t":"라플라스 변환","d":"시간 함수를 s 영역 함수로 바꿔 미분방정식을 대수식으로 푸는 변환"},{"s":"회로이론","t":"단위 계단 함수","d":"t ≥ 0에서 1, t < 0에서 0인 함수 u(t). 라플라스 변환은 1/s"},{"s":"회로이론","t":"임펄스 함수","d":"폭 0, 면적 1인 함수 δ(t). 라플라스 변환은 1"},{"s":"회로이론","t":"최종값 정리","d":"f(∞) = lim(s→0) sF(s)"},{"s":"회로이론","t":"전달함수","d":"모든 초기조건이 0일 때 출력 라플라스 변환 / 입력 라플라스 변환"},{"s":"회로이론","t":"구동점 임피던스","d":"회로의 한 단자쌍에서 들여다본 임피던스 함수 Z(s)"},{"s":"회로이론","t":"2전력계법","d":"전력계 2대로 3상 전력 측정. P = W1 + W2"},{"s":"회로이론","t":"분압","d":"직렬 저항에 전압이 저항 비례로 나뉘는 것","a":"전압 분배"},{"s":"회로이론","t":"각주파수","d":"ω = 2πf [rad/s]","a":"각속도"},{"s":"회로이론","t":"순시값","d":"어느 순간의 교류 크기 v = Vm sin(ωt+θ)","a":"순싯값"},{"s":"회로이론","t":"실효값","d":"같은 저항에서 같은 열을 내는 직류값. 정현파는 Vm/√2 ≈ 0.707Vm","a":"실횻값"},{"s":"회로이론","t":"가역 정리","d":"회로망에서 입력과 출력을 바꿔도 전달 관계가 같다는 상반 정리","a":"상반"},{"s":"회로이론","t":"Δ결선","d":"세 상을 고리 모양으로 연결한 결선. 선전류 = √3 × 상전류","a":"△결선"},{"s":"회로이론","t":"ABCD 파라미터","d":"4단자 회로 전송 정수. 대칭이면 A = D, 가역이면 AD − BC = 1","a":"ABCD"},{"s":"회로이론","t":"초기값 정리","d":"f(0⁺) = lim(s→∞) sF(s)","a":"초깃값"},{"s":"회로이론","t":"정전압원","d":"부하에 관계없이 일정 전압을 내는 이상적 전원(내부저항 0)","a":"전압원"},{"s":"회로이론","t":"정전류원","d":"부하에 관계없이 일정 전류를 내는 이상적 전원(내부저항 ∞)","a":"전류원"},{"s":"제어공학","t":"자동제어","d":"제어 대상을 원하는 상태로 자동으로 유지·조정하는 것"},{"s":"제어공학","t":"개루프 제어","d":"출력을 되먹임하지 않는 제어. 구조가 간단하나 외란에 약함"},{"s":"제어공학","t":"폐루프 제어","d":"출력을 검출해 입력과 비교·수정하는 제어(피드백 제어)"},{"s":"제어공학","t":"피드백 제어","d":"출력을 입력 측으로 되돌려 오차를 줄이는 제어"},{"s":"제어공학","t":"제어량","d":"제어 대상에서 제어하려는 출력량"},{"s":"제어공학","t":"목표값","d":"제어량이 따라가야 할 값(설정값)"},{"s":"제어공학","t":"기준입력","d":"목표값에 비례하는 신호로 제어계에 들어가는 입력"},{"s":"제어공학","t":"조작량","d":"제어 요소가 제어 대상에 가하는 양"},{"s":"제어공학","t":"외란","d":"제어량을 변화시키는 원치 않는 외부 신호"},{"s":"제어공학","t":"제어 요소","d":"동작 신호를 조작량으로 바꾸는 요소(조절부 + 조작부)"},{"s":"제어공학","t":"검출부","d":"제어량을 검출해 되먹임 신호로 만드는 부분"},{"s":"제어공학","t":"정치 제어","d":"목표값이 일정한 제어"},{"s":"제어공학","t":"추종 제어","d":"임의로 변하는 목표값을 따라가는 제어(서보 제어 등)"},{"s":"제어공학","t":"프로그램 제어","d":"목표값이 미리 정한 순서대로 변하는 제어"},{"s":"제어공학","t":"비율 제어","d":"목표값이 다른 양과 일정 비율을 유지하는 제어"},{"s":"제어공학","t":"서보 기구","d":"위치·방위·자세 등 기계적 변위를 제어량으로 하는 제어"},{"s":"제어공학","t":"프로세스 제어","d":"온도·유량·압력·액위 등 공업 공정 상태량을 제어"},{"s":"제어공학","t":"자동 조정","d":"전압·주파수·속도 등 전기적·기계적 양을 제어"},{"s":"제어공학","t":"비례 제어","d":"오차에 비례하는 조작량을 내는 제어(P). 잔류편차가 남음"},{"s":"제어공학","t":"적분 제어","d":"오차의 적분에 비례하는 제어(I). 잔류편차 제거"},{"s":"제어공학","t":"미분 제어","d":"오차 변화율에 비례하는 제어(D). 응답을 빠르게 하고 오버슈트 감소"},{"s":"제어공학","t":"잔류편차","d":"정상상태에서 남는 오차(오프셋)"},{"s":"제어공학","t":"블록선도","d":"신호 흐름을 블록과 화살표로 나타낸 그림"},{"s":"제어공학","t":"신호흐름선도","d":"마디와 가지로 신호 관계를 나타낸 그림. 메이슨 공식으로 전달함수를 구함"},{"s":"제어공학","t":"폐루프 전달함수","d":"G/(1 + GH)"},{"s":"제어공학","t":"개루프 전달함수","d":"루프를 한 바퀴 도는 전달함수 GH"},{"s":"제어공학","t":"특성방정식","d":"폐루프 전달함수 분모를 0으로 둔 식 1 + GH = 0"},{"s":"제어공학","t":"극점","d":"전달함수 분모를 0으로 만드는 s 값. 안정도 결정"},{"s":"제어공학","t":"영점","d":"전달함수 분자를 0으로 만드는 s 값"},{"s":"제어공학","t":"안정도","d":"입력이 유한할 때 출력도 유한한 성질. 모든 극점이 s 평면 좌반면에 있어야 안정"},{"s":"제어공학","t":"이득 여유","d":"위상이 −180°일 때 이득이 0dB까지 남은 여유 [dB]"},{"s":"제어공학","t":"위상 여유","d":"이득이 0dB(1)일 때 위상이 −180°까지 남은 여유 [°]"},{"s":"제어공학","t":"보드선도","d":"주파수 응답을 이득[dB]과 위상[°]으로 로그 주파수 축에 그린 그림"},{"s":"제어공학","t":"근궤적","d":"개루프 이득 K가 0에서 ∞로 변할 때 폐루프 극점이 움직이는 궤적"},{"s":"제어공학","t":"점근선","d":"근궤적이 무한대로 갈 때 접근하는 직선"},{"s":"제어공학","t":"정상편차","d":"정상상태에서 목표값과 출력의 차이"},{"s":"제어공학","t":"위치편차 상수","d":"Kp = lim(s→0) G(s)H(s). 계단 입력 정상편차 = 1/(1+Kp)"},{"s":"제어공학","t":"속도편차 상수","d":"Kv = lim(s→0) sG(s)H(s). 램프 입력 정상편차 = 1/Kv"},{"s":"제어공학","t":"제어계의 형","d":"개루프 전달함수에서 원점에 있는 극점(적분기)의 수. 0형, 1형, 2형"},{"s":"제어공학","t":"과도응답","d":"입력 직후부터 정상상태에 이르기까지의 응답"},{"s":"제어공학","t":"오버슈트","d":"응답이 최종값을 넘는 최대량"},{"s":"제어공학","t":"지연시간","d":"응답이 최종값의 50%에 도달하는 시간"},{"s":"제어공학","t":"상승시간","d":"응답이 최종값의 10%에서 90%까지 가는 시간"},{"s":"제어공학","t":"정정시간","d":"응답이 최종값의 일정 범위(±2~5%) 안에 들어가는 시간"},{"s":"제어공학","t":"감쇠비","d":"2차 시스템의 진동 감쇠 정도 ζ. 0 < ζ < 1이면 부족제동"},{"s":"제어공학","t":"고유주파수","d":"감쇠가 없을 때의 진동 각주파수 ωn"},{"s":"제어공학","t":"부족제동","d":"0 < ζ < 1. 진동하면서 수렴"},{"s":"제어공학","t":"임계제동","d":"ζ = 1. 진동 없이 가장 빨리 수렴"},{"s":"제어공학","t":"과제동","d":"ζ > 1. 진동 없이 느리게 수렴"},{"s":"제어공학","t":"상태방정식","d":"시스템을 상태변수 1차 미분방정식 dx/dt = Ax + Bu로 표현한 식"},{"s":"제어공학","t":"상태천이행렬","d":"Φ(t) = L⁻¹[(sI − A)⁻¹]"},{"s":"제어공학","t":"z 변환","d":"이산 시간 신호를 z 영역으로 바꾸는 변환. 샘플값 제어계 해석에 사용"},{"s":"제어공학","t":"시퀀스 제어","d":"미리 정한 순서에 따라 제어 단계를 차례로 진행하는 제어"},{"s":"제어공학","t":"논리회로","d":"AND·OR·NOT 등 논리 게이트로 구성한 회로"},{"s":"제어공학","t":"드모르간의 정리","d":"(A·B)′ = A′ + B′, (A + B)′ = A′·B′"},{"s":"제어공학","t":"자기유지회로","d":"입력이 사라져도 출력 접점으로 동작을 유지하는 회로"},{"s":"제어공학","t":"인터록","d":"두 동작이 동시에 일어나지 않도록 서로 막는 회로"},{"s":"제어공학","t":"메이슨 공식","d":"신호흐름선도의 전체 전달함수 G = ΣGkΔk / Δ","a":"메이슨"},{"s":"제어공학","t":"루스 판별법","d":"특성방정식 계수로 루스 표를 만들어 제1열 부호 변화 수로 불안정 근 수를 구함","a":"루스"},{"s":"제어공학","t":"훌비츠 판별법","d":"특성방정식 계수 행렬식으로 안정도를 판별","a":"후르비츠"},{"s":"제어공학","t":"나이퀴스트 판별법","d":"개루프 주파수 응답 궤적으로 폐루프 안정도를 판별","a":"나이퀴스트"},{"s":"전기자기학","t":"벡터","d":"크기와 방향을 함께 가진 물리량"},{"s":"전기자기학","t":"발산","d":"벡터장이 한 점에서 뿜어 나오는 정도 div A = ∇·A"},{"s":"전기자기학","t":"회전","d":"벡터장이 한 점에서 소용돌이치는 정도 rot A = ∇×A"},{"s":"전기자기학","t":"기울기","d":"스칼라장이 가장 크게 증가하는 방향과 크기 grad V = ∇V"},{"s":"전기자기학","t":"쿨롱의 법칙","d":"두 점전하 사이 힘 F = Q1Q2/(4πε0 r²) [N]"},{"s":"전기자기학","t":"전계","d":"단위 양전하가 받는 힘. E = F/Q [V/m]"},{"s":"전기자기학","t":"전기력선","d":"전계의 방향을 나타낸 가상의 선. 양전하에서 나와 음전하로 들어감"},{"s":"전기자기학","t":"전속밀도","d":"단위 면적을 지나는 전속 D = εE [C/m²]"},{"s":"전기자기학","t":"가우스의 법칙","d":"폐곡면을 나오는 전기력선 수 = 내부 전하/ε0"},{"s":"전기자기학","t":"전위","d":"무한원점에서 그 점까지 단위 양전하를 옮기는 일 V [V]"},{"s":"전기자기학","t":"등전위면","d":"전위가 같은 점들을 이은 면. 전기력선과 수직"},{"s":"전기자기학","t":"전위경도","d":"전위의 공간 변화율. E = −grad V"},{"s":"전기자기학","t":"전기쌍극자","d":"크기가 같고 부호가 반대인 두 전하가 가까이 있는 것. 쌍극자 모멘트 M = Qδ"},{"s":"전기자기학","t":"정전용량","d":"전위 1V당 축적되는 전하 C = Q/V [F]"},{"s":"전기자기학","t":"유전율","d":"전계에 대한 물질의 분극 정도 ε = ε0εs"},{"s":"전기자기학","t":"비유전율","d":"진공 대비 유전율 εs = ε/ε0"},{"s":"전기자기학","t":"유전체","d":"전기를 통하지 않으나 전계에서 분극되는 절연체"},{"s":"전기자기학","t":"분극","d":"전계에 의해 유전체 안 전하가 미세하게 이동해 쌍극자가 생기는 현상"},{"s":"전기자기학","t":"분극의 세기","d":"단위 체적당 쌍극자 모멘트 P = D − ε0E"},{"s":"전기자기학","t":"경계조건","d":"두 유전체 경계에서 전계 접선성분과 전속밀도 법선성분이 연속"},{"s":"전기자기학","t":"정전에너지","d":"콘덴서에 저장된 에너지 W = CV²/2 = QV/2 = Q²/2C [J]"},{"s":"전기자기학","t":"정전 흡인력","d":"콘덴서 극판 사이에 작용하는 단위 면적당 힘 f = ε0E²/2 [N/m²]"},{"s":"전기자기학","t":"전기영상법","d":"도체 대신 가상의 영상전하를 두어 전계를 쉽게 구하는 방법"},{"s":"전기자기학","t":"도체","d":"전하가 자유롭게 움직이는 물질. 내부 전계 0, 표면이 등전위"},{"s":"전기자기학","t":"정전 차폐","d":"도체로 둘러싸 외부 전계 영향을 막는 것"},{"s":"전기자기학","t":"전기저항","d":"전류를 방해하는 정도 R = ρl/S"},{"s":"전기자기학","t":"전류밀도","d":"단위 면적당 전류 i = σE [A/m²]"},{"s":"전기자기학","t":"도전율","d":"고유저항의 역수 σ = 1/ρ [S/m]"},{"s":"전기자기학","t":"펠티에 효과","d":"서로 다른 금속 접합부에 전류를 흘리면 열이 흡수·발생하는 현상"},{"s":"전기자기학","t":"톰슨 효과","d":"같은 금속이라도 온도차가 있는 부분에 전류를 흘리면 열이 흡수·발생하는 현상"},{"s":"전기자기학","t":"자계","d":"자극이나 전류 주위에 자기력이 작용하는 공간. H [A/m]"},{"s":"전기자기학","t":"자속밀도","d":"단위 면적을 지나는 자속 B = μH [Wb/m², T]"},{"s":"전기자기학","t":"자속","d":"자기력선 다발의 양 φ [Wb]"},{"s":"전기자기학","t":"투자율","d":"자화되기 쉬운 정도 μ = μ0μs"},{"s":"전기자기학","t":"비투자율","d":"진공 대비 투자율 μs = μ/μ0"},{"s":"전기자기학","t":"앙페르의 주회적분 법칙","d":"폐경로를 따라 자계를 적분하면 경로를 관통하는 전류와 같음 ∮H·dl = I"},{"s":"전기자기학","t":"비오-사바르의 법칙","d":"전류 요소가 만드는 자계 dH = I dl sinθ/(4πr²)"},{"s":"전기자기학","t":"플레밍의 왼손 법칙","d":"자계 안의 전류가 받는 힘의 방향(전동기 원리). 엄지-힘, 검지-자계, 중지-전류"},{"s":"전기자기학","t":"플레밍의 오른손 법칙","d":"자계 안에서 움직이는 도체의 유기기전력 방향(발전기 원리)"},{"s":"전기자기학","t":"자기쌍극자","d":"크기가 같고 반대인 두 자극이 가까이 있는 것"},{"s":"전기자기학","t":"자화","d":"자성체가 자계에 의해 자석의 성질을 띠는 것"},{"s":"전기자기학","t":"자화의 세기","d":"단위 체적당 자기 모멘트 J = B − μ0H"},{"s":"전기자기학","t":"자화율","d":"자화의 세기와 자계의 비 χ = μ0(μs − 1)"},{"s":"전기자기학","t":"강자성체","d":"μs ≫ 1인 물질. 철·니켈·코발트"},{"s":"전기자기학","t":"상자성체","d":"μs가 1보다 약간 큰 물질. 알루미늄·백금"},{"s":"전기자기학","t":"반자성체","d":"μs < 1인 물질. 구리·금·은·비스무트"},{"s":"전기자기학","t":"히스테리시스 곡선","d":"자성체의 B-H 관계가 증가·감소 시 다른 경로를 그리는 곡선"},{"s":"전기자기학","t":"잔류자기","d":"외부 자계를 0으로 해도 남는 자속밀도 Br"},{"s":"전기자기학","t":"보자력","d":"잔류자기를 0으로 만드는 데 필요한 역방향 자계 Hc"},{"s":"전기자기학","t":"히스테리시스손","d":"히스테리시스 곡선 면적에 비례하는 철손 Ph ∝ fBm^1.6"},{"s":"전기자기학","t":"와류손","d":"철심 안 맴돌이 전류에 의한 손실 Pe ∝ (tfBm)²"},{"s":"전기자기학","t":"자기회로","d":"자속이 지나는 경로를 전기회로처럼 다룬 것"},{"s":"전기자기학","t":"기자력","d":"자속을 만드는 힘 F = NI [AT]"},{"s":"전기자기학","t":"자기저항","d":"자속을 방해하는 정도 Rm = l/(μS) [AT/Wb]"},{"s":"전기자기학","t":"전자유도","d":"자속이 변하면 기전력이 유기되는 현상"},{"s":"전기자기학","t":"패러데이의 법칙","d":"유기기전력의 크기는 자속 쇄교수의 시간 변화율 e = −N dφ/dt"},{"s":"전기자기학","t":"렌츠의 법칙","d":"유기기전력은 자속 변화를 방해하는 방향으로 생김"},{"s":"전기자기학","t":"자기 인덕턴스","d":"자기 전류 변화로 자기 회로에 기전력이 생기는 정도 L = Nφ/I [H]"},{"s":"전기자기학","t":"상호 인덕턴스","d":"한 코일 전류 변화로 다른 코일에 기전력이 생기는 정도 M [H]"},{"s":"전기자기학","t":"결합계수","d":"두 코일의 자기 결합 정도 k = M/√(L1L2), 0 ≤ k ≤ 1"},{"s":"전기자기학","t":"자기 에너지","d":"코일에 저장된 에너지 W = LI²/2 [J]"},{"s":"전기자기학","t":"표피 효과","d":"교류 주파수가 높을수록 전류가 도체 표면에 몰리는 현상"},{"s":"전기자기학","t":"침투 깊이","d":"표피 효과로 전류가 흐르는 깊이 δ = √(2/(ωμσ))"},{"s":"전기자기학","t":"변위전류","d":"시간에 따라 변하는 전속밀도가 만드는 전류 id = ∂D/∂t"},{"s":"전기자기학","t":"맥스웰 방정식","d":"전자계의 기본 4개 방정식(가우스 법칙 2개, 패러데이 법칙, 앙페르-맥스웰 법칙)"},{"s":"전기자기학","t":"전자파","d":"전계와 자계가 서로 수직으로 진동하며 진행하는 파동"},{"s":"전기자기학","t":"고유 임피던스","d":"전자파의 전계와 자계 비. 진공 377Ω"},{"s":"전기자기학","t":"포인팅 벡터","d":"전자파의 단위 면적당 전력 흐름 S = E×H [W/m²]"},{"s":"전기자기학","t":"전파 속도","d":"매질 속 전자파 속도 v = 1/√(εμ)"},{"s":"전기자기학","t":"푸아송 방정식","d":"∇²V = −ρ/ε. 전하 분포와 전위의 관계","a":"포아송"},{"s":"전기자기학","t":"라플라스 방정식","d":"전하가 없는 공간에서 ∇²V = 0","a":"라플라스"},{"s":"전기자기학","t":"전기 감수율","d":"분극의 세기와 전계의 비 χ = ε0(εs − 1)","a":"분극률"},{"s":"전기자기학","t":"제베크 효과","d":"서로 다른 두 금속 접합점에 온도차가 있으면 기전력이 생기는 현상(열전대)","a":"제벡"},{"s":"전기자기학","t":"앙페르의 오른나사 법칙","d":"전류 방향으로 오른나사를 진행시키면 회전 방향이 자계 방향","a":"앙페르"},{"s":"전기기기","t":"직류발전기","d":"전기자에서 유기된 교류를 정류자로 직류로 바꿔 내는 발전기"},{"s":"전기기기","t":"전기자","d":"기전력을 유기하는 권선이 감긴 회전자 부분"},{"s":"전기기기","t":"계자","d":"자속을 만드는 부분(계자 권선, 계자 철심)"},{"s":"전기기기","t":"정류자","d":"교류를 직류로 바꿔주는 장치(직류기)"},{"s":"전기기기","t":"브러시","d":"회전하는 정류자와 외부 회로를 연결하는 접촉자"},{"s":"전기기기","t":"중권","d":"병렬 회로수 a = 극수 p인 권선. 저전압 대전류용"},{"s":"전기기기","t":"파권","d":"병렬 회로수 a = 2인 권선. 고전압 소전류용"},{"s":"전기기기","t":"유기기전력","d":"도체가 자속을 끊어 생기는 기전력. 직류기 E = pZφN/(60a)"},{"s":"전기기기","t":"전기자 반작용","d":"전기자 전류가 만든 자속이 주자속을 왜곡·감소시키는 현상"},{"s":"전기기기","t":"보상권선","d":"전기자 반작용을 상쇄하기 위해 자극면에 설치한 권선"},{"s":"전기기기","t":"보극","d":"정류를 개선하기 위해 주자극 사이에 설치한 작은 자극"},{"s":"전기기기","t":"정류","d":"전기자 코일 전류 방향이 브러시를 지날 때 바뀌는 과정"},{"s":"전기기기","t":"타여자 발전기","d":"계자를 외부 전원으로 여자하는 발전기"},{"s":"전기기기","t":"분권 발전기","d":"계자권선이 전기자와 병렬로 연결된 발전기"},{"s":"전기기기","t":"직권 발전기","d":"계자권선이 전기자와 직렬로 연결된 발전기"},{"s":"전기기기","t":"복권 발전기","d":"분권과 직권 계자를 모두 가진 발전기(가동·차동)"},{"s":"전기기기","t":"전압변동률","d":"무부하 전압과 정격 전압의 차이 비율 ε = (V0 − Vn)/Vn × 100[%]"},{"s":"전기기기","t":"직류전동기","d":"직류 전력으로 회전력을 내는 전동기"},{"s":"전기기기","t":"역기전력","d":"전동기 회전으로 전기자에 생기는 공급 전압과 반대 방향 기전력"},{"s":"전기기기","t":"토크","d":"회전력 T = P/ω [N·m]"},{"s":"전기기기","t":"속도 변동률","d":"무부하와 정격 속도 차이 비율 ε = (N0 − Nn)/Nn × 100[%]"},{"s":"전기기기","t":"속도 제어","d":"직류전동기는 계자·저항·전압 제어 방식이 있음(워드 레오나드 등)"},{"s":"전기기기","t":"동기발전기","d":"회전자 속도가 동기속도와 같은 교류 발전기"},{"s":"전기기기","t":"동기속도","d":"회전자계 속도 Ns = 120f/p [rpm]"},{"s":"전기기기","t":"회전계자형","d":"계자를 회전시키고 전기자를 고정한 구조. 대부분의 동기발전기"},{"s":"전기기기","t":"단절권","d":"코일 간격을 극 간격보다 짧게 한 권선. 고조파 제거"},{"s":"전기기기","t":"분포권","d":"한 극·한 상의 코일을 여러 슬롯에 나눠 감은 권선. 파형 개선"},{"s":"전기기기","t":"권선계수","d":"분포계수 × 단절계수"},{"s":"전기기기","t":"동기 임피던스","d":"동기기의 전기자 저항과 동기 리액턴스의 합 Zs"},{"s":"전기기기","t":"단락비","d":"무부하 정격전압 계자전류 / 3상 단락 정격전류 계자전류. 클수록 안정"},{"s":"전기기기","t":"자기여자 현상","d":"무부하 장거리 선로의 충전전류로 동기발전기 전압이 상승하는 현상"},{"s":"전기기기","t":"병렬운전","d":"발전기 2대 이상을 함께 운전. 기전력 크기·위상·주파수·파형 일치 필요"},{"s":"전기기기","t":"난조","d":"부하 급변 시 동기기 회전자가 동기속도를 중심으로 진동하는 현상"},{"s":"전기기기","t":"제동권선","d":"난조를 방지하기 위해 자극면에 설치한 권선"},{"s":"전기기기","t":"동기전동기","d":"동기속도로 회전하는 교류 전동기. 역률 조정 가능"},{"s":"전기기기","t":"위상 특성곡선","d":"동기전동기 계자전류와 전기자 전류 관계(V곡선)"},{"s":"전기기기","t":"동기조상기","d":"무부하 동기전동기로 계자 조정해 무효전력을 공급·흡수하는 설비"},{"s":"전기기기","t":"변압기","d":"전자유도로 교류 전압을 바꾸는 정지기기"},{"s":"전기기기","t":"권수비","d":"a = N1/N2 = V1/V2 = I2/I1"},{"s":"전기기기","t":"여자전류","d":"변압기 무부하 시 흐르는 전류(철손 전류 + 자화 전류)"},{"s":"전기기기","t":"철손","d":"철심에서 생기는 손실(히스테리시스손 + 와류손). 부하와 무관"},{"s":"전기기기","t":"동손","d":"권선 저항에서 생기는 손실 I²R. 부하 제곱에 비례"},{"s":"전기기기","t":"효율","d":"출력 / 입력 × 100[%]"},{"s":"전기기기","t":"최대 효율 조건","d":"철손 = 동손일 때 효율이 최대"},{"s":"전기기기","t":"전일 효율","d":"하루 동안의 출력 전력량 / 입력 전력량"},{"s":"전기기기","t":"%임피던스 강하","d":"정격전류에서 임피던스 전압강하를 정격전압에 대한 백분율로 나타낸 것"},{"s":"전기기기","t":"임피던스 전압","d":"2차 단락 상태에서 정격전류가 흐르도록 1차에 가한 전압"},{"s":"전기기기","t":"단락시험","d":"변압기 동손과 임피던스 전압을 구하는 시험"},{"s":"전기기기","t":"무부하시험","d":"변압기 철손과 여자전류를 구하는 시험"},{"s":"전기기기","t":"극성","d":"변압기 1·2차 단자 전압의 상대적 방향(감극성·가극성)"},{"s":"전기기기","t":"병렬운전 조건","d":"변압기는 극성·권수비·%임피던스·저항과 리액턴스 비가 같아야 함"},{"s":"전기기기","t":"Y-Y결선","d":"중성점 접지가 가능하나 제3고조파 문제가 있음"},{"s":"전기기기","t":"스코트 결선","d":"3상을 2상으로 변환하는 결선(T결선)"},{"s":"전기기기","t":"단권변압기","d":"1차와 2차 권선 일부를 공용하는 변압기. 자기용량/부하용량 = (Vh − Vl)/Vh"},{"s":"전기기기","t":"계기용 변압기","d":"고전압을 저전압(110V)으로 낮춰 계기에 공급(PT). 2차 개방 가능, 단락 금지"},{"s":"전기기기","t":"변류기","d":"대전류를 소전류(5A)로 낮춰 계기에 공급(CT). 2차 개방 금지"},{"s":"전기기기","t":"콘서베이터","d":"변압기유가 공기와 닿아 열화되는 것을 막는 장치"},{"s":"전기기기","t":"유도전동기","d":"회전자계로 회전자에 유도 전류를 흘려 회전하는 교류 전동기"},{"s":"전기기기","t":"슬립","d":"동기속도 대비 회전자 속도 차이 비율 s = (Ns − N)/Ns"},{"s":"전기기기","t":"권선형 회전자","d":"3상 권선과 슬립링을 가진 회전자. 2차 저항으로 기동·속도 제어"},{"s":"전기기기","t":"2차 입력","d":"유도전동기 회전자에 전달되는 전력 P2"},{"s":"전기기기","t":"2차 동손","d":"P2c = sP2"},{"s":"전기기기","t":"2차 효율","d":"η2 = (1 − s) = N/Ns"},{"s":"전기기기","t":"비례추이","d":"권선형 유도전동기에서 2차 저항을 m배 하면 같은 토크가 슬립 m배에서 나타나는 성질"},{"s":"전기기기","t":"최대 토크","d":"정동 토크. 2차 저항과 무관하게 일정"},{"s":"전기기기","t":"기동법","d":"유도전동기의 기동전류를 줄이는 방법(Y-Δ, 리액터, 기동보상기, 2차 저항 등)"},{"s":"전기기기","t":"원선도","d":"유도전동기 특성을 원 모양 궤적으로 나타낸 그림"},{"s":"전기기기","t":"크로우링 현상","d":"농형 유도전동기가 정격속도보다 낮은 속도에서 안정되는 현상"},{"s":"전기기기","t":"단상 유도전동기","d":"단상 전원 유도전동기. 기동장치 필요(콘덴서·분상·셰이딩 코일 등)"},{"s":"전기기기","t":"정류기","d":"교류를 직류로 바꾸는 장치"},{"s":"전기기기","t":"다이오드","d":"한 방향으로만 전류를 흘리는 반도체 소자"},{"s":"전기기기","t":"SCR","d":"게이트 신호로 턴온하는 단방향 3단자 사이리스터"},{"s":"전기기기","t":"사이리스터","d":"PNPN 구조의 스위칭 반도체 소자 총칭"},{"s":"전기기기","t":"TRIAC","d":"양방향 3단자 사이리스터. 교류 위상 제어"},{"s":"전기기기","t":"GTO","d":"게이트 신호로 턴오프도 가능한 사이리스터"},{"s":"전기기기","t":"IGBT","d":"MOSFET과 BJT 장점을 합친 고속·대전력 스위칭 소자"},{"s":"전기기기","t":"인버터","d":"직류를 교류로 바꾸는 장치"},{"s":"전기기기","t":"컨버터","d":"교류를 직류로 바꾸는 장치(정류기)"},{"s":"전기기기","t":"초퍼","d":"직류를 다른 크기의 직류로 바꾸는 장치"},{"s":"전기기기","t":"사이클로컨버터","d":"교류를 다른 주파수의 교류로 직접 바꾸는 장치"},{"s":"전기기기","t":"맥동률","d":"정류 출력에 포함된 교류분 비율. 단상 반파 121%, 단상 전파 48%, 3상 반파 17%, 3상 전파 4%"},{"s":"전기기기","t":"스테핑 모터","d":"입력 펄스 수에 비례해 일정 각도씩 회전하는 전동기"},{"s":"전기기기","t":"서보 모터","d":"위치·속도를 정밀 제어하는 전동기"},{"s":"전기기기","t":"워드 레오나드 방식","d":"전동기에 공급하는 전압을 발전기로 조정하는 광범위 속도 제어 방식","a":"워드 레오너드"},{"s":"전기기기","t":"Δ-Δ결선","d":"제3고조파가 순환해 기전력 파형이 좋고, 1대 고장 시 V결선 가능","a":"△-△"},{"s":"전기기기","t":"부흐홀츠 계전기","d":"변압기 내부 고장 시 생기는 가스·유류로 동작하는 보호 계전기","a":"부흐홀쯔"},{"s":"전기기기","t":"농형 회전자","d":"도체 막대를 단락환으로 묶은 회전자. 구조 간단·견고","a":"농형"},{"s":"전기기기","t":"Y-Δ 기동","d":"Y로 기동 후 Δ로 운전. 기동전류·토크가 1/3","a":"Y-△"},{"s":"전력공학","t":"수력발전","d":"물의 위치에너지로 수차를 돌려 발전"},{"s":"전력공학","t":"유효낙차","d":"총낙차에서 손실낙차를 뺀 실제 이용 낙차"},{"s":"전력공학","t":"수차","d":"물의 에너지를 회전 에너지로 바꾸는 장치(펠턴·프란시스·카플란 등)"},{"s":"전력공학","t":"캐비테이션","d":"수차 날개 근처 압력 저하로 기포가 생겨 부식·진동을 일으키는 현상"},{"s":"전력공학","t":"조압수조","d":"수압관 압력 변화(수격작용)를 완화하는 설비"},{"s":"전력공학","t":"양수발전","d":"남는 전력으로 물을 끌어올렸다가 첨두부하 때 발전하는 방식"},{"s":"전력공학","t":"화력발전","d":"연료 연소열로 증기를 만들어 터빈을 돌려 발전"},{"s":"전력공학","t":"랭킨 사이클","d":"화력발전 기본 열 사이클(급수펌프-보일러-터빈-복수기)"},{"s":"전력공학","t":"재열 사이클","d":"터빈에서 팽창한 증기를 다시 가열해 효율을 높인 사이클"},{"s":"전력공학","t":"재생 사이클","d":"터빈 중간 증기를 뽑아 급수를 가열해 효율을 높인 사이클"},{"s":"전력공학","t":"복수기","d":"터빈 배기 증기를 냉각해 물로 되돌리는 장치"},{"s":"전력공학","t":"절탄기","d":"배기가스 열로 보일러 급수를 예열하는 장치"},{"s":"전력공학","t":"과열기","d":"포화증기를 더 가열해 과열증기로 만드는 장치"},{"s":"전력공학","t":"원자력발전","d":"핵분열 에너지로 증기를 만들어 발전"},{"s":"전력공학","t":"감속재","d":"고속 중성자를 열중성자로 감속(경수·중수·흑연)"},{"s":"전력공학","t":"제어봉","d":"중성자를 흡수해 핵분열 반응을 조절(카드뮴·붕소·하프늄)"},{"s":"전력공학","t":"가공전선로","d":"지지물(전주·철탑)로 공중에 전선을 가설한 선로"},{"s":"전력공학","t":"ACSR","d":"강심 알루미늄 연선. 가볍고 인장강도가 커 송전선에 사용"},{"s":"전력공학","t":"이도","d":"전선이 처진 정도 D = WS²/(8T)"},{"s":"전력공학","t":"애자","d":"전선을 지지물에서 절연하는 기구"},{"s":"전력공학","t":"현수애자","d":"철탑에서 전선을 매다는 애자"},{"s":"전력공학","t":"댐퍼","d":"전선 진동을 방지하는 장치"},{"s":"전력공학","t":"코로나 현상","d":"전선 표면 전위경도가 커 공기가 부분 절연파괴되는 현상"},{"s":"전력공학","t":"코로나 임계전압","d":"코로나가 발생하기 시작하는 전압. 전선이 굵을수록 높음"},{"s":"전력공학","t":"복도체","d":"한 상에 전선 2가닥 이상 사용. 코로나 방지·인덕턴스 감소·정전용량 증가"},{"s":"전력공학","t":"연가","d":"선로 정수 평형을 위해 전선 위치를 주기적으로 바꾸는 것"},{"s":"전력공학","t":"선로정수","d":"저항 R, 인덕턴스 L, 정전용량 C, 누설 컨덕턴스 G"},{"s":"전력공학","t":"작용 인덕턴스","d":"L = 0.05 + 0.4605 log(D/r) [mH/km]"},{"s":"전력공학","t":"작용 정전용량","d":"C = 0.02413/log(D/r) [μF/km]"},{"s":"전력공학","t":"충전전류","d":"선로 정전용량으로 흐르는 전류 Ic = ωCE"},{"s":"전력공학","t":"단거리 송전선로","d":"약 10km 이하. 저항과 인덕턴스만 고려하는 집중정수 회로"},{"s":"전력공학","t":"중거리 송전선로","d":"T형·π형 회로로 해석하는 선로"},{"s":"전력공학","t":"장거리 송전선로","d":"분포정수 회로로 해석하는 선로"},{"s":"전력공학","t":"전압강하","d":"송전단 전압과 수전단 전압의 차 e = √3I(Rcosθ + Xsinθ)"},{"s":"전력공학","t":"전압강하율","d":"(Vs − Vr)/Vr × 100[%]"},{"s":"전력공학","t":"전력손실","d":"선로 저항에 의한 손실 Pl = 3I²R. 전압의 제곱에 반비례"},{"s":"전력공학","t":"페란티 현상","d":"무부하·경부하 장거리 선로에서 수전단 전압이 송전단보다 높아지는 현상"},{"s":"전력공학","t":"전력원선도","d":"송·수전단 전압이 일정할 때 전력 관계를 원으로 나타낸 그림"},{"s":"전력공학","t":"조상설비","d":"무효전력을 조정해 전압·역률을 조절하는 설비(동기조상기·콘덴서·리액터)"},{"s":"전력공학","t":"전력용 콘덴서","d":"진상 무효전력을 공급해 역률을 개선하는 설비"},{"s":"전력공학","t":"분로 리액터","d":"지상 무효전력을 흡수해 페란티 현상을 막는 설비"},{"s":"전력공학","t":"직렬 리액터","d":"콘덴서에 직렬 연결해 제5고조파를 제거하는 리액터"},{"s":"전력공학","t":"방전코일","d":"콘덴서 개방 후 잔류전하를 방전시키는 장치"},{"s":"전력공학","t":"역률 개선","d":"콘덴서로 진상 무효전력을 공급해 cosθ를 높이는 것. Qc = P(tanθ1 − tanθ2)"},{"s":"전력공학","t":"%임피던스","d":"정격전류 흐를 때 임피던스 전압강하를 기준전압 백분율로 나타낸 것 %Z = IZ/E × 100"},{"s":"전력공학","t":"단락전류","d":"단락 고장 시 흐르는 전류 Is = (100/%Z) × In"},{"s":"전력공학","t":"단락용량","d":"Ps = (100/%Z) × Pn"},{"s":"전력공학","t":"한류 리액터","d":"단락전류를 제한하기 위해 선로에 직렬로 넣는 리액터"},{"s":"전력공학","t":"안정도","d":"계통이 외란 후에도 동기 운전을 계속할 수 있는 능력(정태·과도·동태)"},{"s":"전력공학","t":"중성점 접지","d":"변압기 중성점을 대지에 접속하는 것(비접지·직접·저항·소호 리액터 접지)"},{"s":"전력공학","t":"직접접지 방식","d":"중성점을 직접 접지. 1선 지락 시 건전상 전압 상승이 작고 지락전류가 큼"},{"s":"전력공학","t":"비접지 방식","d":"중성점을 접지하지 않는 방식. 1선 지락 시 건전상 전압이 √3배 상승"},{"s":"전력공학","t":"소호 리액터접지 방식","d":"대지 정전용량과 병렬공진하는 리액터로 지락전류를 최소화하는 방식"},{"s":"전력공학","t":"이상전압","d":"정상 운전 전압을 넘는 전압(뇌서지·개폐서지 등)"},{"s":"전력공학","t":"반사계수","d":"선로 접속점에서 반사되는 비율 β = (Z2 − Z1)/(Z2 + Z1)"},{"s":"전력공학","t":"투과계수","d":"선로 접속점에서 투과되는 비율 γ = 2Z2/(Z2 + Z1)"},{"s":"전력공학","t":"가공지선","d":"직격뢰로부터 전선을 보호하기 위해 철탑 최상부에 가설한 접지선"},{"s":"전력공학","t":"차폐각","d":"가공지선과 전선을 잇는 선이 수직선과 이루는 각. 작을수록 보호 효과 큼"},{"s":"전력공학","t":"매설지선","d":"철탑 접지저항을 낮춰 역섬락을 막기 위해 땅속에 묻은 도선"},{"s":"전력공학","t":"역섬락","d":"철탑 접지저항이 커서 뇌격 시 철탑 전위가 올라 애자에서 섬락하는 현상"},{"s":"전력공학","t":"피뢰기","d":"이상전압을 대지로 방전하고 속류를 차단해 기기를 보호하는 장치"},{"s":"전력공학","t":"제한전압","d":"피뢰기 방전 중 단자에 남는 전압"},{"s":"전력공학","t":"속류","d":"방전 후 계속 흐르려는 상용주파 전류"},{"s":"전력공학","t":"절연협조","d":"계통 기기 절연강도를 피뢰기 보호 수준에 맞춰 경제적으로 배열하는 것"},{"s":"전력공학","t":"차단기","d":"정상 전류와 고장 전류를 개폐하는 장치"},{"s":"전력공학","t":"단로기","d":"무부하 상태에서 회로를 분리하는 개폐기. 전류 차단 능력 없음"},{"s":"전력공학","t":"진공차단기","d":"진공에서 아크를 소호하는 차단기(VCB)"},{"s":"전력공학","t":"가스차단기","d":"SF6 가스로 아크를 소호하는 차단기(GCB)"},{"s":"전력공학","t":"재폐로","d":"고장 차단 후 일정 시간 뒤 자동으로 다시 투입하는 것"},{"s":"전력공학","t":"보호 계전기","d":"고장을 검출해 차단기에 트립 신호를 보내는 장치"},{"s":"전력공학","t":"과전류 계전기","d":"전류가 설정값 이상일 때 동작(OCR)"},{"s":"전력공학","t":"거리 계전기","d":"전압/전류 비(임피던스)로 고장점 거리를 판단해 동작"},{"s":"전력공학","t":"비율차동 계전기","d":"보호 구간 입·출 전류 차이 비율로 내부 고장을 검출(변압기 보호)"},{"s":"전력공학","t":"방향 계전기","d":"고장 전류 방향을 판별해 동작"},{"s":"전력공학","t":"한시 특성","d":"동작 시간이 전류 크기에 따라 달라지는 특성(반한시·정한시 등)"},{"s":"전력공학","t":"배전방식","d":"방사상식·루프식·망상식(네트워크) 등 배전 구성"},{"s":"전력공학","t":"저압 뱅킹 방식","d":"같은 고압선에 연결된 여러 변압기 2차를 병렬 연결한 방식. 캐스케이딩 주의"},{"s":"전력공학","t":"캐스케이딩","d":"저압 뱅킹에서 변압기 일부 고장이 연쇄적으로 다른 변압기를 차단시키는 현상"},{"s":"전력공학","t":"단상 3선식","d":"중성선 포함 3선으로 두 종류 전압 공급. 중성선에 퓨즈 금지"},{"s":"전력공학","t":"수용률","d":"최대수요전력 / 설비용량 × 100[%]"},{"s":"전력공학","t":"부등률","d":"각 수용가 최대전력 합 / 합성 최대전력. 1 이상"},{"s":"전력공학","t":"부하율","d":"평균전력 / 최대전력 × 100[%]"},{"s":"전력공학","t":"손실계수","d":"평균 손실 / 최대 손실"},{"s":"전력공학","t":"변압기 용량","d":"설비용량 × 수용률 / 부등률 / 역률"},{"s":"전력공학","t":"애자련 전압분담","d":"전선 쪽에서 가장 가까운 애자 분담이 가장 큼","a":"전압분담"},{"s":"전력공학","t":"소호환","d":"애자련 전압분담 균일화와 섬락 시 애자 보호를 위한 금구(초호환)","a":"소호각"},{"s":"전기설비기술기준","t":"한국전기설비규정","d":"KEC. 전기설비 시설에 관한 기술 기준을 정한 규정"},{"s":"전기설비기술기준","t":"저압","d":"교류 1kV 이하, 직류 1.5kV 이하"},{"s":"전기설비기술기준","t":"고압","d":"교류 1kV 초과 7kV 이하, 직류 1.5kV 초과 7kV 이하"},{"s":"전기설비기술기준","t":"특고압","d":"7kV 초과"},{"s":"전기설비기술기준","t":"전로","d":"정상 상태에서 전류가 흐르는 전기 회로"},{"s":"전기설비기술기준","t":"전선로","d":"발전소·변전소·개폐소 및 이와 유사한 곳과 전기사용장소 상호 간의 전선 및 이를 지지하는 시설물"},{"s":"전기설비기술기준","t":"제1차 접근상태","d":"가공전선이 다른 시설물과 접근하는 경우로 제2차 접근상태가 아닌 상태"},{"s":"전기설비기술기준","t":"제2차 접근상태","d":"가공전선이 다른 시설물의 위쪽 또는 옆쪽에서 수평거리 3m 미만에 시설되는 상태"},{"s":"전기설비기술기준","t":"조영물","d":"건축물·광고탑 등 토지에 정착하는 시설물 중 지붕과 기둥 또는 벽을 가진 것"},{"s":"전기설비기술기준","t":"조영재","d":"조영물을 구성하는 부분"},{"s":"전기설비기술기준","t":"절연저항","d":"전로와 대지 사이 절연 상태를 나타내는 저항"},{"s":"전기설비기술기준","t":"절연내력 시험","d":"시험전압을 전로와 대지 사이에 연속 10분간 가해 견디는지 확인하는 시험"},{"s":"전기설비기술기준","t":"접지시스템","d":"계통접지·보호접지·피뢰시스템 접지로 구성된 접지 체계"},{"s":"전기설비기술기준","t":"보호도체","d":"감전 보호를 위해 기기 노출 도전부를 접지와 연결하는 도체(PE)"},{"s":"전기설비기술기준","t":"접지도체","d":"접지극과 주접지단자를 연결하는 도체"},{"s":"전기설비기술기준","t":"등전위본딩","d":"도전성 부분들을 연결해 전위를 같게 하는 것"},{"s":"전기설비기술기준","t":"가공인입선","d":"가공전선로 지지물에서 분기해 다른 지지물을 거치지 않고 수용장소 붙임점에 이르는 전선"},{"s":"전기설비기술기준","t":"이웃 연결 인입선","d":"한 수용장소 인입선에서 분기해 다른 지지물을 거치지 않고 다른 수용장소 인입구에 이르는 부분(연접 인입선)"},{"s":"전기설비기술기준","t":"지지선","d":"지지물의 강도를 보강하기 위해 시설하는 선(지선). 안전율 2.5 이상"},{"s":"전기설비기술기준","t":"풍압하중","d":"바람에 의해 지지물·전선에 가해지는 하중(갑종·을종·병종)"},{"s":"전기설비기술기준","t":"지지물 간 거리","d":"전선로 지지물 사이 수평거리(경간)"},{"s":"전기설비기술기준","t":"특고압 보안공사","d":"특고압 가공전선이 건조물 등과 접근할 때 강화된 기준으로 시설하는 공사(제1~3종)"},{"s":"전기설비기술기준","t":"병행설치","d":"같은 지지물에 저압·고압 또는 고압·특고압 가공전선을 함께 시설하는 것(병가)"},{"s":"전기설비기술기준","t":"공용설치","d":"같은 지지물에 가공전선과 가공 약전류전선을 함께 시설하는 것(공가)"},{"s":"전기설비기술기준","t":"지중전선로","d":"케이블을 땅속에 시설한 전선로(직접 매설식·관로식·암거식)"},{"s":"전기설비기술기준","t":"직접 매설식","d":"케이블을 땅속에 직접 묻는 방식. 중량물 압력 장소 1.0m 이상, 기타 0.6m 이상"},{"s":"전기설비기술기준","t":"금속덕트 공사","d":"금속제 덕트 안에 전선을 넣는 공사. 전선 단면적 합계는 덕트 내부 단면적의 20% 이하"},{"s":"전기설비기술기준","t":"합성수지관 공사","d":"합성수지관 안에 전선을 넣는 공사"},{"s":"전기설비기술기준","t":"금속관 공사","d":"금속관 안에 전선을 넣는 공사"},{"s":"전기설비기술기준","t":"케이블 트레이 공사","d":"케이블을 트레이 위에 시설하는 공사. 안전율 1.5 이상"},{"s":"전기설비기술기준","t":"대지전압","d":"전선과 대지 사이 전압. 주택 옥내 전로는 300V 이하"},{"s":"전기설비기술기준","t":"누전차단기","d":"누설전류(지락)를 검출해 회로를 자동 차단하는 장치. 욕실 콘센트는 15mA·0.03초 이하"},{"s":"전기설비기술기준","t":"배선차단기","d":"과전류 시 회로를 자동 차단하는 차단기(MCCB)"},{"s":"전기설비기술기준","t":"전기 울타리","d":"가축 등을 위한 울타리 전선. 사용전압 250V 이하, 전선 1.38kN 또는 지름 2mm 이상"},{"s":"전기설비기술기준","t":"전기온상","d":"발열선으로 온상을 가열하는 설비. 발열선 온도 80℃ 이하"},{"s":"전기설비기술기준","t":"분산형 전원","d":"태양광·풍력·연료전지·전기저장장치 등 수요지 근처에 분산 설치한 전원"},{"s":"전기설비기술기준","t":"MPPT","d":"최대 전력점 추종. 태양전지가 최대 전력을 내도록 동작점을 제어"},{"s":"전기설비기술기준","t":"전기저장장치","d":"전기를 저장했다가 공급하는 장치(ESS)"},{"s":"전기설비기술기준","t":"전차선로","d":"전기철도 차량에 전력을 공급하는 선로"},{"s":"전기설비기술기준","t":"이격거리","d":"두 시설물 사이에 확보해야 하는 거리(간격)"},{"s":"전기설비기술기준","t":"TN 계통","d":"전원 측 한 점을 직접 접지하고 기기 노출 도전부를 보호도체로 그 점에 연결하는 계통","a":"TN-"}],"deriv":[{"s":"회로이론","t":"최대 전력 전달 조건","f":"RL = r 일 때 Pmax = E²/(4r)","steps":["부하 전력 P = I²RL = E²RL/(r+RL)²","P를 RL로 미분해 0으로 두면 dP/dRL = E²[(r+RL)² − 2RL(r+RL)]/(r+RL)⁴ = 0","분자 정리: (r+RL) − 2RL = 0 → RL = r","대입: Pmax = E²r/(2r)² = E²/(4r)"],"link":"최대 전력 전달","cid":"c02_15"},{"s":"회로이론","t":"정현파의 실효값","f":"V = Vm/√2","steps":["실효값 정의: 한 주기 동안 v²의 평균의 제곱근 V = √((1/T)∫v²dt)","v = Vm sinωt → v² = Vm² sin²ωt = Vm²(1 − cos2ωt)/2","한 주기 평균에서 cos2ωt 항은 0 → 평균 = Vm²/2","V = √(Vm²/2) = Vm/√2 ≈ 0.707Vm"],"link":"정현파 교류의 크기 표시","cid":"c01_07"},{"s":"회로이론","t":"정현파의 평균값","f":"Vav = 2Vm/π","steps":["반주기 평균 Vav = (1/π)∫₀^π Vm sinθ dθ","∫₀^π sinθ dθ = [−cosθ]₀^π = 2","Vav = 2Vm/π ≈ 0.637Vm"],"link":"정현파 교류의 크기 표시","cid":"c01_07"},{"s":"회로이론","t":"직렬공진 주파수","f":"f0 = 1/(2π√(LC))","steps":["직렬 RLC 임피던스 Z = R + j(ωL − 1/ωC)","공진: 허수부 0 → ωL = 1/(ωC)","ω² = 1/(LC) → ω0 = 1/√(LC)","f0 = ω0/2π = 1/(2π√(LC)). 이때 Z = R(최소), 전류 최대"],"link":"공진","cid":"c01_12"},{"s":"회로이론","t":"3상 전력","f":"P = √3 Vl Il cosθ","steps":["3상 전력 = 한 상 전력의 3배: P = 3 Vp Ip cosθ","Y결선: Vp = Vl/√3, Ip = Il → P = 3(Vl/√3)Il cosθ = √3 Vl Il cosθ","Δ결선: Vp = Vl, Ip = Il/√3 → 같은 결과 √3 Vl Il cosθ","결선과 관계없이 선간전압·선전류로 같은 식"],"link":"3상 전력","cid":"c02_14"},{"s":"회로이론","t":"Y결선 선간전압","f":"Vl = √3 Vp (30° 앞섬)","steps":["선간전압 Vab = Va − Vb (Va = Vp∠0°, Vb = Vp∠−120°)","Va − Vb = Vp[1 − (−1/2 − j√3/2)] = Vp(3/2 + j√3/2)","크기 = Vp√(9/4 + 3/4) = √3 Vp, 각도 = tan⁻¹((√3/2)/(3/2)) = 30°","→ Vab = √3 Vp∠30°"],"link":"Y결선","cid":"c02_22"},{"s":"회로이론","t":"Δ→Y 임피던스 변환","f":"ZY = ZΔ/3 (평형)","steps":["Δ의 두 단자 사이 합성: Zab(Δ) = ZΔ(2ZΔ)/(3ZΔ) = 2ZΔ/3","Y의 같은 두 단자 사이: Zab(Y) = 2ZY","두 값이 같아야 등가 → 2ZY = 2ZΔ/3","ZY = ZΔ/3 (반대로 ZΔ = 3ZY)"],"link":"Δ↔Y 변환","cid":"c02_23"},{"s":"회로이론","t":"V결선 출력","f":"PV = √3 P1 (이용률 86.6%, 출력비 57.7%)","steps":["단상 변압기 1대 용량 P1 = VI","V결선 3상 출력 = √3 V I = √3 P1","이용률 = √3P1/(2P1) = √3/2 ≈ 0.866","출력비(Δ 대비) = √3P1/(3P1) = 1/√3 ≈ 0.577"],"link":"V결선","cid":"c02_25"},{"s":"회로이론","t":"RL 회로 시정수","f":"τ = L/R","steps":["직류 E 인가: E = Ri + L di/dt","해: i(t) = (E/R)(1 − e^(−Rt/L))","t = L/R일 때 i = (E/R)(1 − e⁻¹) ≈ 0.632 × 최종값","그래서 τ = L/R (RC 회로는 같은 방식으로 τ = RC)"],"link":"과도현상","cid":"c04_34"},{"s":"제어공학","t":"피드백 폐루프 전달함수","f":"G/(1 + GH)","steps":["오차 E = R − HC, 출력 C = GE","C = G(R − HC) → C + GHC = GR","C(1 + GH) = GR","C/R = G/(1 + GH)"],"link":"블록선도","cid":"c05_03"},{"s":"제어공학","t":"계단 입력 정상편차","f":"ess = 1/(1 + Kp)","steps":["오차 E(s) = R(s)/(1 + G(s)H(s))","최종값 정리 ess = lim(s→0) sE(s), 계단 R(s) = 1/s","ess = lim(s→0) 1/(1 + G(s)H(s)) = 1/(1 + Kp)","Kp = lim(s→0) G(s)H(s). 1형 이상이면 Kp = ∞ → 편차 0"],"link":"정상편차","cid":"c05_08"},{"s":"제어공학","t":"2차계 고유주파수와 감쇠비","f":"s² + 2ζωn s + ωn² = 0","steps":["표준형 G = ωn²/(s² + 2ζωn s + ωn²)","특성방정식 계수를 비교: 상수항 = ωn², s 계수 = 2ζωn","예: s² + 4s + 16 → ωn = 4, 2ζ(4) = 4 → ζ = 0.5","0 < ζ < 1 부족제동, ζ = 1 임계제동, ζ > 1 과제동"],"link":"2차 제어계","cid":"c05_07"},{"s":"전기자기학","t":"점전하의 전계","f":"E = Q/(4πε0 r²)","steps":["가우스 법칙: 반지름 r 구면을 지나는 전속 = Q","D × 4πr² = Q → D = Q/(4πr²)","E = D/ε0 = Q/(4πε0 r²) = 9×10⁹ Q/r²"],"link":"가우스의 법칙","cid":"c07_05"},{"s":"전기자기학","t":"무한 직선 전하의 전계","f":"E = λ/(2πε0 r)","steps":["반지름 r, 길이 l인 원통면에 가우스 법칙 적용","옆면만 전속 통과: D × 2πrl = λl","D = λ/(2πr) → E = λ/(2πε0 r)","거리에 반비례(점전하는 거리 제곱에 반비례)"],"link":"가우스의 법칙","cid":"c07_05"},{"s":"전기자기학","t":"평행판 콘덴서 정전용량","f":"C = εS/d","steps":["극판 전하 Q, 면적 S → 전속밀도 D = Q/S","E = D/ε = Q/(εS)","전위차 V = Ed = Qd/(εS)","C = Q/V = εS/d"],"link":"정전용량","cid":"c08_07"},{"s":"전기자기학","t":"동심구 콘덴서 정전용량","f":"C = 4πε ab/(b − a)","steps":["내구 a, 외구 b. 사이 전계 E = Q/(4πε r²)","V = ∫a^b E dr = (Q/4πε)(1/a − 1/b)","C = Q/V = 4πε/(1/a − 1/b) = 4πε ab/(b − a)"],"link":"정전용량","cid":"c08_07"},{"s":"전기자기학","t":"정전에너지","f":"W = CV²/2","steps":["전하 q가 쌓인 상태에서 dq를 더 옮기는 일 dW = v dq = (q/C)dq","W = ∫₀^Q (q/C)dq = Q²/(2C)","Q = CV 대입 → W = CV²/2 = QV/2"],"link":"정전에너지","cid":"c08_11"},{"s":"전기자기학","t":"무한 직선 전류의 자계","f":"H = I/(2πr)","steps":["앙페르 주회적분: 반지름 r 원을 따라 ∮H·dl = I","대칭이므로 H × 2πr = I","H = I/(2πr) [A/m]"],"link":"앙페르의 주회적분 법칙","cid":"c09_23"},{"s":"전기자기학","t":"환상 솔레노이드 자계","f":"H = NI/(2πr) (외부 0)","steps":["철심 중심 반지름 r 원에 주회적분: 쇄교 전류 = NI","H × 2πr = NI","H = NI/(2πr). 외부는 쇄교 전류 합이 0 → H = 0"],"link":"솔레노이드","cid":"c09_23"},{"s":"전기자기학","t":"평행 도선 사이 힘","f":"F = 2I1I2/r × 10⁻⁷ [N/m]","steps":["도선1이 거리 r에 만드는 자속밀도 B = μ0I1/(2πr)","도선2(길이 1m)가 받는 힘 F = B I2 = μ0I1I2/(2πr)","μ0 = 4π×10⁻⁷ 대입 → F = 2I1I2/r × 10⁻⁷","같은 방향 전류 흡인, 반대 방향 반발"],"link":"평행 도선","cid":"c09_21"},{"s":"전기자기학","t":"자기 인덕턴스(환상 솔레노이드)","f":"L = μSN²/l","steps":["자계 H = NI/l → 자속 φ = BS = μSNI/l","L = Nφ/I = N(μSNI/l)/I","L = μSN²/l (권수 제곱에 비례)"],"link":"인덕턴스","cid":"c10_32"},{"s":"전기자기학","t":"코일 저장 에너지","f":"W = LI²/2","steps":["전압 v = L di/dt, 전력 p = vi = Li di/dt","W = ∫p dt = ∫₀^I Li di = LI²/2"],"link":"자기 에너지","cid":"c10_31"},{"s":"전기기기","t":"직류기 유기기전력","f":"E = pZφN/(60a)","steps":["도체 1개 기전력 e = Blv, 회전 속도 v = πDN/60","평균 자속밀도 B = pφ/(πDl) → e = pφN/60","직렬 도체 수 = Z/a","E = (Z/a)(pφN/60) = pZφN/(60a) = KφN"],"link":"직류발전기","cid":"c11_03"},{"s":"전기기기","t":"직류전동기 토크","f":"T = pZφIa/(2πa) ≈ 0.975 P/N [kg·m]","steps":["기계 출력 P = E Ia = ωT, ω = 2πN/60","T = E Ia/ω = (pZφN/60a)Ia/(2πN/60) = pZφIa/(2πa)","실용식: T = P/ω = 60P/(2πN) [N·m] = 0.975 P/N [kg·m]"],"link":"직류전동기","cid":"c11_09"},{"s":"전기기기","t":"동기속도","f":"Ns = 120f/p","steps":["회전자계는 1주기마다 2극(한 쌍)만큼 회전","p극이면 1주기에 2/p 회전 → 초당 2f/p 회전","분당 Ns = 60 × 2f/p = 120f/p [rpm]"],"link":"동기속도","cid":"c12_16"},{"s":"전기기기","t":"유도전동기 2차 효율","f":"η2 = 1 − s = N/Ns","steps":["2차 입력 P2 중 2차 동손 Pc2 = sP2","기계 출력 Po = P2 − sP2 = (1 − s)P2","η2 = Po/P2 = 1 − s = N/Ns"],"link":"유도전동기","cid":"c14_43"},{"s":"전기기기","t":"변압기 최대 효율 조건","f":"철손 = 동손","steps":["부하율 m에서 η = mP/(mP + Pi + m²Pc)","분모를 m으로 나누면 P + Pi/m + mPc 가 최소일 때 η 최대","d/dm(Pi/m + mPc) = −Pi/m² + Pc = 0","m²Pc = Pi → 그 부하에서의 동손 = 철손. m = √(Pi/Pc)"],"link":"변압기 효율","cid":"c13_41"},{"s":"전기기기","t":"변압기 전압변동률","f":"ε ≈ p cosθ + q sinθ","steps":["ε = (V20 − V2n)/V2n × 100","근사: 2차 측 전압강하 ≈ I(R cosθ + X sinθ)","%저항강하 p = IR/V × 100, %리액턴스강하 q = IX/V × 100","ε ≈ p cosθ + q sinθ (지상 역률)"],"link":"전압변동률","cid":"c13_35"},{"s":"전기기기","t":"단권변압기 자기용량","f":"자기용량/부하용량 = (Vh − Vl)/Vh","steps":["직렬권선 전압 = Vh − Vl, 전류 = Il(고압측)","자기용량 = (Vh − Vl)Ih","부하용량 = Vh Ih","비 = (Vh − Vl)/Vh"],"link":"단권변압기","cid":"c13_32"},{"s":"전력공학","t":"3상 전압강하","f":"e = √3 I (R cosθ + X sinθ)","steps":["한 상 전압강하 ≈ I(R cosθ + X sinθ) (송·수전단 위상차가 작을 때)","선간전압 기준은 상전압의 √3배","e = √3 I (R cosθ + X sinθ)","P = √3VIcosθ 대입 → e = (P/V)(R + X tanθ)"],"link":"전압강하","cid":"c17_08"},{"s":"전력공학","t":"선로 전력손실과 전압","f":"Pl = P²R/(V² cos²θ)","steps":["3상 손실 Pl = 3I²R","I = P/(√3 V cosθ) 대입","Pl = 3R P²/(3V²cos²θ) = P²R/(V²cos²θ)","같은 전력이면 손실은 전압 제곱·역률 제곱에 반비례"],"link":"전력손실","cid":"c17_08"},{"s":"전력공학","t":"역률 개선 콘덴서 용량","f":"Qc = P(tanθ1 − tanθ2)","steps":["개선 전 무효전력 Q1 = P tanθ1","개선 후 무효전력 Q2 = P tanθ2 (유효전력 P는 그대로)","콘덴서가 공급할 양 Qc = Q1 − Q2 = P(tanθ1 − tanθ2)","tanθ = sinθ/cosθ = √(1 − cos²θ)/cosθ"],"link":"역률 개선","cid":"c18_19"},{"s":"전력공학","t":"%임피던스와 단락전류","f":"Is = (100/%Z) In","steps":["%Z = (In Z/E) × 100 → Z = %Z·E/(100 In)","단락전류 Is = E/Z = E × 100In/(%Z·E)","Is = (100/%Z) In","단락용량 Ps = (100/%Z) Pn"],"link":"%Z법(%임피던스법)","cid":"c18_23"},{"s":"전력공학","t":"전선의 이도와 실제 길이","f":"D = WS²/(8T), L = S + 8D²/(3S)","steps":["포물선 근사: 경간 S, 수평장력 T, 단위 하중 W","중앙 처짐 D = WS²/(8T)","실제 길이 L ≈ S + 8D²/(3S)","이도는 경간 제곱에 비례, 장력에 반비례"],"link":"이도","cid":"c16_07"},{"s":"전력공학","t":"충전전류","f":"Ic = ωC (V/√3)","steps":["한 상 대지 정전용량 C에 걸리는 전압은 상전압 E = V/√3","Ic = E/Xc = ωCE","Ic = 2πfC V/√3 [A]","충전용량 Qc = 3ωCE² = ωCV²"],"link":"충전전류","cid":"c17_16"},{"s":"전력공학","t":"단상 2선식 대비 3상 3선식 전선량","f":"3상 3선식 전선량 = 75%","steps":["같은 전력·전압·손실, 단상 2선식 저항 R1, 3상 저항 R3","손실 같음: 2(P/V)²R1 = 3(P/√3V)²R3 → R3 = 2R1","전선 단면적은 저항에 반비례 → 3상 1가닥 = 단상 1가닥의 1/2","총량 비 = (3 × 1/2)/(2 × 1) = 3/4 = 75%"],"link":"배전방식","cid":"c19_38"},{"s":"전력공학","t":"수용률·부등률·부하율로 변압기 용량","f":"Tr = Σ(설비 × 수용률)/(부등률 × 역률)","steps":["각 수용가 최대전력 = 설비용량 × 수용률","합성 최대전력 = Σ최대전력/부등률","kVA 환산: ÷ 역률","Tr ≥ Σ(설비 × 수용률)/(부등률 × cosθ)"],"link":"부하의 계산","cid":"c19_41"}],"kec":[{"c":"총칙","t":"전압 구분","d":"저압: 교류 1kV 이하·직류 1.5kV 이하 / 고압: 교류 1kV 초과~7kV 이하·직류 1.5kV 초과~7kV 이하 / 특고압: 7kV 초과","cid":"c20_01"},{"c":"총칙","t":"제2차 접근상태","d":"가공전선이 다른 시설물 위쪽·옆쪽에서 수평거리 3m 미만에 있는 상태","cid":"c20_01"},{"c":"전선","t":"전선 접속","d":"접속 시 전선의 세기를 20% 이상 감소시키지 않을 것","cid":"c20_02"},{"c":"전선","t":"병렬 사용 전선 굵기","d":"구리 50mm² 이상, 알루미늄 70mm² 이상","cid":"c20_02"},{"c":"절연","t":"저압 절연저항 대체","d":"절연저항 측정이 곤란하면 누설전류 1mA 이하로 관리","cid":"c20_04"},{"c":"절연","t":"절연내력 시험","d":"시험전압을 전로와 대지 사이에 연속 10분간. 직류로 하면 교류 시험전압의 2배","cid":"c20_04"},{"c":"절연","t":"절연내력 시험전압 배수","d":"최대사용전압 7kV 이하 1.5배(최저 500V) / 7kV 초과 비접지 1.25배(최저 10,500V) / 중성선 다중접지 0.92배 / 170kV 이하 중성점 직접접지 0.72배 / 170kV 초과 직접접지 0.64배","cid":"c20_04"},{"c":"접지","t":"보호도체 단면적","d":"선도체 16mm² 이하 → 선도체와 같게 / 16~35mm² → 16mm² / 35mm² 초과 → 선도체의 1/2","cid":"c20_05"},{"c":"접지","t":"중성점 접지용 접지도체","d":"기본 16mm² 이상. 7kV 이하 전로 등 예외 6mm² 이상","cid":"c20_05"},{"c":"가공전선","t":"가공전선 높이 (35kV 이하)","d":"도로 횡단 6m, 철도 횡단 레일면 6.5m, 횡단보도교 위 저압 3.5m(절연전선 3m)","cid":"c20_06"},{"c":"가공전선","t":"35kV 초과 가공전선 높이","d":"160kV 이하 기본 6m(산지 5m), 160kV 초과는 10kV 단수마다 0.12m 가산","cid":"c20_06"},{"c":"가공전선","t":"약전류전선 등과 간격","d":"저압 0.6m(케이블 0.3m), 고압 0.8m(케이블 0.4m), 특고압 35kV 이하 1m·60kV 이하 2m·60kV 초과 2 + 0.12n m","cid":"c20_08"},{"c":"가공전선","t":"식물과 간격(특고압)","d":"35kV 이하 1.5m(22.9kV), 60kV 이하 2m","cid":"c20_08"},{"c":"지중","t":"지중전선 매설 깊이","d":"중량물 압력을 받을 우려가 있는 장소 1.0m 이상, 그 외 0.6m 이상","cid":"c20_10"},{"c":"지중","t":"지중함","d":"크기 1m³ 이상이면 통풍장치 등 가스 방산 장치 시설","cid":"c20_10"},{"c":"가공 케이블","t":"행거·금속테이프 간격","d":"행거 0.5m 이하, 금속테이프 0.2m 이하. 조가선은 22mm² 이상 아연도 강연선","cid":"c20_13"},{"c":"시가지","t":"시가지 특고압 전선 단면적","d":"100kV 미만 55mm² 이상, 100kV 이상 150mm² 이상, 170kV 초과 240mm² 이상","cid":"c20_14"},{"c":"시가지","t":"시가지 특고압 높이","d":"35kV 이하 10m(특고압 절연전선 8m), 35kV 초과 10m + 0.12n m","cid":"c20_14"},{"c":"시가지","t":"100kV 초과 차단","d":"지락·단락 시 1초 이내 자동 차단 장치 시설","cid":"c20_14"},{"c":"병가·공가","t":"병행설치 간격","d":"저압과 고압 가공전선 50cm 이상. 35kV 초과 특고압 가공전선은 50mm² 이상","cid":"c20_16"},{"c":"병가·공가","t":"공용설치 간격","d":"저압과 약전류전선 75cm 이상, 고압과 약전류전선 1.5m 이상, 35kV 이하 특고압 전선 50mm² 이상","cid":"c20_16"},{"c":"지지물","t":"기초 안전율","d":"2 이상. 이상 시 상정하중이 가해지는 철탑 기초 1.33 이상","cid":"c20_18"},{"c":"지지물","t":"가공지선 굵기","d":"고압 지름 4mm 이상, 특고압 지름 5mm 이상","cid":"c20_19"},{"c":"지지물","t":"철탑 종류","d":"직선형·각도형(3° 초과)·인류형·내장형(지지물 간 거리 차가 큰 곳, 직선형 10기마다 1기)·보강형","cid":"c20_20"},{"c":"지지물","t":"지지선","d":"안전율 2.5 이상, 허용 인장하중 최저 4.31kN, 소선 지름 2.6mm 이상 3가닥 이상 연선, 지표상 30cm까지 부식 방지, 도로 횡단 5m 이상","cid":"c20_21"},{"c":"지지물","t":"풍압하중","d":"원형 철주·철근콘크리트주 588Pa, 강관 철탑 1255Pa. 목주 안전율 저압 1.2, 고압 1.3, 특고압 1.5","cid":"c20_24"},{"c":"지지물","t":"발판 볼트","d":"지표상 1.8m 미만에 시설하지 않을 것","cid":"c20_24"},{"c":"지지물","t":"안전율 모음","d":"경동선 2.2, ACSR 등 2.5, 지지선 2.5, 기초 2, 철탑 이상 시 1.33, 무선용 안테나 지지물 1.5, 케이블 트레이 1.5","cid":"c20_27"},{"c":"유도장해","t":"약전류전선로 유도장해 방지","d":"가공전선과 기설 약전류전선 간격 2m 이상","cid":"c20_25"},{"c":"옥내배선","t":"저압 옥내배선 최소 굵기","d":"연동선 2.5mm² 이상. 캡타이어케이블·코드 0.75mm² 이상","cid":"c21_28"},{"c":"옥내배선","t":"금속덕트 공사","d":"덕트 두께 1.2mm 이상, 지지점 간 거리 3m(수직 6m) 이하, 전선 단면적 합계 20% 이하(제어회로만 50%)","cid":"c21_28"},{"c":"옥내배선","t":"합성수지관","d":"관 상호 접속 시 삽입 깊이는 관 외경의 1.2배(접착제 사용 시 0.8배) 이상","cid":"c21_28"},{"c":"옥내배선","t":"약전류전선·수관·가스관과 간격","d":"저압 옥내배선 10cm 이상(나전선이면 30cm), 고압 15cm 이상, 특고압 60cm 이상","cid":"c21_31"},{"c":"전압","t":"대지전압·사용전압","d":"주택 옥내 대지전압 300V 이하. 교통신호등 300V, 전기 울타리 250V, 전기욕기 10V, 전기부식방지 직류 60V, 태양광·ESS 직류 600V","cid":"c21_32"},{"c":"조명","t":"센서등(타임스위치)","d":"주택·아파트 현관 3분 이내 소등, 숙박업소 객실 입구 1분 이내 소등","cid":"c21_33"},{"c":"조명","t":"네온 방전등","d":"관등회로 전선 상호 간격 6cm 이상","cid":"c21_33"},{"c":"특수설비","t":"전기 울타리","d":"사용전압 250V 이하, 전선 1.38kN 또는 지름 2mm 이상, 기둥과 2.5cm 이상, 수목과 30cm 이상, 다른 접지극과 2m 이상","cid":"c21_34"},{"c":"특수설비","t":"전기온상","d":"발열선 온도 80℃ 이하","cid":"c21_34"},{"c":"기계기구","t":"고압 기계기구 높이","d":"지표상 4.5m(시가지 외 4m) 이상","cid":"c21_35"},{"c":"기계기구","t":"특고압 기계기구 울타리","d":"울타리·담 높이 2m 이상, 지표면과 하단 간격 0.15m 이하","cid":"c21_35"},{"c":"보호","t":"누전차단기(욕실)","d":"인체가 물에 젖는 장소 콘센트: 정격감도전류 15mA 이하, 동작시간 0.03초 이하","cid":"c21_37"},{"c":"보호","t":"누전차단기 시설","d":"사용전압 50V 초과 금속제 외함 저압 기계기구로 사람이 쉽게 접촉할 우려가 있는 곳","cid":"c21_37"},{"c":"보호","t":"퓨즈","d":"포장 퓨즈: 정격 1.3배에 견디고 2배에서 120분 안에 용단 / 비포장: 1.25배에 견디고 2배에서 2분 안에 용단","cid":"c21_37"},{"c":"변전소","t":"특고압 변압기 보호","d":"5,000~10,000kVA 미만 내부 고장 시 경보(자동 차단), 10,000kVA 이상 자동 차단","cid":"c21_38"},{"c":"변전소","t":"조상설비 보호","d":"전력용 커패시터·분로 리액터 500kVA 초과 15,000kVA 미만 내부 고장·과전류 차단, 15,000kVA 이상 과전압까지 차단 / 조상기 15,000kVA 이상 내부 고장 차단","cid":"c21_38"},{"c":"전기철도","t":"절연간격","d":"직류 750V 충전부와 건조물·차량 간 절연간격 25mm","cid":"c21_39"},{"c":"전기철도","t":"전차선 가선 방식","d":"가공방식, 강체방식, 제3레일방식","cid":"c21_39"},{"c":"전기철도","t":"교류 전차선과 식물","d":"5m 이상","cid":"c21_39"},{"c":"분산형 전원","t":"계통 연계 공급방식","d":"동일 장소 신재생 합계 50kW 이하 등 조건에 따라 단상 연계 가능","cid":"c21_40"},{"c":"분산형 전원","t":"이차전지 전용건물","d":"주변 시설 1.5m 이상, 다른 건물 출입구·피난계단 3m 이상 / 전용건물 외: 랙 사이·랙과 벽 1m 이상","cid":"c21_40"},{"c":"분산형 전원","t":"태양광·ESS 배선","d":"직류 600V 이하, 전선 2.5mm² 이상","cid":"c21_40"}],"mis":{"회로이론":["실효값과 최댓값 혼동 (전압계·전류계는 실효값)","Y결선 상전압 = 선간전압/√3 인데 그대로 대입","Δ→Y 변환에서 1/3을 3배로 착각","역률각 θ의 부호(지상/진상) 반대로 계산","2전력계법에서 한쪽 지시가 음(−)일 수 있음을 놓침","중첩의 정리에서 전압원은 단락, 전류원은 개방을 반대로 함","공진 시 전류 최대(직렬) / 최소(병렬)를 반대로 기억","복소수 계산에서 j² = −1 부호 실수"],"제어공학":["폐루프 전달함수 분모 부호(+GH, 정궤환이면 −GH) 실수","정상편차 계산에서 입력 형태(계단·램프)를 잘못 고름","제어계 형(0·1·2형)을 개루프 기준이 아닌 폐루프로 셈","루스 표 제1열 부호 변화 수 = 우반면 근 수를 놓침","데시벨 20log 대신 10log 사용","감쇠비 ζ 범위(부족/임계/과제동) 혼동","드모르간 정리에서 AND·OR 바꾸기 누락"],"전기자기학":["ε0 = 8.855×10⁻¹² 와 1/4πε0 = 9×10⁹ 혼용","전계(거리²에 반비례)와 전위(거리에 반비례) 혼동","무한 직선 전하는 1/r, 점전하는 1/r²","자계 H와 자속밀도 B(=μH) 단위 혼동","콘덴서 직렬은 저항 병렬처럼, 병렬은 저항 직렬처럼 계산","유전체 삽입 시 전하 일정/전압 일정 조건 구분 안 함","인덕턴스가 권수 N²에 비례하는 것 놓침","렌츠 법칙의 − 부호 방향 혼동"],"전기기기":["동기속도 120f/p에서 p를 극수가 아닌 극쌍수로 대입","슬립 s를 %와 소수로 혼용","2차 동손 = sP2, 기계출력 = (1−s)P2 혼동","변압기 권수비 a = V1/V2 = I2/I1 (전류는 반대)","최대효율 조건(철손 = 동손)에서 부하율 √(Pi/Pc) 놓침","직류기 중권 a = p, 파권 a = 2 혼동","CT 2차 개방 금지 / PT 2차 단락 금지를 반대로 기억","단락비가 크면 안정·전압변동률 작음을 반대로"],"전력공학":["전압강하 식에서 √3 누락(3상) 또는 2배 누락(단상 2선)","단락전류 100/%Z에 정격전류 대신 다른 전류 대입","%Z 기준용량 환산 안 하고 합침","이도 D는 경간 S²에 비례","역률 개선 Qc = P(tanθ1 − tanθ2)에서 cos 그대로 대입","수용률·부등률·부하율 분자·분모 혼동","비접지 지락 시 건전상 전압 √3배 상승을 2배로","복도체 효과(인덕턴스 감소·정전용량 증가) 반대로"],"전기설비기술기준":["저압 범위: 교류 1kV / 직류 1.5kV (예전 600V/750V 기준과 혼동)","절연내력 시험전압 배수(1.5, 1.25, 0.92, 0.72, 0.64) 순서 혼동","매설 깊이 1.0m / 0.6m 조건 반대로","병가 50cm / 공가 75cm 혼동","누전차단기 15mA·0.03초 수치","지지선 안전율 2.5, 기초 안전율 2 혼동","시가지 특고압 전선 단면적 55·150·240mm² 기준 전압 혼동","미만·이하·초과·이상 표현 구분"]},"calc":[{"t":"복소수 모드","d":"MODE(메뉴) → COMPLEX. i 입력은 ENG 키(ES)나 i 키(EX). 임피던스 직렬·병렬 계산을 한 번에"},{"t":"극좌표 ↔ 직교좌표","d":"복소수 모드에서 결과 뒤에 OPTN(또는 SHIFT 2) → ▶r∠θ / ▶a+bi. 페이저 변환에 사용"},{"t":"각도 입력","d":"SHIFT (−) 로 ∠ 입력. 예: 10∠30 + 5∠−45"},{"t":"각도 단위","d":"SETUP에서 Deg 확인. Rad로 되어 있으면 역률·위상 계산이 틀어짐"},{"t":"연립방정식","d":"MODE → EQUATION(EQN) → 미지수 2~4개. 키르히호프·메시 해석 식을 바로 풀이"},{"t":"2·3차 방정식","d":"EQN → 다항식. 특성방정식 근 확인에 사용"},{"t":"SOLVE","d":"식에 = 과 변수를 넣고 SHIFT CALC로 미지수 하나를 수치로 풀기"},{"t":"공학 표기","d":"ENG 키로 10³ 단위(k·M·m·μ)로 바로 바꿔 보기"},{"t":"Ans·메모리","d":"직전 결과 Ans 재사용, STO → A~F에 중간값 저장해 반올림 오차 줄이기"},{"t":"log와 ln","d":"dB = 20log(이득). log는 상용로그, ln은 자연로그"},{"t":"√3 계산","d":"√(3) 결과를 STO로 저장해 두면 3상 계산이 빨라짐"},{"t":"초기화","d":"시험 전 SHIFT 9(CLR) → All 로 초기화. 시험장에서 초기화 확인을 요구할 수 있음"},{"t":"허용 기종 확인","d":"큐넷 공지의 허용 공학용 계산기 목록 확인(목록 외 기종은 감독관 초기화 후 사용 등 규정 확인)"}],"final":{"회로이론":["Vrms = Vm/√2, Vav = 2Vm/π","Y: Vl = √3Vp, Δ: Il = √3Ip","P = √3VIcosθ","공진 f0 = 1/(2π√LC)","최대전력 RL = r, Pmax = E²/4r","τ: RL = L/R, RC = RC","V결선 이용률 86.6%, 출력비 57.7%"],"제어공학":["폐루프 G/(1+GH)","계단 ess = 1/(1+Kp), 램프 ess = 1/Kv","2차계 s² + 2ζωn s + ωn²","ζ<1 부족, =1 임계, >1 과제동","이득여유·위상여유 > 0 이면 안정","드모르간 (AB)' = A'+B'"],"전기자기학":["E = Q/4πε0r² = 9×10⁹Q/r²","직선전하 E = λ/2πε0r","C = εS/d","W = CV²/2 = LI²/2","직선전류 H = I/2πr","평행도선 F = 2I1I2/r ×10⁻⁷","L = μSN²/l, e = −N dφ/dt"],"전기기기":["Ns = 120f/p, s = (Ns−N)/Ns","E = pZφN/60a","η2 = 1 − s, Pc2 = sP2","최대효율: 철손 = 동손","ε ≈ p cosθ + q sinθ","맥동률 121/48/17/4%"],"전력공학":["e = √3I(Rcosθ + Xsinθ)","Pl ∝ 1/V², 1/cos²θ","Is = (100/%Z)In","Qc = P(tanθ1 − tanθ2)","D = WS²/8T","수용률·부등률·부하율 정의","비접지 지락 → 건전상 √3배"],"전기설비기술기준":["저압 AC 1kV / DC 1.5kV, 특고압 7kV 초과","절연내력 10분, 1.5 / 1.25 / 0.92 / 0.72 / 0.64","매설 1.0m / 0.6m","병가 50cm, 공가 75cm","누전차단기 15mA·0.03초","기초 2, 지지선 2.5, 철탑 이상시 1.33","옥내 연동선 2.5mm²"]},"sched":{"note":"기사 필기는 보통 연 3회(1·2·3회) 정기 시행. 2027년 일정은 큐넷에 연말쯤 공고돼요. 아래 날짜는 직접 입력·수정할 수 있어요.","ref2026":[["1회","필기 접수 1/12~1/15"],["2회","필기 접수 4/20~4/23"],["3회","필기 접수 7/20~7/23"]],"facts":["필기: 5과목 × 20문제, 과목당 30분 (총 150분), CBT","합격: 과목별 40점 이상 + 전 과목 평균 60점 이상","준비물: 신분증, 수험표, 허용 공학용 계산기","필기 합격 후 응시자격 서류 제출 기한 확인","빈자리 추가 접수 기간도 있어요(원하는 날짜가 없을 때)"],"link":"https://www.q-net.or.kr"}};
 /* ===================== 자료실 (교재 기반 콘텐츠 + 계산 도구) ===================== */
-const LIBTABS = [["gloss","용어 사전"],["deriv","공식 유도"],["final","전날 정리표"],["mis","자주 하는 실수"],["kec","KEC 요약"],["unit","단위 변환"],["rlc","회로 계산기"],["phasor","페이저도"],["calc","계산기 팁"],["sched","시험 일정"],["const","단위·상수표"]];
+const LIBTABS = [["gloss","용어 사전"],["deriv","공식 유도"],["quiz","연습 퀴즈"],["final","전날 정리표"],["mis","자주 하는 실수"],["kec","KEC 요약"],["unit","단위 변환"],["rlc","회로 계산기"],["phasor","페이저도"],["calc","계산기 팁"],["sched","시험 일정"],["const","단위·상수표"]];
 let LIBQ = "", LIBS = "all";
 function libSubjChips(){ return `<div class="subjs">${["all", ...SUBJ6].map(s2 => `<button class="chipb ${LIBS === s2 ? "on" : ""}" data-libs="${s2}">${s2 === "all" ? "전체" : s2.replace("전기설비기술기준", "설비기준")}</button>`).join("")}</div>`; }
 function viewLib(tab){
@@ -4927,6 +5087,7 @@ function libBody(tab){
   if (tab === "unit") return unitHTML();
   if (tab === "rlc") return rlcHTML();
   if (tab === "phasor") return phasorHTML();
+  if (tab === "quiz") return pqHTML() + (dsrsDue().length ? `<p class="cdesc">복습할 공식 유도 카드 ${dsrsDue().length}개 — "공식 유도 순서"에서 다시 나와요</p>` : "");
   return "";
 }
 // ---------- 단위 변환 ----------
@@ -5033,7 +5194,7 @@ const FEATS = [
  ["tag","내 태그","#태그 버튼과 표시"],["elim","보기 소거","보기 길게 눌러 줄 긋기"],["ai","AI 질문 버튼","해설의 🤖"],["ehl","해설 형광펜","해설 위 형광펜 도구"],
  ["swipe","밀어서 넘기기","폰에서 좌우로 밀어 문제 이동"],["alerts","홈 알림 칩","워밍업·재도전·2회독·오늘의 한 문제"],["goal","하루 목표 링","홈 달력 옆"],["focus","집중 모드 버튼","홈·설정의 집중 25분"],
  ["diary","오늘 기록","홈 달력의 ✎ 오늘 기록"],["dayTest","DAY 마무리 테스트","DAY 끝나면 10문제 제안"],["selfx","자율 학습 빠른 버튼","진단·섞기·드릴 줄"],["nbadv","노트 고급 도구","스탬프·도형·각도·돋보기·프리셋·두 쪽·쪽 목록"],
- ["histx","학습 기록 분석 카드","월간·망각곡선·시간대 등"],["last10","시험 10분 전 알림","모의고사 남은 10분 안내"]
+ ["histx","학습 기록 분석 카드","월간·망각곡선·시간대 등"],["last10","시험 10분 전 알림","모의고사 남은 10분 안내"],["brief","아침 브리핑·하루 마감","홈 위쪽 카드"],["totop","맨 위로 버튼","긴 화면 오른쪽 아래"]
 ];
 const featOn = k => !(S.prefs.off || []).includes(k) && !(k === "dayTest" && S.prefs.dayTest === false);
 function applyFeats(){ FEATS.forEach(([k]) => document.body.classList.toggle("off-" + k, !featOn(k))); document.body.classList.toggle("sharpen", !!S.prefs.sharpen); }
@@ -5084,10 +5245,356 @@ document.addEventListener("touchcancel", () => { SW = null; }, { passive: true }
 document.addEventListener("touchend", e => { if (!SW) return; const t = e.changedTouches[0], dx = t.clientX - SW.x, dy = t.clientY - SW.y, dt = Date.now() - SW.t; SW = null;
   if (dt < 600 && Math.abs(dx) > 70 && Math.abs(dy) < 45 && QZ){ go(dx < 0 ? 1 : -1); } }, { passive: true });
 
+/* ===================== v31 · A: 약점 개념 분석 · 개념 공부 창 · 연습 퀴즈 ===================== */
+// 약점 점수: 오답·찍음·느림·최근 오답·등급 가중치를 합쳐 개념별로 계산
+function weakAnalysis(){
+  const by = {}, now = Date.now(), wk = 7 * 86400000, gw = { A: 1.3, B: 1, C: .7 };
+  D.questions.forEach(q => { if (!q.conceptId) return; const st = S.qstat[q.id]; const o = by[q.conceptId] = by[q.conceptId] || { cid: q.conceptId, n: 0, att: 0, ok: 0, wrong: 0, guess: 0, slow: 0, recent: 0, cw: 0, ids: [], wrongIds: [], g: 0 };
+    o.n++; o.g += gw[q.grade] || 1; o.ids.push(q.id); if (!st || !st.last) return;
+    o.att++; if (st.last === "O" && !st.guess) o.ok++; else { o.wrongIds.push(q.id); }
+    if (st.last !== "O") { o.wrong++; if (now - (st.ts || 0) < wk) o.recent++; } if (st.guess) o.guess++;
+    if ((S.qtime[q.id] || {}).s >= 120) o.slow++; if ((st.cw || 0) >= 2) o.cw++; });
+  return Object.values(by).filter(o => o.att).map(o => {
+    const bad = o.wrong + .6 * o.guess + .35 * o.slow + .5 * o.recent + .5 * o.cw, gwAvg = o.g / o.n;
+    const score = Math.round(Math.min(100, bad / o.att * 70 * gwAvg + (S.cview[o.cid] ? 0 : 6) + Math.min(12, o.wrong * 3)));
+    const why = []; if (o.wrong) why.push(`오답 ${o.wrong}/${o.att}`); if (o.guess) why.push(`찍음 ${o.guess}`); if (o.slow) why.push(`느림 ${o.slow}`); if (o.recent) why.push(`최근 오답 ${o.recent}`); if (o.cw) why.push(`연속 오답 ${o.cw}`); if (!S.cview[o.cid]) why.push("이론 안 봄");
+    return Object.assign(o, { score, acc: Math.round(o.ok / o.att * 100), why });
+  }).filter(o => o.score >= 15).sort((a, b) => b.score - a.score);
+}
+let WEAKRUN = null;   // { list:[cid], i }
+function viewWeak(){
+  const L = weakAnalysis(), bySj = {}; L.forEach(o => { const sj = subjOfConcept(C[o.cid]); bySj[sj] = (bySj[sj] || 0) + 1; });
+  const untried = D.concepts.filter(c => !D.questions.some(q => q.conceptId === c.id && S.qstat[q.id]) && D.questions.some(q => q.conceptId === c.id && q.grade === "A")).slice(0, 12);
+  return shell("concepts", `<div class="page"><h1 class="h1">약점 개념 분석</h1><span class="chip">틀린 문제·찍은 문제·오래 걸린 문제로 약한 개념을 찾았어요 <span>${L.length}개</span></span>
+    ${L.length ? `<div class="acts" style="margin:14px 0 6px"><button class="btn y" data-wrun="0">약점 개념 차례로 공부하기 ${I.right}</button><button class="btn o" data-wdrill>약점 개념 섞어 15문제</button></div>
+    <div class="wsubj">${SUBJ6.filter(s2 => bySj[s2]).map(s2 => `<span class="wk">${esc(s2)} <b>${bySj[s2]}</b></span>`).join("")}</div>
+    <div class="wlist">${L.slice(0, 40).map((o, i) => { const c = C[o.cid]; return `<div class="witem"><div class="wrank">${i + 1}</div><div class="wmain">
+        <div class="wt"><b>${pad(c.num)} ${esc(c.name)}</b><small>DAY ${pad(c.day)} · ${esc(subjOfConcept(c))}</small></div>
+        <div class="bar wbar"><i style="width:${o.score}%"></i></div><div class="wwhy">${o.why.map(w => `<span>${w}</span>`).join("")}</div></div>
+        <div class="wacts"><button class="btn o sm" data-wrun="${i}">개념 보기</button>${o.wrongIds.length ? `<button class="btn g sm" data-wredo="${o.cid}">틀린 ${o.wrongIds.length}</button>` : ""}</div></div>`; }).join("")}</div>`
+      : `<div class="empty"><b>아직 약점이 보이지 않아요</b>DAY 문제를 더 풀면 분석해 드릴게요</div>`}
+    ${untried.length ? `<div class="subjhead">아직 안 푼 A등급 핵심 개념</div><div class="weaklist">${untried.map(c => `<button class="chipb" data-go="#/concept/${c.id}">${pad(c.num)} ${esc(c.name)}</button>`).join("")}</div>` : ""}</div>`);
+}
+function weakBanner(cid){
+  if (!WEAKRUN || !WEAKRUN.list.includes(cid)) return "";
+  const i = WEAKRUN.list.indexOf(cid); WEAKRUN.i = i; const o = (WEAKRUN.info || {})[cid] || {};
+  return `<div class="wbanner"><b>약점 개념 ${i + 1} / ${WEAKRUN.list.length}</b><span>${(o.why || []).join(" · ")}</span>
+    ${(o.wrongIds || []).length ? `<button class="btn y sm" data-wredo="${cid}">틀린 문제 ${o.wrongIds.length}개 다시</button>` : ""}<button class="btn o sm" data-wcheck="${cid}">확인 3문제</button>
+    ${i > 0 ? `<button class="btn g sm" data-wrun="${i - 1}">${I.left}이전</button>` : ""}${i < WEAKRUN.list.length - 1 ? `<button class="btn k sm" data-wrun="${i + 1}">다음 약점${I.right}</button>` : `<button class="btn k sm" data-go="#/weak">끝 · 목록으로</button>`}</div>`;
+}
+function startWeakRun(i){ const L = weakAnalysis(); if (!L.length) return toast("약점 개념이 아직 없어요"); const info = {}; L.forEach(o => info[o.cid] = o);
+  WEAKRUN = { list: L.map(o => o.cid), info, i: Math.min(i, L.length - 1) }; location.hash = "#/concept/" + WEAKRUN.list[WEAKRUN.i]; }
+// 4. 3번 연속 틀린 문제 = 집중 관리
+const focusIds = () => Object.entries(S.qstat).filter(([id, v]) => Q[id] && (v.cw || 0) >= 3).map(([id]) => id);
+// 5. 문제별 풀이 이력
+function logAnswer(id, sel, res, src){ const L = S.qlog[id] = S.qlog[id] || []; L.push([Date.now(), sel, res, src || "", (S.qtime[id] || {}).s || 0]); if (L.length > 20) L.splice(0, L.length - 20); }
+function qlogHTML(id){ const L = S.qlog[id] || []; if (!L.length) return "";
+  const name = k => k.startsWith("day:") ? "DAY" : k.startsWith("review") ? "복습" : k.startsWith("exam") ? "모의고사" : k.startsWith("concept:") ? "개념" : k.startsWith("grade:") ? "A만" : "자율";
+  return `<details class="qlog"><summary>풀이 이력 ${L.length}번</summary>${L.slice().reverse().map(([t, sel, res, src, sec]) => `<div><span>${new Date(t).toLocaleDateString("ko-KR", { month: "numeric", day: "numeric" })}</span><span>${name(src)}</span><b class="${res === "O" ? "gr" : "rd"}">${res === "O" ? "정답" : res === "T" ? "해설" : "오답"}</b><span>${sel ? sel + "번" : "-"}</span><span>${sec ? fmtDur(sec) : ""}</span></div>`).join("")}</details>`; }
+// 11~18. 연습 퀴즈 (자료실 → 연습)
+let PQ = null;
+const rnd = (a, b) => a + Math.random() * (b - a), pick = L => L[Math.floor(Math.random() * L.length)];
+function pqMake(kind){
+  if (kind === "term"){ const pool = shuffle(LIB.gloss.slice()).slice(0, 4), ans = pool[0]; return { kind, q: ans.d.replace(new RegExp(ans.t.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "g"), "○○"), opts: shuffle(pool.map(g => g.t)), a: ans.t, sub: ans.s }; }
+  if (kind === "kec"){ for (let k = 0; k < 30; k++){ const it = pick(LIB.kec), nums = it.d.match(/\d+(\.\d+)?/g); if (!nums) continue; const n = pick(nums), v = parseFloat(n);
+      const alts = [...new Set([v * 2, v / 2, v + (v >= 10 ? 10 : 1), Math.max(0, v - (v >= 10 ? 10 : 0.5)), v * 1.5].map(x => +x.toFixed(2)).filter(x => x !== v))].slice(0, 3);
+      return { kind, q: `${it.t}: ${it.d.replace(n, "□")}`, opts: shuffle([String(v), ...alts.map(String)]), a: String(v), sub: it.c }; } }
+  if (kind === "deriv"){ const x = pick(LIB.deriv); const st = x.steps.map((s2, i) => ({ s2, i })); return { kind, q: `${x.t} — 유도 순서대로 고르세요`, steps: shuffle(st), order: [], a: x.steps.length, title: x.t, f: x.f }; }
+  if (kind === "unit"){ const cats = ["전력","에너지","정전용량","인덕턴스","자속밀도"], cat = pick(cats), U2 = UNITS[cat], a = pick(U2), b = pick(U2.filter(u => u !== a)), v = +(rnd(1, 900)).toPrecision(3);
+    return { kind, q: `${v} ${a[0]} = ? ${b[0]}`, num: v * a[1] / b[1], unit: b[0] }; }
+  if (kind === "rlc"){ const R = Math.round(rnd(2, 50)), L = Math.round(rnd(10, 300)), Cc = Math.round(rnd(10, 500)), f = pick([50, 60, 100, 1000]), w = 2 * Math.PI * f;
+    const ask = pick(["XL","XC","f0"]); const val = ask === "XL" ? w * L / 1e3 : ask === "XC" ? 1 / (w * Cc / 1e6) : 1 / (2 * Math.PI * Math.sqrt(L / 1e3 * Cc / 1e6));
+    return { kind, q: `R = ${R}Ω, L = ${L}mH, C = ${Cc}μF, f = ${f}Hz 일 때 ${ask === "f0" ? "공진주파수 f0 [Hz]" : ask + " [Ω]"} 는?`, num: val, unit: ask === "f0" ? "Hz" : "Ω" }; }
+  if (kind === "phasor"){ const a1 = Math.round(rnd(-90, 90) / 15) * 15, a2 = Math.round(rnd(-90, 90) / 15) * 15; if (a1 === a2) return pqMake(kind); const d = a1 - a2;
+    return { kind, q: "V(빨강)는 I(파랑)보다 위상이 어떤가요?", a1, a2, opts: shuffle([`${Math.abs(d)}° 앞섬`, `${Math.abs(d)}° 뒤짐`, `${Math.abs(d) + 30}° 앞섬`, `${Math.abs(d) + 30}° 뒤짐`]), a: `${Math.abs(d)}° ${d > 0 ? "앞섬" : "뒤짐"}` }; }
+}
+const PQK = [["term","용어 맞히기"],["kec","KEC 수치 빈칸"],["deriv","공식 유도 순서"],["unit","단위 변환"],["rlc","RLC 계산"],["phasor","위상차 읽기"]];
+function pqHTML(){
+  if (!PQ) return `<p class="cdesc">교재 자료로 만드는 연습 문제예요. 하나 골라 10문제씩 풀어요.</p><div class="pqpick">${PQK.map(([k, l]) => `<button class="card" data-pqstart="${k}"><b>${l}</b></button>`).join("")}</div>${figTableHTML()}`;
+  const it = PQ.cur, n = PQ.i + 1;
+  let body = "";
+  if (it.opts) body = `<div class="pqopts">${it.opts.map(o => `<button class="btn o ${PQ.ans ? (o === it.a ? "ok" : o === PQ.ans ? "bad" : "") : ""}" data-pqans="${esc(o)}" ${PQ.ans ? "disabled" : ""}>${esc(o)}</button>`).join("")}</div>`;
+  else if (it.steps) body = `<div class="pqsteps">${it.steps.map(st => `<button class="btn o ${it.order.includes(st.i) ? "on" : ""}" data-pqstep="${st.i}" ${PQ.ans ? "disabled" : ""}>${it.order.includes(st.i) ? `<b>${it.order.indexOf(st.i) + 1}</b> ` : ""}${esc(st.s2)}</button>`).join("")}</div>`;
+  else body = `<div class="urow"><input type="number" step="any" class="dinput" id="pqnum" placeholder="답 (${it.unit})" ${PQ.ans ? "disabled" : ""}><button class="btn y" data-pqnum ${PQ.ans ? "disabled" : ""}>확인</button></div>`;
+  const fig = it.kind === "phasor" ? `<svg viewBox="-110 -110 220 220" class="pqfig"><circle r="95" class="phgrid"/><line x1="-105" x2="105" y1="0" y2="0" class="phax"/>${[[it.a1, "#E4553F", "V"], [it.a2, "#2D5BD8", "I"]].map(([a, c, l]) => { const x = 90 * Math.cos(a * Math.PI / 180), y = -90 * Math.sin(a * Math.PI / 180); return `<line x1="0" y1="0" x2="${x}" y2="${y}" stroke="${c}" stroke-width="3"/><text x="${x * 1.12}" y="${y * 1.12}" fill="${c}" font-size="13" text-anchor="middle">${l}</text>`; }).join("")}</svg>` : "";
+  return `<div class="card pqcard"><div class="pqtop"><b>${esc(PQK.find(x => x[0] === it.kind)[1])}</b><span>${n} / 10 · 맞힘 ${PQ.ok}</span><button class="tlink" data-pqquit>그만</button></div>
+    <p class="pqq">${esc(it.q)}</p>${fig}${body}
+    ${PQ.ans ? `<p class="${PQ.right ? "gr" : "rd"}"><b>${PQ.right ? "정답!" : "아쉬워요"}</b> ${PQ.right ? "" : `정답: ${esc(String(it.a !== undefined && !it.steps ? it.a : it.steps ? "아래 순서" : fmtN(it.num) + " " + it.unit))}`}</p>
+      ${it.steps && !PQ.right ? `<ol class="flist">${LIB.deriv.find(x => x.t === it.title).steps.map(s2 => `<li>${esc(s2)}</li>`).join("")}</ol>` : ""}
+      <button class="btn y" data-pqnext>${n < 10 ? "다음" : "결과 보기"}</button>` : ""}</div>`;
+}
+function pqGrade(right, ans){ PQ.ans = ans || "✓"; PQ.right = right; if (right) PQ.ok++; beep(right); }
+// 13. 공식 유도 카드 간격 반복 (deriv kind 결과 기록)
+function dsrsMark(title, ok){ const cur = S.dsrs[title] || { step: 0 }; const st = ok ? Math.min(SRS_STEPS.length - 1, (cur.step || 0) + 1) : 0; S.dsrs[title] = { step: st, due: dayAdd(SRS_STEPS[st]), ts: Date.now() }; }
+const dsrsDue = () => Object.entries(S.dsrs).filter(([t, v]) => v.due <= todayStr() && LIB.deriv.some(x => x.t === t)).map(([t]) => t);
+// 17. 개념별 핵심 숫자·공식
+function keyFactsHTML(cid){ const k = LIB.kec.filter(x => x.cid === cid), d = LIB.deriv.filter(x => x.cid === cid); if (!k.length && !d.length) return "";
+  return `<div class="cirow keyf"><span class="cdesc">핵심</span>${d.map(x => `<code>${esc(x.f)}</code>`).join("")}${k.map(x => `<span class="wk">${esc(x.t)}: ${esc(x.d.slice(0, 40))}${x.d.length > 40 ? "…" : ""}</span>`).join("")}</div>`; }
+// 18. 헷갈리는 수치 비교표 (단위별로 모으기)
+function figTableHTML(){ const rows = []; LIB.kec.forEach(k => { const m = k.d.match(/\d+(\.\d+)?\s?(m㎡|mm²|mm|cm|m|kV|V|kN|N|%|mA|초|배|Pa|℃|kW|kVA)/g); if (m) m.slice(0, 3).forEach(v => rows.push([v.replace(/^[\d.]+\s?/, ""), v, k.t])); });
+  const by = {}; rows.forEach(([u, v, t]) => (by[u] = by[u] || []).push([v, t]));
+  return `<div class="card whycard"><p class="eyebrow">헷갈리는 KEC 수치 — 단위별로 모아보기</p>${Object.entries(by).filter(([, L]) => L.length > 1).map(([u, L]) => `<p class="cdesc" style="margin:8px 0 2px"><b>${esc(u)}</b></p><div class="weaklist">${L.sort((a, b) => parseFloat(a[0]) - parseFloat(b[0])).map(([v, t]) => `<span class="wk">${esc(v)} <i>${esc(t)}</i></span>`).join("")}</div>`).join("")}</div>`; }
+function pqClick(d, el){
+  if (d.pqstart){ PQ = { kind: d.pqstart, i: 0, ok: 0, cur: pqMake(d.pqstart), ans: null }; return true; }
+  if (d.pqquit !== undefined){ PQ = null; return true; }
+  if (!PQ) return false; const it = PQ.cur;
+  if (d.pqans !== undefined && !PQ.ans){ pqGrade(d.pqans === it.a, d.pqans); return true; }
+  if (d.pqstep !== undefined && !PQ.ans){ const k = +d.pqstep; if (!it.order.includes(k)) it.order.push(k); if (it.order.length === it.a){ const ok = it.order.every((x, i) => x === i); pqGrade(ok); dsrsMark(it.title, ok); save(); } return true; }
+  if (d.pqnum !== undefined && !PQ.ans){ const v = parseFloat(($("#pqnum") || {}).value); pqGrade(isFinite(v) && Math.abs(v - it.num) <= Math.abs(it.num) * .02 + 1e-9, String(v)); return true; }
+  if (d.pqnext !== undefined){ if (PQ.i >= 9){ toast(`10문제 중 ${PQ.ok}개 맞혔어요`); PQ = null; return true; } PQ.i++; PQ.cur = pqMake(PQ.kind); PQ.ans = null; return true; }
+  return false;
+}
+
+/* ===================== v31 · B: 노트 · 실전 · 계획·습관 ===================== */
+// 21. 회로 해석 양식
+{ const _tpl = tplItems; tplItems = kind => { if (kind !== "circuit") return _tpl(kind);
+  const L = (x0, y0, x1, y1) => ({ t: "p", w: 1.6, pts: [[x0, y0, .5], [x1, y1, .5]] });
+  return { items: [headItem("회로 해석", { y: 30 }), ...[["① 회로·주어진 값", 110], ["② KCL (마디 전류)", 520], ["③ KVL (폐회로 전압)", 820], ["④ 연립·답·단위 확인", 1120]].map(([t, y]) => ({ id: nuid("it"), type: "text", x: 50, y, w: 900, text: t, size: 26 }))],
+    strokes: [L(40, 500, 960, 500), L(40, 800, 960, 800), L(40, 1100, 960, 1100)] }; }; }
+// 22. 줄 맞춤 가이드 (펜 위치를 따라가는 수평 안내선)
+function nbGuide(e){ if (!S.prefs.lineGuide || e.pointerType !== "pen") return; const pg = e.target.closest && e.target.closest(".nbpage"); let g = $("#nbguide");
+  if (!pg){ if (g) g.style.display = "none"; return; } if (!g){ g = document.createElement("div"); g.id = "nbguide"; document.body.appendChild(g); }
+  const r = pg.getBoundingClientRect(); g.style.cssText = `display:block;left:${r.left}px;width:${r.width}px;top:${e.clientY + 6}px`; }
+// 23. 색별 보기 · 24. 쪽 태그 필터 (NB 확장)
+Object.assign(NB, { colorFilter: "all", tagFilter: "",
+  strokeVisible(s){ if (this.hideHl && s.t === "h") return false; if (this.colorFilter === "all" || s.t !== "p") return true; return (s.c || "k") === this.colorFilter; },
+  allTags(){ const set = new Set(); Object.values(this.pages).forEach(r => (r.tags || []).forEach(t => set.add(t))); return [...set]; } });
+// 25·27. 링크 문제 미니 풀이창 / 쪽 링크 이동
+function miniSolve(qid){ const q = Q[qid]; if (!q) return; const m = document.createElement("div"); m.className = "modal";
+  m.innerHTML = `<div class="sheet" style="max-width:640px"><div class="hd"><h3>${whereOf(q)} 풀어보기</h3><button class="x" data-close>${I.x}</button></div><div class="bd">
+    ${q.q.map(i => `<img src="${src(i[0])}" style="width:100%">`).join("")}<div class="pqopts">${[1,2,3,4].map(k => `<button class="btn o" data-mini="${k}">${"①②③④"[k - 1]}</button>`).join("")}</div><div id="minires"></div></div></div>`;
+  m.addEventListener("click", e => { if (e.target === m || e.target.closest("[data-close]")) return m.remove(); const b = e.target.closest("[data-mini]"); if (!b) return; const ok = +b.dataset.mini === q.answer; beep(ok);
+    $("#minires", m).innerHTML = `<p class="${ok ? "gr" : "rd"}"><b>${ok ? "정답!" : "오답"}</b> 정답은 ${q.answer}번</p>${q.e.map(i => `<img src="${src(i[0])}" style="width:100%">`).join("")}`; m.querySelectorAll("[data-mini]").forEach(x => x.disabled = true); });
+  document.body.appendChild(m); }
+// 26. 노트 출력에 목차
+async function printToc(subj){ const box = $(".print, .printwrap"); if (!box || $("#ptoc")) return; const pages = await nbLoad(subj), order = pageOrder(subj), L = [];
+  order.forEach((pid, i) => (pages[pid] || { items: [] }).items.filter(x => x.type === "head").forEach(h => L.push([h.text, i + 1])));
+  if (!L.length) return; const d = document.createElement("section"); d.id = "ptoc"; d.className = "ppage ptoc"; d.innerHTML = `<h2>${esc(subj)} 노트 목차</h2><ol>${L.map(([t, p]) => `<li><span>${esc(t)}</span><b>${p}쪽</b></li>`).join("")}</ol>`;
+  const first = box.querySelector(".ppage, section, .pgimg, img"); if (first) first.parentElement.insertBefore(d, first); else box.appendChild(d); }
+// 28. 이미지를 노트 배경으로
+function pickBgImage(pid){ const inp = document.createElement("input"); inp.type = "file"; inp.accept = "image/*";
+  inp.onchange = async () => { const f = inp.files && inp.files[0]; if (!f) return; const im = await imgToData(f, 1400); const r = NB.pages[pid]; NB.pushUndo(pid); r.bgimg = im.d; NB.touch(pid); NB.drawPage(pid); toast("배경 이미지를 깔았어요 · 쪽 메뉴에서 뺄 수 있어요"); }; inp.click(); }
+// 29. 펜 압력 감도
+const pressAdj = p => { const g = S.prefs.penPress || 1; if (g === 1) return p || .5; return Math.max(.05, Math.min(1, Math.pow(p || .5, 1 / g))); };
+// 31. 과목별 컷 시뮬레이터
+function cutSimHTML(){ const v = S.prefs.cutSim || [12, 12, 12, 12, 12]; const sc = v.map(x => x * 5), avg = Math.round(sc.reduce((a, b) => a + b, 0) / 5), fail = sc.filter(x => x < 40).length, pass = avg >= 60 && !fail;
+  const need = pass ? 0 : Math.max(0, 300 - sc.reduce((a, b) => a + b, 0)) / 5 + v.reduce((a, x) => a + Math.max(0, 8 - x), 0);
+  return `<div class="card whycard cutsim"><p class="eyebrow">과목별 컷 시뮬레이터 · 몇 개 맞히면 합격?</p>${SUBJ5.map((sj, i) => `<div class="csrow"><span>${sj.n}과목</span><input type="range" min="0" max="20" value="${v[i]}" data-cut="${i}"><b>${v[i]}개 · ${v[i] * 5}점</b></div>`).join("")}
+    <p class="${pass ? "gr" : "rd"}" style="margin:8px 0 0"><b>평균 ${avg}점 · ${pass ? "합격" : fail ? `과락 ${fail}과목` : "평균 미달"}</b>${pass ? "" : ` — 최소 ${Math.ceil(need)}문제 더 필요해요 (과목당 8개 이상, 총 60개 이상)`}</p></div>`; }
+// 32. 포기 문제 · 33. OMR 일괄 마킹 연습
+function toggleGive(){ const m = QZ.exam; if (!m) return; m.give = m.give || {}; const id = m.ids[QZ.i]; m.give[id] = !m.give[id]; save(true); renderExamLeft(); toast(m.give[id] ? "포기 표시 · 제출 전에 몰아서 찍을 수 있어요" : "포기 표시 해제"); }
+async function giveFill(){ const m = QZ.exam; const ids = m.ids.filter(id => (m.give || {})[id] && !m.ans[id]); if (!ids.length) return true;
+  return new Promise(res => { const d = document.createElement("div"); d.className = "modal ask"; d.innerHTML = `<div class="sheet askbox"><div class="bd"><p class="askmsg"><b>포기한 ${ids.length}문제를 몇 번으로 찍을까요?</b></p><div class="acts">${[1,2,3,4].map(k => `<button class="btn o" data-gf="${k}">${k}번</button>`).join("")}<button class="btn g" data-gf="0">그냥 두기</button></div></div></div>`;
+    d.addEventListener("click", e => { const b = e.target.closest("[data-gf]"); if (!b) return; const k = +b.dataset.gf; if (k) ids.forEach(id => m.ans[id] = k); d.remove(); save(true); res(true); }); document.body.appendChild(d); }); }
+function omrMarkAll(){ const m = QZ.exam; if (!m || !m.draft) return; let n = 0; Object.entries(m.draft).forEach(([id, k]) => { if (m.ans[id] !== k){ m.ans[id] = k; n++; } }); save(true); renderExamLeft(); renderStat(); toast(`${n}문제를 답안지에 옮겨 적었어요`); }
+// 34. 시험 전 3분 워밍업 루틴
+let EXAM_WARMED = false;
+function examWarmup(go){ const fs = shuffle(Object.values(LIB.final).flat()).slice(0, 5); let left = 180; const m = document.createElement("div"); m.className = "modal ewarm";
+  const draw = () => { m.innerHTML = `<div class="sheet" style="max-width:560px;height:auto"><div class="bd" style="text-align:center"><p class="eyebrow">시험 전 3분 워밍업</p><div class="ewclock">${Math.floor(left / 60)}:${pad(left % 60)}</div>
+    <p class="cdesc">${left % 8 < 4 ? "천천히 들이마시고…" : "천천히 내쉬고…"}</p><ul class="flist" style="text-align:left">${fs.map(f => `<li>${esc(f)}</li>`).join("")}</ul><div class="acts" style="justify-content:center;margin-top:12px"><button class="btn y" data-ewgo>바로 시작</button></div></div></div>`; };
+  const t = setInterval(() => { left--; if (left <= 0){ clearInterval(t); m.remove(); go(); } else draw(); }, 1000);
+  m.addEventListener("click", e => { if (e.target.closest("[data-ewgo]")){ clearInterval(t); m.remove(); go(); } }); document.body.appendChild(m); draw(); }
+// 35. 실전 압박 모드 (큰 시계 + 소음)
+function pressureTick(m){ if (!S.prefs.examPressure || !m){ const c = $("#bigclock"); if (c) c.remove(); if (window.__prNoise){ noiseStop(); window.__prNoise = false; } return; } let c = $("#bigclock"); if (!c){ c = document.createElement("div"); c.id = "bigclock"; document.body.appendChild(c); if (!NOISE.kind){ noisePlay("pink"); window.__prNoise = true; } }
+  const left = Math.max(0, m.limit - m.elapsed); c.textContent = `${Math.floor(left / 60)}:${pad(left % 60)}`; c.classList.toggle("hurry", left < 600); }
+// 36. 결과 → 다음 7일 처방
+function boostPlan(m){ const order = SUBJ5.map((sj, i) => [sj, m.result.scores[i]]).sort((a, b) => a[1] - b[1]).slice(0, 2); S.planBoost = { from: order.flatMap(([sj]) => sj.from), names: order.map(([sj]) => sj.name), until: dayAdd(7), ts: Date.now() };
+  Object.keys(S.planDay).forEach(k => { if (k >= todayStr()) delete S.planDay[k]; }); LAYOUT = null; save(); toast(`다음 7일 약점 보강에 ${S.planBoost.names.join(", ")}을(를) 우선 배치했어요`); }
+// 37. 회차별 약점 과목 순위
+function mockRankHTML(){ const ms = S.mocks.filter(m => m.submitted && m.result); if (ms.length < 2) return ""; const avg = SUBJ5.map((sj, i) => [sj, Math.round(ms.reduce((a, m) => a + (m.result.scores[i] || 0), 0) / ms.length)]).sort((a, b) => a[1] - b[1]);
+  return `<div class="card whycard"><p class="eyebrow">모의고사 ${ms.length}회 평균 · 약한 과목 순서</p>${barsHTML(avg.map(([sj, v]) => [`${sj.n}과목 ${sj.name}`, v]), v => v + "점")}</div>`; }
+// 39. 가채점 · 40. 재응시 계획
+function gradeDialog(){ const m = document.createElement("div"); m.className = "modal";
+  m.innerHTML = `<div class="sheet" style="max-width:560px;height:auto"><div class="hd"><h3>가채점</h3><button class="x" data-close>${I.x}</button></div><div class="bd">
+    <p class="cdesc">100문제 답을 숫자로 이어서 입력하세요 (예: 2314…). 공백·쉼표는 무시해요.</p><textarea class="memoinp" id="gmy" rows="3" placeholder="내 답 100개"></textarea><textarea class="memoinp" id="gans" rows="3" placeholder="정답 100개" style="margin-top:8px"></textarea>
+    <div class="acts" style="margin-top:10px"><button class="btn y" data-gcalc>채점</button></div><div id="gout"></div></div></div>`;
+  m.addEventListener("click", e => { if (e.target === m || e.target.closest("[data-close]")) return m.remove(); if (!e.target.closest("[data-gcalc]")) return;
+    const a = ($("#gmy", m).value.match(/[1-4]/g) || []), b = ($("#gans", m).value.match(/[1-4]/g) || []); if (a.length < 100 || b.length < 100) return toast(`100개씩 필요해요 (지금 ${a.length} / ${b.length})`);
+    const sc = [0,1,2,3,4].map(s2 => { let o = 0; for (let i = s2 * 20; i < s2 * 20 + 20; i++) if (a[i] === b[i]) o++; return o * 5; }), avg = Math.round(sc.reduce((x, y) => x + y, 0) / 5), pass = avg >= 60 && sc.every(x => x >= 40);
+    $("#gout", m).innerHTML = `<p class="${pass ? "gr" : "rd"}"><b>${pass ? "합격권" : "불합격권"} · 평균 ${avg}점</b></p><p class="cdesc">${sc.map((x, i) => `${i + 1}과목 ${x}점`).join(" · ")}</p><button class="btn o sm" data-gsave="${sc.join(",")}">실제 시험 기록에 저장</button>`; });
+  m.addEventListener("click", e => { const b = e.target.closest("[data-gsave]"); if (!b) return; const id = nuid("rx"); S.realExams[id] = { d: todayStr(), sc: b.dataset.gsave.split(",").map(Number), ts: Date.now() }; save(); m.remove(); keepScroll(); });
+  document.body.appendChild(m); }
+async function retakePlan(sc){ const d = await askText("다음 시험 날짜 (예: 2027-03-08)", "YYYY-MM-DD"); if (!d || !/^\d{4}-\d{2}-\d{2}$/.test(d)) return toast("날짜 형식을 확인해 주세요");
+  const weak = SUBJ5.map((sj, i) => [sj, sc[i]]).sort((a, b) => a[1] - b[1]).slice(0, 2); S.examDate = d; S.examTs = Date.now();
+  S.plan = Object.assign({ mins: 60, rest: [], goal: 60 }, S.plan || {}, { on: true, start: todayStr(), ts: Date.now() }); S.planBoost = { from: weak.flatMap(([sj]) => sj.from), names: weak.map(([sj]) => sj.name), until: dayAdd(14), ts: Date.now() };
+  S.planDay = {}; LAYOUT = null; save(); toast(`재응시 계획을 만들었어요 · ${weak.map(([sj]) => sj.name).join(", ")} 우선`); location.hash = "#/plan"; }
+// 41·47. 쉬는 날·휴가 기간 (계획에서 제외)
+const planOff = d => { const P = S.plan || {}; return (P.offDays || []).includes(d) || (P.offRanges || []).some(([a, b]) => d >= a && d <= b); };
+function weekGridHTML(){ const P = S.plan || {}, t = new Date(); let cells = ""; for (let i = 0; i < 14; i++){ const d = new Date(t); d.setDate(t.getDate() + i); const ds = ymd(d), off = planOff(ds) || (P.rest || []).includes(d.getDay());
+    cells += `<button class="wg ${off ? "off" : ""} ${i === 0 ? "td" : ""}" data-woff="${ds}"><small>${DOW[d.getDay()]}</small><b>${d.getDate()}</b><i>${off ? "쉼" : ""}</i></button>`; }
+  return `<div class="card scard"><p class="eyebrow">2주 캘린더 · 날짜를 누르면 쉬는 날로 바뀌고 계획이 다시 배치돼요</p><div class="wgrid">${cells}</div>
+    <div class="acts" style="margin:10px 0 0"><button class="btn o sm" data-vacation>휴가·출장 기간 추가</button>${(P.offRanges || []).map(([a, b], i) => `<span class="wk">${a.slice(5)}~${b.slice(5)} <button class="unsc" data-vdel="${i}">${I.x}</button></span>`).join("")}</div>
+    <p class="eyebrow" style="margin-top:12px">루틴 템플릿</p><div class="acts" style="margin:0">${[["출근 전 20분 + 퇴근 후 1시간", 80, []],["퇴근 후 1시간 · 일요일 휴식", 60, [0]],["주말 집중 (평일 30분)", 30, []],["매일 2시간", 120, []]].map(([l, mins, rest], i) => `<button class="chipb" data-routine="${mins}|${rest.join("")}|${i === 2 ? 1 : 0}">${l}</button>`).join("")}</div>
+    <label class="chk" style="margin-top:8px"><input type="checkbox" data-wkend ${P.weekend ? "checked" : ""}> 주말 몰아보기 (토·일 1.8배, 평일 0.8배)</label></div>`; }
+const dayFactor = d => { if (!(S.plan || {}).weekend) return 1; const w = dparse(d).getDay(); return w === 0 || w === 6 ? 1.8 : .8; };
+// 42. 어제 못한 할 일 안내 · 44. 아침 브리핑 · 50. 하루 마감
+function homeExtrasHTML(){
+  const t = todayStr(), h = new Date().getHours(), out = [];
+  if (S.prefs.briefDay !== t && h < 12 && featOn("brief")){ const due = srsDue().length, tp = S.plan && S.plan.on ? todayPlan() : null, dd = ddayOf();
+    out.push(`<div class="card brief"><div class="rhead2"><p class="eyebrow" style="margin:0">☀️ 아침 브리핑${dd != null ? ` · D-${dd}` : ""}</p><button class="x" data-briefx>${I.x}</button></div>
+      <p class="cdesc" style="margin:6px 0 0">오늘 할 일 ${tp && tp.tasks ? tp.tasks.length + "개" : "—"} · 오늘의 복습 ${due}문제 · 어제 ${Math.round((S.daySec[dayAdd(-1)] || 0) / 60)}분 공부</p></div>`); }
+  if (h >= 18 && S.plan && S.plan.on && S.planDay[t] && S.planDay[t].tasks){ const tk = S.planDay[t].tasks, done = tk.filter(x => taskState(x).done).length;
+    out.push(`<div class="card brief"><p class="eyebrow" style="margin:0">🌙 하루 마감 · 계획 ${done}/${tk.length} 완료 · ${todayQ()}문제 · ${fmtDur(S.daySec[t] || 0) || "0분"}</p>${done < tk.length ? `<p class="cdesc" style="margin:4px 0 0">못한 건 남은 날에 자동으로 나눠 담아요</p>` : ""}</div>`); }
+  return out.join("");
+}
+function yesterdayNotice(){ const y = dayAdd(-1); if (S.prefs.ydNote === todayStr() || !(S.plan && S.plan.on) || !S.planDay[y]) return; const tk = S.planDay[y].tasks || []; const miss = tk.filter(x => !taskStateAt(x, y)).length;
+  S.prefs.ydNote = todayStr(); save(true); if (miss) toast(`어제 못한 할 일 ${miss}개는 남은 날에 나눠 담았어요`); }
+function taskStateAt(tk, d){ if (tk.type === "day") return !!S.rounds["day:" + tk.day] || tk.ids.every(id => S.qstat[id]); if (tk.type === "set") return tk.ids.every(id => S.qstat[id] && ymd(new Date(S.qstat[id].ts || 0)) >= d); return true; }
+// 49. 공부 스톱워치
+const SW2 = { t: null };
+function stopwatchToggle(){ if (S.prefs.sw){ S.prefs.sw = null; save(true); swTick(); toast("스톱워치를 멈췄어요"); return; } S.prefs.sw = { start: Date.now() }; save(true); swTick(); toast("공부 시간 기록 시작 · 문제 풀이 시간과 겹치지 않게 따로 세요"); }
+function swTick(){ clearInterval(SW2.t); let el = $("#swpill"); if (!S.prefs.sw){ if (el) el.remove(); return; } if (!el){ el = document.createElement("div"); el.id = "swpill"; document.body.appendChild(el); }
+  const up = () => { if (!S.prefs.sw){ el.remove(); clearInterval(SW2.t); return; } if (!QZ && !CP && !document.hidden) addSec(1); const s2 = Math.round((Date.now() - S.prefs.sw.start) / 1000); el.innerHTML = `<span>공부 중</span><b>${Math.floor(s2 / 3600)}:${pad(Math.floor(s2 / 60) % 60)}:${pad(s2 % 60)}</b><button data-swstop>${I.x}</button>`; };
+  up(); SW2.t = setInterval(up, 1000); }
+function bClick(d, el){
+  if (d.cut !== undefined) return false;
+  if (d.woff){ S.plan = Object.assign({ rest: [] }, S.plan); const L = new Set(S.plan.offDays || []); L.has(d.woff) ? L.delete(d.woff) : L.add(d.woff); S.plan.offDays = [...L]; S.plan.ts = Date.now(); Object.keys(S.planDay).forEach(k => { if (k >= todayStr()) delete S.planDay[k]; }); LAYOUT = null; save(); keepScroll(); return true; }
+  if (d.vacation !== undefined){ (async () => { const a = await askText("휴가 시작일", "YYYY-MM-DD"); if (!a) return; const b = await askText("휴가 마지막 날", "YYYY-MM-DD"); if (!b || b < a) return toast("날짜를 확인해 주세요");
+    S.plan.offRanges = [...(S.plan.offRanges || []), [a, b]]; S.plan.ts = Date.now(); S.planDay = {}; LAYOUT = null; save(); keepScroll(); })(); return true; }
+  if (d.vdel !== undefined){ S.plan.offRanges.splice(+d.vdel, 1); S.plan.ts = Date.now(); S.planDay = {}; LAYOUT = null; save(); keepScroll(); return true; }
+  if (d.routine){ const [mins, rest, wk] = d.routine.split("|"); S.plan = Object.assign({ goal: 60 }, S.plan, { mins: +mins, rest: rest ? rest.split("").map(Number) : [], weekend: wk === "1", ts: Date.now() }); S.planDay = {}; LAYOUT = null; save(); toast("루틴을 적용했어요"); keepScroll(); return true; }
+  if (d.briefx !== undefined){ S.prefs.briefDay = todayStr(); save(true); const w = el.closest(".briefwrap") || el.closest(".brief"); if (w) w.remove(); return true; }
+  if (d.swstop !== undefined || d.swstart !== undefined){ stopwatchToggle(); return true; }
+  if (d.gradeq !== undefined){ gradeDialog(); return true; }
+  if (d.retake){ retakePlan(d.retake.split(",").map(Number)); return true; }
+  if (d.boost){ const m = S.mocks.find(x => x.id === d.boost); if (m) boostPlan(m); return true; }
+  if (d.give !== undefined){ toggleGive(); return true; }
+  if (d.omrall !== undefined){ omrMarkAll(); return true; }
+  if (d.minisolve){ miniSolve(d.minisolve); return true; }
+  if (d.nbcolorf){ NB.colorFilter = d.nbcolorf; NB.order().forEach(p => NB.paint(p)); NB.refreshTb(); return true; }
+  if (d.nbtagf !== undefined){ NB.tagFilter = d.nbtagf; NB.order().forEach(p => NB.drawPage(p)); NB.refreshTb(); return true; }
+  return false;
+}
+
+/* ===================== v31 · C: 분석 · 화면 · 데이터 · 건강 · CBT ===================== */
+// 51~60. 분석 화면 (#/stats)
+function statsDays(n){ const out = []; for (let i = n - 1; i >= 0; i--) out.push(dayAdd(-i)); return out; }
+function qlogBy(fn){ const m = {}; Object.entries(S.qlog).forEach(([id, L]) => { const q = Q[id]; if (!q) return; L.forEach(r => { const k = fn(q, r); if (k == null) return; const o = m[k] = m[k] || { o: 0, n: 0, sec: 0 }; o.n++; if (r[2] === "O") o.o++; o.sec += r[4] || 0; }); }); return m; }
+function readiness(){ const p = predict(), cov = D.questions.filter(q => S.qstat[q.id]).length / D.questions.length, rv = Object.values(S.srs).filter(v => !v.done && v.due < todayStr()).length;
+  return Math.max(0, Math.min(100, Math.round(p.avg * .55 + cov * 100 * .3 + Math.max(0, 15 - rv / 4)))); }
+function viewStats(){
+  const days = statsDays(14), lab = d => d.slice(5).replace("-", "/");
+  const dayKey = r => ymd(new Date(r[0]));
+  const bySubjDay = qlogBy((q, r) => q.subject + "|" + dayKey(r)), byGrade = qlogBy((q, r) => (q.grade || "-") + "|" + dayKey(r)), byKind = qlogBy(q => q.kind === "calc" ? "계산형" : "암기형");
+  const bySpeed = qlogBy((q, r) => dayKey(r)), byDow = qlogBy((q, r) => new Date(r[0]).getDay()), bySrc = qlogBy((q, r) => (r[3] || "").startsWith("review") ? "복습" : "처음·기타");
+  const series = (map, key) => days.map(d => { const o = map[key + "|" + d]; return [lab(d), o && o.n ? Math.round(o.o / o.n * 100) : null]; }).filter(x => x[1] != null);
+  const heat = D.concepts.map(c => { const ids = D.questions.filter(q => q.conceptId === c.id && S.qstat[q.id]); const ok = ids.filter(q => S.qstat[q.id].last === "O").length;
+    const v = ids.length ? ok / ids.length : -1; return `<i class="hc" style="background:${v < 0 ? "var(--gray-chip)" : `hsl(${Math.round(v * 120)},65%,${v < 0 ? 90 : 62}%)`}" title="${esc(c.name)}" data-go="#/concept/${c.id}"></i>`; }).join("");
+  const topWrong = Object.entries(S.qstat).filter(([id, v]) => Q[id] && v.tries >= 2).map(([id, v]) => [id, v.wrong / v.tries]).sort((a, b) => b[1] - a[1]).slice(0, 10);
+  const months = {}; Object.entries(S.daySec).forEach(([d, s2]) => { const k = d.slice(0, 7); months[k] = (months[k] || 0) + s2; });
+  const rd = readiness();
+  return shell("hist", `<div class="page"><h1 class="h1">학습 분석</h1><span class="chip">풀이 기록으로 만든 그래프 <span>문제를 풀수록 정확해져요</span></span>
+    <div class="card whycard"><p class="eyebrow">시험 준비도</p><div class="rdy"><b>${rd}</b><span>/ 100</span></div><p class="cdesc">예상 점수 55% · 문제 진도 30% · 밀린 복습 15%로 계산해요</p></div>
+    <div class="card whycard"><p class="eyebrow">필수개념 243개 숙련도 (빨강 약함 → 초록 강함, 회색 안 풂)</p><div class="heat243">${heat}</div></div>
+    <div class="card whycard"><p class="eyebrow">과목별 정답률 추이 (최근 14일)</p>${SUBJ6.map(sj => { const ser = series(bySubjDay, sj); return ser.length >= 2 ? `<p class="cdesc" style="margin:6px 0 0">${esc(sj)}</p>${lineSVG(ser, { max: 100 })}` : ""; }).join("") || `<p class="cdesc">이틀 이상 풀면 그려져요</p>`}</div>
+    <div class="card whycard"><p class="eyebrow">등급별 정답률 추이</p>${["A","B","C"].map(g => { const ser = series(byGrade, g); return ser.length >= 2 ? `<p class="cdesc" style="margin:6px 0 0">${g}등급</p>${lineSVG(ser, { max: 100 })}` : ""; }).join("") || `<p class="cdesc">기록이 더 필요해요</p>`}</div>
+    <div class="card whycard"><p class="eyebrow">계산형 vs 암기형 · 처음 vs 복습</p>${barsHTML([...Object.entries(byKind), ...Object.entries(bySrc)].filter(([, o]) => o.n).map(([k, o]) => [k, Math.round(o.o / o.n * 100), ` (${o.n})`]), v => v + "%")}</div>
+    <div class="card whycard"><p class="eyebrow">문제당 풀이 속도 (초)</p>${(() => { const ser = days.map(d => { const o = bySpeed[d]; return [lab(d), o && o.n ? Math.round(o.sec / o.n) : null]; }).filter(x => x[1]); return ser.length >= 2 ? lineSVG(ser) : `<p class="cdesc">기록이 더 필요해요</p>`; })()}</div>
+    <div class="card whycard"><p class="eyebrow">요일별 정답률</p>${barsHTML([1,2,3,4,5,6,0].filter(d => byDow[d]).map(d => [DOW[d], Math.round(byDow[d].o / byDow[d].n * 100), ` (${byDow[d].n})`]), v => v + "%")}</div>
+    <div class="card whycard"><p class="eyebrow">자주 틀리는 문제 TOP 10 (2번 이상 푼 문제)</p>${topWrong.map(([id, r]) => `<div class="srow" data-minisolve="${id}"><span>${whereOf(Q[id])}</span><small>오답률 ${Math.round(r * 100)}%</small></div>`).join("") || `<p class="cdesc">아직 없어요</p>`}</div>
+    <div class="card whycard"><p class="eyebrow">연간 보관함 · 월별 공부 시간</p>${barsHTML(Object.entries(months).sort().slice(-12).map(([k, s2]) => [k.slice(2).replace("-", "."), Math.round(s2 / 60)]), v => v + "분")}</div></div>`);
+}
+// 61. 맨 위로 · 65. 스크롤하면 상단 바 숨김
+document.addEventListener("scroll", e => { const m = e.target; if (!m || !m.classList || !m.classList.contains("main")) return;
+  let b = $("#totop"); const show = m.scrollTop > 700 && featOn("totop");
+  if (show && !b){ b = document.createElement("button"); b.id = "totop"; b.innerHTML = "↑"; b.title = "맨 위로"; b.onclick = () => { const mm = $(".main"); if (mm) mm.scrollTo({ top: 0, behavior: "smooth" }); }; document.body.appendChild(b); }
+  if (b) b.style.display = show ? "grid" : "none";
+  if (S.prefs.autoHide && isMob()){ const y = m.scrollTop, last = m.__ly || 0; document.body.classList.toggle("hidehead", y > 120 && y > last); m.__ly = y; } }, true);
+// 62. 빠른 점프 막대 (21일 플랜 · 용어 사전)
+function jumpBarHTML(items){ return `<div class="jumpbar">${items.map(([k, l]) => `<button data-jumpto="${k}">${l}</button>`).join("")}</div>`; }
+// 67. 기능 안내 투어
+const TOUR = [["⚡ 전기기사 21일","21일 플랜대로 개념 → 기출을 풀고, 틀린 건 오늘의 복습으로 다시 나와요."],["✍️ 필기","S펜으로 문제 옆 캔버스와 과목 노트에 쓰고, 손가락으로는 스크롤·확대해요."],["🔒 나가기 잠금","문제 화면 위 자물쇠로 홈·뒤로가기를 막아 집중할 수 있어요."],["🎯 약점 분석","개념 공부 → 약점 개념 분석에서 약한 개념을 차례로 공부해요."],["📚 자료실","용어 사전, 공식 유도, KEC 요약, 계산 도구와 연습 퀴즈가 있어요."],["☁️ 동기화","설정에서 구글 드라이브를 연결하면 폰·탭·PC 기록이 이어져요."]];
+function showTour(){ let i = 0; const m = document.createElement("div"); m.className = "modal";
+  const draw = () => { m.innerHTML = `<div class="sheet" style="max-width:460px;height:auto"><div class="bd" style="text-align:center;padding:24px"><div style="font-size:30px">${TOUR[i][0].split(" ")[0]}</div><h3>${TOUR[i][0].split(" ").slice(1).join(" ")}</h3><p class="cdesc">${TOUR[i][1]}</p>
+    <div class="tdots">${TOUR.map((_, k) => `<i class="${k === i ? "on" : ""}"></i>`).join("")}</div><div class="acts" style="justify-content:center"><button class="btn g" data-tour="x">건너뛰기</button><button class="btn y" data-tour="n">${i < TOUR.length - 1 ? "다음" : "시작하기"}</button></div></div></div>`; };
+  m.addEventListener("click", e => { const b = e.target.closest("[data-tour]"); if (!b) return; if (b.dataset.tour === "n" && i < TOUR.length - 1){ i++; draw(); return; } m.remove(); S.prefs.toured = true; save(true); });
+  document.body.appendChild(m); draw(); }
+// 68. 펜 두 번 톡 → 펜/지우개 전환 · 70. 최근 도구
+let PENTAP = 0;
+function penDoubleTap(stroke){ if (!S.prefs.penTap || !stroke || stroke.t === "e") return false; const p = stroke.pts, d = Math.hypot(p[p.length - 1][0] - p[0][0], p[p.length - 1][1] - p[0][1]);
+  if (p.length > 4 || d > 6) { PENTAP = 0; return false; } const now = Date.now(); if (now - PENTAP < 350){ PENTAP = 0; NB.tool = NB.tool === "eraser" ? "pen" : "eraser"; NB.refreshTb(); toast(NB.tool === "eraser" ? "지우개" : "펜"); return "toggle"; } PENTAP = now; return false; }
+function rememberTool(){ const k = `${NB.tool}|${S.prefs.color || "k"}|${S.prefs.size ?? 1}|${NB.hl || "y"}`; const L = (S.prefs.recentTools || []).filter(x => x !== k); L.unshift(k); S.prefs.recentTools = L.slice(0, 3); }
+// 71·79. 동기화 기록 · 73. 동기화 주기 · 74. 와이파이에서만
+const SYNCLOG = []; function syncLog(msg){ SYNCLOG.push(`${new Date().toLocaleString("ko-KR")} ${msg}`); if (SYNCLOG.length > 60) SYNCLOG.shift(); try { localStorage.setItem("elec21.synclog", JSON.stringify(SYNCLOG.slice(-60))); } catch(e){} }
+try { SYNCLOG.push(...JSON.parse(localStorage.getItem("elec21.synclog") || "[]")); } catch(e){}
+function syncAllowed(manual){ if (manual) return true; const ev = S.prefs.syncEvery || "now"; if (ev === "manual") return false;
+  if (ev === "5m" && Date.now() - (S.prefs.lastAutoSync || 0) < 300000) return false;
+  const c = navigator.connection; if (S.prefs.wifiOnly && c && c.type && c.type !== "wifi" && c.type !== "ethernet") return false; S.prefs.lastAutoSync = Date.now(); return true; }
+// 75. 기기별 데이터 비교
+function devStatsUpdate(){ const id = devId(); S.devStats[id] = { name: devName(), q: Object.keys(S.qstat).length, pages: SUBJ6.reduce((a, s2) => a + ((S.nb[s2] || {}).pages || []).length, 0), hist: Object.keys(S.hist).length, ts: Date.now() }; }
+// 77. 휴지통 (지운 노트 쪽 30일 보관 → 새 쪽으로 복구)
+async function trashPage(subj, pid, rec){ const id = nuid("tr"); await IDB.put("trash:" + id, { subj, rec, at: Date.now() }); S.trash[id] = { subj, at: Date.now(), ts: Date.now(), head: ((rec.items || []).find(x => x.type === "head") || {}).text || "" }; }
+async function restoreTrash(id){ const t = await IDB.get("trash:" + id); if (!t) return toast("휴지통 항목을 찾지 못했어요"); const npid = nuid("pg"); const rec = Object.assign({}, t.rec, { ts: Date.now() }); await IDB.put(npid, rec, "pages");
+  S.nb[t.subj] = S.nb[t.subj] || { pages: [], ts: 0 }; S.nb[t.subj].pages.push(npid); S.nb[t.subj].ts = Date.now(); delete S.trash[id]; await IDB.del("trash:" + id); save(); toast(`${t.subj} 노트 맨 뒤로 되살렸어요`); keepScroll(); }
+async function purgeTrash(){ for (const [id, v] of Object.entries(S.trash)) if (Date.now() - v.at > 30 * 86400000){ await IDB.del("trash:" + id); delete S.trash[id]; } }
+// 78. 데이터 점검·자동 수리
+function dataCheck(fix){ const P = [];
+  Object.values(S.hist).forEach(h => { if (h.status === "run" && !Object.values(S.sessions).some(s2 => s2 && s2.hid === h.id)){ P.push(`끊긴 이어서 풀기 기록: ${h.title}`); if (fix) h.status = "stop"; } });
+  Object.keys(S.srs).forEach(id => { if (!Q[id]){ P.push(`없는 문제의 복습 항목 ${id}`); if (fix) delete S.srs[id]; } });
+  Object.keys(S.qstat).forEach(id => { if (!Q[id] && !id.startsWith("u")){ P.push(`없는 문제의 기록 ${id}`); if (fix) delete S.qstat[id]; } });
+  SUBJ6.forEach(sj => { const m = S.nb[sj]; if (m && m.pages){ const u = [...new Set(m.pages)]; if (u.length !== m.pages.length){ P.push(`${sj} 노트 중복 쪽`); if (fix){ m.pages = u; m.ts = Date.now(); } } } });
+  if (fix && P.length) save(); return P; }
+// 80. 문제 세트 내보내기·가져오기
+function exportSet(ids, title){ saveText(`문제세트_${title.replace(/[^\w가-힣]+/g, "_")}.json`, JSON.stringify({ app: "elec21-set", title, ids }), "application/json"); }
+function importSet(){ const inp = document.createElement("input"); inp.type = "file"; inp.accept = ".json,application/json";
+  inp.onchange = () => { const f = inp.files && inp.files[0]; if (!f) return; const rd = new FileReader(); rd.onload = () => { try { const j = JSON.parse(rd.result); const ids = (j.ids || []).filter(id => Q[id]); if (j.app !== "elec21-set" || !ids.length) throw 0;
+    newSession("self", ids, j.title || `가져온 세트 ${ids.length}문제`); location.hash = "#/quiz/self"; } catch(e){ toast("문제 세트 파일이 아니에요"); } }; rd.readAsText(f); }; inp.click(); }
+// 81·82·90. 눈 휴식 · 자세 · 스트레칭 (조용한 시간대 83은 건너뜀)
+const HB = { study: 0, lastEye: Date.now(), lastPose: Date.now(), lastStretch: Date.now() };
+const quiet = () => { if (!S.prefs.quietOn) return false; const h = new Date().getHours() + new Date().getMinutes() / 60, a = 23, b = 7; return a > b ? (h >= a || h < b) : (h >= a && h < b); };
+setInterval(() => { if (document.hidden || !(QZ || CP || location.hash.startsWith("#/nb/"))) return; HB.study += 10; if (quiet()) return; const now = Date.now();
+  if (S.prefs.eyeRest && now - HB.lastEye > 20 * 60000){ HB.lastEye = now; healthModal("👀 눈 휴식", "6m 이상 먼 곳을 20초 바라보세요", 20); }
+  else if (S.prefs.posture && now - HB.lastPose > 40 * 60000){ HB.lastPose = now; toast("🧍 허리 펴고, 어깨 내리고, 화면과 눈 거리 확인!"); }
+  else if (S.prefs.stretch && now - HB.lastStretch > 50 * 60000){ HB.lastStretch = now; healthModal("🙆 스트레칭", "목 좌우 10초 · 어깨 돌리기 10회 · 손목 털기 10초", 30); } }, 10000);
+function healthModal(t, d, sec){ if (document.querySelector(".hmodal")) return; const m = document.createElement("div"); m.className = "modal hmodal"; let left = sec;
+  const draw = () => { m.innerHTML = `<div class="sheet askbox"><div class="bd" style="text-align:center"><h3>${t}</h3><p class="cdesc">${d}</p><div class="ewclock">${left}</div><button class="btn g" data-hx>건너뛰기</button></div></div>`; };
+  const tm = setInterval(() => { left--; if (left <= 0){ clearInterval(tm); m.remove(); vib(60); } else draw(); }, 1000); m.addEventListener("click", e => { if (e.target.closest("[data-hx]")){ clearInterval(tm); m.remove(); } }); document.body.appendChild(m); draw(); }
+// 87. 진동 세기
+function vib(p){ const k = parseFloat(S.prefs.vibK ?? 1); if (!k || !navigator.vibrate) return; const scale = x => Math.round(x * k); navigator.vibrate(Array.isArray(p) ? p.map((x, i) => i % 2 ? x : scale(x)) : scale(p)); }
+{ const _v = navigator.vibrate ? navigator.vibrate.bind(navigator) : null; if (_v) navigator.vibrate = p => { const k = S && S.prefs ? parseFloat(S.prefs.vibK ?? 1) : 1; if (!k) return false; return _v(Array.isArray(p) ? p.map((x, i) => i % 2 ? x : Math.round(x * k)) : Math.round(p * k)); }; }
+// 88. 손바닥 보호 영역 (펜을 쓴 직후 화면 한쪽 가장자리 터치 무시)
+let LASTPEN = 0; const palmBlocked = e => { const z = S.prefs.palmZone; if (!z || e.pointerType !== "touch" || Date.now() - LASTPEN > 2500) return false; const w = innerWidth;
+  return z === "right" ? e.clientX > w * .62 : e.clientX < w * .38; };
+// 91~100. CBT (자료가 들어오면 켜짐)
+const hasCBT = () => (D.cbt || []).length > 0;
+const cbtQs = () => (D.cbt || []).flatMap(r => r.ids.map(id => ({ id, r })));
+function cbtHubHTML(){ const on = hasCBT(), dis = on ? "" : "disabled";
+  const years = on ? [...new Set(D.cbt.map(r => (r.title.match(/20\d\d/) || [""])[0]))].filter(Boolean).sort() : [];
+  return `<div class="card whycard"><p class="eyebrow">CBT 기출 도구 ${on ? "" : "· CBT 자료가 들어오면 켜져요"}</p><div class="acts" style="margin:6px 0 0;flex-wrap:wrap">
+    <button class="btn o sm" data-cbt="mix" ${dis}>여러 회차 섞어 모의고사</button><button class="btn o sm" data-cbt="recent3" ${dis}>최근 3년 집중</button><button class="btn o sm" data-cbt="top50" ${dis}>과목별 TOP 50</button>
+    <button class="btn o sm" data-cbt="new" ${dis}>신유형 모아보기</button><button class="btn o sm" data-cbt="rep" ${dis}>반복 출제 문제</button></div>
+    ${on ? `<p class="cdesc" style="margin:10px 0 2px">연도별 내 정답률 (난이도)</p>${barsHTML(years.map(y => { const ids = D.cbt.filter(r => r.title.includes(y)).flatMap(r => r.ids).filter(id => S.qstat[id]); const ok = ids.filter(id => S.qstat[id].last === "O").length; return [y, ids.length ? Math.round(ok / ids.length * 100) : 0, ` (${ids.length})`]; }), v => v + "%")}
+      <p class="cdesc" style="margin:10px 0 2px">회차별 내 점수 vs 합격률</p>${D.cbt.slice(-8).map(r => { const ids = r.ids.filter(id => S.qstat[id]), ok = ids.filter(id => S.qstat[id].last === "O").length; return `<div class="prow"><span class="pd">${esc(r.title)}</span><span class="pp">${ids.length ? Math.round(ok / ids.length * 100) + "점" : "–"}</span><span class="pt">${r.passRate ? `합격률 ${r.passRate}%` : ""}</span></div>`; }).join("")}` : ""}</div>`; }
+function cbtAction(k){ if (!hasCBT()) return; const all = cbtQs(); let ids = [], title = "";
+  if (k === "mix"){ ids = SUBJ5.flatMap(sj => shuffle(all.filter(x => Q[x.id] && sj.from.includes(Q[x.id].subject)).map(x => x.id)).slice(0, 20)); title = "CBT 회차 섞기"; }
+  if (k === "recent3"){ const ys = [...new Set(D.cbt.map(r => (r.title.match(/20\d\d/) || [""])[0]))].sort().slice(-3); ids = shuffle(D.cbt.filter(r => ys.some(y => r.title.includes(y))).flatMap(r => r.ids)).slice(0, 100); title = "최근 3년 집중"; }
+  if (k === "top50"){ const cnt = {}; all.forEach(x => { const q = Q[x.id]; if (q && q.conceptId) cnt[q.conceptId] = (cnt[q.conceptId] || 0) + 1; }); const top = Object.entries(cnt).sort((a, b) => b[1] - a[1]).map(([c]) => c);
+    ids = SUBJ6.flatMap(sj => all.filter(x => Q[x.id] && Q[x.id].subject === sj).sort((a, b) => top.indexOf(Q[a.id].conceptId) - top.indexOf(Q[b.id].conceptId)).slice(0, 50).map(x => x.id)); title = "과목별 TOP 50"; }
+  if (k === "new"){ ids = all.filter(x => Q[x.id] && (Q[x.id].newType || Q[x.id].firstSeen)).map(x => x.id); title = "신유형"; }
+  if (k === "rep"){ ids = all.filter(x => Q[x.id] && (Q[x.id].rep || 0) >= 2).map(x => x.id); title = "반복 출제"; }
+  if (!ids.length) return toast("해당하는 문제가 아직 없어요 (자료에 표시가 필요해요)"); newSession("self", ids, `${title} ${ids.length}문제`); location.hash = "#/quiz/self"; }
+function cClick(d){
+  if (d.cbt){ cbtAction(d.cbt); return true; }
+  if (d.jumpto){ const el = document.getElementById(d.jumpto); const m = $(".main"); if (el && m) m.scrollTo({ top: el.offsetTop - 60, behavior: "smooth" }); return true; }
+  if (d.trrestore){ restoreTrash(d.trrestore); return true; }
+  if (d.dcheck !== undefined){ const P = dataCheck(false); if (!P.length){ toast("데이터에 문제가 없어요 ✓"); return true; } ask(`${P.length}가지를 찾았어요:<br><small>${P.slice(0, 6).map(esc).join("<br>")}</small><br>자동으로 고칠까요?`, "고치기", "그대로").then(y => { if (y){ dataCheck(true); toast("고쳤어요"); keepScroll(); } }); return true; }
+  if (d.slogx !== undefined){ saveText(`동기화기록_${todayStr()}.txt`, [`버전 ${APP_VERSION} · ${devName()}`, ...SYNCLOG].join("\n")); return true; }
+  if (d.setexp !== undefined){ const ids = S.scraps.filter(id => Q[id]); if (!ids.length) return toast("스크랩한 문제가 없어요"), true; exportSet(ids, `스크랩 ${ids.length}문제`); return true; }
+  if (d.setimp !== undefined){ importSet(); return true; }
+  if (d.tour !== undefined && d.tour === "again"){ showTour(); return true; }
+  return false;
+}
+
+{ const _sz = NB.setZoom; NB.setZoom = function(z, e){ const r = _sz.call(this, z, e); if (this.subj) S.prefs.nbZoom = Object.assign({}, S.prefs.nbZoom, { [this.subj]: this.zoom }); return r; }; }
+document.addEventListener("pointermove", e => { if (e.pointerType === "pen"){ LASTPEN = Date.now(); nbGuide(e); } }, true);
+document.addEventListener("pointerdown", e => { if (e.pointerType === "pen") LASTPEN = Date.now(); }, true);
+document.addEventListener("input", e => { const t = e.target; if (t.dataset && t.dataset.cut !== undefined){ const v = (S.prefs.cutSim || [12,12,12,12,12]).slice(); v[+t.dataset.cut] = +t.value; S.prefs.cutSim = v; save(true); const c = $(".cutsim"); if (c) c.outerHTML = cutSimHTML(); } });
+document.addEventListener("change", e => { const t = e.target; if (t.dataset && t.dataset.wkend !== undefined){ S.plan.weekend = t.checked; S.plan.ts = Date.now(); Object.keys(S.planDay).forEach(k => { if (k >= todayStr()) delete S.planDay[k]; }); LAYOUT = null; save(); keepScroll(); } });
+
 /* router */
 let ROUTE_TOK = 0;
 async function route(keepSel){
-  const RT = ++ROUTE_TOK, stale = () => RT !== ROUTE_TOK;
+  const RT = ++ROUTE_TOK, stale = () => RT !== ROUTE_TOK; document.querySelectorAll(".briefwrap").forEach(x => x.remove()); try { if (!location.hash.startsWith("#/exam")) pressureTick(null); } catch(e){}
   LASTHASH = location.hash; try { syncPin(); } catch(e){}
   const h = location.hash.replace(/^#\/?/, ""), [r, arg0] = h.split("/"), arg = decodeURIComponent(arg0 || "");
   if (!keepSel){ SEL = { page:null, ids:new Set(), all:[] }; document.body.classList.add("navanim"); clearTimeout(window.__navT); window.__navT = setTimeout(() => document.body.classList.remove("navanim"), 700); }
@@ -5104,7 +5611,8 @@ async function route(keepSel){
   if (r === "exam"){ const html = viewQuiz("exam:" + arg); if (!html) return; app.innerHTML = html; bindInk(); bindSheets(); applySplit(); renderQuiz(); return; }
   if (r === "quiz"){ if (!(await slotGate(arg))){ if (stale()) return; if (history.length > 1) history.back(); else location.hash = "#/"; return; } if (stale()) return; const html = viewQuiz(arg); if (!html) return; app.innerHTML = html; bindInk(); bindSheets(); applySplit(); renderQuiz(); return; }
   QZ = null;
-  if (r === "days") app.innerHTML = viewDays();
+  if (r === "days"){ app.innerHTML = viewDays(); document.querySelectorAll("[data-gday]").forEach(b => { const c = b.closest(".day"); if (c) c.id = "day-" + b.dataset.gday; });
+    const h1 = $(".page .h1"); if (h1) h1.insertAdjacentHTML("afterend", jumpBarHTML(D.days.map(d => ["day-" + d.day, pad(d.day)]))); }
   else if (r === "concepts") app.innerHTML = viewConcepts(arg);
   else if (r === "scrap") app.innerHTML = viewScrap();
   else if (r === "notes") await viewNotes();
@@ -5113,13 +5621,15 @@ async function route(keepSel){
     document.querySelectorAll("[data-hlg]").forEach(i => i.onchange = () => { S.prefs.hlLegend = Object.assign({}, S.prefs.hlLegend, { [i.dataset.hlg]: i.value.trim() }); save(true); });
     const rt2 = $("#rehtime"); if (rt2) rt2.onchange = () => { S.prefs.rehTime = rt2.value; save(true); setExtraAlarms(); };
     const et = $("#evetime"); if (et) et.onchange = () => { S.prefs.eveTime = et.value; save(true); setExtraAlarms(); }; const rt = $("#rtime"); if (rt) rt.onchange = () => { S.prefs.remindTime = rt.value; save(true); setReminder(); toast("알림 시간을 " + rt.value + "로 정했어요"); }; const di = $("#examdate"); if (di) di.onchange = () => { S.examDate = di.value; S.examTs = Date.now(); save(); toast(di.value ? "시험일을 저장했어요" : "시험일을 지웠어요"); }; }
-  else if (r === "mock") app.innerHTML = viewMock();
+  else if (r === "mock"){ app.innerHTML = viewMock(); const pgm = $(".page"); if (pgm) pgm.insertAdjacentHTML("beforeend", cutSimHTML() + mockRankHTML() + cbtHubHTML()); }
   else if (r === "self") app.innerHTML = viewSelf();
-  else if (r === "print") await viewPrint(arg);
+  else if (r === "print"){ await viewPrint(arg); try { await printToc(decodeURIComponent(arg || "")); } catch(e){} }
   else if (r === "review"){ const h2 = viewReview(S.reviews[arg], arg); if (!h2) return; app.innerHTML = h2; }
   else if (r === "hist"){ const h2 = viewReview(S.hist[arg], arg, true); if (!h2) return; app.innerHTML = h2; }
   else if (r === "history") app.innerHTML = viewHistory();
   else if (r === "flip") app.innerHTML = viewFlip();
+  else if (r === "weak") app.innerHTML = viewWeak();
+  else if (r === "stats") app.innerHTML = viewStats();
   else if (r === "lib"){ app.innerHTML = viewLib(arg); libAfter(); }
   else if (r === "badges") app.innerHTML = viewBadges();
   else if (r === "ref") app.innerHTML = viewRef();
@@ -5129,8 +5639,8 @@ async function route(keepSel){
   else if (r === "plan"){ app.innerHTML = viewPlan(); const pe = $("#plexam"); if (pe) pe.onchange = () => { S.examDate = pe.value; S.examTs = Date.now(); Object.keys(S.planDay).forEach(k => { if (k >= todayStr()) delete S.planDay[k]; }); save(); keepScroll(); }; }
   else if (r === "search"){ await buildNbIndex(); if (stale()) return; app.innerHTML = viewSearch(); const i = $("#sq"); i.value = SEARCHQ || ""; runSearch(i.value); i.oninput = () => { SEARCHQ = i.value; runSearch(i.value); }; if (!isMob()) i.focus(); }
   else if (r === "cards"){ await viewCards(); }
-  else if (r === "mockres"){ const h2 = viewMockRes(arg); if (!h2) return; app.innerHTML = h2; }
-  else app.innerHTML = viewHome();
+  else if (r === "mockres"){ const h2 = viewMockRes(arg); if (!h2) return; app.innerHTML = h2; const st3 = $(".stat3"); if (st3) st3.insertAdjacentHTML("beforebegin", `<div class="acts" style="margin:0 0 12px"><button class="btn y sm" data-boost="${esc(arg)}">약한 과목을 다음 7일 계획에 반영</button></div>`); }
+  else { app.innerHTML = viewHome(); const ex = homeExtrasHTML(); document.querySelectorAll(".brief").forEach(x => x.remove()); if (ex){ const w = document.createElement("div"); w.className = "briefwrap"; w.innerHTML = ex; document.body.appendChild(w); setTimeout(() => w.remove(), 15000); } try { yesterdayNotice(); } catch(e){} }
   const mn = $(".main"); if (mn) mn.scrollTop = 0;
 }
 function bindInk(){
@@ -5146,6 +5656,19 @@ document.addEventListener("click", async e => {
   const sr2 = e.target.closest("[data-snaprestore]");
   if (sr2){ if (!(await ask("이 드라이브 백업본으로 되돌릴까요?<br><small>지금 기록·노트가 백업 시점으로 바뀌고, 다른 기기에도 적용돼요.</small>", "되돌리기", "취소"))) return;
     toast("백업본을 받는 중…"); try { const j = JSON.parse(await GD.download(sr2.dataset.snaprestore)); await restoreAll(j); toast("백업본으로 되돌렸어요"); route(); } catch(e){ toast("되돌리지 못했어요: " + String(e).slice(0, 40)); } return; }
+  const v31 = e.target.closest("[data-wrun],[data-wdrill],[data-wredo],[data-wcheck],[data-focusset],[data-manualmin],[data-nbrecent],[data-pqstart],[data-pqquit],[data-pqans],[data-pqstep],[data-pqnum],[data-pqnext],[data-woff],[data-vacation],[data-vdel],[data-routine],[data-briefx],[data-swstop],[data-swstart],[data-gradeq],[data-retake],[data-boost],[data-give],[data-omrall],[data-minisolve],[data-nbcolorf],[data-nbtagf],[data-cbt],[data-jumpto],[data-trrestore],[data-dcheck],[data-slogx],[data-setexp],[data-setimp],[data-tour]");
+  if (v31){ const d = v31.dataset; e.stopPropagation();
+    if (d.wrun !== undefined) return startWeakRun(+d.wrun);
+    if (d.wdrill !== undefined){ const ids = shuffle(weakAnalysis().slice(0, 10).flatMap(o => o.ids)).slice(0, 15); if (!ids.length) return toast("약점 개념이 아직 없어요"); newSession("self", ids, "약점 개념 섞어 15문제"); location.hash = "#/quiz/self"; return; }
+    if (d.wredo){ const o = (WEAKRUN && WEAKRUN.info[d.wredo]) || weakAnalysis().find(x => x.cid === d.wredo); const ids = o ? o.wrongIds : []; if (!ids.length) return toast("틀린 문제가 없어요"); newSession("self", ids, `${C[d.wredo].name} 틀린 문제`); location.hash = "#/quiz/self"; return; }
+    if (d.wcheck){ const ids = shuffle(D.questions.filter(q => q.conceptId === d.wcheck).map(q => q.id)).slice(0, 3); newSession("self", ids, `${C[d.wcheck].name} 확인 ${ids.length}문제`); location.hash = "#/quiz/self"; return; }
+    if (d.focusset !== undefined){ const ids = focusIds(); if (!ids.length) return toast("3번 연속 틀린 문제가 없어요"); newSession("self", ids, `집중 관리 ${ids.length}문제`); location.hash = "#/quiz/self"; return; }
+    if (d.manualmin !== undefined){ askText("교재로 공부한 시간 (분)", "예: 40").then(v => { const n = parseInt(v); if (!n || n < 1 || n > 600) return; S.daySec[todayStr()] = (S.daySec[todayStr()] || 0) + n * 60; save(); toast(`${n}분을 오늘 공부 시간에 더했어요`); keepScroll(); }); return; }
+    if (d.nbrecent){ const [t2, c2, sz, hl] = d.nbrecent.split("|"); NB.tool = t2; S.prefs.color = c2; S.prefs.size = +sz; NB.hl = hl; save(true); NB.refreshTb(); return; }
+    if (pqClick(d, v31)){ const lbb = $("#libbody"); if (lbb) lbb.innerHTML = libBody("quiz"); return; }
+    if (bClick(d, v31)) return;
+    if (cClick(d)) return;
+  }
   const lb = e.target.closest("[data-libtab],[data-libs],[data-ucat],[data-pqclr],[data-rlcm],[data-phpre],[data-phadd],[data-phdel]");
   if (lb && libClick(lb.dataset, lb)) return;
   if (e.target.closest("[data-lockexit]")){ e.stopPropagation(); return toggleLock(); }
@@ -5331,7 +5854,7 @@ document.addEventListener("click", async e => {
   if (ps){ const sj = SUBJ5.find(x => x.n === +ps.dataset.psubj); let ids = shuffle(D.questions.filter(q => sj.from.includes(q.subject) && q.grade === "A").map(q => q.id));
     newSession("self", ids, `${sj.name} A등급`); location.hash = "#/quiz/self"; return; }
   const pf = e.target.closest("[data-pref]");
-  if (pf){ const [k, v] = pf.dataset.pref.split("|"); const num = ["qTimer","size"].includes(k), bool = ["hideReveal","grid","penOnly","keepOn","remind","anim","scrapGrad","examRealtime","conceptFirst","selfExplain","interleave","submitCheck","sound","shield","smooth","onehand","lefty","autoFile","reh","eve","sharpen","lockExit"].includes(k);
+  if (pf){ const [k, v] = pf.dataset.pref.split("|"); const num = ["qTimer","size"].includes(k), bool = ["hideReveal","grid","penOnly","keepOn","remind","anim","scrapGrad","examRealtime","conceptFirst","selfExplain","interleave","submitCheck","sound","shield","smooth","onehand","lefty","autoFile","reh","eve","sharpen","lockExit","fling","lineGuide","penTap","darkInk","omrPractice","examWarm","examPressure","eyeRest","posture","stretch","quietOn","colorblind","contrast","autoHide","homeSimple","wifiOnly"].includes(k);
     S.prefs[k] = bool ? v === "1" : num ? +v : v; save(true); applyTheme();
     if (k === "remind") setReminder();
     if (k === "reh" || k === "eve") setExtraAlarms();
@@ -5381,7 +5904,7 @@ document.addEventListener("click", async e => {
   else if (a === "reveal") reveal();
   else if (a === "result") finishSet();
   else if (a === "submit") submitMock(false);
-  else if (a === "mockstart") createMockGated();
+  else if (a === "mockstart"){ if (S.prefs.examWarm) examWarmup(() => createMockGated()); else createMockGated(); }
   else if (a === "randmock") location.hash = "#/mock";
   else if (a === "selfstart") startSelf();
   else if (a === "scrap"){ const on = toggleScrap(curQ().id); QZ.exam ? renderExamLeft() : renderLeft(); toast(on ? "스크랩했어요" : "스크랩을 해제했어요"); }
@@ -5486,7 +6009,7 @@ window.__androidBack = () => {
   compactHist();
   try { await loadMyQ(); } catch(e){}
   if (S.prefs.pin) showLock();
-  setInterval(() => { if (["time","auto"].includes(S.prefs.theme)) applyTheme(); }, 300000);
+  setInterval(() => { if (["time","auto","sepiaT"].includes(S.prefs.theme)) applyTheme(); }, 300000);
   applyTheme(); window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", applyTheme);
   // CBT rounds (optional file: cbt/cbt.json — comes with an APK update or an online update)
   D.cbt = D.cbt || []; D.cbtQuestions = [];
@@ -5504,7 +6027,8 @@ window.__androidBack = () => {
   autoBackup();
   setTimeout(() => Sync.run(), 1200);
   setTimeout(() => OTA.check(false), 2500);
-  focusTick(); setTimeout(() => { autoFileBackup(); setExtraAlarms(); }, 4000);
+  focusTick(); swTick(); setTimeout(() => { autoFileBackup(); setExtraAlarms(); purgeTrash(); }, 4000);
+  if (!S.prefs.toured && Object.keys(S.qstat).length < 5) setTimeout(() => { if (!document.querySelector(".modal") && location.hash === "#/" ) showTour(); }, 1500);
   try { if (window.Android && Android.takeAction){ const a = Android.takeAction(); if (a) window.__action(a); } } catch(e){}
   setTimeout(() => { if (!location.hash || location.hash === "#/") maybeWeekly(); pushSummary(); }, 1500);
 })();
